@@ -9,8 +9,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icone.svg'],
       manifest: {
-        name: 'Jogos Infantis',
-        short_name: 'Jogos',
+        name: 'Baú de Jogos',
+        short_name: 'Baú de Jogos',
         description: 'Jogos para aprender e brincar',
         lang: 'pt',
         start_url: '/',

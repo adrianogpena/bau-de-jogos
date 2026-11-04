@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { IDIOMAS, type Idioma, idiomaInicial, salvarIdioma, t } from './compartilhado/idioma';
 import { JOGOS } from './jogos/registro';
 
-const TITULO = { 'pt-PT': 'Jogos Infantis', 'pt-BR': 'Jogos Infantis' };
+const TITULO = { 'pt-PT': 'Baú de Jogos', 'pt-BR': 'Baú de Jogos' };
 const ESCOLHA_JOGO = {
   'pt-PT': 'Escolhe um jogo!',
   'pt-BR': 'Escolha um jogo!',
