@@ -778,3 +778,20 @@ h2 {
   color: #1b5e20;
   font-weight: bold;
 }
+
+/* escolha de história por coleção (fábulas, Grimm, Mil e Uma Noites) */
+.colecao-historias {
+  width: 100%;
+}
+
+.colecao-historias h2 {
+  text-align: center;
+}
+
+.colecao-historias .grade-jogos {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.cartao-historia {
+  min-height: 0;
+}

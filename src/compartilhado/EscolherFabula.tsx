@@ -1,5 +1,5 @@
 import { type Idioma, type TextoPorIdioma, t } from './idioma';
-import { FABULAS, type Fabula } from './fabulas';
+import { COLECOES, type Fabula } from './fabulas';
 
 const TEXTOS = {
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
@@ -7,7 +7,7 @@ const TEXTOS = {
   paragrafos: { 'pt-PT': 'partes', 'pt-BR': 'partes' },
 } satisfies Record<string, TextoPorIdioma>;
 
-/** Tela para escolher a fábula (usada nos jogos de escrita e de leitura). */
+/** Tela para escolher a história, separada por coleção (usada nos jogos de escrita e de leitura). */
 export function EscolherFabula({
   idioma,
   emoji,
@@ -34,19 +34,24 @@ export function EscolherFabula({
       </h1>
       <p>{instrucao}</p>
 
-      <section className="grade-jogos">
-        {FABULAS.map((fabula) => (
-          <button key={fabula.id} className="cartao-jogo" onClick={() => aoEscolher(fabula)}>
-            <span className="emoji-grande" aria-hidden="true">
-              {fabula.emoji}
-            </span>
-            <strong>{t(fabula.titulo, idioma)}</strong>
-            <small>
-              {fabula.paragrafos.length} {t(TEXTOS.paragrafos, idioma)}
-            </small>
-          </button>
-        ))}
-      </section>
+      {COLECOES.map((colecao) => (
+        <section key={colecao.id} className="colecao-historias">
+          <h2>{t(colecao.titulo, idioma)}</h2>
+          <div className="grade-jogos">
+            {colecao.historias.map((fabula) => (
+              <button key={fabula.id} className="cartao-jogo cartao-historia" onClick={() => aoEscolher(fabula)}>
+                <span className="emoji-grande" aria-hidden="true">
+                  {fabula.emoji}
+                </span>
+                <strong>{t(fabula.titulo, idioma)}</strong>
+                <small>
+                  {fabula.paragrafos.length} {t(TEXTOS.paragrafos, idioma)}
+                </small>
+              </button>
+            ))}
+          </div>
+        </section>
+      ))}
     </main>
   );
 }
