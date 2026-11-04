@@ -41,6 +41,8 @@ export interface Inimigo {
 export interface Escolha {
   texto: TextoPorIdioma;
   proximaCena: string;
+  /** Só aparece se o herói decifrou o mapa do Chefe (caminho mais fácil). */
+  exigeMapa?: boolean;
 }
 
 /** Uma cena da história. Os textos existem nas duas variantes. */
@@ -49,6 +51,10 @@ export interface Cena {
   emoji: string;
   texto: TextoPorIdioma;
   escolhas?: Escolha[];
+  /** Pergunta mostrada acima das escolhas (ex.: "O que quer fazer?"). */
+  pergunta?: TextoPorIdioma;
+  /** Cena do puzzle do mapa; depois dele a história segue para `proxima`. */
+  puzzle?: { proxima: string };
   /** Luta nesta cena; depois de vencer, segue para `aoVencer`. */
   luta?: { inimigo: string; aoVencer: string };
   /** Teste com d20 + atributo; sempre leva a algum lugar (sem beco sem saída). */

@@ -72,6 +72,24 @@ export const INIMIGOS: Record<string, Inimigo> = {
     bonusAtaque: 1,
     dadoDeDano: 4,
   },
+  esqueleto: {
+    id: 'esqueleto',
+    emoji: '💀',
+    nome: { 'pt-PT': 'O Esqueleto', 'pt-BR': 'O Esqueleto' },
+    pontosDeVida: 9,
+    defesa: 11,
+    bonusAtaque: 1,
+    dadoDeDano: 6,
+  },
+  sapo: {
+    id: 'sapo',
+    emoji: '🐸',
+    nome: { 'pt-PT': 'O Sapo Gigante', 'pt-BR': 'O Sapo Gigante' },
+    pontosDeVida: 8,
+    defesa: 9,
+    bonusAtaque: 0,
+    dadoDeDano: 4,
+  },
   goblin: {
     id: 'goblin',
     emoji: '👺',
@@ -83,7 +101,91 @@ export const INIMIGOS: Record<string, Inimigo> = {
   },
 };
 
+/** Puzzle do mapa do Chefe: três enigmas que se resolvem com as pistas. */
+export interface PerguntaPuzzle {
+  id: string;
+  titulo: TextoPorIdioma;
+  opcoes: { id: string; emoji: string; nome: TextoPorIdioma }[];
+  certa: string;
+}
+
+export const PUZZLE: { tentativas: number; pistas: TextoPorIdioma[]; perguntas: PerguntaPuzzle[] } = {
+  tentativas: 3,
+  pistas: [
+    {
+      'pt-PT': 'O atalho da saída da aldeia não passa por onde o lobo uiva.',
+      'pt-BR': 'O atalho da saída da vila não passa por onde o lobo uiva.',
+    },
+    {
+      'pt-PT': 'Esse atalho também não passa por onde é preciso atravessar a água.',
+      'pt-BR': 'Esse atalho também não passa por onde é preciso atravessar a água.',
+    },
+    {
+      'pt-PT': 'O atalho do vale foge da lama onde vivem os sapos.',
+      'pt-BR': 'O atalho do vale foge da lama onde vivem os sapos.',
+    },
+    {
+      'pt-PT': 'E foge da ponte velha, onde dorme um esqueleto.',
+      'pt-BR': 'E foge da ponte velha, onde dorme um esqueleto.',
+    },
+    {
+      'pt-PT': 'A porta da caverna abre-se para quem tem o mesmo nome da Pedra.',
+      'pt-BR': 'A porta da caverna se abre para quem tem o mesmo nome da Pedra.',
+    },
+    {
+      'pt-PT': 'O Sol acorda o goblin e a estrela é pequena demais para a fechadura.',
+      'pt-BR': 'O Sol acorda o goblin e a estrela é pequena demais para a fechadura.',
+    },
+  ],
+  perguntas: [
+    {
+      id: 'saida',
+      titulo: {
+        'pt-PT': 'Na saída da aldeia, onde fica o atalho?',
+        'pt-BR': 'Na saída da vila, onde fica o atalho?',
+      },
+      opcoes: [
+        { id: 'floresta', emoji: '🌲', nome: { 'pt-PT': 'Floresta', 'pt-BR': 'Floresta' } },
+        { id: 'rio', emoji: '🌊', nome: { 'pt-PT': 'Rio', 'pt-BR': 'Rio' } },
+        { id: 'montanha', emoji: '⛰️', nome: { 'pt-PT': 'Montanha', 'pt-BR': 'Montanha' } },
+      ],
+      certa: 'montanha',
+    },
+    {
+      id: 'vale',
+      titulo: { 'pt-PT': 'No vale, onde fica o atalho?', 'pt-BR': 'No vale, onde fica o atalho?' },
+      opcoes: [
+        { id: 'ponte', emoji: '🌉', nome: { 'pt-PT': 'Ponte', 'pt-BR': 'Ponte' } },
+        { id: 'pantano', emoji: '🐸', nome: { 'pt-PT': 'Pântano', 'pt-BR': 'Pântano' } },
+        { id: 'tunel', emoji: '🔦', nome: { 'pt-PT': 'Túnel', 'pt-BR': 'Túnel' } },
+      ],
+      certa: 'tunel',
+    },
+    {
+      id: 'porta',
+      titulo: {
+        'pt-PT': 'Na porta da caverna, que símbolo a abre?',
+        'pt-BR': 'Na porta da caverna, que símbolo a abre?',
+      },
+      opcoes: [
+        { id: 'lua', emoji: '🌙', nome: { 'pt-PT': 'Lua', 'pt-BR': 'Lua' } },
+        { id: 'estrela', emoji: '⭐', nome: { 'pt-PT': 'Estrela', 'pt-BR': 'Estrela' } },
+        { id: 'sol', emoji: '☀️', nome: { 'pt-PT': 'Sol', 'pt-BR': 'Sol' } },
+      ],
+      certa: 'lua',
+    },
+  ],
+};
+
 const SEGUIR: TextoPorIdioma = { 'pt-PT': 'Seguir caminho ➜', 'pt-BR': 'Seguir caminho ➜' };
+const CAMINHO_DO_MAPA: TextoPorIdioma = {
+  'pt-PT': '🗺️ Seguir o caminho do mapa',
+  'pt-BR': '🗺️ Seguir o caminho do mapa',
+};
+const O_QUE_FAZER: TextoPorIdioma = {
+  'pt-PT': 'O que quer fazer {nome}?',
+  'pt-BR': 'O que {nome} quer fazer?',
+};
 
 /** A história. "{nome}" é trocado pelo nome do herói. */
 export const CENAS: Record<string, Cena> = {
@@ -92,19 +194,48 @@ export const CENAS: Record<string, Cena> = {
     emoji: '🏘️',
     texto: {
       'pt-PT':
-        '{nome} vive numa aldeia tranquila. Uma noite, a Pedra da Lua desapareceu e o céu ficou escuro! O Sábio da aldeia pede ajuda: «Só tu podes encontrá-la!»',
+        'O Chefe da aldeia chama {nome} à praça: «A Pedra da Lua foi roubada pelo Goblin Chefe e o céu ficou escuro! Ele escondeu-se numa caverna, longe daqui. Só tu podes trazer a Pedra de volta!»',
       'pt-BR':
-        '{nome} vive em uma vila tranquila. Uma noite, a Pedra da Lua sumiu e o céu ficou escuro! O Sábio da vila pede ajuda: «Só você pode achá-la!»',
+        'O Chefe da vila chama {nome} até a praça: «A Pedra da Lua foi roubada pelo Goblin Chefe e o céu ficou escuro! Ele se escondeu em uma caverna, longe daqui. Só você pode trazer a Pedra de volta!»',
     },
     escolhas: [
       {
-        texto: { 'pt-PT': '🌲 Seguir pela floresta escura', 'pt-BR': '🌲 Seguir pela floresta escura' },
+        texto: { 'pt-PT': '📜 Ver o mapa velho', 'pt-BR': '📜 Ver o mapa velho' },
+        proximaCena: 'mapa',
+      },
+    ],
+  },
+  mapa: {
+    id: 'mapa',
+    emoji: '🗺️',
+    texto: {
+      'pt-PT':
+        'O Chefe desenrola um mapa velho e cheio de enigmas: «Este mapa esconde atalhos secretos! Lê as pistas com atenção e descobre onde fica cada atalho. Se acertares tudo, o caminho será mais fácil.»',
+      'pt-BR':
+        'O Chefe abre um mapa velho e cheio de enigmas: «Este mapa esconde atalhos secretos! Leia as pistas com atenção e descubra onde fica cada atalho. Se acertar tudo, o caminho será mais fácil.»',
+    },
+    puzzle: { proxima: 'saida' },
+  },
+  saida: {
+    id: 'saida',
+    emoji: '🛤️',
+    texto: {
+      'pt-PT':
+        '{nome} chega ao fim da aldeia. O caminho divide-se: de um lado, a floresta escura; do outro, um rio com pedras no meio da água.',
+      'pt-BR':
+        '{nome} chega ao fim da vila. O caminho se divide: de um lado, a floresta escura; do outro, um rio com pedras no meio da água.',
+    },
+    pergunta: O_QUE_FAZER,
+    escolhas: [
+      {
+        texto: { 'pt-PT': '🌲 Entrar na floresta escura', 'pt-BR': '🌲 Entrar na floresta escura' },
         proximaCena: 'floresta',
       },
       {
-        texto: { 'pt-PT': '🌊 Seguir pelo rio', 'pt-BR': '🌊 Seguir pelo rio' },
+        texto: { 'pt-PT': '🌊 Atravessar o rio', 'pt-BR': '🌊 Atravessar o rio' },
         proximaCena: 'rio',
       },
+      { texto: CAMINHO_DO_MAPA, proximaCena: 'trilha', exigeMapa: true },
     ],
   },
   floresta: {
@@ -143,6 +274,18 @@ export const CENAS: Record<string, Cena> = {
     },
     luta: { inimigo: 'lesma', aoVencer: 'clareira' },
   },
+  trilha: {
+    id: 'trilha',
+    emoji: '⛰️',
+    texto: {
+      'pt-PT':
+        'Seguindo o mapa, {nome} encontra uma trilha escondida na montanha. Ninguém passa por ali há anos! Sobre uma pedra, está esquecida uma poção de força. 💥',
+      'pt-BR':
+        'Seguindo o mapa, {nome} encontra uma trilha escondida na montanha. Ninguém passa por ali há anos! Sobre uma pedra, está esquecida uma poção de força. 💥',
+    },
+    recompensa: { pocoes: { forca: 1 } },
+    escolhas: [{ texto: SEGUIR, proximaCena: 'clareira' }],
+  },
   clareira: {
     id: 'clareira',
     emoji: '🧪',
@@ -153,41 +296,148 @@ export const CENAS: Record<string, Cena> = {
         'Em uma clareira, um baú brilha ao luar. Lá dentro está uma poção mágica! 🧪 {nome} descansa um pouco e recupera as forças.',
     },
     recompensa: { pocoes: { cura: 1 }, curar: true },
+    escolhas: [{ texto: SEGUIR, proximaCena: 'vale' }],
+  },
+  vale: {
+    id: 'vale',
+    emoji: '🏞️',
+    texto: {
+      'pt-PT':
+        'Depois da clareira, o caminho chega a um vale. À frente há uma ponte velha de madeira e, ao lado, um pântano cheio de sapos.',
+      'pt-BR':
+        'Depois da clareira, o caminho chega a um vale. À frente há uma ponte velha de madeira e, ao lado, um pântano cheio de sapos.',
+    },
+    pergunta: O_QUE_FAZER,
     escolhas: [
       {
-        texto: { 'pt-PT': '🕳️ Entrar na caverna', 'pt-BR': '🕳️ Entrar na caverna' },
-        proximaCena: 'caverna',
+        texto: { 'pt-PT': '🌉 Atravessar a ponte velha', 'pt-BR': '🌉 Atravessar a ponte velha' },
+        proximaCena: 'ponte',
       },
+      {
+        texto: { 'pt-PT': '🐸 Passar pelo pântano', 'pt-BR': '🐸 Passar pelo pântano' },
+        proximaCena: 'pantano',
+      },
+      { texto: CAMINHO_DO_MAPA, proximaCena: 'tunel', exigeMapa: true },
     ],
+  },
+  ponte: {
+    id: 'ponte',
+    emoji: '🌉',
+    texto: {
+      'pt-PT': 'A ponte velha range e abana. Cuidado com as tábuas podres! Atravessa com equilíbrio.',
+      'pt-BR': 'A ponte velha range e balança. Cuidado com as tábuas podres! Atravesse com equilíbrio.',
+    },
+    teste: { atributo: 'agilidade', dificuldade: 11, sucesso: 'ponte_certo', falha: 'ponte_errado' },
+  },
+  ponte_certo: {
+    id: 'ponte_certo',
+    emoji: '🤸',
+    texto: {
+      'pt-PT': 'Que equilíbrio! {nome} atravessou a ponte sem partir nenhuma tábua.',
+      'pt-BR': 'Que equilíbrio! {nome} atravessou a ponte sem quebrar nenhuma tábua.',
+    },
+    escolhas: [{ texto: SEGUIR, proximaCena: 'caverna' }],
+  },
+  ponte_errado: {
+    id: 'ponte_errado',
+    emoji: '💀',
+    texto: {
+      'pt-PT': 'Crac! Uma tábua partiu-se e um esqueleto saiu de baixo da ponte, a chocalhar os ossos!',
+      'pt-BR': 'Crac! Uma tábua quebrou e um esqueleto saiu de baixo da ponte, chacoalhando os ossos!',
+    },
+    luta: { inimigo: 'esqueleto', aoVencer: 'ponte_certo' },
+  },
+  pantano: {
+    id: 'pantano',
+    emoji: '🐸',
+    texto: {
+      'pt-PT': '{nome} entra no pântano. Plop! Um sapo gigante salta da lama!',
+      'pt-BR': '{nome} entra no pântano. Plop! Um sapo gigante pula da lama!',
+    },
+    luta: { inimigo: 'sapo', aoVencer: 'caverna' },
+  },
+  tunel: {
+    id: 'tunel',
+    emoji: '🔦',
+    texto: {
+      'pt-PT':
+        'Seguindo o mapa, {nome} encontra um túnel secreto escondido atrás de umas pedras. Lá dentro há um cantinho quente para descansar e uma poção de cura. 🧪',
+      'pt-BR':
+        'Seguindo o mapa, {nome} encontra um túnel secreto escondido atrás de umas pedras. Lá dentro há um cantinho quentinho para descansar e uma poção de cura. 🧪',
+    },
+    recompensa: { pocoes: { cura: 1 }, curar: true },
+    escolhas: [{ texto: SEGUIR, proximaCena: 'caverna' }],
   },
   caverna: {
     id: 'caverna',
     emoji: '🕳️',
     texto: {
       'pt-PT':
-        'Uma porta de pedra tem três símbolos: 🌙 ⭐ ☀️. Qual é a ordem certa para a abrir? Pensa bem!',
+        '{nome} chega a uma grande porta de pedra, na entrada da caverna do Goblin Chefe. Tem três símbolos a brilhar: 🌙 ⭐ ☀️.',
       'pt-BR':
-        'Uma porta de pedra tem três símbolos: 🌙 ⭐ ☀️. Qual é a ordem certa para abri-la? Pense bem!',
+        '{nome} chega a uma grande porta de pedra, na entrada da caverna do Goblin Chefe. Tem três símbolos brilhando: 🌙 ⭐ ☀️.',
     },
-    teste: { atributo: 'inteligencia', dificuldade: 11, sucesso: 'caverna_certo', falha: 'caverna_errado' },
+    pergunta: O_QUE_FAZER,
+    escolhas: [
+      {
+        texto: { 'pt-PT': '🧠 Decifrar a fechadura', 'pt-BR': '🧠 Decifrar a fechadura' },
+        proximaCena: 'fechadura',
+      },
+      {
+        texto: { 'pt-PT': '💪 Empurrar com força', 'pt-BR': '💪 Empurrar com força' },
+        proximaCena: 'empurrar',
+      },
+      {
+        texto: { 'pt-PT': '🌙 Tocar no símbolo do mapa', 'pt-BR': '🌙 Tocar no símbolo do mapa' },
+        proximaCena: 'porta_mapa',
+        exigeMapa: true,
+      },
+    ],
   },
-  caverna_certo: {
-    id: 'caverna_certo',
-    emoji: '🚪',
+  fechadura: {
+    id: 'fechadura',
+    emoji: '🧠',
     texto: {
-      'pt-PT': 'Clique! A porta abre-se devagarinho. {nome} pensou muito bem!',
-      'pt-BR': 'Clique! A porta se abre devagarinho. {nome} pensou muito bem!',
+      'pt-PT': 'A fechadura tem engrenagens e símbolos que rodam. Pensa bem na ordem certa!',
+      'pt-BR': 'A fechadura tem engrenagens e símbolos que giram. Pense bem na ordem certa!',
+    },
+    teste: { atributo: 'inteligencia', dificuldade: 11, sucesso: 'porta_aberta', falha: 'porta_morcego' },
+  },
+  empurrar: {
+    id: 'empurrar',
+    emoji: '💪',
+    texto: {
+      'pt-PT': '{nome} encosta o ombro à porta e empurra com todas as forças!',
+      'pt-BR': '{nome} encosta o ombro na porta e empurra com todas as forças!',
+    },
+    teste: { atributo: 'forca', dificuldade: 13, sucesso: 'porta_aberta', falha: 'porta_morcego' },
+  },
+  porta_mapa: {
+    id: 'porta_mapa',
+    emoji: '🌙',
+    texto: {
+      'pt-PT': 'Seguindo o mapa, {nome} toca no símbolo da Lua. A porta brilha e abre-se sozinha!',
+      'pt-BR': 'Seguindo o mapa, {nome} toca no símbolo da Lua. A porta brilha e se abre sozinha!',
     },
     escolhas: [{ texto: SEGUIR, proximaCena: 'fundo' }],
   },
-  caverna_errado: {
-    id: 'caverna_errado',
+  porta_aberta: {
+    id: 'porta_aberta',
+    emoji: '🚪',
+    texto: {
+      'pt-PT': 'Clique! A porta abre-se devagarinho. {nome} conseguiu!',
+      'pt-BR': 'Clique! A porta se abre devagarinho. {nome} conseguiu!',
+    },
+    escolhas: [{ texto: SEGUIR, proximaCena: 'fundo' }],
+  },
+  porta_morcego: {
+    id: 'porta_morcego',
     emoji: '🦇',
     texto: {
-      'pt-PT': 'Ups! A ordem estava errada e a porta tremeu. Um morcego acordou e voou na direção de {nome}!',
-      'pt-BR': 'Ops! A ordem estava errada e a porta tremeu. Um morcego acordou e voou na direção de {nome}!',
+      'pt-PT': 'Ups! A porta tremeu com o barulho. Um morcego acordou e voou na direção de {nome}!',
+      'pt-BR': 'Ops! A porta tremeu com o barulho. Um morcego acordou e voou na direção de {nome}!',
     },
-    luta: { inimigo: 'morcego', aoVencer: 'caverna_certo' },
+    luta: { inimigo: 'morcego', aoVencer: 'porta_aberta' },
   },
   fundo: {
     id: 'fundo',

@@ -15,10 +15,16 @@ const temVoz = typeof window !== 'undefined' && 'speechSynthesis' in window;
 interface Palavra {
   texto: string;
   inicio: number;
+  /** Há uma quebra de linha depois desta palavra. */
+  quebra: boolean;
 }
 
 function separarPalavras(texto: string): Palavra[] {
-  return [...texto.matchAll(/\S+/g)].map((m) => ({ texto: m[0], inicio: m.index ?? 0 }));
+  return [...texto.matchAll(/\S+(\s*)/g)].map((m) => ({
+    texto: m[0].trimEnd(),
+    inicio: m.index ?? 0,
+    quebra: m[1].includes('\n'),
+  }));
 }
 
 /**
@@ -88,6 +94,7 @@ export function TextoNarrado({ texto, idioma, className, compacto = false }: { t
         {palavras.map((p, i) => (
           <span key={i} className={i === atual ? 'palavra-lida' : undefined}>
             {p.texto}{' '}
+            {p.quebra && <br />}
           </span>
         ))}
       </p>

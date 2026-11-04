@@ -9,6 +9,7 @@ import { ATRIBUTOS, CENAS, CENA_INICIAL, INIMIGOS } from './historia';
 import { CriarFicha, ResumoFicha } from './Ficha';
 import { Luta } from './Luta';
 import { Loja, PerguntaLoja } from './Loja';
+import { ListaPistas, Puzzle } from './Puzzle';
 
 const TEXTOS = {
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
@@ -25,6 +26,7 @@ const TEXTOS = {
   passou: { 'pt-PT': 'Conseguiste! 🎉', 'pt-BR': 'Você conseguiu! 🎉' },
   naoPassou: { 'pt-PT': 'Não deu... mas a aventura continua!', 'pt-BR': 'Não deu... mas a aventura continua!' },
   continuar: { 'pt-PT': 'Continuar ➜', 'pt-BR': 'Continuar ➜' },
+  pistas: { 'pt-PT': 'Pistas', 'pt-BR': 'Pistas' },
   fim: { 'pt-PT': 'Fim da aventura! 🏆', 'pt-BR': 'Fim da aventura! 🏆' },
   jogarDeNovo: { 'pt-PT': 'Jogar outra vez', 'pt-BR': 'Jogar de novo' },
 } satisfies Record<string, TextoPorIdioma>;
@@ -103,6 +105,9 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
   const [passou, setPassou] = useState<boolean | null>(null);
   const [resumoTeste, setResumoTeste] = useState('');
   const [ocupado, setOcupado] = useState(false);
+  const [mapaDecifrado, setMapaDecifrado] = useState(false);
+  const [viuMapa, setViuMapa] = useState(false);
+  const [verPistas, setVerPistas] = useState(false);
   const dado = usarDado();
 
   const cena = CENAS[cenaId];
@@ -139,7 +144,14 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
         <button className="botao botao-secundario" onClick={aoVoltar}>
           ← {t(TEXTOS.voltar, idioma)}
         </button>
+        {viuMapa && (
+          <button className="botao botao-secundario" onClick={() => setVerPistas(!verPistas)} aria-pressed={verPistas}>
+            📜 {t(TEXTOS.pistas, idioma)}
+          </button>
+        )}
       </header>
+
+      {verPistas && <ListaPistas idioma={idioma} />}
 
       <ResumoFicha ficha={ficha} idioma={idioma} />
 
@@ -185,6 +197,25 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
             </div>
           )}
 
+          {cena.puzzle && (
+            <Puzzle
+              idioma={idioma}
+              aoConcluir={(decifrou) => {
+                setMapaDecifrado(decifrou);
+                setViuMapa(true);
+                irPara(cena.puzzle!.proxima);
+              }}
+            />
+          )}
+
+          {cena.pergunta && (
+            <TextoNarrado
+              className="texto-grande"
+              idioma={idioma}
+              texto={preencher(t(cena.pergunta, idioma), { nome: ficha.nome })}
+            />
+          )}
+
           <div className="acoes">
             {cena.luta && (
               <button className="botao" onClick={() => setFase('luta')}>
@@ -204,7 +235,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
                 {t(TEXTOS.continuar, idioma)}
               </button>
             )}
-            {cena.escolhas?.map((escolha) => (
+            {cena.escolhas?.filter((e) => !e.exigeMapa || mapaDecifrado).map((escolha) => (
               <button key={escolha.proximaCena} className="botao" onClick={() => irPara(escolha.proximaCena)}>
                 {t(escolha.texto, idioma)}
               </button>
