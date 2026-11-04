@@ -37,3 +37,8 @@ export function salvarIdioma(idioma: Idioma): void {
 export function t(texto: TextoPorIdioma, idioma: Idioma): string {
   return texto[idioma];
 }
+
+/** Troca `{chave}` pelos valores dados (ex.: "{nome} venceu!"). */
+export function preencher(texto: string, valores: Record<string, string | number>): string {
+  return texto.replace(/\{(\w+)\}/g, (_, chave: string) => String(valores[chave] ?? ''));
+}

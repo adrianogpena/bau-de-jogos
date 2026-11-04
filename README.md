@@ -14,7 +14,7 @@ Os jogos têm dificuldades diferentes, do mais simples ao mais elaborado:
 
 A palavra "certa" depende da variante escolhida (pt-PT ou pt-BR): por exemplo, *autocarro* / *ônibus* ou *gelado* / *sorvete*.
 
-Por enquanto: menu inicial, seletor de variante, tela de créditos, os **jogos 1 e 2** com 56 palavras ilustradas por variante, e uma tela provisória para o RPG.
+Por enquanto: menu inicial, seletor de variante, tela de créditos, os **jogos 1 e 2** com 56 palavras ilustradas por variante, e o **jogo 3 (Aventura RPG)** com criação de ficha, história com escolhas, testes e lutas por turnos com dados.
 
 ## Gratuito para sempre
 
@@ -23,7 +23,7 @@ O Baú de Jogos é **gratuito, sem anúncios, sem login e sem coleta de dados**.
 ## Imagens e créditos
 
 - **Jogos de escrita e leitura:** pictogramas do [ARASAAC](https://arasaac.org) (Governo de Aragão), autor Sergio Palao, licença [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/). Ficam em `public/imagens/arasaac/` (veja o `LICENCA.md` da pasta) e o app tem uma tela **Créditos**.
-- **RPG (planejado):** ícones do [game-icons.net](https://game-icons.net/about.html), licença CC BY 3.0 (exige crédito aos autores; confira a licença de cada ícone).
+- **RPG:** usa apenas emojis por enquanto, sem imagens externas.
 - As imagens são guardadas no repositório (não vêm de API), para o app funcionar offline.
 - Imagens do ARASAAC editadas (recoloridas, por exemplo) devem manter a mesma licença CC BY-NC-SA.
 - Palavras por variante: a mesma imagem tem uma palavra para pt-PT e outra para pt-BR (ex.: *autocarro* / *ônibus*). Veja `src/compartilhado/palavras.ts`.
