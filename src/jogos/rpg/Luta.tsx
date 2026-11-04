@@ -79,12 +79,22 @@ interface Props {
   aoVencer: (vida: number, pocoes: Record<string, number>) => void;
 }
 
-function Barra({ vida, maxima }: { vida: number; maxima: number }) {
+export function Barra({
+  vida,
+  maxima,
+  emoji = '❤️',
+  classe = '',
+}: {
+  vida: number;
+  maxima: number;
+  emoji?: string;
+  classe?: string;
+}) {
   return (
-    <div className="barra-vida" aria-label={`${vida}/${maxima}`}>
+    <div className={`barra-vida ${classe}`} aria-label={`${vida}/${maxima}`}>
       <div className="barra-vida-cheia" style={{ width: `${(vida / maxima) * 100}%` }} />
       <span>
-        ❤️ {vida}/{maxima}
+        {emoji} {vida}/{maxima}
       </span>
     </div>
   );

@@ -621,3 +621,139 @@ h2 {
   align-items: center;
   gap: 8px;
 }
+
+/* RPG: escolha da história e jogo do mago */
+.escolas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.escola {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-height: 120px;
+  padding: 12px;
+  border: 4px solid transparent;
+  border-radius: var(--raio);
+  background: #fff;
+  box-shadow: var(--sombra);
+  font: inherit;
+  color: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+
+.escola-escolhida {
+  border-color: var(--laranja);
+  background: #fff3e0;
+}
+
+.escola-emoji {
+  font-size: 2.6rem;
+  line-height: 1;
+}
+
+.lista-feiticos {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feiticos-conhecidos {
+  width: min(100%, 560px);
+  padding: 16px;
+  border-radius: var(--raio);
+  background: #fffdf5;
+  box-shadow: var(--sombra);
+  text-align: left;
+}
+
+.feitico-linha {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.feitico-emoji {
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.feitico-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lista-feiticos-luta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  gap: 12px;
+  max-width: 640px;
+}
+
+.botao-feitico {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  max-width: 280px;
+  padding: 10px 20px;
+}
+
+.botao-feitico small {
+  font-weight: normal;
+}
+
+.aprender {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.barra-energia .barra-vida-cheia {
+  background: #90caf9;
+}
+
+.sem-quebra {
+  white-space: nowrap;
+}
+
+.conta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.conta-enunciado {
+  margin: 0;
+  font-size: 2.6rem;
+  font-weight: bold;
+}
+
+.conta-resposta {
+  display: inline-block;
+  min-width: 3.5ch;
+  border-bottom: 4px solid var(--laranja);
+}
+
+.teclado {
+  display: grid;
+  grid-template-columns: repeat(3, 88px);
+  gap: 10px;
+}
+
+.teclado .botao {
+  padding: 8px;
+  font-size: 1.6rem;
+}
