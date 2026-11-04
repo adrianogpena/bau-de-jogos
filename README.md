@@ -50,7 +50,7 @@ npm run preview
 
 ## Publicação (GitHub Pages)
 
-A cada push na `main`, o workflow `.github/workflows/publicar.yml` gera o build e publica em `https://adrianogpena.github.io/bau-de-jogos/`. Na primeira vez, ative em **Settings → Pages → Source: GitHub Actions**.
+A publicação é **manual**: em **Actions → Publicar no GitHub Pages → Run workflow**, o workflow `.github/workflows/publicar.yml` gera o build e publica em `https://adrianogpena.github.io/bau-de-jogos/`. A fonte do Pages (Settings → Pages) deve estar em **GitHub Actions**.
 
 ## Instalar no tablet
 
