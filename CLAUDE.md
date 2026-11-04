@@ -1,4 +1,4 @@
-# Jogos Infantis
+# Baú de Jogos
 
 Coleção de jogos educativos e divertidos para crianças, feitos para rodar bem em **tablet** (toque, tela grande, instalável como app).
 

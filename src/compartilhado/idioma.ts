@@ -12,7 +12,7 @@ export const IDIOMAS: { codigo: Idioma; rotulo: string }[] = [
 /** Um texto com uma versão para cada variante. */
 export type TextoPorIdioma = Record<Idioma, string>;
 
-const CHAVE_ARMAZENAMENTO = 'jogos-infantis:idioma';
+const CHAVE_ARMAZENAMENTO = 'bau-de-jogos:idioma';
 
 /** Escolhe o idioma salvo; se não houver, tenta adivinhar pelo tablet. */
 export function idiomaInicial(): Idioma {

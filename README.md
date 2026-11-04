@@ -1,4 +1,4 @@
-# Jogos Infantis
+# Baú de Jogos
 
 Jogos educativos e divertidos para crianças, em português (**Portugal** e **Brasil**), pensados para tablet.
 
