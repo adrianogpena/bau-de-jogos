@@ -216,3 +216,50 @@ h2 {
   max-width: 560px;
   margin: 0;
 }
+
+/* jogo de leitura */
+.palavra-grande {
+  margin: 0;
+  font-size: 2.6rem;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+}
+
+.grade-opcoes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  width: min(100%, 36vh, 340px);
+  gap: 12px;
+}
+
+.opcao-imagem {
+  aspect-ratio: 1;
+  padding: 8px;
+  border: 5px solid transparent;
+  border-radius: var(--raio);
+  background: #fff;
+  box-shadow: var(--sombra);
+  cursor: pointer;
+}
+
+.opcao-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  -webkit-user-drag: none;
+}
+
+.opcao-imagem:active {
+  transform: translateY(3px);
+}
+
+/* erro sem punição dura: a opção só fica suave e some do caminho */
+.opcao-errada {
+  opacity: 0.3;
+  box-shadow: none;
+}
+
+.opcao-certa {
+  border-color: #4caf50;
+}

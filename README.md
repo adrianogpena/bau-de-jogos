@@ -14,7 +14,7 @@ Os jogos têm dificuldades diferentes, do mais simples ao mais elaborado:
 
 A palavra "certa" depende da variante escolhida (pt-PT ou pt-BR): por exemplo, *autocarro* / *ônibus* ou *gelado* / *sorvete*.
 
-Por enquanto: menu inicial, seletor de variante, tela de créditos, uma **amostra do jogo 1** (19 palavras) e telas provisórias para os outros jogos.
+Por enquanto: menu inicial, seletor de variante, tela de créditos, os **jogos 1 e 2** com 56 palavras ilustradas por variante, e uma tela provisória para o RPG.
 
 ## Gratuito para sempre
 

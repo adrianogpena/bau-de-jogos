@@ -16,7 +16,7 @@ export function caminhoImagem(imagem: number): string {
 }
 
 /**
- * Amostra inicial de palavras. Revise sempre as duas variantes ao acrescentar.
+ * Palavras do jogo (comece pelas mais simples). Revise sempre as duas variantes ao acrescentar.
  * Pictogramas: ARASAAC (CC BY-NC-SA). Ver tela de créditos e README.
  */
 export const PALAVRAS: PalavraIlustrada[] = [
@@ -32,13 +32,50 @@ export const PALAVRAS: PalavraIlustrada[] = [
   { imagem: 2317, palavra: { 'pt-PT': 'casa', 'pt-BR': 'casa' } },
   { imagem: 2269, palavra: { 'pt-PT': 'bola', 'pt-BR': 'bola' } },
   { imagem: 2339, palavra: { 'pt-PT': 'carro', 'pt-BR': 'carro' } },
-  { imagem: 26654, palavra: { 'pt-PT': 'autocarro', 'pt-BR': 'ônibus' } },
+  { imagem: 38090, palavra: { 'pt-PT': 'autocarro', 'pt-BR': 'ônibus' } },
   { imagem: 2603, palavra: { 'pt-PT': 'comboio', 'pt-BR': 'trem' } },
   { imagem: 35209, palavra: { 'pt-PT': 'gelado', 'pt-BR': 'sorvete' } },
   { imagem: 11461, palavra: { 'pt-PT': 'sumo', 'pt-BR': 'suco' } },
   { imagem: 2586, palavra: { 'pt-PT': 'telemóvel', 'pt-BR': 'celular' } },
   { imagem: 2256, palavra: { 'pt-PT': 'árvore', 'pt-BR': 'árvore' } },
   { imagem: 3102, palavra: { 'pt-PT': 'flor', 'pt-BR': 'flor' } },
+  { imagem: 2239, palavra: { 'pt-PT': 'abelha', 'pt-BR': 'abelha' } },
+  { imagem: 2264, palavra: { 'pt-PT': 'avião', 'pt-BR': 'avião' } },
+  { imagem: 2273, palavra: { 'pt-PT': 'barco', 'pt-BR': 'barco' } },
+  { imagem: 2275, palavra: { 'pt-PT': 'bebé', 'pt-BR': 'bebê' } },
+  { imagem: 2277, palavra: { 'pt-PT': 'bicicleta', 'pt-BR': 'bicicleta' } },
+  { imagem: 2281, palavra: { 'pt-PT': 'sandes', 'pt-BR': 'sanduíche' } },
+  { imagem: 2294, palavra: { 'pt-PT': 'cavalo', 'pt-BR': 'cavalo' } },
+  { imagem: 2304, palavra: { 'pt-PT': 'cama', 'pt-BR': 'cama' } },
+  { imagem: 2306, palavra: { 'pt-PT': 'camião', 'pt-BR': 'caminhão' } },
+  { imagem: 2327, palavra: { 'pt-PT': 'porco', 'pt-BR': 'porco' } },
+  { imagem: 2351, palavra: { 'pt-PT': 'coelho', 'pt-BR': 'coelho' } },
+  { imagem: 2362, palavra: { 'pt-PT': 'colher', 'pt-BR': 'colher' } },
+  { imagem: 2372, palavra: { 'pt-PT': 'elefante', 'pt-BR': 'elefante' } },
+  { imagem: 2400, palavra: { 'pt-PT': 'morango', 'pt-BR': 'morango' } },
+  { imagem: 2427, palavra: { 'pt-PT': 'ovo', 'pt-BR': 'ovo' } },
+  { imagem: 2440, palavra: { 'pt-PT': 'lápis', 'pt-BR': 'lápis' } },
+  { imagem: 2449, palavra: { 'pt-PT': 'leão', 'pt-BR': 'leão' } },
+  { imagem: 2450, palavra: { 'pt-PT': 'livro', 'pt-BR': 'livro' } },
+  { imagem: 2465, palavra: { 'pt-PT': 'borboleta', 'pt-BR': 'borboleta' } },
+  { imagem: 2477, palavra: { 'pt-PT': 'macaco', 'pt-BR': 'macaco' } },
+  { imagem: 2541, palavra: { 'pt-PT': 'queijo', 'pt-BR': 'queijo' } },
+  { imagem: 2549, palavra: { 'pt-PT': 'relógio', 'pt-BR': 'relógio' } },
+  { imagem: 2561, palavra: { 'pt-PT': 'pera', 'pt-BR': 'pera' } },
+  { imagem: 2563, palavra: { 'pt-PT': 'pato', 'pt-BR': 'pato' } },
+  { imagem: 2572, palavra: { 'pt-PT': 'chapéu', 'pt-BR': 'chapéu' } },
+  { imagem: 2594, palavra: { 'pt-PT': 'tomate', 'pt-BR': 'tomate' } },
+  { imagem: 2596, palavra: { 'pt-PT': 'tartaruga', 'pt-BR': 'tartaruga' } },
+  { imagem: 2609, palavra: { 'pt-PT': 'vaca', 'pt-BR': 'vaca' } },
+  { imagem: 2619, palavra: { 'pt-PT': 'cenoura', 'pt-BR': 'cenoura' } },
+  { imagem: 3129, palavra: { 'pt-PT': 'mesa', 'pt-BR': 'mesa' } },
+  { imagem: 3155, palavra: { 'pt-PT': 'cadeira', 'pt-BR': 'cadeira' } },
+  { imagem: 3247, palavra: { 'pt-PT': 'uvas', 'pt-BR': 'uvas' } },
+  { imagem: 3272, palavra: { 'pt-PT': 'frigorífico', 'pt-BR': 'geladeira' } },
+  { imagem: 3329, palavra: { 'pt-PT': 'óculos', 'pt-BR': 'óculos' } },
+  { imagem: 7252, palavra: { 'pt-PT': 'sol', 'pt-BR': 'sol' } },
+  { imagem: 8042, palavra: { 'pt-PT': 'bolo', 'pt-BR': 'bolo' } },
+  { imagem: 32923, palavra: { 'pt-PT': 'sapato', 'pt-BR': 'sapato' } },
 ];
 
 /** Palavra na variante pedida. */
