@@ -75,6 +75,11 @@ npm run build      # build de produção
 npm run typecheck  # checagem de tipos
 ```
 
+## Fluxo de trabalho (git)
+
+- Faça **todos os ajustes direto na `main`** e dê **push na `main`**. Não crie branches nem pull requests, a menos que o usuário peça.
+- Antes de começar, atualize a `main` (`git pull origin main`). Rode `npm run typecheck` e `npm run build` antes de enviar.
+
 ## Convenções
 
 - Commits em português, no imperativo curto (ex.: `Adiciona ficha de personagem`).
