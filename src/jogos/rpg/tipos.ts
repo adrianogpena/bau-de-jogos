@@ -14,7 +14,15 @@ export interface FichaPersonagem {
   pontosDeVida: number;
   pontosDeVidaMaximos: number;
   atributos: Atributos;
-  pocoes: number;
+  /** Dinheiro em pratas (1 ouro = 10 pratas). */
+  prata: number;
+  /** Id da melhor arma comprada. */
+  arma: string | null;
+  /** Id da melhor armadura comprada. */
+  armadura: string | null;
+  escudo: boolean;
+  /** Poções que a criança tem: id do item -> quantidade. */
+  pocoes: Record<string, number>;
 }
 
 export interface Inimigo {
@@ -46,7 +54,7 @@ export interface Cena {
   /** Teste com d20 + atributo; sempre leva a algum lugar (sem beco sem saída). */
   teste?: { atributo: NomeAtributo; dificuldade: number; sucesso: string; falha: string };
   /** Vantagens ao chegar na cena. */
-  recompensa?: { pocoes?: number; curar?: boolean };
+  recompensa?: { pocoes?: Record<string, number>; curar?: boolean };
   /** Última cena da aventura. */
   fim?: boolean;
 }

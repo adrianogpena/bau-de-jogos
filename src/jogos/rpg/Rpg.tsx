@@ -8,6 +8,7 @@ import type { Cena, FichaPersonagem } from './tipos';
 import { ATRIBUTOS, CENAS, CENA_INICIAL, INIMIGOS } from './historia';
 import { CriarFicha, ResumoFicha } from './Ficha';
 import { Luta } from './Luta';
+import { Loja, PerguntaLoja } from './Loja';
 
 const TEXTOS = {
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
@@ -31,13 +32,44 @@ const TEXTOS = {
 /** Jogo 3: aventura com ficha de personagem, testes e lutas com dados. */
 export function Rpg({ idioma, aoVoltar }: PropsJogo) {
   const [ficha, setFicha] = useState<FichaPersonagem | null>(null);
+  const [etapa, setEtapa] = useState<'pergunta' | 'loja' | 'aventura'>('pergunta');
 
   if (!ficha) {
-    return <CriarFicha idioma={idioma} aoVoltar={aoVoltar} aoComecar={setFicha} />;
+    return (
+      <CriarFicha
+        idioma={idioma}
+        aoVoltar={aoVoltar}
+        aoComecar={(nova) => {
+          setFicha(nova);
+          setEtapa('pergunta');
+        }}
+      />
+    );
+  }
+  if (etapa === 'pergunta') {
+    return (
+      <PerguntaLoja
+        idioma={idioma}
+        ficha={ficha}
+        aoVoltar={() => setFicha(null)}
+        aoIrLoja={() => setEtapa('loja')}
+        aoComecar={() => setEtapa('aventura')}
+      />
+    );
+  }
+  if (etapa === 'loja') {
+    return (
+      <Loja
+        idioma={idioma}
+        ficha={ficha}
+        aoVoltar={() => setEtapa('pergunta')}
+        aoAtualizar={setFicha}
+        aoComecar={() => setEtapa('aventura')}
+      />
+    );
   }
   return (
     <Aventura
-      key={ficha.nome + ficha.avatar}
       idioma={idioma}
       aoVoltar={aoVoltar}
       fichaInicial={ficha}
@@ -55,9 +87,11 @@ type Fase = 'cena' | 'luta' | 'teste';
 
 function aplicarRecompensa(ficha: FichaPersonagem, cena: Cena): FichaPersonagem {
   if (!cena.recompensa) return ficha;
+  const pocoes = { ...ficha.pocoes };
+  for (const [id, n] of Object.entries(cena.recompensa.pocoes ?? {})) pocoes[id] = (pocoes[id] ?? 0) + n;
   return {
     ...ficha,
-    pocoes: ficha.pocoes + (cena.recompensa.pocoes ?? 0),
+    pocoes,
     pontosDeVida: cena.recompensa.curar ? ficha.pontosDeVidaMaximos : ficha.pontosDeVida,
   };
 }

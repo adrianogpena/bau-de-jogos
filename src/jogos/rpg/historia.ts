@@ -152,7 +152,7 @@ export const CENAS: Record<string, Cena> = {
       'pt-BR':
         'Em uma clareira, um baú brilha ao luar. Lá dentro está uma poção mágica! 🧪 {nome} descansa um pouco e recupera as forças.',
     },
-    recompensa: { pocoes: 1, curar: true },
+    recompensa: { pocoes: { cura: 1 }, curar: true },
     escolhas: [
       {
         texto: { 'pt-PT': '🕳️ Entrar na caverna', 'pt-BR': '🕳️ Entrar na caverna' },

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
+import { MOEDAS_INICIAIS, estatisticas, formatarMoedas, totalPocoes } from './itens';
 import type { Atributos, FichaPersonagem, NomeAtributo } from './tipos';
 import {
   ATRIBUTOS,
@@ -67,7 +68,11 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
       atributos,
       pontosDeVida: vida,
       pontosDeVidaMaximos: vida,
-      pocoes: 0,
+      prata: MOEDAS_INICIAIS,
+      arma: null,
+      armadura: null,
+      escudo: false,
+      pocoes: {},
     });
   }
 
@@ -170,7 +175,9 @@ export function ResumoFicha({ ficha, idioma }: { ficha: FichaPersonagem; idioma:
       <span>
         ❤️ {ficha.pontosDeVida}/{ficha.pontosDeVidaMaximos}
       </span>
-      <span>🧪 {ficha.pocoes}</span>
+      <span>🛡️ CA {estatisticas(ficha).ca}</span>
+      <span>🧪 {totalPocoes(ficha)}</span>
+      <span>{formatarMoedas(ficha.prata)}</span>
       {ATRIBUTOS.map((atr) => (
         <span key={atr.id} title={t(atr.nome, idioma)}>
           {atr.emoji} {ficha.atributos[atr.id]}
