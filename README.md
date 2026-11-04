@@ -4,11 +4,17 @@ Jogos educativos e divertidos para crianças, em português (**Portugal** e **Br
 
 ## Jogos planejados
 
-- 🐉 **Aventura RPG**: história com escolhas, ficha de personagem e dados para as lutas
-- ✏️ **Escrever palavras**: jogos para praticar a escrita
-- 📖 **Ler palavras**: jogos para praticar a leitura
+Os jogos têm dificuldades diferentes, do mais simples ao mais elaborado:
 
-Por enquanto o repositório tem só a base: menu inicial, seletor de variante (pt-PT / pt-BR) e uma tela provisória para cada jogo.
+| Nível | Jogo | Como funciona |
+|---|---|---|
+| ⭐ Fácil | 🖼️ **Qual é a palavra?** (escrita) | Aparece uma imagem e a criança escreve o que ela é |
+| ⭐⭐ Médio | 🔎 **Qual é a imagem?** (leitura) | Aparece uma palavra com várias imagens e a criança escolhe a certa |
+| ⭐⭐⭐ Difícil | 🐉 **Aventura RPG** | Ficha de personagem, magias, espadas, dados e lutas |
+
+A palavra "certa" depende da variante escolhida (pt-PT ou pt-BR): por exemplo, *autocarro* / *ônibus* ou *gelado* / *sorvete*.
+
+Por enquanto o repositório tem só a base: menu inicial, seletor de variante e uma tela provisória para cada jogo.
 
 ## Tecnologias
 

@@ -1,8 +1,30 @@
+# Dependências e build
 node_modules
 dist
 dev-dist
+*.tsbuildinfo
+
+# Ambiente local
 *.local
-.DS_Store
 .env
 .env.*
+!.env.example
+
+# Logs
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Sistema e editores
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.swp
+
+# Testes e cobertura
+coverage
+playwright-report
+test-results
