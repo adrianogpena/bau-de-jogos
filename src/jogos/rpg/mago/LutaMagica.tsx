@@ -5,7 +5,7 @@ import { Dado, usarDado } from '../../../compartilhado/usarDado';
 import { somAcerto, somTentarDeNovo } from '../../../compartilhado/som';
 import { Barra } from '../Luta';
 import type { FichaMago, Feitico, InimigoMago } from './tipos';
-import { FEITICOS } from './feiticos';
+import { ENERGIA_CONTA_CERTA, ENERGIA_CONTA_ERRADA, FEITICOS } from './feiticos';
 
 /** CA do mago: roupas leves de mago não protegem muito. */
 export const CA_MAGO = 11;
@@ -23,8 +23,8 @@ const TEXTOS = {
     'pt-BR': 'Resolva a conta para recuperar energia!',
   },
   contaAjuda: {
-    'pt-PT': 'Certo: energia toda. Errado: metade.',
-    'pt-BR': 'Acertou: toda a energia. Errou: metade.',
+    'pt-PT': 'Certo: +2 de energia. Errado: +1.',
+    'pt-BR': 'Acertou: +2 de energia. Errou: +1.',
   },
   apagar: { 'pt-PT': 'Apagar', 'pt-BR': 'Apagar' },
   confirmar: { 'pt-PT': 'Confirmar ✔️', 'pt-BR': 'Confirmar ✔️' },
@@ -65,8 +65,8 @@ const TEXTOS = {
     'pt-BR': '{conta} = {resposta}. Certo! Você recuperou {n} de energia mágica. 🔮',
   },
   concentrouErrado: {
-    'pt-PT': '{conta} = {resposta}. Quase! Recuperaste metade: {n} de energia mágica. 🔮',
-    'pt-BR': '{conta} = {resposta}. Quase! Você recuperou metade: {n} de energia mágica. 🔮',
+    'pt-PT': '{conta} = {resposta}. Quase! Recuperaste {n} de energia mágica. 🔮',
+    'pt-BR': '{conta} = {resposta}. Quase! Você recuperou {n} de energia mágica. 🔮',
   },
   inimigoPresoPerde: {
     'pt-PT': '{inimigo} continua preso pela magia e perde a vez!',
@@ -206,11 +206,11 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
     setDigitos('');
   }
 
-  /** Acertou a conta: energia toda. Errou: metade da energia máxima. */
+  /** Acertou a conta: +2 de energia. Errou: +1. */
   function concentrar() {
     if (!conta || digitos === '' || ocupado || estado !== 'jogador') return;
     const certo = Number(digitos) === conta.a + conta.b;
-    const alvo = certo ? ficha.energiaMaxima : Math.ceil(ficha.energiaMaxima / 2);
+    const alvo = certo ? ENERGIA_CONTA_CERTA : ENERGIA_CONTA_ERRADA;
     const ganho = Math.min(alvo, ficha.energiaMaxima - energia);
     setEnergia(energia + ganho);
     (certo ? somAcerto : somTentarDeNovo)();

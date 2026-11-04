@@ -9,6 +9,9 @@ export const HABILIDADE_MAXIMA = 4;
 export const VIDA_MAGO = 12;
 /** Energia que o mago recupera ao vencer uma luta. */
 export const ENERGIA_POR_VITORIA = 2;
+/** Energia ao se concentrar: depende de acertar ou errar a conta de matemática. */
+export const ENERGIA_CONTA_CERTA = 2;
+export const ENERGIA_CONTA_ERRADA = 1;
 
 export const HABILIDADES: {
   id: NomeHabilidade;
