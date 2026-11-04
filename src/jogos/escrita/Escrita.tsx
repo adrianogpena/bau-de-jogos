@@ -25,7 +25,7 @@ const TEXTOS = {
   jogarDeNovo: { 'pt-PT': 'Jogar outra vez', 'pt-BR': 'Jogar de novo' },
   muitoBem: { 'pt-PT': 'Muito bem! 🎉', 'pt-BR': 'Muito bem! 🎉' },
   quase: { 'pt-PT': 'Quase! Tenta outra vez.', 'pt-BR': 'Quase! Tente de novo.' },
-  verResposta: { 'pt-PT': 'Ver a resposta', 'pt-BR': 'Ver a resposta' },
+  ajuda: { 'pt-PT': 'Ajuda: mostrar uma letra', 'pt-BR': 'Ajuda: mostrar uma letra' },
   fim: { 'pt-PT': 'Acabaste! 🏆', 'pt-BR': 'Você terminou! 🏆' },
 } satisfies Record<string, TextoPorIdioma>;
 
@@ -38,11 +38,15 @@ export function Escrita({ idioma, aoVoltar }: PropsJogo) {
   const [rodada, setRodada] = useState(() => sortear(PALAVRAS, RODADA));
   const [indice, setIndice] = useState(0);
   const [resposta, setResposta] = useState('');
-  const [estado, setEstado] = useState<'digitando' | 'errou' | 'acertou' | 'revelou'>('digitando');
+  const [estado, setEstado] = useState<'digitando' | 'errou' | 'acertou'>('digitando');
   const [acertos, setAcertos] = useState(0);
+  // quantas letras a lâmpada já mostrou na palavra atual
+  const [dicas, setDicas] = useState(0);
+  const [usouAjuda, setUsouAjuda] = useState(false);
 
   const item = rodada[indice];
   const certa = useMemo(() => (item ? palavraDe(item, idioma) : ''), [item, idioma]);
+  const letras = useMemo(() => [...certa], [certa]);
   const terminou = indice >= rodada.length;
 
   function verificar() {
@@ -51,17 +55,25 @@ export function Escrita({ idioma, aoVoltar }: PropsJogo) {
     if (normalizar(resposta) === normalizar(certa)) {
       somAcerto();
       setEstado('acertou');
-      setAcertos((n) => n + 1);
+      // estrela só quando acerta sem a ajuda da lâmpada
+      if (!usouAjuda) setAcertos((n) => n + 1);
     } else {
       somTentarDeNovo();
       setEstado('errou');
     }
   }
 
+  function mostrarLetra() {
+    setDicas((n) => Math.min(n + 1, letras.length));
+    setUsouAjuda(true);
+  }
+
   function proxima() {
     setIndice((i) => i + 1);
     setResposta('');
     setEstado('digitando');
+    setDicas(0);
+    setUsouAjuda(false);
   }
 
   function reiniciar() {
@@ -70,6 +82,8 @@ export function Escrita({ idioma, aoVoltar }: PropsJogo) {
     setResposta('');
     setEstado('digitando');
     setAcertos(0);
+    setDicas(0);
+    setUsouAjuda(false);
   }
 
   if (terminou) {
@@ -89,7 +103,7 @@ export function Escrita({ idioma, aoVoltar }: PropsJogo) {
     );
   }
 
-  const acabouRodadaDaPalavra = estado === 'acertou' || estado === 'revelou';
+  const acabouRodadaDaPalavra = estado === 'acertou';
 
   return (
     <main className="tela tela-centro">
@@ -111,6 +125,24 @@ export function Escrita({ idioma, aoVoltar }: PropsJogo) {
         alt=""
         draggable={false}
       />
+
+      {/* um traço por letra, como na forca; a lâmpada mostra as letras aos poucos */}
+      <div className="letras-palavra" lang={idioma} aria-label={`${letras.length}`}>
+        {letras.map((letra, i) => (
+          <span key={i} className="letra-palavra">
+            {acabouRodadaDaPalavra || i < dicas ? letra : ''}
+          </span>
+        ))}
+        <button
+          type="button"
+          className="botao-lampada"
+          onClick={mostrarLetra}
+          disabled={acabouRodadaDaPalavra || dicas >= letras.length}
+          aria-label={t(TEXTOS.ajuda, idioma)}
+        >
+          💡
+        </button>
+      </div>
 
       <form
         className="formulario-resposta"
@@ -146,7 +178,6 @@ export function Escrita({ idioma, aoVoltar }: PropsJogo) {
           </p>
         )}
         {estado === 'errou' && <p className="mensagem">{t(TEXTOS.quase, idioma)}</p>}
-        {estado === 'revelou' && <p className="mensagem">{escreveSe(certa, idioma)}</p>}
 
         <div className="acoes">
           {acabouRodadaDaPalavra ? (
@@ -154,20 +185,9 @@ export function Escrita({ idioma, aoVoltar }: PropsJogo) {
               {t(TEXTOS.proxima, idioma)} →
             </button>
           ) : (
-            <>
-              <button type="submit" className="botao">
-                {t(TEXTOS.verificar, idioma)}
-              </button>
-              {estado === 'errou' && (
-                <button
-                  type="button"
-                  className="botao botao-secundario"
-                  onClick={() => setEstado('revelou')}
-                >
-                  {t(TEXTOS.verResposta, idioma)}
-                </button>
-              )}
-            </>
+            <button type="submit" className="botao">
+              {t(TEXTOS.verificar, idioma)}
+            </button>
           )}
         </div>
       </form>
