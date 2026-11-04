@@ -2,7 +2,11 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
+// O app é publicado em https://<usuario>.github.io/bau-de-jogos/
+const BASE = '/bau-de-jogos/';
+
 export default defineConfig({
+  base: BASE,
   plugins: [
     react(),
     VitePWA({
@@ -15,7 +19,8 @@ export default defineConfig({
         short_name: 'Baú de Jogos',
         description: 'Jogos para aprender e brincar',
         lang: 'pt',
-        start_url: '/',
+        start_url: BASE,
+        scope: BASE,
         display: 'standalone',
         orientation: 'any',
         background_color: '#fff7e6',

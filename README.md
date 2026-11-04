@@ -39,7 +39,7 @@ npm install
 npm run dev
 ```
 
-O comando `dev` mostra um endereço de rede local (ex.: `http://192.168.0.10:5173`). Abra esse endereço no navegador do tablet, na mesma rede Wi-Fi.
+O comando `dev` mostra um endereço de rede local (ex.: `http://192.168.0.10:5173/bau-de-jogos/`). Abra esse endereço no navegador do tablet, na mesma rede Wi-Fi.
 
 Para gerar a versão final:
 
@@ -47,6 +47,10 @@ Para gerar a versão final:
 npm run build
 npm run preview
 ```
+
+## Publicação (GitHub Pages)
+
+A cada push na `main`, o workflow `.github/workflows/publicar.yml` gera o build e publica em `https://adrianogpena.github.io/bau-de-jogos/`. Na primeira vez, ative em **Settings → Pages → Source: GitHub Actions**.
 
 ## Instalar no tablet
 
