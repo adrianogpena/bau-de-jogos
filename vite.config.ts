@@ -8,6 +8,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icone.svg'],
+      // guarda os pictogramas para o app funcionar offline
+      workbox: { globPatterns: ['**/*.{js,css,html,svg,png}'] },
       manifest: {
         name: 'Baú de Jogos',
         short_name: 'Baú de Jogos',
