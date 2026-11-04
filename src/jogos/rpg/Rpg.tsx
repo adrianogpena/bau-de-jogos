@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { PropsJogo } from '../tipos';
 import { type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
+import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { Dado, usarDado } from '../../compartilhado/usarDado';
 import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
 import type { Cena, FichaPersonagem } from './tipos';
@@ -111,9 +112,11 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
       <div className="emoji-grande" aria-hidden="true">
         {cena.emoji}
       </div>
-      <p className="texto-historia" lang={idioma}>
-        {preencher(t(cena.texto, idioma), { nome: ficha.nome })}
-      </p>
+      <TextoNarrado
+        className="texto-historia"
+        idioma={idioma}
+        texto={preencher(t(cena.texto, idioma), { nome: ficha.nome })}
+      />
 
       {fase === 'luta' && cena.luta ? (
         <Luta
