@@ -26,7 +26,7 @@ function separarPalavras(texto: string): Palavra[] {
  * certa (pt-PT ou pt-BR) e a palavra falada muda de cor. Se o aparelho não avisar
  * qual palavra está sendo dita, a cor avança por um cálculo de tempo.
  */
-export function TextoNarrado({ texto, idioma, className }: { texto: string; idioma: Idioma; className?: string }) {
+export function TextoNarrado({ texto, idioma, className, compacto = false }: { texto: string; idioma: Idioma; className?: string; compacto?: boolean }) {
   const palavras = useMemo(() => separarPalavras(texto), [texto]);
   const [atual, setAtual] = useState<number | null>(null);
   const [lendo, setLendo] = useState(false);
@@ -83,7 +83,7 @@ export function TextoNarrado({ texto, idioma, className }: { texto: string; idio
   }
 
   return (
-    <div className="texto-narrado">
+    <div className={`texto-narrado ${compacto ? 'texto-narrado-linha' : ''}`}>
       <p className={className} lang={idioma}>
         {palavras.map((p, i) => (
           <span key={i} className={i === atual ? 'palavra-lida' : undefined}>
@@ -92,8 +92,13 @@ export function TextoNarrado({ texto, idioma, className }: { texto: string; idio
         ))}
       </p>
       {temVoz && (
-        <button className="botao botao-secundario" onClick={lendo ? parar : ler}>
-          {lendo ? '⏹️' : '🔊'} {t(lendo ? TEXTOS.parar : TEXTOS.ouvir, idioma)}
+        <button
+          className="botao botao-secundario"
+          onClick={lendo ? parar : ler}
+          aria-label={t(lendo ? TEXTOS.parar : TEXTOS.ouvir, idioma)}
+        >
+          {lendo ? '⏹️' : '🔊'}
+          {!compacto && ` ${t(lendo ? TEXTOS.parar : TEXTOS.ouvir, idioma)}`}
         </button>
       )}
     </div>

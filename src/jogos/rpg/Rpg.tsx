@@ -130,20 +130,22 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
         <>
           {cena.teste && (
             <div className="teste">
-              <p>
-                {preencher(t(TEXTOS.instrucaoTeste, idioma), {
+              <TextoNarrado
+                idioma={idioma}
+                texto={preencher(t(TEXTOS.instrucaoTeste, idioma), {
                   atributo: nomeAtributo,
                   valor: ficha.atributos[cena.teste.atributo],
                   dificuldade: cena.teste.dificuldade,
                 })}
-              </p>
+              />
               {fase === 'teste' && <Dado valor={dado.valor} lados={dado.lados} rolando={dado.rolando} />}
               {passou !== null && (
                 <>
-                  <p className="mensagem">{resumoTeste}</p>
-                  <p className="mensagem mensagem-acerto">
-                    {t(passou ? TEXTOS.passou : TEXTOS.naoPassou, idioma)}
-                  </p>
+                  <TextoNarrado
+                    className="mensagem mensagem-acerto"
+                    idioma={idioma}
+                    texto={`${resumoTeste} ${t(passou ? TEXTOS.passou : TEXTOS.naoPassou, idioma)}`}
+                  />
                 </>
               )}
             </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
+import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { Dado, usarDado } from '../../compartilhado/usarDado';
 import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
 import type { FichaPersonagem, Inimigo } from './tipos';
@@ -170,7 +171,7 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
         </div>
       </div>
 
-      <p className="mensagem mensagem-luta">{mensagem}</p>
+      <TextoNarrado className="mensagem mensagem-luta" idioma={idioma} texto={mensagem} />
 
       <div className="acoes">
         {estado === 'jogador' && (

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
 import type { Atributos, FichaPersonagem, NomeAtributo } from './tipos';
 import {
@@ -107,13 +108,21 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
           ))}
         </div>
 
-        <p className="texto-grande">{preencher(t(TEXTOS.pontos, idioma), { n: sobram })}</p>
+        <TextoNarrado
+          className="texto-grande"
+          idioma={idioma}
+          texto={preencher(t(TEXTOS.pontos, idioma), { n: sobram })}
+        />
 
         {ATRIBUTOS.map((atr) => (
           <div key={atr.id} className="linha-atributo">
             <span className="atributo-nome">
-              <span aria-hidden="true">{atr.emoji}</span> {t(atr.nome, idioma)}
-              <small>{t(atr.ajuda, idioma)}</small>
+              <span aria-hidden="true">{atr.emoji}</span>
+              <TextoNarrado
+                compacto
+                idioma={idioma}
+                texto={`${t(atr.nome, idioma)}. ${t(atr.ajuda, idioma)}`}
+              />
             </span>
             <span className="controle-atributo">
               <button
