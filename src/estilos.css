@@ -727,3 +727,33 @@ h2 {
 .sem-quebra {
   white-space: nowrap;
 }
+
+.conta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.conta-enunciado {
+  margin: 0;
+  font-size: 2.6rem;
+  font-weight: bold;
+}
+
+.conta-resposta {
+  display: inline-block;
+  min-width: 3.5ch;
+  border-bottom: 4px solid var(--laranja);
+}
+
+.teclado {
+  display: grid;
+  grid-template-columns: repeat(3, 88px);
+  gap: 10px;
+}
+
+.teclado .botao {
+  padding: 8px;
+  font-size: 1.6rem;
+}

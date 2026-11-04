@@ -5,7 +5,7 @@ import { Dado, usarDado } from '../../../compartilhado/usarDado';
 import { somAcerto, somTentarDeNovo } from '../../../compartilhado/som';
 import { Barra } from '../Luta';
 import type { FichaMago, Feitico, InimigoMago } from './tipos';
-import { ENERGIA_CONCENTRAR, FEITICOS } from './feiticos';
+import { FEITICOS } from './feiticos';
 
 /** CA do mago: roupas leves de mago não protegem muito. */
 export const CA_MAGO = 11;
@@ -15,9 +15,19 @@ const TEXTOS = {
   proximaAcao: { 'pt-PT': 'O que vais fazer agora?', 'pt-BR': 'O que você vai fazer agora?' },
   lancar: { 'pt-PT': '🔮 Lançar um feitiço', 'pt-BR': '🔮 Lançar um feitiço' },
   concentrar: {
-    'pt-PT': '🧘 Concentrar (+{n} energia)',
-    'pt-BR': '🧘 Se concentrar (+{n} energia)',
+    'pt-PT': '🧘 Concentrar (conta de matemática)',
+    'pt-BR': '🧘 Se concentrar (conta de matemática)',
   },
+  contaTitulo: {
+    'pt-PT': 'Resolve a conta para recuperar energia!',
+    'pt-BR': 'Resolva a conta para recuperar energia!',
+  },
+  contaAjuda: {
+    'pt-PT': 'Certo: energia toda. Errado: metade.',
+    'pt-BR': 'Acertou: toda a energia. Errou: metade.',
+  },
+  apagar: { 'pt-PT': 'Apagar', 'pt-BR': 'Apagar' },
+  confirmar: { 'pt-PT': 'Confirmar ✔️', 'pt-BR': 'Confirmar ✔️' },
   escolheFeitico: { 'pt-PT': 'Qual feitiço queres lançar?', 'pt-BR': 'Qual feitiço você quer lançar?' },
   voltarMenu: { 'pt-PT': '← Voltar', 'pt-BR': '← Voltar' },
   gratis: { 'pt-PT': 'grátis', 'pt-BR': 'grátis' },
@@ -50,9 +60,13 @@ const TEXTOS = {
     'pt-PT': '{feitico}! Recuperaste {cura} de vida! 💖',
     'pt-BR': '{feitico}! Você recuperou {cura} de vida! 💖',
   },
-  concentrou: {
-    'pt-PT': 'Respiraste fundo e recuperaste {n} de energia mágica. 🔮',
-    'pt-BR': 'Você respirou fundo e recuperou {n} de energia mágica. 🔮',
+  concentrouCerto: {
+    'pt-PT': '{conta} = {resposta}. Certo! Recuperaste {n} de energia mágica. 🔮',
+    'pt-BR': '{conta} = {resposta}. Certo! Você recuperou {n} de energia mágica. 🔮',
+  },
+  concentrouErrado: {
+    'pt-PT': '{conta} = {resposta}. Quase! Recuperaste metade: {n} de energia mágica. 🔮',
+    'pt-BR': '{conta} = {resposta}. Quase! Você recuperou metade: {n} de energia mágica. 🔮',
   },
   inimigoPresoPerde: {
     'pt-PT': '{inimigo} continua preso pela magia e perde a vez!',
@@ -79,6 +93,12 @@ const TEXTOS = {
   tentarOutraVez: { 'pt-PT': 'Tentar outra vez', 'pt-BR': 'Tentar de novo' },
 } satisfies Record<string, TextoPorIdioma>;
 
+/** Conta de somar para se concentrar: cada número vai de 10 a 50. */
+function novaConta() {
+  const numero = () => 10 + Math.floor(Math.random() * 41);
+  return { a: numero(), b: numero() };
+}
+
 type Estado = 'jogador' | 'inimigo' | 'vitoria' | 'derrota';
 
 interface Props {
@@ -101,6 +121,8 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
   const [vidaInimigo, setVidaInimigo] = useState(inimigo.pontosDeVida);
   const [estado, setEstado] = useState<Estado>('jogador');
   const [menuFeiticos, setMenuFeiticos] = useState(false);
+  const [conta, setConta] = useState<{ a: number; b: number } | null>(null);
+  const [digitos, setDigitos] = useState('');
   const [ocupado, setOcupado] = useState(false);
   const [bonusCA, setBonusCA] = useState(0);
   const [inimigoPreso, setInimigoPreso] = useState(false);
@@ -178,13 +200,28 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
     setOcupado(false);
   }
 
-  /** Sem energia ou sem boas ideias, o mago respira fundo e recupera um pouco. */
-  function concentrar() {
+  function abrirConta() {
     if (ocupado || estado !== 'jogador') return;
-    const ganho = Math.min(ENERGIA_CONCENTRAR, ficha.energiaMaxima - energia);
+    setConta(novaConta());
+    setDigitos('');
+  }
+
+  /** Acertou a conta: energia toda. Errou: metade da energia máxima. */
+  function concentrar() {
+    if (!conta || digitos === '' || ocupado || estado !== 'jogador') return;
+    const certo = Number(digitos) === conta.a + conta.b;
+    const alvo = certo ? ficha.energiaMaxima : Math.ceil(ficha.energiaMaxima / 2);
+    const ganho = Math.min(alvo, ficha.energiaMaxima - energia);
     setEnergia(energia + ganho);
-    somAcerto();
-    setMensagem(preencher(t(TEXTOS.concentrou, idioma), { n: ganho }));
+    (certo ? somAcerto : somTentarDeNovo)();
+    setMensagem(
+      preencher(t(certo ? TEXTOS.concentrouCerto : TEXTOS.concentrouErrado, idioma), {
+        conta: `${conta.a} + ${conta.b}`,
+        resposta: conta.a + conta.b,
+        n: ganho,
+      }),
+    );
+    setConta(null);
     fimDoTurnoDoHeroi();
   }
 
@@ -227,6 +264,7 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
     setVidaInimigo(inimigo.pontosDeVida);
     setEstado('jogador');
     setMenuFeiticos(false);
+    setConta(null);
     setBonusCA(0);
     setInimigoPreso(false);
     setMensagem(preencher(t(TEXTOS.apareceu, idioma), { inimigo: nomeInimigo }));
@@ -265,7 +303,7 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
 
       <TextoNarrado className="mensagem mensagem-luta" idioma={idioma} texto={mensagem} />
 
-      {estado === 'jogador' && !menuFeiticos && (
+      {estado === 'jogador' && !menuFeiticos && !conta && (
         <>
           <TextoNarrado className="texto-grande" idioma={idioma} texto={t(TEXTOS.proximaAcao, idioma)} />
           <div className="acoes">
@@ -274,13 +312,42 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
             </button>
             <button
               className="botao botao-secundario"
-              onClick={concentrar}
+              onClick={abrirConta}
               disabled={ocupado || energia >= ficha.energiaMaxima}
             >
-              {preencher(t(TEXTOS.concentrar, idioma), { n: ENERGIA_CONCENTRAR })}
+              {t(TEXTOS.concentrar, idioma)}
             </button>
           </div>
         </>
+      )}
+
+      {estado === 'jogador' && conta && (
+        <div className="conta">
+          <TextoNarrado className="texto-grande" idioma={idioma} texto={t(TEXTOS.contaTitulo, idioma)} />
+          <p>{t(TEXTOS.contaAjuda, idioma)}</p>
+          <p className="conta-enunciado">
+            {conta.a} + {conta.b} = <span className="conta-resposta">{digitos || '?'}</span>
+          </p>
+          <div className="teclado">
+            {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((d) => (
+              <button key={d} className="botao botao-secundario" onClick={() => setDigitos((x) => (x + d).slice(0, 3))}>
+                {d}
+              </button>
+            ))}
+            <button className="botao botao-secundario" onClick={() => setDigitos((x) => x.slice(0, -1))} aria-label={t(TEXTOS.apagar, idioma)}>
+              ⌫
+            </button>
+            <button className="botao botao-secundario" onClick={() => setDigitos((x) => (x + '0').slice(0, 3))}>
+              0
+            </button>
+            <button className="botao" onClick={concentrar} disabled={digitos === ''}>
+              {t(TEXTOS.confirmar, idioma)}
+            </button>
+          </div>
+          <button className="botao botao-secundario" onClick={() => setConta(null)}>
+            {t(TEXTOS.voltarMenu, idioma)}
+          </button>
+        </div>
       )}
 
       {estado === 'jogador' && menuFeiticos && (

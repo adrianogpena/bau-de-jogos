@@ -7,9 +7,8 @@ export const PONTOS_MAGO = 5;
 export const HABILIDADE_MINIMA = 1;
 export const HABILIDADE_MAXIMA = 4;
 export const VIDA_MAGO = 12;
-/** Energia que o mago recupera ao vencer uma luta ou ao se concentrar. */
+/** Energia que o mago recupera ao vencer uma luta. */
 export const ENERGIA_POR_VITORIA = 2;
-export const ENERGIA_CONCENTRAR = 2;
 
 export const HABILIDADES: {
   id: NomeHabilidade;
