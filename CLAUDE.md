@@ -47,7 +47,9 @@ src/
     dados.ts             rolagem de dados (d4, d6, d20...)
   jogos/
     registro.ts          lista de todos os jogos (adicione novos aqui)
-    rpg/                 RPG com história, ficha de personagem e dados de luta
+    rpg/                 RPG: escolha de história (Rpg.tsx), com ficha, loja e dados de luta
+      PedraDaLua.tsx     história 1: guerreiro, loja, mapa com enigmas
+      mago/              história 2 (A Torre Encantada): tipos de mago, feitiços e energia mágica
     escrita/             jogos de escrever palavras
     leitura/             jogos de ler palavras
 public/                  ícones do app
