@@ -76,7 +76,34 @@ export const PALAVRAS: PalavraIlustrada[] = [
   { imagem: 7252, palavra: { 'pt-PT': 'sol', 'pt-BR': 'sol' } },
   { imagem: 8042, palavra: { 'pt-PT': 'bolo', 'pt-BR': 'bolo' } },
   { imagem: 32923, palavra: { 'pt-PT': 'sapato', 'pt-BR': 'sapato' } },
+  // palavras usadas nas fábulas
+  { imagem: 17265, palavra: { 'pt-PT': 'lebre', 'pt-BR': 'lebre' } },
+  { imagem: 16817, palavra: { 'pt-PT': 'meta', 'pt-BR': 'meta' } },
+  { imagem: 2546, palavra: { 'pt-PT': 'rato', 'pt-BR': 'rato' } },
+  { imagem: 6594, palavra: { 'pt-PT': 'pedra', 'pt-BR': 'pedra' } },
+  { imagem: 2548, palavra: { 'pt-PT': 'rede', 'pt-BR': 'rede' } },
+  { imagem: 26026, palavra: { 'pt-PT': 'corda', 'pt-BR': 'corda' } },
+  { imagem: 16613, palavra: { 'pt-PT': 'cigarra', 'pt-BR': 'cigarra' } },
+  { imagem: 2425, palavra: { 'pt-PT': 'formiga', 'pt-BR': 'formiga' } },
+  { imagem: 7285, palavra: { 'pt-PT': 'trigo', 'pt-BR': 'trigo' } },
+  { imagem: 2615, palavra: { 'pt-PT': 'violino', 'pt-BR': 'violino' } },
+  { imagem: 3135, palavra: { 'pt-PT': 'neve', 'pt-BR': 'neve' } },
+  { imagem: 4619, palavra: { 'pt-PT': 'corvo', 'pt-BR': 'corvo' } },
+  { imagem: 2623, palavra: { 'pt-PT': 'raposa', 'pt-BR': 'raposa' } },
+  { imagem: 5538, palavra: { 'pt-PT': 'bico', 'pt-BR': 'bico' } },
+  { imagem: 5954, palavra: { 'pt-PT': 'porquinho', 'pt-BR': 'porquinho' } },
+  { imagem: 6163, palavra: { 'pt-PT': 'palha', 'pt-BR': 'palha' } },
+  { imagem: 6143, palavra: { 'pt-PT': 'madeira', 'pt-BR': 'madeira' } },
+  { imagem: 2951, palavra: { 'pt-PT': 'tijolo', 'pt-BR': 'tijolo' } },
+  { imagem: 6140, palavra: { 'pt-PT': 'lobo', 'pt-BR': 'lobo' } },
 ];
+
+/** Procura a palavra de um pictograma (falha cedo se faltar no dicionário). */
+export function palavraPorImagem(imagem: number): PalavraIlustrada {
+  const item = PALAVRAS.find((p) => p.imagem === imagem);
+  if (!item) throw new Error(`Palavra do pictograma ${imagem} não encontrada em PALAVRAS.`);
+  return item;
+}
 
 /** Palavra na variante pedida. */
 export function palavraDe(item: PalavraIlustrada, idioma: Idioma): string {

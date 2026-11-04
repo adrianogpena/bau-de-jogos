@@ -1,60 +1,74 @@
 import { useState } from 'react';
 import type { PropsJogo } from '../tipos';
 import { type TextoPorIdioma, t } from '../../compartilhado/idioma';
-import {
-  PALAVRAS,
-  type PalavraIlustrada,
-  caminhoImagem,
-  palavraDe,
-  sortear,
-} from '../../compartilhado/palavras';
+import { type PalavraIlustrada, caminhoImagem, sortear } from '../../compartilhado/palavras';
+import { type Fabula, paragrafoCompleto, partesDoParagrafo } from '../../compartilhado/fabulas';
+import { EscolherFabula } from '../../compartilhado/EscolherFabula';
+import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
 
-const RODADA = 8;
 const OPCOES = 4;
 
 const TEXTOS = {
-  titulo: { 'pt-PT': 'Qual é a imagem?', 'pt-BR': 'Qual é a imagem?' },
+  escolha: {
+    'pt-PT': 'Lê cada parte da história e escolhe a imagem da palavra em destaque!',
+    'pt-BR': 'Leia cada parte da história e escolha a imagem da palavra em destaque!',
+  },
   instrucao: {
-    'pt-PT': 'Lê a palavra e escolhe a imagem certa.',
-    'pt-BR': 'Leia a palavra e escolha a imagem certa.',
+    'pt-PT': 'Lê a palavra em destaque e escolhe a imagem certa.',
+    'pt-BR': 'Leia a palavra em destaque e escolha a imagem certa.',
   },
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
-  proxima: { 'pt-PT': 'Próxima', 'pt-BR': 'Próxima' },
+  proxima: { 'pt-PT': 'Continuar', 'pt-BR': 'Continuar' },
+  outraHistoria: { 'pt-PT': 'Escolher outra história', 'pt-BR': 'Escolher outra história' },
   jogarDeNovo: { 'pt-PT': 'Jogar outra vez', 'pt-BR': 'Jogar de novo' },
   muitoBem: { 'pt-PT': 'Muito bem! 🎉', 'pt-BR': 'Muito bem! 🎉' },
   tentaOutra: { 'pt-PT': 'Tenta outra vez!', 'pt-BR': 'Tente de novo!' },
-  fim: { 'pt-PT': 'Acabaste! 🏆', 'pt-BR': 'Você terminou! 🏆' },
+  fim: { 'pt-PT': 'Acabaste a história! 🏆', 'pt-BR': 'Você terminou a história! 🏆' },
+  historiaToda: { 'pt-PT': 'Aqui está a história toda:', 'pt-BR': 'Aqui está a história inteira:' },
 } satisfies Record<string, TextoPorIdioma>;
 
-interface Pergunta {
-  certa: PalavraIlustrada;
-  opcoes: PalavraIlustrada[];
+/**
+ * Opções de imagem para cada parágrafo: a certa e outras palavras da mesma fábula,
+ * que são parecidas no tema e obrigam a criança a ler a palavra.
+ */
+function opcoesDaFabula(fabula: Fabula): PalavraIlustrada[][] {
+  const todas = fabula.paragrafos.map((p) => p.palavra);
+  return todas.map((certa) =>
+    sortear([certa, ...sortear(todas.filter((p) => p.imagem !== certa.imagem), OPCOES - 1)], OPCOES),
+  );
 }
 
-function novaRodada(): Pergunta[] {
-  return sortear(PALAVRAS, RODADA).map((certa) => ({
-    certa,
-    opcoes: sortear(
-      [certa, ...sortear(PALAVRAS.filter((p) => p.imagem !== certa.imagem), OPCOES - 1)],
-      OPCOES,
-    ),
-  }));
-}
-
-/** Jogo 2: aparece uma palavra e a criança escolhe a imagem certa. */
+/** Jogo 2: a criança escolhe uma fábula e, em cada parte, a imagem da palavra em destaque. */
 export function Leitura({ idioma, aoVoltar }: PropsJogo) {
-  const [rodada, setRodada] = useState(novaRodada);
+  const [fabula, setFabula] = useState<Fabula | null>(null);
+
+  if (!fabula) {
+    return (
+      <EscolherFabula
+        idioma={idioma}
+        emoji="📖"
+        instrucao={t(TEXTOS.escolha, idioma)}
+        aoEscolher={setFabula}
+        aoVoltar={aoVoltar}
+      />
+    );
+  }
+  return <LeituraFabula key={fabula.id} fabula={fabula} idioma={idioma} aoVoltar={() => setFabula(null)} />;
+}
+
+function LeituraFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabula }) {
+  const [opcoes, setOpcoes] = useState(() => opcoesDaFabula(fabula));
   const [indice, setIndice] = useState(0);
   const [erradas, setErradas] = useState<number[]>([]);
   const [acertou, setAcertou] = useState(false);
   const [pontos, setPontos] = useState(0);
 
-  const pergunta = rodada[indice];
+  const paragrafo = fabula.paragrafos[indice];
 
   function escolher(opcao: PalavraIlustrada) {
     if (acertou || erradas.includes(opcao.imagem)) return;
-    if (opcao.imagem === pergunta.certa.imagem) {
+    if (opcao.imagem === paragrafo.palavra.imagem) {
       somAcerto();
       setAcertou(true);
       // acertar de primeira vale ponto
@@ -72,29 +86,39 @@ export function Leitura({ idioma, aoVoltar }: PropsJogo) {
   }
 
   function reiniciar() {
-    setRodada(novaRodada());
+    setOpcoes(opcoesDaFabula(fabula));
     setIndice(0);
     setErradas([]);
     setAcertou(false);
     setPontos(0);
   }
 
-  if (!pergunta) {
+  if (!paragrafo) {
     return (
       <main className="tela tela-centro">
         <h1>{t(TEXTOS.fim, idioma)}</h1>
         <p className="texto-grande">
-          ⭐ {pontos} / {rodada.length}
+          ⭐ {pontos} / {fabula.paragrafos.length}
         </p>
-        <button className="botao" onClick={reiniciar}>
-          {t(TEXTOS.jogarDeNovo, idioma)}
-        </button>
-        <button className="botao botao-secundario" onClick={aoVoltar}>
-          {t(TEXTOS.voltar, idioma)}
-        </button>
+        <p>{t(TEXTOS.historiaToda, idioma)}</p>
+        <TextoNarrado
+          className="texto-historia"
+          idioma={idioma}
+          texto={fabula.paragrafos.map((p) => paragrafoCompleto(p, idioma)).join('\n')}
+        />
+        <div className="acoes">
+          <button className="botao" onClick={reiniciar}>
+            {t(TEXTOS.jogarDeNovo, idioma)}
+          </button>
+          <button className="botao botao-secundario" onClick={aoVoltar}>
+            {t(TEXTOS.outraHistoria, idioma)}
+          </button>
+        </div>
       </main>
     );
   }
+
+  const partes = partesDoParagrafo(paragrafo, idioma);
 
   return (
     <main className="tela tela-centro">
@@ -103,21 +127,39 @@ export function Leitura({ idioma, aoVoltar }: PropsJogo) {
           ← {t(TEXTOS.voltar, idioma)}
         </button>
         <span className="progresso">
-          {indice + 1} / {rodada.length}
+          {indice + 1} / {fabula.paragrafos.length}
         </span>
       </header>
 
-      <h1>{t(TEXTOS.titulo, idioma)}</h1>
-      <p>{t(TEXTOS.instrucao, idioma)}</p>
+      <h2>
+        {fabula.emoji} {t(fabula.titulo, idioma)}
+      </h2>
 
-      <p className="palavra-grande" lang={idioma}>
-        {palavraDe(pergunta.certa, idioma)}
-      </p>
+      {acertou ? (
+        // depois de acertar, o parágrafo é lido em voz alta
+        <TextoNarrado
+          key={indice}
+          className="texto-historia"
+          idioma={idioma}
+          texto={paragrafoCompleto(paragrafo, idioma)}
+          destacar={partes.palavra}
+          lerAoAbrir
+        />
+      ) : (
+        <>
+          <p className="texto-historia" lang={idioma}>
+            {partes.antes}
+            <span className="palavra-destacada">{partes.palavra}</span>
+            {partes.depois}
+          </p>
+          <p>{t(TEXTOS.instrucao, idioma)}</p>
+        </>
+      )}
 
       <div className="grade-opcoes">
-        {pergunta.opcoes.map((opcao) => {
+        {opcoes[indice].map((opcao) => {
           const errada = erradas.includes(opcao.imagem);
-          const certa = acertou && opcao.imagem === pergunta.certa.imagem;
+          const certa = acertou && opcao.imagem === paragrafo.palavra.imagem;
           return (
             <button
               key={opcao.imagem}
@@ -132,11 +174,7 @@ export function Leitura({ idioma, aoVoltar }: PropsJogo) {
       </div>
 
       <p className="mensagem mensagem-acerto">
-        {acertou
-          ? t(TEXTOS.muitoBem, idioma)
-          : erradas.length > 0
-            ? t(TEXTOS.tentaOutra, idioma)
-            : ''}
+        {acertou ? t(TEXTOS.muitoBem, idioma) : erradas.length > 0 ? t(TEXTOS.tentaOutra, idioma) : ''}
       </p>
 
       {acertou && (

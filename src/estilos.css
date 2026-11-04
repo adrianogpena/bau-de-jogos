@@ -757,3 +757,24 @@ h2 {
   padding: 8px;
   font-size: 1.6rem;
 }
+
+/* fábulas: palavra que falta (escrita) e palavra em destaque (leitura) */
+.lacuna {
+  display: inline-block;
+  min-width: 3em;
+  margin: 0 4px;
+  padding: 0 6px;
+  border-bottom: 4px solid var(--laranja-escuro);
+  color: var(--laranja-escuro);
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.palavra-destacada {
+  padding: 0 6px;
+  border-radius: 8px;
+  background: #c8e6c9;
+  color: #1b5e20;
+  font-weight: bold;
+}

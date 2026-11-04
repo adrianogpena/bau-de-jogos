@@ -20,8 +20,8 @@ export const JOGOS: Jogo[] = [
     emoji: '✏️',
     titulo: { 'pt-PT': 'Escrever palavras', 'pt-BR': 'Escrever palavras' },
     descricao: {
-      'pt-PT': 'Aprende a escrever palavras a brincar.',
-      'pt-BR': 'Aprenda a escrever palavras brincando.',
+      'pt-PT': 'Completa as fábulas: escreve a palavra da imagem que falta em cada parte.',
+      'pt-BR': 'Complete as fábulas: escreva a palavra da imagem que falta em cada parte.',
     },
     componente: Escrita,
   },
@@ -30,8 +30,8 @@ export const JOGOS: Jogo[] = [
     emoji: '📖',
     titulo: { 'pt-PT': 'Ler palavras', 'pt-BR': 'Ler palavras' },
     descricao: {
-      'pt-PT': 'Descobre como se lêem as palavras.',
-      'pt-BR': 'Descubra como se leem as palavras.',
+      'pt-PT': 'Lê as fábulas e escolhe a imagem da palavra em destaque.',
+      'pt-BR': 'Leia as fábulas e escolha a imagem da palavra em destaque.',
     },
     componente: Leitura,
   },

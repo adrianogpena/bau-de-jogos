@@ -1,41 +1,57 @@
 import { useMemo, useState } from 'react';
 import type { PropsJogo } from '../tipos';
-import { type TextoPorIdioma, t } from '../../compartilhado/idioma';
-import {
-  PALAVRAS,
-  caminhoImagem,
-  normalizar,
-  palavraDe,
-  sortear,
-} from '../../compartilhado/palavras';
+import { type Idioma, type TextoPorIdioma, t } from '../../compartilhado/idioma';
+import { caminhoImagem, normalizar } from '../../compartilhado/palavras';
+import { type Fabula, paragrafoCompleto, partesDoParagrafo } from '../../compartilhado/fabulas';
+import { EscolherFabula } from '../../compartilhado/EscolherFabula';
+import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
 
-const RODADA = 8;
-
 const TEXTOS = {
-  titulo: { 'pt-PT': 'Qual é a palavra?', 'pt-BR': 'Qual é a palavra?' },
+  escolha: {
+    'pt-PT': 'Em cada parte da história falta uma palavra. Olha para a imagem e escreve-a!',
+    'pt-BR': 'Em cada parte da história falta uma palavra. Olhe a imagem e escreva a palavra!',
+  },
   instrucao: {
-    'pt-PT': 'Escreve o que vês na imagem.',
-    'pt-BR': 'Escreva o que você vê na imagem.',
+    'pt-PT': 'Que palavra falta? Escreve o que vês na imagem.',
+    'pt-BR': 'Que palavra está faltando? Escreva o que você vê na imagem.',
   },
   placeholder: { 'pt-PT': 'Escreve aqui', 'pt-BR': 'Escreva aqui' },
   verificar: { 'pt-PT': 'Verificar', 'pt-BR': 'Verificar' },
-  proxima: { 'pt-PT': 'Próxima', 'pt-BR': 'Próxima' },
+  proxima: { 'pt-PT': 'Continuar', 'pt-BR': 'Continuar' },
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
+  outraHistoria: { 'pt-PT': 'Escolher outra história', 'pt-BR': 'Escolher outra história' },
   jogarDeNovo: { 'pt-PT': 'Jogar outra vez', 'pt-BR': 'Jogar de novo' },
   muitoBem: { 'pt-PT': 'Muito bem! 🎉', 'pt-BR': 'Muito bem! 🎉' },
   quase: { 'pt-PT': 'Quase! Tenta outra vez.', 'pt-BR': 'Quase! Tente de novo.' },
   ajuda: { 'pt-PT': 'Ajuda: mostrar uma letra', 'pt-BR': 'Ajuda: mostrar uma letra' },
-  fim: { 'pt-PT': 'Acabaste! 🏆', 'pt-BR': 'Você terminou! 🏆' },
+  fim: { 'pt-PT': 'Acabaste a história! 🏆', 'pt-BR': 'Você terminou a história! 🏆' },
+  historiaToda: { 'pt-PT': 'Aqui está a história toda:', 'pt-BR': 'Aqui está a história inteira:' },
 } satisfies Record<string, TextoPorIdioma>;
 
-function escreveSe(palavra: string, idioma: PropsJogo['idioma']): string {
+function escreveSe(palavra: string, idioma: Idioma): string {
   return idioma === 'pt-PT' ? `Escreve-se: ${palavra}` : `Escreve-se assim: ${palavra}`;
 }
 
-/** Jogo 1: aparece uma imagem e a criança escreve o que é. */
+/** Jogo 1: a criança escolhe uma fábula e escreve a palavra que falta em cada parte. */
 export function Escrita({ idioma, aoVoltar }: PropsJogo) {
-  const [rodada, setRodada] = useState(() => sortear(PALAVRAS, RODADA));
+  const [fabula, setFabula] = useState<Fabula | null>(null);
+
+  if (!fabula) {
+    return (
+      <EscolherFabula
+        idioma={idioma}
+        emoji="✏️"
+        instrucao={t(TEXTOS.escolha, idioma)}
+        aoEscolher={setFabula}
+        aoVoltar={aoVoltar}
+      />
+    );
+  }
+  return <EscritaFabula key={fabula.id} fabula={fabula} idioma={idioma} aoVoltar={() => setFabula(null)} />;
+}
+
+function EscritaFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabula }) {
   const [indice, setIndice] = useState(0);
   const [resposta, setResposta] = useState('');
   const [estado, setEstado] = useState<'digitando' | 'errou' | 'acertou'>('digitando');
@@ -44,10 +60,10 @@ export function Escrita({ idioma, aoVoltar }: PropsJogo) {
   const [dicas, setDicas] = useState(0);
   const [usouAjuda, setUsouAjuda] = useState(false);
 
-  const item = rodada[indice];
-  const certa = useMemo(() => (item ? palavraDe(item, idioma) : ''), [item, idioma]);
+  const paragrafo = fabula.paragrafos[indice];
+  const partes = useMemo(() => (paragrafo ? partesDoParagrafo(paragrafo, idioma) : null), [paragrafo, idioma]);
+  const certa = partes?.palavra ?? '';
   const letras = useMemo(() => [...certa], [certa]);
-  const terminou = indice >= rodada.length;
 
   function verificar() {
     if (!resposta.trim()) return;
@@ -77,7 +93,6 @@ export function Escrita({ idioma, aoVoltar }: PropsJogo) {
   }
 
   function reiniciar() {
-    setRodada(sortear(PALAVRAS, RODADA));
     setIndice(0);
     setResposta('');
     setEstado('digitando');
@@ -86,24 +101,32 @@ export function Escrita({ idioma, aoVoltar }: PropsJogo) {
     setUsouAjuda(false);
   }
 
-  if (terminou) {
+  if (!paragrafo || !partes) {
     return (
       <main className="tela tela-centro">
         <h1>{t(TEXTOS.fim, idioma)}</h1>
         <p className="texto-grande">
-          ⭐ {acertos} / {rodada.length}
+          ⭐ {acertos} / {fabula.paragrafos.length}
         </p>
-        <button className="botao" onClick={reiniciar}>
-          {t(TEXTOS.jogarDeNovo, idioma)}
-        </button>
-        <button className="botao botao-secundario" onClick={aoVoltar}>
-          {t(TEXTOS.voltar, idioma)}
-        </button>
+        <p>{t(TEXTOS.historiaToda, idioma)}</p>
+        <TextoNarrado
+          className="texto-historia"
+          idioma={idioma}
+          texto={fabula.paragrafos.map((p) => paragrafoCompleto(p, idioma)).join('\n')}
+        />
+        <div className="acoes">
+          <button className="botao" onClick={reiniciar}>
+            {t(TEXTOS.jogarDeNovo, idioma)}
+          </button>
+          <button className="botao botao-secundario" onClick={aoVoltar}>
+            {t(TEXTOS.outraHistoria, idioma)}
+          </button>
+        </div>
       </main>
     );
   }
 
-  const acabouRodadaDaPalavra = estado === 'acertou';
+  const acertou = estado === 'acertou';
 
   return (
     <main className="tela tela-centro">
@@ -112,83 +135,102 @@ export function Escrita({ idioma, aoVoltar }: PropsJogo) {
           ← {t(TEXTOS.voltar, idioma)}
         </button>
         <span className="progresso">
-          {indice + 1} / {rodada.length}
+          {indice + 1} / {fabula.paragrafos.length}
         </span>
       </header>
 
-      <h1>{t(TEXTOS.titulo, idioma)}</h1>
-      <p>{t(TEXTOS.instrucao, idioma)}</p>
+      <h2>
+        {fabula.emoji} {t(fabula.titulo, idioma)}
+      </h2>
+
+      {acertou ? (
+        // depois de acertar, o parágrafo completo é lido em voz alta
+        <TextoNarrado
+          key={indice}
+          className="texto-historia"
+          idioma={idioma}
+          texto={paragrafoCompleto(paragrafo, idioma)}
+          destacar={certa}
+          lerAoAbrir
+        />
+      ) : (
+        <p className="texto-historia" lang={idioma}>
+          {partes.antes}
+          <span className="lacuna" aria-label={t(TEXTOS.instrucao, idioma)}>
+            {letras.map((letra, i) => (i < dicas ? letra : '_')).join(' ')}
+          </span>
+          {partes.depois}
+        </p>
+      )}
 
       <img
-        className={`imagem-jogo ${estado === 'acertou' ? 'imagem-acerto' : ''}`}
-        src={caminhoImagem(item.imagem)}
+        className={`imagem-jogo ${acertou ? 'imagem-acerto' : ''}`}
+        src={caminhoImagem(paragrafo.palavra.imagem)}
         alt=""
         draggable={false}
       />
 
-      {/* um traço por letra, como na forca; a lâmpada mostra as letras aos poucos */}
-      <div className="letras-palavra" lang={idioma} aria-label={`${letras.length}`}>
-        {letras.map((letra, i) => (
-          <span key={i} className="letra-palavra">
-            {acabouRodadaDaPalavra || i < dicas ? letra : ''}
-          </span>
-        ))}
-        <button
-          type="button"
-          className="botao-lampada"
-          onClick={mostrarLetra}
-          disabled={acabouRodadaDaPalavra || dicas >= letras.length}
-          aria-label={t(TEXTOS.ajuda, idioma)}
-        >
-          💡
-        </button>
-      </div>
+      {!acertou && (
+        <>
+          <p>{t(TEXTOS.instrucao, idioma)}</p>
+          {/* um traço por letra, como na forca; a lâmpada mostra as letras aos poucos */}
+          <div className="letras-palavra" lang={idioma} aria-label={`${letras.length}`}>
+            {letras.map((letra, i) => (
+              <span key={i} className="letra-palavra">
+                {i < dicas ? letra : ''}
+              </span>
+            ))}
+            <button
+              type="button"
+              className="botao-lampada"
+              onClick={mostrarLetra}
+              disabled={dicas >= letras.length}
+              aria-label={t(TEXTOS.ajuda, idioma)}
+            >
+              💡
+            </button>
+          </div>
+        </>
+      )}
 
       <form
         className="formulario-resposta"
         onSubmit={(e) => {
           e.preventDefault();
-          if (acabouRodadaDaPalavra) proxima();
+          if (acertou) proxima();
           else verificar();
         }}
       >
-        <input
-          className="campo-resposta"
-          value={resposta}
-          onChange={(e) => {
-            setResposta(e.target.value);
-            if (estado === 'errou') setEstado('digitando');
-          }}
-          placeholder={t(TEXTOS.placeholder, idioma)}
-          disabled={acabouRodadaDaPalavra}
-          autoCapitalize="none"
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck={false}
-          lang={idioma}
-          aria-label={t(TEXTOS.instrucao, idioma)}
-        />
+        {!acertou && (
+          <input
+            className="campo-resposta"
+            value={resposta}
+            onChange={(e) => {
+              setResposta(e.target.value);
+              if (estado === 'errou') setEstado('digitando');
+            }}
+            placeholder={t(TEXTOS.placeholder, idioma)}
+            autoCapitalize="none"
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
+            lang={idioma}
+            aria-label={t(TEXTOS.instrucao, idioma)}
+          />
+        )}
 
-        {estado === 'acertou' && (
+        {acertou && (
           <p className="mensagem mensagem-acerto">
             {t(TEXTOS.muitoBem, idioma)}
-            {normalizar(resposta) === normalizar(certa) && resposta.trim().toLocaleLowerCase('pt') !== certa
-              ? ` ${escreveSe(certa, idioma)}`
-              : ''}
+            {resposta.trim().toLocaleLowerCase('pt') !== certa ? ` ${escreveSe(certa, idioma)}` : ''}
           </p>
         )}
         {estado === 'errou' && <p className="mensagem">{t(TEXTOS.quase, idioma)}</p>}
 
         <div className="acoes">
-          {acabouRodadaDaPalavra ? (
-            <button type="submit" className="botao">
-              {t(TEXTOS.proxima, idioma)} →
-            </button>
-          ) : (
-            <button type="submit" className="botao">
-              {t(TEXTOS.verificar, idioma)}
-            </button>
-          )}
+          <button type="submit" className="botao">
+            {acertou ? `${t(TEXTOS.proxima, idioma)} →` : t(TEXTOS.verificar, idioma)}
+          </button>
         </div>
       </form>
     </main>

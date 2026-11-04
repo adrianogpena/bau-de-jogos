@@ -27,12 +27,33 @@ function separarPalavras(texto: string): Palavra[] {
   }));
 }
 
+/** Palavra sem pontuação e em minúsculas, para comparar com a palavra em destaque. */
+function limparPontuacao(palavra: string): string {
+  return palavra.replace(/^[^\p{L}]+|[^\p{L}]+$/gu, '').toLocaleLowerCase('pt');
+}
+
 /**
  * Mostra o texto com um botão "Ouvir". A voz do aparelho lê o texto na variante
  * certa (pt-PT ou pt-BR) e a palavra falada muda de cor. Se o aparelho não avisar
  * qual palavra está sendo dita, a cor avança por um cálculo de tempo.
  */
-export function TextoNarrado({ texto, idioma, className, compacto = false }: { texto: string; idioma: Idioma; className?: string; compacto?: boolean }) {
+export function TextoNarrado({
+  texto,
+  idioma,
+  className,
+  compacto = false,
+  lerAoAbrir = false,
+  destacar,
+}: {
+  texto: string;
+  idioma: Idioma;
+  className?: string;
+  compacto?: boolean;
+  /** Começa a ler sozinho assim que aparece (ex.: depois de a criança acertar). */
+  lerAoAbrir?: boolean;
+  /** Palavra que fica sempre em destaque no texto (ex.: a palavra da imagem). */
+  destacar?: string;
+}) {
   const palavras = useMemo(() => separarPalavras(texto), [texto]);
   const [atual, setAtual] = useState<number | null>(null);
   const [lendo, setLendo] = useState(false);
@@ -47,6 +68,12 @@ export function TextoNarrado({ texto, idioma, className, compacto = false }: { t
 
   // para a leitura quando o texto muda ou a tela sai
   useEffect(() => parar, [texto]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (lerAoAbrir) ler();
+  }, [texto, lerAoAbrir]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const palavraDestacada = destacar ? limparPontuacao(destacar) : null;
 
   function ler() {
     if (!temVoz) return;
@@ -92,7 +119,17 @@ export function TextoNarrado({ texto, idioma, className, compacto = false }: { t
     <div className={`texto-narrado ${compacto ? 'texto-narrado-linha' : ''}`}>
       <p className={className} lang={idioma}>
         {palavras.map((p, i) => (
-          <span key={i} className={i === atual ? 'palavra-lida' : undefined}>
+          <span
+            key={i}
+            className={
+              [
+                i === atual ? 'palavra-lida' : '',
+                palavraDestacada && limparPontuacao(p.texto) === palavraDestacada ? 'palavra-destacada' : '',
+              ]
+                .filter(Boolean)
+                .join(' ') || undefined
+            }
+          >
             {p.texto}{' '}
             {p.quebra && <br />}
           </span>

@@ -45,13 +45,16 @@ src/
   compartilhado/         código usado por vários jogos
     idioma.ts            tipo Idioma + seletor de variante
     dados.ts             rolagem de dados (d4, d6, d20...)
+    palavras.ts          dicionário de palavras com pictograma (por variante)
+    fabulas.ts           fábulas dos jogos 1 e 2 (texto por variante, uma palavra por parágrafo)
+    TextoNarrado.tsx     texto lido em voz alta com destaque da palavra lida
   jogos/
     registro.ts          lista de todos os jogos (adicione novos aqui)
     rpg/                 RPG: escolha de história (Rpg.tsx), com ficha, loja e dados de luta
       PedraDaLua.tsx     história 1: guerreiro, loja, mapa com enigmas
       mago/              história 2 (A Torre Encantada): tipos de mago, feitiços e energia mágica
-    escrita/             jogos de escrever palavras
-    leitura/             jogos de ler palavras
+    escrita/             jogo 1: completar a fábula escrevendo a palavra da imagem
+    leitura/             jogo 2: ler a fábula e escolher a imagem da palavra em destaque
 public/                  ícones do app
 ```
 
