@@ -115,6 +115,8 @@ let pararLeituraAtiva: (() => void) | null = null;
 
 let leituraSimples = 0;
 let temporizadorSimples: number | undefined;
+/** Guarda a fala em curso (sem isto o Chrome pode perdê-la e nunca avisar o fim). */
+const falaSimples: { atual: SpeechSynthesisUtterance | null } = { atual: null };
 
 const NOME_DESTAQUE = 'palavra-lida-global';
 
@@ -123,33 +125,108 @@ function limparDestaque() {
   if ('highlights' in CSS) CSS.highlights.delete(NOME_DESTAQUE);
 }
 
-/** Pedaços de texto de um elemento, com a posição de cada um no texto inteiro. */
-function nosDeTexto(el: HTMLElement): { no: Text; inicio: number }[] {
-  const nos: { no: Text; inicio: number }[] = [];
-  const passeio = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+/** Pausa entre dois blocos de texto (título → corpo → botão) e entre parágrafos. */
+const PAUSA_ENTRE_BLOCOS = 650;
+
+/**
+ * Ícones, emojis e setas (ex.: o triângulo "▶" dos botões) não são lidos: viram espaços,
+ * do mesmo tamanho, para as posições das palavras continuarem certas.
+ */
+const SIMBOLO = /[\p{Extended_Pictographic}\p{So}←-⇿■-◿☀-➿️‍⃣]/gu;
+
+export function semSimbolos(texto: string): string {
+  return texto.replace(SIMBOLO, (s) => ' '.repeat(s.length));
+}
+
+/** Pedaço de texto da tela, com a posição dele no texto inteiro e o bloco a que pertence. */
+interface NoDeTexto {
+  no: Text;
+  inicio: number;
+  bloco: Element;
+}
+
+/** Elemento visual mais próximo que não é "em linha": título, parágrafo, linha do botão... */
+function blocoDoNo(no: Text, raiz: HTMLElement): Element {
+  let el = no.parentElement;
+  while (el && el !== raiz) {
+    if (!getComputedStyle(el).display.startsWith('inline')) return el;
+    el = el.parentElement;
+  }
+  return raiz;
+}
+
+/** Pedaços de texto de um elemento, sem os que estão escondidos ou marcados como ícone (aria-hidden). */
+function nosDeTexto(el: HTMLElement): NoDeTexto[] {
+  const nos: NoDeTexto[] = [];
+  const passeio = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+    acceptNode: (no) => {
+      const pai = no.parentElement;
+      if (!pai || pai.closest('[aria-hidden="true"]')) return NodeFilter.FILTER_REJECT;
+      if (pai.getClientRects().length === 0) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    },
+  });
   let inicio = 0;
   for (let no = passeio.nextNode(); no; no = passeio.nextNode()) {
-    nos.push({ no: no as Text, inicio });
+    nos.push({ no: no as Text, inicio, bloco: blocoDoNo(no as Text, el) });
     inicio += (no as Text).length;
   }
   return nos;
 }
 
+/** Um pedaço lido de uma vez e a pausa que vem antes dele. */
+interface PedacoFalado {
+  texto: string;
+  inicio: number;
+  pausaAntes: number;
+}
+
+/** Divide em frases; quando o bloco muda (ou o parágrafo), a frase seguinte vem depois de uma pausa. */
+function pedacosParaFalar(bruto: string, nos: NoDeTexto[]): PedacoFalado[] {
+  const limpo = semSimbolos(bruto);
+  // cortes: onde começa cada bloco novo e cada linha nova, para o título não colar no texto seguinte
+  const cortes = new Set([0, limpo.length]);
+  nos.forEach((n, i) => {
+    if (i > 0 && n.bloco !== nos[i - 1].bloco) cortes.add(n.inicio);
+  });
+  for (const m of limpo.matchAll(/\n+/g)) cortes.add((m.index ?? 0) + m[0].length);
+  const ordenados = [...cortes].sort((x, y) => x - y);
+
+  const pedacos: PedacoFalado[] = [];
+  for (let b = 0; b < ordenados.length - 1; b++) {
+    const trecho = limpo.slice(ordenados[b], ordenados[b + 1]);
+    let primeiroDoTrecho = true;
+    for (const m of trecho.matchAll(/[^.!?…:;]+[.!?…:;]*["'”»)]*\s*/g)) {
+      if (!/\p{L}/u.test(m[0])) continue;
+      const deslocamento = m[0].length - m[0].trimStart().length;
+      pedacos.push({
+        texto: m[0].trim(),
+        inicio: ordenados[b] + (m.index ?? 0) + deslocamento,
+        pausaAntes: primeiroDoTrecho && pedacos.length > 0 ? PAUSA_ENTRE_BLOCOS : 0,
+      });
+      primeiroDoTrecho = false;
+    }
+  }
+  return pedacos;
+}
+
 /**
  * Leitura de um texto qualquer da tela (leitura global). Com o elemento, a palavra falada
  * é marcada no próprio texto (CSS Custom Highlight), sem mexer na estrutura da página.
+ * Ícones e emojis não são lidos, e entre blocos (título, texto, botão) há uma pequena pausa.
  */
 export function falarTexto(texto: string, idioma: Idioma, elemento?: HTMLElement) {
   if (!temVoz) return;
   const nos = elemento ? nosDeTexto(elemento) : [];
   const bruto = nos.length > 0 ? nos.map((n) => n.no.data).join('') : texto;
-  if (!bruto.trim()) return;
+  if (!/\p{L}/u.test(semSimbolos(bruto))) return;
   pararLeituraAtiva?.();
   limparDestaque();
   const minha = ++leituraSimples;
   window.speechSynthesis.cancel();
   const voz = escolherVoz(idioma);
   const podeMarcar = nos.length > 0 && 'highlights' in CSS;
+  const pedacos = pedacosParaFalar(bruto, nos);
 
   const marcar = (posicao: number) => {
     if (!podeMarcar || minha !== leituraSimples) return;
@@ -163,47 +240,58 @@ export function falarTexto(texto: string, idioma: Idioma, elemento?: HTMLElement
     CSS.highlights.set(NOME_DESTAQUE, new Highlight(faixa));
   };
 
-  // o Chrome corta a fala nova se ela vier logo depois de um cancel()
-  window.setTimeout(() => {
+  const falarPedaco = (n: number) => {
     if (minha !== leituraSimples) return;
-    const pedacos = [...bruto.matchAll(/[^.!?…:;]+[.!?…:;]*["'”»)]*\s*/g)];
-    pedacos.forEach((m, n) => {
-      const inicioPedaco = m.index ?? 0;
-      if (!/\p{L}/u.test(m[0])) return;
-      const fala = new SpeechSynthesisUtterance(m[0].trim());
-      const deslocamento = m[0].length - m[0].trimStart().length;
-      fala.lang = idioma;
-      fala.rate = VELOCIDADE;
-      fala.pitch = PRESETS[PRESET_ATIVO].tom;
-      if (voz) fala.voice = voz;
+    if (n >= pedacos.length) {
+      limparDestaque();
+      falaSimples.atual = null;
+      return;
+    }
+    const pedaco = pedacos[n];
+    const fala = new SpeechSynthesisUtterance(pedaco.texto);
+    falaSimples.atual = fala;
+    fala.lang = idioma;
+    fala.rate = VELOCIDADE;
+    fala.pitch = PRESETS[PRESET_ATIVO].tom;
+    if (voz) fala.voice = voz;
+    const fimPedaco = pedaco.inicio + pedaco.texto.length;
 
-      let recebeuMarcacao = false;
-      // sem avisos do aparelho, a marca avança por um cálculo de tempo
-      const avancarPorTempo = (posicao: number) => {
-        window.clearTimeout(temporizadorSimples);
-        if (minha !== leituraSimples) return;
-        marcar(posicao);
-        const resto = bruto.slice(posicao);
-        const palavra = resto.match(/^\S+/)?.[0] ?? '';
-        const proxima = resto.match(/^\S+\s+/)?.[0].length;
-        if (!proxima || posicao + proxima >= inicioPedaco + m[0].length) return;
-        const ms = tempoDaPalavra(palavra) * (recebeuMarcacao ? 1.6 : 1);
-        temporizadorSimples = window.setTimeout(() => avancarPorTempo(posicao + proxima), ms);
-      };
-      fala.onstart = () => avancarPorTempo(inicioPedaco + deslocamento);
-      fala.onboundary = (e) => {
-        if (e.name && e.name !== 'word') return;
-        recebeuMarcacao = true;
-        avancarPorTempo(inicioPedaco + deslocamento + e.charIndex);
-      };
-      if (n === pedacos.length - 1 || pedacos.slice(n + 1).every((x) => !/\p{L}/u.test(x[0]))) {
-        fala.onend = () => {
-          if (minha === leituraSimples) limparDestaque();
-        };
-      }
-      window.speechSynthesis.speak(fala);
-    });
-  }, 150);
+    let recebeuMarcacao = false;
+    // sem avisos do aparelho, a marca avança por um cálculo de tempo
+    const avancarPorTempo = (posicao: number) => {
+      window.clearTimeout(temporizadorSimples);
+      if (minha !== leituraSimples) return;
+      marcar(posicao);
+      const resto = bruto.slice(posicao);
+      const palavra = resto.match(/^\S+/)?.[0] ?? '';
+      const proxima = resto.match(/^\S+\s+/)?.[0].length;
+      if (!proxima || posicao + proxima >= fimPedaco) return;
+      const ms = tempoDaPalavra(palavra) * (recebeuMarcacao ? 1.6 : 1);
+      temporizadorSimples = window.setTimeout(() => avancarPorTempo(posicao + proxima), ms);
+    };
+    fala.onstart = () => avancarPorTempo(pedaco.inicio);
+    fala.onboundary = (e) => {
+      if (e.name && e.name !== 'word') return;
+      recebeuMarcacao = true;
+      avancarPorTempo(pedaco.inicio + e.charIndex);
+    };
+    const seguinte = () => {
+      if (minha !== leituraSimples) return;
+      window.clearTimeout(temporizadorSimples);
+      const pausa = pedacos[n + 1]?.pausaAntes ?? 0;
+      if (pausa > 0) temporizadorSimples = window.setTimeout(() => falarPedaco(n + 1), pausa);
+      else falarPedaco(n + 1);
+    };
+    fala.onend = seguinte;
+    fala.onerror = (e) => {
+      if (e.error === 'interrupted' || e.error === 'canceled') return;
+      seguinte();
+    };
+    window.speechSynthesis.speak(fala);
+  };
+
+  // o Chrome corta a fala nova se ela vier logo depois de um cancel()
+  temporizadorSimples = window.setTimeout(() => falarPedaco(0), 150);
 }
 
 /** Tempo estimado para dizer uma palavra, quando o aparelho não avisa onde vai. */
@@ -279,7 +367,13 @@ export function TextoNarrado({
         return;
       }
       const frase = frases[n];
-      const fala = new SpeechSynthesisUtterance(frase.texto);
+      const falado = semSimbolos(frase.texto);
+      // frase só com ícones: não há nada para dizer
+      if (!/\p{L}/u.test(falado)) {
+        lerFrase(n + 1);
+        return;
+      }
+      const fala = new SpeechSynthesisUtterance(falado);
       falaAtual.current = fala;
       fala.lang = idioma;
       fala.rate = VELOCIDADE;
@@ -313,7 +407,12 @@ export function TextoNarrado({
       fala.onend = () => {
         if (leitura.current !== minhaLeitura) return;
         window.clearTimeout(temporizador.current);
-        lerFrase(n + 1);
+        // depois de uma quebra de linha (novo parágrafo), uma pequena pausa
+        if (palavras[frase.ultima].quebra && n + 1 < frases.length) {
+          temporizador.current = window.setTimeout(() => lerFrase(n + 1), PAUSA_ENTRE_BLOCOS);
+        } else {
+          lerFrase(n + 1);
+        }
       };
       fala.onerror = (e) => {
         if (leitura.current !== minhaLeitura) return;
