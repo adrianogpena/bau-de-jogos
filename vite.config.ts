@@ -7,6 +7,8 @@ const BASE = '/bau-de-jogos/';
 
 export default defineConfig(({ command }) => ({
   base: BASE,
+  // aceita qualquer endereço no servidor de testes (ex.: a pré-visualização do Claude na nuvem)
+  server: { allowedHosts: true },
   plugins: [
     react(),
     // o service worker só existe no build; no servidor de testes ele serviria arquivos antigos
