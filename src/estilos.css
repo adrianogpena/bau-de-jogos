@@ -1144,7 +1144,8 @@ p {
   }
 }
 
+/* cor fixa: alguns textos são transparentes (título em gradiente) ou brancos sobre fundo escuro */
 ::highlight(palavra-lida-global) {
-  background: #ffe28a;
-  color: inherit;
+  background-color: #ffe28a;
+  color: #8a1c3c;
 }
