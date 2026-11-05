@@ -1,11 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { Idioma, TextoPorIdioma } from './idioma';
-import { t } from './idioma';
-
-const TEXTOS = {
-  ouvir: { 'pt-PT': 'Ouvir', 'pt-BR': 'Ouvir' },
-  parar: { 'pt-PT': 'Parar', 'pt-BR': 'Parar' },
-} satisfies Record<string, TextoPorIdioma>;
+import type { Idioma } from './idioma';
 
 /**
  * Presets de voz. Para voltar ao anterior, troque PRESET_ATIVO por 'anterior'.
@@ -116,6 +110,31 @@ if (temVoz) {
 /** Função de parar do botão que está lendo agora; só um texto lê por vez. */
 let pararLeituraAtiva: (() => void) | null = null;
 
+/** Leitura simples (sem destaque) de um texto qualquer da tela, usada pela leitura global. */
+let leituraSimples = 0;
+export function falarTexto(texto: string, idioma: Idioma) {
+  if (!temVoz) return;
+  const limpo = texto.replace(/\s+/g, ' ').trim();
+  if (!limpo) return;
+  pararLeituraAtiva?.();
+  const minha = ++leituraSimples;
+  window.speechSynthesis.cancel();
+  const voz = escolherVoz(idioma);
+  // o Chrome corta a fala nova se ela vier logo depois de um cancel()
+  window.setTimeout(() => {
+    if (minha !== leituraSimples) return;
+    const pedacos = limpo.match(/[^.!?…:;]+[.!?…:;]*["'”»)]*\s*/g) ?? [limpo];
+    for (const pedaco of pedacos) {
+      const fala = new SpeechSynthesisUtterance(pedaco);
+      fala.lang = idioma;
+      fala.rate = VELOCIDADE;
+      fala.pitch = PRESETS[PRESET_ATIVO].tom;
+      if (voz) fala.voice = voz;
+      window.speechSynthesis.speak(fala);
+    }
+  }, 150);
+}
+
 /** Tempo estimado para dizer uma palavra, quando o aparelho não avisa onde vai. */
 function tempoDaPalavra(palavra: string): number {
   const pausa = /[.!?…:;,]$/.test(palavra) ? 250 : 0;
@@ -148,7 +167,6 @@ export function TextoNarrado({
   const palavras = useMemo(() => separarPalavras(texto), [texto]);
   const frases = useMemo(() => separarFrases(texto, palavras), [texto, palavras]);
   const [atual, setAtual] = useState<number | null>(null);
-  const [lendo, setLendo] = useState(false);
   const temporizador = useRef<number | undefined>(undefined);
   /** Muda a cada leitura; avisos de uma leitura antiga são ignorados. */
   const leitura = useRef(0);
@@ -161,7 +179,6 @@ export function TextoNarrado({
     falaAtual.current = null;
     if (pararLeituraAtiva === parar) pararLeituraAtiva = null;
     if (temVoz) window.speechSynthesis.cancel();
-    setLendo(false);
     setAtual(null);
   }
 
@@ -176,12 +193,12 @@ export function TextoNarrado({
 
   function ler() {
     if (!temVoz || frases.length === 0) return;
+    leituraSimples += 1;
     if (pararLeituraAtiva && pararLeituraAtiva !== parar) pararLeituraAtiva();
     parar();
     pararLeituraAtiva = parar;
     const minhaLeitura = leitura.current;
     const voz = escolherVoz(idioma);
-    setLendo(true);
 
     const lerFrase = (n: number) => {
       if (leitura.current !== minhaLeitura) return;
@@ -240,7 +257,11 @@ export function TextoNarrado({
 
   return (
     <div className={`texto-narrado ${compacto ? 'texto-narrado-linha' : ''}`}>
-      <p className={className} lang={idioma}>
+      <p
+        className={[className, temVoz ? 'texto-tocavel' : ''].filter(Boolean).join(' ')}
+        lang={idioma}
+        onClick={temVoz ? ler : undefined}
+      >
         {palavras.map((p, i) => (
           <span
             key={i}
@@ -258,16 +279,6 @@ export function TextoNarrado({
           </span>
         ))}
       </p>
-      {temVoz && (
-        <button
-          className="botao botao-secundario"
-          onClick={lendo ? parar : ler}
-          aria-label={t(lendo ? TEXTOS.parar : TEXTOS.ouvir, idioma)}
-        >
-          {lendo ? '⏹️' : '🔊'}
-          {!compacto && ` ${t(lendo ? TEXTOS.parar : TEXTOS.ouvir, idioma)}`}
-        </button>
-      )}
     </div>
   );
 }

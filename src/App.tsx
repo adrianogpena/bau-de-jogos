@@ -1,4 +1,4 @@
-import { type CSSProperties, useState } from 'react';
+import { type CSSProperties, useEffect, useState } from 'react';
 import { IDIOMAS, type Idioma, idiomaInicial, salvarIdioma, t } from './compartilhado/idioma';
 import { JOGOS } from './jogos/registro';
 import { Creditos } from './Creditos';
@@ -20,10 +20,13 @@ export function App() {
   const [jogoAtualId, setJogoAtualId] = useState<string | null>(null);
   const [verCreditos, setVerCreditos] = useState(false);
 
+  useEffect(() => {
+    document.documentElement.lang = idioma;
+  }, [idioma]);
+
   function mudarIdioma(novo: Idioma) {
     setIdioma(novo);
     salvarIdioma(novo);
-    document.documentElement.lang = novo;
   }
 
   if (verCreditos) return <Creditos idioma={idioma} aoVoltar={() => setVerCreditos(false)} />;

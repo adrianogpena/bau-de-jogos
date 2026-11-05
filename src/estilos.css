@@ -57,6 +57,7 @@ body {
   /* evita zoom, seleção de texto e atraso no toque em tablets */
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
   overscroll-behavior: none;
@@ -437,6 +438,13 @@ p {
 
 .texto-narrado p {
   margin: 0;
+}
+
+.texto-tocavel {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .texto-narrado-linha {

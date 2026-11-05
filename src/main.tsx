@@ -4,6 +4,9 @@ import { App } from './App';
 import '@fontsource-variable/lexend';
 import '@fontsource/bungee';
 import './estilos.css';
+import { instalarLeituraGlobal } from './compartilhado/leituraGlobal';
+
+instalarLeituraGlobal();
 
 if (import.meta.env.DEV && 'serviceWorker' in navigator) {
   // remove service worker antigo para o servidor de testes mostrar os ajustes na hora
