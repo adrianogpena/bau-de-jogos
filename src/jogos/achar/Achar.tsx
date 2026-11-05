@@ -88,6 +88,8 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
   const [dicas, setDicas] = useState(0);
   const [aviso, setAviso] = useState<string | null>(null);
   const [vidas, setVidas] = useState(VIDAS);
+  /** Posição do coração que acabou de quebrar (animação), ou null. */
+  const [quebrando, setQuebrando] = useState<number | null>(null);
 
   // Itens procurados nesta rodada (sorteados de novo a cada "jogar de novo").
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,6 +108,7 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
       setAviso(preencher(t(TEXTOS.achou, idioma), { palavra: t(item.palavra, idioma) }));
       somAcerto();
     } else {
+      setQuebrando(vidas - 1);
       setVidas((v) => Math.max(0, v - 1));
       setAviso(t(TEXTOS.naoEsta, idioma));
       somTentarDeNovo();
@@ -129,6 +132,7 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
     setDicas(0);
     setAviso(null);
     setVidas(VIDAS);
+    setQuebrando(null);
     setRodada((r) => r + 1);
   }
 
@@ -146,7 +150,25 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
           {preencher(t(TEXTOS.progresso, idioma), { n: achados.length, total: alvos.length })}
         </span>
         <span className="vidas-achar" role="img" aria-label={`${t(TEXTOS.vidas, idioma)}: ${vidas}`}>
-          {Array.from({ length: VIDAS }, (_, i) => (i < vidas ? '❤️' : '🤍')).join('')}
+          {Array.from({ length: VIDAS }, (_, i) => (
+            <span key={i} className="coracao">
+              {i < vidas ? '❤️' : <span className="coracao-vazio">🤍</span>}
+              {quebrando === i && i >= vidas && (
+                <>
+                  <span className="metade metade-esq" aria-hidden="true">
+                    ❤️
+                  </span>
+                  <span
+                    className="metade metade-dir"
+                    aria-hidden="true"
+                    onAnimationEnd={() => setQuebrando(null)}
+                  >
+                    ❤️
+                  </span>
+                </>
+              )}
+            </span>
+          ))}
         </span>
         <button className="botao botao-secundario" onClick={pedirDica} disabled={terminou || perdeu}>
           {t(TEXTOS.dica, idioma)}

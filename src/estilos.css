@@ -468,8 +468,60 @@ p {
   border-bottom: 4px solid var(--destaque);
   color: var(--destaque-escuro);
   font-weight: 700;
-  letter-spacing: 0.1em;
   white-space: nowrap;
+  display: inline-flex;
+  gap: 0.15em;
+}
+
+.coracao {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+}
+
+.coracao-vazio {
+  opacity: 0.45;
+}
+
+/* Coração que se parte: cada metade cai girando para um lado e some. */
+.metade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation-duration: 0.9s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+
+.metade-esq {
+  clip-path: inset(0 50% 0 0);
+  animation-name: cai-esquerda;
+}
+
+.metade-dir {
+  clip-path: inset(0 0 0 50%);
+  animation-name: cai-direita;
+}
+
+@keyframes cai-esquerda {
+  to {
+    transform: translate(-0.6em, 3.5em) rotate(-35deg);
+    opacity: 0;
+  }
+}
+
+@keyframes cai-direita {
+  to {
+    transform: translate(0.6em, 3.5em) rotate(35deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .metade-esq,
+  .metade-dir {
+    animation-duration: 0.3s;
+  }
 }
 
 .palavra-destacada {
