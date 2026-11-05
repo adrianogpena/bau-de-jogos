@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { type CSSProperties, useState } from 'react';
 import { IDIOMAS, type Idioma, idiomaInicial, salvarIdioma, t } from './compartilhado/idioma';
 import { JOGOS } from './jogos/registro';
 import { Creditos } from './Creditos';
@@ -6,9 +6,14 @@ import { Creditos } from './Creditos';
 const TITULO = { 'pt-PT': 'Baú de Jogos', 'pt-BR': 'Baú de Jogos' };
 const CREDITOS = { 'pt-PT': 'Créditos', 'pt-BR': 'Créditos' };
 const ESCOLHA_JOGO = {
-  'pt-PT': 'Escolhe um jogo!',
-  'pt-BR': 'Escolha um jogo!',
+  'pt-PT': 'O que vamos jogar hoje?',
+  'pt-BR': 'O que vamos jogar hoje?',
 };
+const SUBTITULO = {
+  'pt-PT': 'Aventuras, histórias e desafios de palavras.',
+  'pt-BR': 'Aventuras, histórias e desafios de palavras.',
+};
+const JOGAR = { 'pt-PT': 'Jogar', 'pt-BR': 'Jogar' };
 
 export function App() {
   const [idioma, setIdioma] = useState<Idioma>(idiomaInicial);
@@ -33,7 +38,12 @@ export function App() {
   return (
     <main className="tela">
       <header className="cabecalho">
-        <h1>{t(TITULO, idioma)}</h1>
+        <div className="marca">
+          <span className="marca-icone" aria-hidden="true">
+            🎲
+          </span>
+          <h1>{t(TITULO, idioma)}</h1>
+        </div>
         <div className="seletor-idioma" role="group" aria-label="Idioma">
           {IDIOMAS.map(({ codigo, rotulo }) => (
             <button
@@ -48,16 +58,32 @@ export function App() {
         </div>
       </header>
 
-      <h2>{t(ESCOLHA_JOGO, idioma)}</h2>
+      <section className="boas-vindas">
+        <h2>{t(ESCOLHA_JOGO, idioma)}</h2>
+        <p>{t(SUBTITULO, idioma)}</p>
+      </section>
 
       <section className="grade-jogos">
-        {JOGOS.map((jogo) => (
-          <button key={jogo.id} className="cartao-jogo" onClick={() => setJogoAtualId(jogo.id)}>
-            <span className="emoji-grande" aria-hidden="true">
-              {jogo.emoji}
+        {JOGOS.map((jogo, i) => (
+          <button
+            key={jogo.id}
+            className={`cartao-jogo cartao-menu ${i === 0 ? 'cartao-principal' : ''}`}
+            style={{ '--cor': jogo.cor } as CSSProperties}
+            onClick={() => setJogoAtualId(jogo.id)}
+          >
+            <span className="cartao-menu-topo">
+              <span className="icone-jogo" aria-hidden="true">
+                {jogo.emoji}
+              </span>
+              <span className="etiqueta">{t(jogo.etiqueta, idioma)}</span>
             </span>
-            <strong>{t(jogo.titulo, idioma)}</strong>
-            <span>{t(jogo.descricao, idioma)}</span>
+            <span className="cartao-menu-texto">
+              <strong>{t(jogo.titulo, idioma)}</strong>
+              <span className="cartao-menu-descricao">{t(jogo.descricao, idioma)}</span>
+            </span>
+            <span className="jogar">
+              {t(JOGAR, idioma)} ▶
+            </span>
           </button>
         ))}
       </section>

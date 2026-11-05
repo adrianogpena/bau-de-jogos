@@ -13,5 +13,9 @@ export interface Jogo {
   emoji: string;
   titulo: TextoPorIdioma;
   descricao: TextoPorIdioma;
+  /** Tipo de jogo, mostrado como etiqueta no cartão do menu. */
+  etiqueta: TextoPorIdioma;
+  /** Cor de destaque do cartão no menu (CSS). */
+  cor: string;
   componente: ComponentType<PropsJogo>;
 }

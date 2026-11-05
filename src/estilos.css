@@ -1,15 +1,39 @@
+/*
+ * Visual "sala de jogos": fundo noturno, painéis escuros e cores vivas por jogo.
+ * Pensado para crianças de ~10 anos: menos infantil, mais parecido com um jogo de verdade.
+ * Os textos longos (histórias) ficam numa "folha" clara para leitura confortável.
+ */
 :root {
-  --fundo: #fff7e6;
-  --texto: #2b2118;
-  --laranja: #ff8a3d;
-  --laranja-escuro: #d9691c;
-  --cartao: #ffffff;
-  --sombra: 0 6px 0 rgba(0, 0, 0, 0.12);
-  --raio: 24px;
-  font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+  --fundo: #0d1024;
+  --fundo-2: #151a3a;
+  --painel: #1b2147;
+  --painel-2: #252c5c;
+  --borda: rgba(255, 255, 255, 0.1);
+  --texto: #eef1ff;
+  --texto-suave: #a7aed8;
+
+  --destaque: #7c5cff;
+  --destaque-claro: #a48bff;
+  --destaque-escuro: #5a3ee0;
+  --turquesa: #22d3b6;
+  --ouro: #ffc94d;
+  --sucesso: #3ddc84;
+  --perigo: #ff6b81;
+
+  --papel: #fbf7ee;
+  --tinta: #262040;
+
+  --sombra: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --sombra-botao: 0 5px 0 var(--destaque-escuro);
+  --raio: 20px;
+  --raio-grande: 28px;
+
+  --fonte-titulo: 'Bungee', 'Lexend Variable', system-ui, sans-serif;
+  font-family: 'Lexend Variable', 'Segoe UI', system-ui, sans-serif;
   font-size: 20px;
   color: var(--texto);
   background: var(--fundo);
+  color-scheme: dark;
 }
 
 * {
@@ -24,7 +48,12 @@ body,
 }
 
 body {
-  background: var(--fundo);
+  background:
+    radial-gradient(900px 600px at 10% -10%, rgba(124, 92, 255, 0.35), transparent 60%),
+    radial-gradient(800px 500px at 110% 10%, rgba(34, 211, 182, 0.18), transparent 60%),
+    radial-gradient(700px 500px at 50% 120%, rgba(255, 107, 129, 0.15), transparent 60%),
+    var(--fundo);
+  min-height: 100vh;
   /* evita zoom, seleção de texto e atraso no toque em tablets */
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
@@ -34,29 +63,104 @@ body {
 }
 
 .tela {
+  width: 100%;
+  max-width: 1100px;
   min-height: 100vh;
+  margin: 0 auto;
   padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right))
-    max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+    max(32px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
 }
 
 .tela-centro {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   text-align: center;
-  gap: 16px;
+  gap: 20px;
+}
+
+h1,
+h2 {
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
 }
 
 h1 {
   margin: 0;
-  font-size: 2.2rem;
+  font-size: 2rem;
 }
 
 h2 {
-  font-size: 1.5rem;
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--texto-suave);
 }
 
+p {
+  line-height: 1.5;
+}
+
+/* ---------- botões (alvo de toque mínimo de 64px) ---------- */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 64px;
+  min-width: 64px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 18px;
+  background: linear-gradient(180deg, var(--destaque-claro), var(--destaque));
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  box-shadow: var(--sombra-botao), 0 10px 24px rgba(124, 92, 255, 0.35);
+  cursor: pointer;
+  transition: transform 0.08s, box-shadow 0.08s, filter 0.15s;
+}
+
+.botao:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 var(--destaque-escuro);
+}
+
+.botao-secundario {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--texto);
+  border: 2px solid var(--borda);
+  box-shadow: none;
+  backdrop-filter: blur(6px);
+}
+
+.botao-secundario:active {
+  box-shadow: none;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.botao-ativo {
+  background: linear-gradient(180deg, var(--destaque-claro), var(--destaque));
+  border-color: transparent;
+  color: #fff;
+}
+
+.botao:disabled {
+  opacity: 0.35;
+  box-shadow: none;
+  filter: grayscale(0.6);
+}
+
+.botao-redondo {
+  width: 64px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 2rem;
+}
+
+/* ---------- menu inicial ---------- */
 .cabecalho {
   display: flex;
   flex-wrap: wrap;
@@ -65,105 +169,349 @@ h2 {
   gap: 16px;
 }
 
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.marca-icone {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--destaque), var(--turquesa));
+  font-size: 2rem;
+  box-shadow: 0 8px 24px rgba(124, 92, 255, 0.45);
+}
+
+.marca h1 {
+  font-size: 1.8rem;
+  background: linear-gradient(90deg, #fff, var(--destaque-claro));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .seletor-idioma {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  gap: 4px;
+  padding: 4px;
+  border: 2px solid var(--borda);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.04);
 }
 
-/* botões grandes: alvo de toque mínimo de 64px */
-.botao {
-  min-height: 64px;
-  min-width: 64px;
-  padding: 12px 28px;
+.seletor-idioma .botao {
+  min-height: 56px;
+  padding: 8px 20px;
   border: none;
-  border-radius: var(--raio);
-  background: var(--laranja);
-  color: #fff;
-  font: inherit;
-  font-weight: bold;
-  box-shadow: var(--sombra);
-  cursor: pointer;
+  box-shadow: none;
 }
 
-.botao:active {
-  transform: translateY(3px);
-  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.12);
+.seletor-idioma .botao-secundario {
+  background: transparent;
+  color: var(--texto-suave);
 }
 
-.botao-secundario {
-  background: #fff;
-  color: var(--laranja-escuro);
-  border: 3px solid var(--laranja);
+.boas-vindas {
+  margin: 40px 0 24px;
 }
 
-.botao-ativo {
-  background: var(--laranja-escuro);
+.boas-vindas h2 {
+  font-size: 2.2rem;
+  color: var(--texto);
+}
+
+.boas-vindas p {
+  margin: 8px 0 0;
+  color: var(--texto-suave);
+  font-size: 1.1rem;
 }
 
 .grade-jogos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
+  width: 100%;
 }
 
 .cartao-jogo {
+  --cor: var(--destaque);
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   min-height: 220px;
   padding: 24px;
-  border: none;
-  border-radius: var(--raio);
-  background: var(--cartao);
+  overflow: hidden;
+  border: 2px solid var(--borda);
+  border-radius: var(--raio-grande);
+  background:
+    radial-gradient(400px 200px at 0% 0%, color-mix(in srgb, var(--cor) 28%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--painel-2), var(--painel));
   box-shadow: var(--sombra);
   font: inherit;
   color: inherit;
   text-align: center;
   cursor: pointer;
+  transition: transform 0.12s, border-color 0.15s;
 }
 
 .cartao-jogo:active {
-  transform: translateY(3px);
+  transform: scale(0.98);
+  border-color: var(--cor);
 }
 
 .cartao-jogo strong {
-  font-size: 1.4rem;
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.2;
 }
 
-.emoji-grande {
-  font-size: 4rem;
-  line-height: 1;
+.cartao-jogo > span:not([class]),
+.cartao-jogo small,
+.cartao-menu-descricao {
+  color: var(--texto-suave);
+  line-height: 1.45;
 }
 
-/* jogo de escrita */
-.barra-jogo {
+/* cartões do menu inicial: ícone num bloco colorido, etiqueta e botão "jogar" */
+.cartao-menu {
+  align-items: flex-start;
+  text-align: left;
+  min-height: 260px;
+}
+
+.cartao-menu-topo {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
 }
 
-.progresso,
-.texto-grande {
-  font-size: 1.6rem;
-  font-weight: bold;
+.icone-jogo {
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--cor), color-mix(in srgb, var(--cor) 55%, #000));
+  font-size: 2.8rem;
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--cor) 45%, transparent);
 }
 
+.etiqueta {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--cor) 22%, transparent);
+  color: color-mix(in srgb, var(--cor) 60%, #fff);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cartao-menu-descricao {
+  flex: 1;
+}
+
+.jogar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 14px;
+  background: var(--cor);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* o primeiro jogo ocupa a linha toda em ecrãs/telas largas */
+@media (min-width: 700px) {
+  .cartao-principal {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 28px;
+    min-height: 0;
+    padding: 32px;
+  }
+
+  .cartao-principal .cartao-menu-topo {
+    flex-direction: column;
+    gap: 14px;
+    width: auto;
+  }
+
+  .cartao-principal .icone-jogo {
+    width: 120px;
+    height: 120px;
+    border-radius: 32px;
+    font-size: 4rem;
+  }
+
+  .cartao-principal strong {
+    font-size: 1.8rem;
+  }
+
+  .cartao-principal .cartao-menu-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.cartao-menu-texto {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.emoji-grande {
+  font-size: 3.6rem;
+  line-height: 1;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
+}
+
+.rodape {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.texto-credito {
+  max-width: 560px;
+  margin: 0;
+  color: var(--texto-suave);
+}
+
+/* ---------- barra de topo dos jogos ---------- */
+.barra-jogo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.progresso,
+.texto-grande {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.progresso {
+  padding: 8px 18px;
+  border: 2px solid var(--borda);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 1.1rem;
+  color: var(--texto-suave);
+}
+
+/* ---------- histórias: folha clara para ler ---------- */
+.texto-historia {
+  max-width: 720px;
+  margin: 0;
+  padding: 24px 28px;
+  border-radius: var(--raio);
+  background: var(--papel);
+  color: var(--tinta);
+  font-size: 1.4rem;
+  line-height: 1.6;
+  text-align: left;
+  box-shadow: var(--sombra);
+}
+
+.texto-narrado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.texto-narrado p {
+  margin: 0;
+}
+
+.texto-narrado-linha {
+  flex-direction: row;
+  gap: 8px;
+}
+
+.palavra-lida {
+  padding: 0 4px;
+  margin: 0 -4px;
+  border-radius: 6px;
+  background: #ffe28a;
+  color: #8a1c3c;
+}
+
+.lacuna {
+  display: inline-block;
+  min-width: 3em;
+  margin: 0 4px;
+  padding: 0 6px;
+  border-bottom: 4px solid var(--destaque);
+  color: var(--destaque-escuro);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.palavra-destacada {
+  padding: 0 6px;
+  border-radius: 6px;
+  background: #c9f5e4;
+  color: #0b5e46;
+  font-weight: 700;
+}
+
+/* escolha de história por coleção (fábulas, Grimm, Mil e Uma Noites) */
+.colecao-historias {
+  width: 100%;
+}
+
+.colecao-historias h2 {
+  margin: 12px 0 16px;
+  text-align: left;
+}
+
+.colecao-historias .grade-jogos {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.cartao-historia {
+  min-height: 0;
+  padding: 20px 16px;
+}
+
+.cartao-historia strong {
+  font-size: 1rem;
+}
+
+/* ---------- escrita e leitura ---------- */
 .imagem-jogo {
-  width: min(30vh, 80vw, 280px);
-  height: min(30vh, 80vw, 280px);
+  width: min(30vh, 80vw, 260px);
+  height: min(30vh, 80vw, 260px);
   object-fit: contain;
   background: #fff;
-  border-radius: var(--raio);
+  border: 4px solid var(--borda);
+  border-radius: var(--raio-grande);
   box-shadow: var(--sombra);
-  padding: 12px;
+  padding: 14px;
   -webkit-user-drag: none;
 }
 
 .imagem-acerto {
-  outline: 6px solid #4caf50;
+  border-color: var(--sucesso);
+  box-shadow: 0 0 0 6px rgba(61, 220, 132, 0.25), var(--sombra);
 }
 
 .formulario-resposta {
@@ -178,26 +526,38 @@ h2 {
   width: 100%;
   min-height: 72px;
   padding: 8px 20px;
-  border: 4px solid var(--laranja);
+  border: 3px solid var(--painel-2);
   border-radius: var(--raio);
-  font: inherit;
-  font-size: 2rem;
-  text-align: center;
+  background: var(--fundo-2);
   color: var(--texto);
-  background: #fff;
+  font: inherit;
+  font-size: 1.9rem;
+  text-align: center;
+  outline: none;
   -webkit-user-select: text;
   user-select: text;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.campo-resposta:focus {
+  border-color: var(--destaque);
+  box-shadow: 0 0 0 5px rgba(124, 92, 255, 0.25);
+}
+
+.campo-resposta::placeholder {
+  color: rgba(167, 174, 216, 0.5);
 }
 
 .mensagem {
   margin: 0;
   min-height: 1.6em;
-  font-size: 1.3rem;
-  font-weight: bold;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ouro);
 }
 
 .mensagem-acerto {
-  color: #2e7d32;
+  color: var(--sucesso);
 }
 
 .acoes {
@@ -207,40 +567,29 @@ h2 {
   gap: 12px;
 }
 
-.rodape {
-  margin-top: 24px;
-  text-align: center;
-}
-
-.texto-credito {
-  max-width: 560px;
-  margin: 0;
-}
-
-/* jogo de leitura */
 .palavra-grande {
   margin: 0;
   font-size: 2.6rem;
-  font-weight: bold;
+  font-weight: 700;
   letter-spacing: 0.04em;
 }
 
 .grade-opcoes {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  width: min(100%, 36vh, 340px);
-  gap: 12px;
+  gap: 14px;
+  width: min(100%, 38vh, 360px);
 }
 
 .opcao-imagem {
   aspect-ratio: 1;
-  padding: 8px;
-  border: 5px solid transparent;
+  padding: 10px;
+  border: 4px solid transparent;
   border-radius: var(--raio);
   background: #fff;
   box-shadow: var(--sombra);
   cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
 }
 
 .opcao-imagem img {
@@ -251,17 +600,18 @@ h2 {
 }
 
 .opcao-imagem:active {
-  transform: translateY(3px);
+  transform: scale(0.96);
 }
 
 /* erro sem punição dura: a opção só fica suave e some do caminho */
 .opcao-errada {
-  opacity: 0.3;
+  opacity: 0.25;
   box-shadow: none;
 }
 
 .opcao-certa {
-  border-color: #4caf50;
+  border-color: var(--sucesso);
+  box-shadow: 0 0 0 6px rgba(61, 220, 132, 0.3), var(--sombra);
 }
 
 /* traços das letras (forca) e lâmpada de ajuda */
@@ -279,9 +629,9 @@ h2 {
   justify-content: center;
   min-width: 44px;
   height: 56px;
-  border-bottom: 6px solid var(--laranja-escuro);
-  font-size: 2.4rem;
-  font-weight: bold;
+  border-bottom: 5px solid var(--destaque-claro);
+  font-size: 2.2rem;
+  font-weight: 700;
   line-height: 1.2;
 }
 
@@ -289,33 +639,32 @@ h2 {
   min-width: 64px;
   min-height: 64px;
   margin-left: 12px;
-  border: 3px solid var(--laranja);
+  border: 2px solid rgba(255, 201, 77, 0.5);
   border-radius: 50%;
-  background: #fff9c4;
-  font-size: 2rem;
-  box-shadow: var(--sombra);
+  background: rgba(255, 201, 77, 0.15);
+  font-size: 1.8rem;
   cursor: pointer;
 }
 
 .botao-lampada:disabled {
-  opacity: 0.35;
-  box-shadow: none;
+  opacity: 0.3;
 }
 
 .botao-lampada:active:not(:disabled) {
-  transform: translateY(3px);
+  transform: scale(0.94);
 }
 
-/* jogo de RPG */
+/* ---------- RPG: ficha, atributos ---------- */
 .ficha-papel {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 12px;
-  width: min(100%, 560px);
-  padding: 20px;
-  border-radius: var(--raio);
-  background: #fffdf5;
+  gap: 14px;
+  width: min(100%, 600px);
+  padding: 24px;
+  border: 2px solid var(--borda);
+  border-radius: var(--raio-grande);
+  background: linear-gradient(180deg, var(--painel-2), var(--painel));
   box-shadow: var(--sombra);
   text-align: left;
 }
@@ -324,7 +673,7 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .avatares {
@@ -336,17 +685,17 @@ h2 {
 .avatar {
   min-width: 72px;
   min-height: 72px;
-  border: 4px solid transparent;
+  border: 3px solid var(--borda);
   border-radius: var(--raio);
-  background: #fff;
-  box-shadow: var(--sombra);
-  font-size: 2.6rem;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 2.4rem;
   cursor: pointer;
 }
 
 .avatar-escolhido {
-  border-color: var(--laranja);
-  background: #fff3e0;
+  border-color: var(--destaque);
+  background: rgba(124, 92, 255, 0.22);
+  box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.2);
 }
 
 .linha-atributo {
@@ -354,18 +703,20 @@ h2 {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid var(--borda);
 }
 
 .atributo-nome {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .atributo-nome small {
-  font-weight: normal;
-  opacity: 0.75;
+  font-weight: 400;
+  color: var(--texto-suave);
 }
 
 .controle-atributo {
@@ -374,21 +725,12 @@ h2 {
   gap: 12px;
 }
 
-.botao-redondo {
-  width: 64px;
-  padding: 0;
-  font-size: 2rem;
-}
-
-.botao:disabled {
-  opacity: 0.4;
-  box-shadow: none;
-}
-
 .atributo-valor {
   min-width: 32px;
   font-size: 1.8rem;
+  font-weight: 700;
   text-align: center;
+  color: var(--ouro);
 }
 
 .resumo-ficha {
@@ -396,23 +738,16 @@ h2 {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 8px 16px;
-  padding: 10px 16px;
-  border-radius: var(--raio);
-  background: #fff;
-  box-shadow: var(--sombra);
-  font-size: 1.1rem;
+  gap: 8px 18px;
+  padding: 10px 20px;
+  border: 2px solid var(--borda);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 1.05rem;
 }
 
 .resumo-avatar {
   font-size: 2rem;
-}
-
-.texto-historia {
-  max-width: 640px;
-  margin: 0;
-  font-size: 1.5rem;
-  line-height: 1.5;
 }
 
 .teste {
@@ -420,9 +755,10 @@ h2 {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  max-width: 560px;
+  max-width: 600px;
 }
 
+/* ---------- dados ---------- */
 .dado {
   display: flex;
   flex-direction: column;
@@ -430,20 +766,20 @@ h2 {
   justify-content: center;
   width: 110px;
   height: 110px;
-  border: 5px solid var(--laranja-escuro);
-  border-radius: 22px;
-  background: #fff;
-  box-shadow: var(--sombra);
+  border: 3px solid var(--destaque-claro);
+  border-radius: 24px;
+  background: linear-gradient(145deg, var(--painel-2), var(--fundo-2));
+  box-shadow: 0 0 24px rgba(124, 92, 255, 0.45), inset 0 2px 0 rgba(255, 255, 255, 0.1);
 }
 
 .dado-lados {
-  font-size: 0.9rem;
-  opacity: 0.7;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
 }
 
 .dado-valor {
-  font-size: 2.8rem;
-  font-weight: bold;
+  font-family: var(--fonte-titulo);
+  font-size: 2.6rem;
   line-height: 1;
 }
 
@@ -458,6 +794,15 @@ h2 {
   100% { transform: rotate(0deg) scale(1); }
 }
 
+.dado-mini {
+  padding: 2px 10px;
+  border: 1px dashed var(--destaque-claro);
+  border-radius: 10px;
+  background: rgba(124, 92, 255, 0.12);
+  font-size: 0.9rem;
+}
+
+/* ---------- lutas ---------- */
 .luta {
   display: flex;
   flex-direction: column;
@@ -478,73 +823,63 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  min-width: 180px;
+  gap: 8px;
+  min-width: 200px;
+  padding: 16px;
+  border: 2px solid var(--borda);
+  border-radius: var(--raio-grande);
+  background: linear-gradient(180deg, var(--painel-2), var(--painel));
+  box-shadow: var(--sombra);
 }
 
 .combatente-emoji {
-  font-size: 4.5rem;
+  font-size: 4.2rem;
   line-height: 1;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
 }
 
 .barra-vida {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 180px;
-  height: 32px;
+  height: 30px;
   overflow: hidden;
-  border: 3px solid var(--texto);
-  border-radius: 16px;
-  background: #fff;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 0 0 2px var(--borda);
 }
 
 .barra-vida-cheia {
   position: absolute;
   inset: 0 auto 0 0;
-  background: #ef9a9a;
+  background: linear-gradient(90deg, #e2435f, var(--perigo));
   transition: width 0.4s;
+}
+
+.barra-energia .barra-vida-cheia {
+  background: linear-gradient(90deg, #3d7bff, #6fd3ff);
 }
 
 .barra-vida span {
   position: relative;
-  font-weight: bold;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 .mensagem-luta {
-  max-width: 560px;
+  max-width: 600px;
   min-height: 3.2em;
 }
 
-/* narração: botão de ouvir e palavra sendo lida */
-.texto-narrado {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.texto-narrado p {
-  margin: 0;
-}
-
-.palavra-lida {
-  padding: 0 4px;
-  margin: 0 -4px;
-  border-radius: 8px;
-  background: #ffe082;
-  color: #c62828;
-}
-
-.texto-narrado-linha {
-  flex-direction: row;
-  gap: 8px;
-}
-
-/* loja e dados do combatente */
+/* ---------- loja ---------- */
 .lista-itens {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: min(100%, 720px);
+  width: min(100%, 760px);
 }
 
 .item-loja {
@@ -552,15 +887,21 @@ h2 {
   flex-wrap: wrap;
   align-items: center;
   gap: 12px 16px;
-  padding: 12px 16px;
+  padding: 14px 18px;
+  border: 2px solid var(--borda);
   border-radius: var(--raio);
-  background: #fff;
-  box-shadow: var(--sombra);
+  background: linear-gradient(180deg, var(--painel-2), var(--painel));
   text-align: left;
 }
 
 .item-emoji {
-  font-size: 2.6rem;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 2.2rem;
 }
 
 .item-texto {
@@ -580,21 +921,13 @@ h2 {
   gap: 4px;
 }
 
-.dado-mini {
-  padding: 2px 10px;
-  border: 2px dashed var(--laranja-escuro);
-  border-radius: 12px;
-  background: #fff;
-  font-size: 0.95rem;
-}
-
-/* puzzle do mapa e pistas */
+/* ---------- puzzle do mapa ---------- */
 .puzzle {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  width: min(100%, 720px);
+  width: min(100%, 760px);
 }
 
 .pistas {
@@ -602,10 +935,11 @@ h2 {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  width: min(100%, 720px);
-  padding: 16px 20px;
+  width: min(100%, 760px);
+  padding: 18px 22px;
   border-radius: var(--raio);
-  background: #fff8dc;
+  background: var(--papel);
+  color: var(--tinta);
   box-shadow: var(--sombra);
   text-align: left;
 }
@@ -622,7 +956,7 @@ h2 {
   gap: 8px;
 }
 
-/* RPG: escolha da história e jogo do mago */
+/* ---------- mago ---------- */
 .escolas {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -636,10 +970,9 @@ h2 {
   gap: 4px;
   min-height: 120px;
   padding: 12px;
-  border: 4px solid transparent;
+  border: 3px solid var(--borda);
   border-radius: var(--raio);
-  background: #fff;
-  box-shadow: var(--sombra);
+  background: rgba(255, 255, 255, 0.05);
   font: inherit;
   color: inherit;
   text-align: center;
@@ -647,30 +980,30 @@ h2 {
 }
 
 .escola-escolhida {
-  border-color: var(--laranja);
-  background: #fff3e0;
+  border-color: var(--destaque);
+  background: rgba(124, 92, 255, 0.22);
 }
 
 .escola-emoji {
-  font-size: 2.6rem;
+  font-size: 2.4rem;
   line-height: 1;
 }
 
 .lista-feiticos {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .feiticos-conhecidos {
-  width: min(100%, 560px);
-  padding: 16px;
+  width: min(100%, 600px);
+  padding: 18px;
+  border: 2px solid var(--borda);
   border-radius: var(--raio);
-  background: #fffdf5;
-  box-shadow: var(--sombra);
+  background: linear-gradient(180deg, var(--painel-2), var(--painel));
   text-align: left;
 }
 
@@ -681,7 +1014,7 @@ h2 {
 }
 
 .feitico-emoji {
-  font-size: 2rem;
+  font-size: 1.9rem;
   line-height: 1.2;
 }
 
@@ -691,26 +1024,29 @@ h2 {
   gap: 2px;
 }
 
+.feitico-texto small {
+  color: var(--texto-suave);
+}
+
 .lista-feiticos-luta {
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
   justify-content: center;
   gap: 12px;
-  max-width: 640px;
+  max-width: 680px;
 }
 
 .botao-feitico {
-  display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 2px;
   max-width: 280px;
   padding: 10px 20px;
 }
 
 .botao-feitico small {
-  font-weight: normal;
+  font-weight: 400;
+  opacity: 0.85;
 }
 
 .aprender {
@@ -720,14 +1056,11 @@ h2 {
   gap: 12px;
 }
 
-.barra-energia .barra-vida-cheia {
-  background: #90caf9;
-}
-
 .sem-quebra {
   white-space: nowrap;
 }
 
+/* ---------- contas (teclado numérico) ---------- */
 .conta {
   display: flex;
   flex-direction: column;
@@ -737,14 +1070,15 @@ h2 {
 
 .conta-enunciado {
   margin: 0;
-  font-size: 2.6rem;
-  font-weight: bold;
+  font-family: var(--fonte-titulo);
+  font-size: 2.4rem;
 }
 
 .conta-resposta {
   display: inline-block;
   min-width: 3.5ch;
-  border-bottom: 4px solid var(--laranja);
+  border-bottom: 4px solid var(--destaque-claro);
+  color: var(--ouro);
 }
 
 .teclado {
@@ -758,45 +1092,7 @@ h2 {
   font-size: 1.6rem;
 }
 
-/* fábulas: palavra que falta (escrita) e palavra em destaque (leitura) */
-.lacuna {
-  display: inline-block;
-  min-width: 3em;
-  margin: 0 4px;
-  padding: 0 6px;
-  border-bottom: 4px solid var(--laranja-escuro);
-  color: var(--laranja-escuro);
-  font-weight: bold;
-  letter-spacing: 0.1em;
-  white-space: nowrap;
-}
-
-.palavra-destacada {
-  padding: 0 6px;
-  border-radius: 8px;
-  background: #c8e6c9;
-  color: #1b5e20;
-  font-weight: bold;
-}
-
-/* escolha de história por coleção (fábulas, Grimm, Mil e Uma Noites) */
-.colecao-historias {
-  width: 100%;
-}
-
-.colecao-historias h2 {
-  text-align: center;
-}
-
-.colecao-historias .grade-jogos {
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-
-.cartao-historia {
-  min-height: 0;
-}
-
-/* Moedas do RPG: círculos de ouro e de prata (não medalhas) */
+/* ---------- moedas do RPG: círculos de ouro e de prata ---------- */
 .moedas {
   display: inline-flex;
   align-items: center;
@@ -825,4 +1121,11 @@ h2 {
 
 .moeda-prata {
   background: radial-gradient(circle at 35% 30%, #ffffff 0 12%, #d9dee5 40%, #9aa3ad 85%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation-duration: 0.01s !important;
+  }
 }

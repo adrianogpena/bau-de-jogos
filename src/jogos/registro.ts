@@ -13,6 +13,8 @@ export const JOGOS: Jogo[] = [
       'pt-PT': 'Vive uma história, cria o teu herói e lança os dados nas lutas!',
       'pt-BR': 'Viva uma história, crie seu herói e jogue os dados nas lutas!',
     },
+    etiqueta: { 'pt-PT': 'Aventura', 'pt-BR': 'Aventura' },
+    cor: '#ff6b81',
     componente: Rpg,
   },
   {
@@ -23,6 +25,8 @@ export const JOGOS: Jogo[] = [
       'pt-PT': 'Completa as fábulas: escreve a palavra da imagem que falta em cada parte.',
       'pt-BR': 'Complete as fábulas: escreva a palavra da imagem que falta em cada parte.',
     },
+    etiqueta: { 'pt-PT': 'Escrita', 'pt-BR': 'Escrita' },
+    cor: '#7c5cff',
     componente: Escrita,
   },
   {
@@ -33,6 +37,8 @@ export const JOGOS: Jogo[] = [
       'pt-PT': 'Lê as fábulas e escolhe a imagem da palavra em destaque.',
       'pt-BR': 'Leia as fábulas e escolha a imagem da palavra em destaque.',
     },
+    etiqueta: { 'pt-PT': 'Leitura', 'pt-BR': 'Leitura' },
+    cor: '#22d3b6',
     componente: Leitura,
   },
 ];
