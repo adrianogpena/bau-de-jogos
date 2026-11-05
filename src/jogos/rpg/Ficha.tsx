@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
-import { MOEDAS_INICIAIS, estatisticas, formatarMoedas, totalPocoes } from './itens';
+import { MOEDAS_INICIAIS, estatisticas, totalPocoes } from './itens';
+import { Moedas } from './Moedas';
 import type { Atributos, FichaPersonagem, NomeAtributo } from './tipos';
 import {
   ATRIBUTOS,
@@ -177,7 +178,7 @@ export function ResumoFicha({ ficha, idioma }: { ficha: FichaPersonagem; idioma:
       </span>
       <span>🛡️ CA {estatisticas(ficha).ca}</span>
       <span>🧪 {totalPocoes(ficha)}</span>
-      <span>{formatarMoedas(ficha.prata)}</span>
+      <Moedas pratas={ficha.prata} />
       {ATRIBUTOS.map((atr) => (
         <span key={atr.id} title={t(atr.nome, idioma)}>
           {atr.emoji} {ficha.atributos[atr.id]}

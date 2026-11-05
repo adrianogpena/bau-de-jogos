@@ -5,14 +5,6 @@ import type { FichaPersonagem } from './tipos';
 export const PRATAS_POR_OURO = 10;
 export const MOEDAS_INICIAIS = 105; // 10 ouro e 5 prata
 
-export function formatarMoedas(pratas: number): string {
-  const ouro = Math.floor(pratas / PRATAS_POR_OURO);
-  const prata = pratas % PRATAS_POR_OURO;
-  return [ouro > 0 ? `${ouro} 🥇` : '', prata > 0 || ouro === 0 ? `${prata} 🥈` : '']
-    .filter(Boolean)
-    .join(' ');
-}
-
 export type TipoItem = 'arma' | 'armadura' | 'escudo' | 'pocao';
 export type EfeitoPocao = 'cura' | 'precisao' | 'forca';
 

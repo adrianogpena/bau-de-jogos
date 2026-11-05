@@ -19,6 +19,15 @@ interface Palavra {
   quebra: boolean;
 }
 
+/** Um pedaço do texto lido de uma vez (uma frase), com as palavras que o compõem. */
+interface Frase {
+  texto: string;
+  inicio: number;
+  /** Índice da primeira e da última palavra da frase. */
+  primeira: number;
+  ultima: number;
+}
+
 function separarPalavras(texto: string): Palavra[] {
   return [...texto.matchAll(/\S+(\s*)/g)].map((m) => ({
     texto: m[0].trimEnd(),
@@ -27,15 +36,74 @@ function separarPalavras(texto: string): Palavra[] {
   }));
 }
 
+/**
+ * Divide o texto em frases. Ler frase a frase evita que a voz do aparelho pare a meio
+ * de textos longos (alguns navegadores cortam a fala ao fim de uns 15 segundos) e
+ * permite acertar o destaque no início de cada frase.
+ */
+function separarFrases(texto: string, palavras: Palavra[]): Frase[] {
+  const frases: Frase[] = [];
+  let primeira = 0;
+  palavras.forEach((p, i) => {
+    const fimDeFrase = p.quebra || /[.!?…:;]["'”»)]*$/.test(p.texto) || i === palavras.length - 1;
+    if (!fimDeFrase) return;
+    frases.push({
+      // o mesmo pedaço do texto original, para as posições das marcações baterem certo
+      texto: texto.slice(palavras[primeira].inicio, p.inicio + p.texto.length),
+      inicio: palavras[primeira].inicio,
+      primeira,
+      ultima: i,
+    });
+    primeira = i + 1;
+  });
+  return frases;
+}
+
 /** Palavra sem pontuação e em minúsculas, para comparar com a palavra em destaque. */
 function limparPontuacao(palavra: string): string {
   return palavra.replace(/^[^\p{L}]+|[^\p{L}]+$/gu, '').toLocaleLowerCase('pt');
 }
 
+/** Vozes mais naturais costumam ter estes nomes. */
+const VOZ_BOA = /natural|neural|enhanced|premium|melhorad|online|google|siri/i;
+
+/** Escolhe a melhor voz do aparelho para a variante: primeiro a mesma variante, depois qualquer português. */
+function escolherVoz(idioma: Idioma): SpeechSynthesisVoice | undefined {
+  const vozes = window.speechSynthesis.getVoices();
+  const normalizar = (lang: string) => lang.replace('_', '-').toLowerCase();
+  const pontuar = (v: SpeechSynthesisVoice) => {
+    const lang = normalizar(v.lang);
+    let pontos = 0;
+    if (lang === idioma.toLowerCase()) pontos += 100;
+    else if (lang.startsWith('pt')) pontos += 10;
+    else return -1;
+    if (VOZ_BOA.test(v.name)) pontos += 5;
+    if (v.default) pontos += 1;
+    return pontos;
+  };
+  return vozes
+    .map((v) => ({ v, pontos: pontuar(v) }))
+    .filter((x) => x.pontos >= 0)
+    .sort((a, b) => b.pontos - a.pontos)[0]?.v;
+}
+
+// No Chrome a lista de vozes chega depois; pedir cedo faz com que esteja pronta ao tocar em "Ouvir".
+if (temVoz) {
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.addEventListener?.('voiceschanged', () => window.speechSynthesis.getVoices());
+}
+
+/** Tempo estimado para dizer uma palavra, quando o aparelho não avisa onde vai. */
+function tempoDaPalavra(palavra: string): number {
+  const pausa = /[.!?…:;,]$/.test(palavra) ? 250 : 0;
+  return (220 + palavra.length * 70 + pausa) / VELOCIDADE;
+}
+
 /**
  * Mostra o texto com um botão "Ouvir". A voz do aparelho lê o texto na variante
- * certa (pt-PT ou pt-BR) e a palavra falada muda de cor. Se o aparelho não avisar
- * qual palavra está sendo dita, a cor avança por um cálculo de tempo.
+ * certa (pt-PT ou pt-BR), frase a frase, e a palavra falada muda de cor. Se o
+ * aparelho não avisar qual palavra está sendo dita, a cor avança por um cálculo
+ * de tempo, sem nunca passar para a frase seguinte antes de a voz chegar lá.
  */
 export function TextoNarrado({
   texto,
@@ -55,12 +123,19 @@ export function TextoNarrado({
   destacar?: string;
 }) {
   const palavras = useMemo(() => separarPalavras(texto), [texto]);
+  const frases = useMemo(() => separarFrases(texto, palavras), [texto, palavras]);
   const [atual, setAtual] = useState<number | null>(null);
   const [lendo, setLendo] = useState(false);
   const temporizador = useRef<number | undefined>(undefined);
+  /** Muda a cada leitura; avisos de uma leitura antiga são ignorados. */
+  const leitura = useRef(0);
+  /** Guarda a fala em curso (sem isto o Chrome pode perdê-la e nunca avisar o fim). */
+  const falaAtual = useRef<SpeechSynthesisUtterance | null>(null);
 
   function parar() {
+    leitura.current += 1;
     window.clearTimeout(temporizador.current);
+    falaAtual.current = null;
     if (temVoz) window.speechSynthesis.cancel();
     setLendo(false);
     setAtual(null);
@@ -76,43 +151,62 @@ export function TextoNarrado({
   const palavraDestacada = destacar ? limparPontuacao(destacar) : null;
 
   function ler() {
-    if (!temVoz) return;
+    if (!temVoz || frases.length === 0) return;
     parar();
-    const fala = new SpeechSynthesisUtterance(texto);
-    fala.lang = idioma;
-    fala.rate = VELOCIDADE;
-    const voz = window.speechSynthesis
-      .getVoices()
-      .find((v) => v.lang.replace('_', '-').toLowerCase() === idioma.toLowerCase());
-    if (voz) fala.voice = voz;
+    const minhaLeitura = leitura.current;
+    const voz = escolherVoz(idioma);
+    setLendo(true);
 
-    let recebeuMarcacao = false;
-    const avancarPorTempo = (i: number) => {
-      if (recebeuMarcacao || i >= palavras.length) return;
-      setAtual(i);
-      const ms = (250 + palavras[i].texto.length * 75) / VELOCIDADE;
-      temporizador.current = window.setTimeout(() => avancarPorTempo(i + 1), ms);
+    const lerFrase = (n: number) => {
+      if (leitura.current !== minhaLeitura) return;
+      if (n >= frases.length) {
+        parar();
+        return;
+      }
+      const frase = frases[n];
+      const fala = new SpeechSynthesisUtterance(frase.texto);
+      falaAtual.current = fala;
+      fala.lang = idioma;
+      fala.rate = VELOCIDADE;
+      if (voz) fala.voice = voz;
+
+      let recebeuMarcacao = false;
+      // avança a cor por tempo, mas só até à última palavra desta frase
+      const avancarPorTempo = (i: number) => {
+        window.clearTimeout(temporizador.current);
+        if (leitura.current !== minhaLeitura) return;
+        setAtual(i);
+        if (i >= frase.ultima) return;
+        // com marcações, o tempo é só uma rede de segurança: espera um pouco mais
+        const ms = tempoDaPalavra(palavras[i].texto) * (recebeuMarcacao ? 1.6 : 1);
+        temporizador.current = window.setTimeout(() => avancarPorTempo(i + 1), ms);
+      };
+
+      fala.onstart = () => avancarPorTempo(frase.primeira);
+      fala.onboundary = (e) => {
+        if (leitura.current !== minhaLeitura) return;
+        if (e.name && e.name !== 'word') return;
+        recebeuMarcacao = true;
+        const posicao = frase.inicio + e.charIndex;
+        let indice = frase.primeira;
+        for (let i = frase.primeira; i <= frase.ultima; i++) {
+          if (palavras[i].inicio <= posicao) indice = i;
+        }
+        avancarPorTempo(indice);
+      };
+      fala.onend = () => {
+        window.clearTimeout(temporizador.current);
+        lerFrase(n + 1);
+      };
+      fala.onerror = (e) => {
+        if (leitura.current !== minhaLeitura) return;
+        if (e.error === 'interrupted' || e.error === 'canceled') return;
+        parar();
+      };
+      window.speechSynthesis.speak(fala);
     };
 
-    fala.onstart = () => {
-      setLendo(true);
-      setAtual(0);
-      // se em meio segundo nenhuma marcação chegar, usa o cálculo de tempo
-      temporizador.current = window.setTimeout(() => avancarPorTempo(0), 500);
-    };
-    fala.onboundary = (e) => {
-      if (e.name && e.name !== 'word') return;
-      recebeuMarcacao = true;
-      window.clearTimeout(temporizador.current);
-      let indice = 0;
-      palavras.forEach((p, i) => {
-        if (p.inicio <= e.charIndex) indice = i;
-      });
-      setAtual(indice);
-    };
-    fala.onend = parar;
-    fala.onerror = parar;
-    window.speechSynthesis.speak(fala);
+    lerFrase(0);
   }
 
   return (

@@ -3,14 +3,15 @@ import { type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilh
 import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
 import type { FichaPersonagem } from './tipos';
-import { CATEGORIAS, ITENS, type Item, estatisticas, formatarMoedas, totalPocoes } from './itens';
+import { CATEGORIAS, ITENS, type Item, estatisticas, totalPocoes } from './itens';
+import { Moedas } from './Moedas';
 
 const TEXTOS = {
   pergunta: {
     'pt-PT': 'Antes de partires, queres ir à loja?',
     'pt-BR': 'Antes de partir, você quer ir à loja?',
   },
-  moedas: { 'pt-PT': 'Tens {moedas}', 'pt-BR': 'Você tem {moedas}' },
+  moedas: { 'pt-PT': 'Tens', 'pt-BR': 'Você tem' },
   irLoja: { 'pt-PT': '🛒 Ir à loja', 'pt-BR': '🛒 Ir à loja' },
   semLoja: { 'pt-PT': 'Começar a aventura!', 'pt-BR': 'Começar a aventura!' },
   titulo: { 'pt-PT': 'Loja', 'pt-BR': 'Loja' },
@@ -60,7 +61,7 @@ export function PerguntaLoja({
       </div>
       <TextoNarrado className="texto-historia" idioma={idioma} texto={t(TEXTOS.pergunta, idioma)} />
       <p className="texto-grande">
-        {preencher(t(TEXTOS.moedas, idioma), { moedas: formatarMoedas(ficha.prata) })}
+        {t(TEXTOS.moedas, idioma)} <Moedas pratas={ficha.prata} />
       </p>
       <div className="acoes">
         <button className="botao" onClick={aoIrLoja}>
@@ -113,7 +114,7 @@ export function Loja({ idioma, ficha, aoAtualizar, aoComecar }: Props) {
     <main className="tela tela-centro">
       <h1>🛒 {t(TEXTOS.titulo, idioma)}</h1>
       <p className="texto-grande">
-        {preencher(t(TEXTOS.moedas, idioma), { moedas: formatarMoedas(ficha.prata) })}
+        {t(TEXTOS.moedas, idioma)} <Moedas pratas={ficha.prata} />
       </p>
       <p>
         {preencher(t(TEXTOS.resumo, idioma), { ca: est.ca, ataque: est.bonusAtaque, dano: est.bonusDano })}
@@ -155,7 +156,11 @@ export function Loja({ idioma, ficha, aoAtualizar, aoComecar }: Props) {
                     : t(TEXTOS.jaTem, idioma)
                   : estado === 'sem-moedas'
                     ? t(TEXTOS.semMoedas, idioma)
-                    : `${t(TEXTOS.comprar, idioma)} · ${formatarMoedas(item.preco)}`}
+                    : (
+                      <>
+                        {t(TEXTOS.comprar, idioma)} · <Moedas pratas={item.preco} />
+                      </>
+                    )}
               </button>
             </div>
           );
