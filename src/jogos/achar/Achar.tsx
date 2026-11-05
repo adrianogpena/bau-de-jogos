@@ -16,9 +16,16 @@ const TEXTOS = {
   dica: { 'pt-PT': '💡 Dica', 'pt-BR': '💡 Dica' },
   progresso: { 'pt-PT': 'Encontraste {n} de {total}', 'pt-BR': 'Você achou {n} de {total}' },
   naoEsta: {
-    'pt-PT': 'Isso não está na lista, mas bem visto! Continua a procurar.',
-    'pt-BR': 'Isso não está na lista, mas boa! Continue procurando.',
+    'pt-PT': 'Esse não é! Perdeste um coração. Continua a procurar.',
+    'pt-BR': 'Esse não é! Você perdeu um coração. Continue procurando.',
   },
+  vidas: { 'pt-PT': 'Corações', 'pt-BR': 'Corações' },
+  perdeu: { 'pt-PT': 'Acabaram os corações! 💔', 'pt-BR': 'Acabaram os corações! 💔' },
+  perdeuTexto: {
+    'pt-PT': 'Não faz mal. Vamos começar do zero!',
+    'pt-BR': 'Não tem problema. Vamos começar do zero!',
+  },
+  recomecar: { 'pt-PT': 'Começar de novo', 'pt-BR': 'Começar de novo' },
   nada: { 'pt-PT': 'Aqui não há nada. Tenta noutro sítio!', 'pt-BR': 'Aqui não tem nada. Tente em outro lugar!' },
   achou: { 'pt-PT': 'Encontraste: {palavra}! 🎉', 'pt-BR': 'Você achou: {palavra}! 🎉' },
   fim: { 'pt-PT': 'Encontraste tudo! 🎉', 'pt-BR': 'Você achou tudo! 🎉' },
@@ -29,6 +36,9 @@ const TEXTOS = {
 
 /** Quantas palavras aparecem na lista ao mesmo tempo; ao achar uma, entra outra. */
 const PALAVRAS_VISIVEIS = 3;
+
+/** Quantos corações a criança tem; errar um objeto tira um. */
+const VIDAS = 5;
 
 const caminho = (arquivo: string) => `${import.meta.env.BASE_URL}${arquivo}`;
 
@@ -77,6 +87,7 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
   const [dica, setDica] = useState<string | null>(null);
   const [dicas, setDicas] = useState(0);
   const [aviso, setAviso] = useState<string | null>(null);
+  const [vidas, setVidas] = useState(VIDAS);
 
   // Itens procurados nesta rodada (sorteados de novo a cada "jogar de novo").
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -85,6 +96,7 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
   const visiveis = alvos.filter((a) => !achados.includes(a.id)).slice(0, PALAVRAS_VISIVEIS);
   const idsAlvo = visiveis.map((a) => a.id);
   const terminou = alvos.every((a) => achados.includes(a.id));
+  const perdeu = vidas <= 0 && !terminou;
 
   function tocarItem(item: ItemCena) {
     if (achados.includes(item.id)) return;
@@ -94,6 +106,7 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
       setAviso(preencher(t(TEXTOS.achou, idioma), { palavra: t(item.palavra, idioma) }));
       somAcerto();
     } else {
+      setVidas((v) => Math.max(0, v - 1));
       setAviso(t(TEXTOS.naoEsta, idioma));
       somTentarDeNovo();
     }
@@ -115,6 +128,7 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
     setDica(null);
     setDicas(0);
     setAviso(null);
+    setVidas(VIDAS);
     setRodada((r) => r + 1);
   }
 
@@ -131,7 +145,10 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
         <span className="progresso-achar">
           {preencher(t(TEXTOS.progresso, idioma), { n: achados.length, total: alvos.length })}
         </span>
-        <button className="botao botao-secundario" onClick={pedirDica} disabled={terminou}>
+        <span className="vidas-achar" role="img" aria-label={`${t(TEXTOS.vidas, idioma)}: ${vidas}`}>
+          {Array.from({ length: VIDAS }, (_, i) => (i < vidas ? '❤️' : '🤍')).join('')}
+        </span>
+        <button className="botao botao-secundario" onClick={pedirDica} disabled={terminou || perdeu}>
           {t(TEXTOS.dica, idioma)}
         </button>
       </header>
@@ -177,6 +194,21 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
       <p className="mensagem-sala" role="status">
         {aviso ?? ' '}
       </p>
+
+      {perdeu && (
+        <div className="fundo-modal">
+          <div className="modal-enigma">
+            <h2>{t(TEXTOS.perdeu, idioma)}</h2>
+            <p>{t(TEXTOS.perdeuTexto, idioma)}</p>
+            <button className="botao" onClick={jogarDeNovo}>
+              {t(TEXTOS.recomecar, idioma)}
+            </button>
+            <button className="botao botao-secundario" onClick={aoSair}>
+              {t(TEXTOS.outraCena, idioma)}
+            </button>
+          </div>
+        </div>
+      )}
 
       {terminou && (
         <div className="fundo-modal">
