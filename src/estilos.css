@@ -1137,3 +1137,8 @@ p {
     animation-duration: 0.01s !important;
   }
 }
+
+::highlight(palavra-lida-global) {
+  background: #ffe28a;
+  color: inherit;
+}

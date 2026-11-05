@@ -8,14 +8,14 @@ import type { Idioma } from './idioma';
  */
 const PRESETS: Record<
   string,
-  { velocidade: number; tom: number; bonusVozBoa: number; vozPreferida?: Partial<Record<Idioma, string>> }
+  { velocidade: number; tom: number; bonusVozBoa: number; vozPreferida?: Partial<Record<Idioma, string[]>> }
 > = {
   anterior: { velocidade: 0.9, tom: 1, bonusVozBoa: 5 },
   natural: {
     velocidade: 0.95,
     tom: 1.05,
     bonusVozBoa: 50,
-    vozPreferida: { 'pt-BR': 'Thalita', 'pt-PT': 'Raquel' },
+    vozPreferida: { 'pt-BR': ['Thalita', 'Maria'], 'pt-PT': ['Raquel'] },
   },
 };
 const PRESET_ATIVO: keyof typeof PRESETS = 'natural';
@@ -88,8 +88,11 @@ function escolherVoz(idioma: Idioma): SpeechSynthesisVoice | undefined {
     if (lang === idioma.toLowerCase()) pontos += 100;
     else if (lang.startsWith('pt')) pontos += 10;
     else return -1;
-    const preferida = PRESETS[PRESET_ATIVO].vozPreferida?.[idioma];
-    if (preferida && v.name.includes(preferida)) pontos += 200;
+    // a lista está por ordem de preferência: quem vem primeiro vale mais
+    const preferidas = PRESETS[PRESET_ATIVO].vozPreferida?.[idioma] ?? [];
+    const posicao = preferidas.findIndex((nome) => v.name.includes(nome));
+    if (posicao >= 0) pontos += 200 - posicao * 50;
+    if (/desktop/i.test(v.name)) pontos -= 5;
     if (VOZ_BOA.test(v.name)) pontos += PRESETS[PRESET_ATIVO].bonusVozBoa;
     if (/compact|espeak|eloquence/i.test(v.name)) pontos -= 20;
     if (v.default) pontos += 1;
@@ -110,28 +113,96 @@ if (temVoz) {
 /** Função de parar do botão que está lendo agora; só um texto lê por vez. */
 let pararLeituraAtiva: (() => void) | null = null;
 
-/** Leitura simples (sem destaque) de um texto qualquer da tela, usada pela leitura global. */
 let leituraSimples = 0;
-export function falarTexto(texto: string, idioma: Idioma) {
+let temporizadorSimples: number | undefined;
+
+const NOME_DESTAQUE = 'palavra-lida-global';
+
+function limparDestaque() {
+  window.clearTimeout(temporizadorSimples);
+  if ('highlights' in CSS) CSS.highlights.delete(NOME_DESTAQUE);
+}
+
+/** Pedaços de texto de um elemento, com a posição de cada um no texto inteiro. */
+function nosDeTexto(el: HTMLElement): { no: Text; inicio: number }[] {
+  const nos: { no: Text; inicio: number }[] = [];
+  const passeio = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  let inicio = 0;
+  for (let no = passeio.nextNode(); no; no = passeio.nextNode()) {
+    nos.push({ no: no as Text, inicio });
+    inicio += (no as Text).length;
+  }
+  return nos;
+}
+
+/**
+ * Leitura de um texto qualquer da tela (leitura global). Com o elemento, a palavra falada
+ * é marcada no próprio texto (CSS Custom Highlight), sem mexer na estrutura da página.
+ */
+export function falarTexto(texto: string, idioma: Idioma, elemento?: HTMLElement) {
   if (!temVoz) return;
-  const limpo = texto.replace(/\s+/g, ' ').trim();
-  if (!limpo) return;
+  const nos = elemento ? nosDeTexto(elemento) : [];
+  const bruto = nos.length > 0 ? nos.map((n) => n.no.data).join('') : texto;
+  if (!bruto.trim()) return;
   pararLeituraAtiva?.();
+  limparDestaque();
   const minha = ++leituraSimples;
   window.speechSynthesis.cancel();
   const voz = escolherVoz(idioma);
+  const podeMarcar = nos.length > 0 && 'highlights' in CSS;
+
+  const marcar = (posicao: number) => {
+    if (!podeMarcar || minha !== leituraSimples) return;
+    let fim = posicao;
+    while (fim < bruto.length && !/\s/.test(bruto[fim])) fim++;
+    const alvo = [...nos].reverse().find((n) => n.inicio <= posicao);
+    if (!alvo || fim <= posicao) return;
+    const faixa = new Range();
+    faixa.setStart(alvo.no, posicao - alvo.inicio);
+    faixa.setEnd(alvo.no, Math.min(fim - alvo.inicio, alvo.no.length));
+    CSS.highlights.set(NOME_DESTAQUE, new Highlight(faixa));
+  };
+
   // o Chrome corta a fala nova se ela vier logo depois de um cancel()
   window.setTimeout(() => {
     if (minha !== leituraSimples) return;
-    const pedacos = limpo.match(/[^.!?…:;]+[.!?…:;]*["'”»)]*\s*/g) ?? [limpo];
-    for (const pedaco of pedacos) {
-      const fala = new SpeechSynthesisUtterance(pedaco);
+    const pedacos = [...bruto.matchAll(/[^.!?…:;]+[.!?…:;]*["'”»)]*\s*/g)];
+    pedacos.forEach((m, n) => {
+      const inicioPedaco = m.index ?? 0;
+      if (!/\p{L}/u.test(m[0])) return;
+      const fala = new SpeechSynthesisUtterance(m[0].trim());
+      const deslocamento = m[0].length - m[0].trimStart().length;
       fala.lang = idioma;
       fala.rate = VELOCIDADE;
       fala.pitch = PRESETS[PRESET_ATIVO].tom;
       if (voz) fala.voice = voz;
+
+      let recebeuMarcacao = false;
+      // sem avisos do aparelho, a marca avança por um cálculo de tempo
+      const avancarPorTempo = (posicao: number) => {
+        window.clearTimeout(temporizadorSimples);
+        if (minha !== leituraSimples) return;
+        marcar(posicao);
+        const resto = bruto.slice(posicao);
+        const palavra = resto.match(/^\S+/)?.[0] ?? '';
+        const proxima = resto.match(/^\S+\s+/)?.[0].length;
+        if (!proxima || posicao + proxima >= inicioPedaco + m[0].length) return;
+        const ms = tempoDaPalavra(palavra) * (recebeuMarcacao ? 1.6 : 1);
+        temporizadorSimples = window.setTimeout(() => avancarPorTempo(posicao + proxima), ms);
+      };
+      fala.onstart = () => avancarPorTempo(inicioPedaco + deslocamento);
+      fala.onboundary = (e) => {
+        if (e.name && e.name !== 'word') return;
+        recebeuMarcacao = true;
+        avancarPorTempo(inicioPedaco + deslocamento + e.charIndex);
+      };
+      if (n === pedacos.length - 1 || pedacos.slice(n + 1).every((x) => !/\p{L}/u.test(x[0]))) {
+        fala.onend = () => {
+          if (minha === leituraSimples) limparDestaque();
+        };
+      }
       window.speechSynthesis.speak(fala);
-    }
+    });
   }, 150);
 }
 
@@ -194,6 +265,7 @@ export function TextoNarrado({
   function ler() {
     if (!temVoz || frases.length === 0) return;
     leituraSimples += 1;
+    limparDestaque();
     if (pararLeituraAtiva && pararLeituraAtiva !== parar) pararLeituraAtiva();
     parar();
     pararLeituraAtiva = parar;

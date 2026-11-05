@@ -70,7 +70,7 @@ export function instalarLeituraGlobal() {
         const texto = textoDoBotao(botao);
         if (!temLetras(texto)) return;
         segurou = true;
-        falarTexto(texto, idiomaDe(botao));
+        falarTexto(texto, idiomaDe(botao), temLetras(botao.innerText) ? botao : undefined);
       }, TEMPO_SEGURAR);
     },
     true,
@@ -108,6 +108,6 @@ export function instalarLeituraGlobal() {
     if (!alvo || alvo.closest(INTERATIVO) || alvo.closest(CAMPO) || alvo.closest('.texto-tocavel')) return;
     const bloco = blocoDeTexto(alvo);
     if (!bloco || !temLetras(bloco.innerText)) return;
-    falarTexto(bloco.innerText, idiomaDe(bloco));
+    falarTexto(bloco.innerText, idiomaDe(bloco), bloco);
   });
 }
