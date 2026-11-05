@@ -56,8 +56,15 @@ src/
       mago/              história 2 (A Torre Encantada): tipos de mago, feitiços e energia mágica
     escrita/             jogo 1: completar a fábula escrevendo a palavra da imagem
     leitura/             jogo 2: ler a fábula e escolher a imagem da palavra em destaque
+    escape/              jogo 3: escape room (lógica). Motor reutilizável + salas
+      tipos.ts           modelo de dados: Sala, ObjetoSala, Enigma, Pista
+      MotorSala.tsx      a sala jogável: objetos tocáveis, inventário, dicas, estrelas
+      enigmas/           tipos de enigma: Codigo, Ordem, Escolha, Pares (novos entram em EnigmaView.tsx)
+      salas/             uma sala por arquivo (texto por variante); liste em salas/index.ts
 public/                  ícones do app
 ```
+
+Para criar uma sala nova de escape room: crie `src/jogos/escape/salas/<nome>.ts` com uma `Sala` e adicione em `salas/index.ts`.
 
 Para criar um jogo novo: crie a pasta em `src/jogos/<nome>/`, exporte um componente React e registre em `src/jogos/registro.ts`.
 

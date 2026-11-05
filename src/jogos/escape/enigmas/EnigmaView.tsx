@@ -1,0 +1,33 @@
+import { type Idioma, t } from '../../../compartilhado/idioma';
+import { TextoNarrado } from '../../../compartilhado/TextoNarrado';
+import type { Enigma } from '../tipos';
+import { Codigo } from './Codigo';
+import { Escolha } from './Escolha';
+import { Ordem } from './Ordem';
+import { Pares } from './Pares';
+
+/** Mostra o visual, a pergunta e o tipo de enigma certo. Novos tipos entram aqui. */
+export function EnigmaView({
+  enigma,
+  idioma,
+  aoAcertar,
+}: {
+  enigma: Enigma;
+  idioma: Idioma;
+  aoAcertar: () => void;
+}) {
+  return (
+    <>
+      {enigma.visual && (
+        <p className="visual-enigma" aria-hidden="true">
+          {enigma.visual}
+        </p>
+      )}
+      <TextoNarrado className="pergunta-enigma" idioma={idioma} texto={t(enigma.pergunta, idioma)} compacto />
+      {enigma.tipo === 'codigo' && <Codigo enigma={enigma} idioma={idioma} aoAcertar={aoAcertar} />}
+      {enigma.tipo === 'ordem' && <Ordem enigma={enigma} idioma={idioma} aoAcertar={aoAcertar} />}
+      {enigma.tipo === 'escolha' && <Escolha enigma={enigma} idioma={idioma} aoAcertar={aoAcertar} />}
+      {enigma.tipo === 'pares' && <Pares enigma={enigma} idioma={idioma} aoAcertar={aoAcertar} />}
+    </>
+  );
+}

@@ -2,6 +2,7 @@ import type { Jogo } from './tipos';
 import { Rpg } from './rpg/Rpg';
 import { Escrita } from './escrita/Escrita';
 import { Leitura } from './leitura/Leitura';
+import { Escape } from './escape/Escape';
 
 /** Lista de todos os jogos. Para adicionar um jogo novo, registre-o aqui. */
 export const JOGOS: Jogo[] = [
@@ -40,5 +41,17 @@ export const JOGOS: Jogo[] = [
     etiqueta: { 'pt-PT': 'Leitura', 'pt-BR': 'Leitura' },
     cor: '#22d3b6',
     componente: Leitura,
+  },
+  {
+    id: 'escape',
+    emoji: '🔐',
+    titulo: { 'pt-PT': 'Escape Room', 'pt-BR': 'Escape Room' },
+    descricao: {
+      'pt-PT': 'Encontra pistas, resolve enigmas e descobre o código para escapar da sala!',
+      'pt-BR': 'Encontre pistas, resolva enigmas e descubra o código para escapar da sala!',
+    },
+    etiqueta: { 'pt-PT': 'Lógica', 'pt-BR': 'Lógica' },
+    cor: '#ffc94d',
+    componente: Escape,
   },
 ];
