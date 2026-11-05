@@ -6,6 +6,7 @@
   "description": "Jogos infantis em português (PT-PT e PT-BR) para tablet",
   "scripts": {
     "dev": "vite --host",
+    "servidor": "vite --host --port 5199 --strictPort",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host",
     "typecheck": "tsc --noEmit"

@@ -75,6 +75,7 @@ Para criar um jogo novo: crie a pasta em `src/jogos/<nome>/`, exporte um compone
 ```bash
 npm install        # instalar dependências
 npm run dev        # servidor de desenvolvimento (acessível na rede local para testar no tablet)
+npm run servidor   # servidor local de testes, sempre na porta 5199 (http://localhost:5199/bau-de-jogos/)
 npm run build      # build de produção
 npm run typecheck  # checagem de tipos
 ```
