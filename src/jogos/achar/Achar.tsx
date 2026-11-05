@@ -27,6 +27,9 @@ const TEXTOS = {
   dicasUsadas: { 'pt-PT': 'Dicas usadas: {n}', 'pt-BR': 'Dicas usadas: {n}' },
 } satisfies Record<string, TextoPorIdioma>;
 
+/** Quantas palavras aparecem na lista ao mesmo tempo; ao achar uma, entra outra. */
+const PALAVRAS_VISIVEIS = 3;
+
 const caminho = (arquivo: string) => `${import.meta.env.BASE_URL}${arquivo}`;
 
 function embaralhar<T>(lista: T[]): T[] {
@@ -78,7 +81,9 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
   // Itens procurados nesta rodada (sorteados de novo a cada "jogar de novo").
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const alvos = useMemo(() => embaralhar(cena.itens).slice(0, cena.alvos), [cena, rodada]);
-  const idsAlvo = alvos.map((a) => a.id);
+  // Só as próximas palavras ainda não achadas aparecem na lista.
+  const visiveis = alvos.filter((a) => !achados.includes(a.id)).slice(0, PALAVRAS_VISIVEIS);
+  const idsAlvo = visiveis.map((a) => a.id);
   const terminou = alvos.every((a) => achados.includes(a.id));
 
   function tocarItem(item: ItemCena) {
@@ -100,9 +105,8 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
   }
 
   function pedirDica() {
-    const faltam = alvos.filter((a) => !achados.includes(a.id));
-    if (faltam.length === 0) return;
-    setDica(faltam[Math.floor(Math.random() * faltam.length)].id);
+    if (visiveis.length === 0) return;
+    setDica(visiveis[Math.floor(Math.random() * visiveis.length)].id);
     setDicas((d) => d + 1);
   }
 
@@ -134,9 +138,8 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
 
       <section className="lista-achar" aria-label={t(TEXTOS.procura, idioma)}>
         <b>{t(TEXTOS.procura, idioma)}</b>
-        {alvos.map((a) => (
-          <span key={a.id} className={`palavra-achar${achados.includes(a.id) ? ' palavra-achada' : ''}`}>
-            {achados.includes(a.id) ? '✅ ' : ''}
+        {visiveis.map((a) => (
+          <span key={a.id} className="palavra-achar">
             {t(a.palavra, idioma)}
           </span>
         ))}

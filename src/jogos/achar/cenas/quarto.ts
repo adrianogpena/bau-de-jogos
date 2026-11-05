@@ -16,7 +16,7 @@ export const quarto: Cena = {
   },
   fundo: 'imagens/achar/quarto/fundo.jpg',
   fundoCss: 'linear-gradient(180deg, #b9c8f0 0%, #b9c8f0 60%, #e0a24a 60%, #c98a35 100%)',
-  alvos: 5,
+  alvos: 6,
   itens: [
     { id: 'chapeu', imagem: img('chapeu'), palavra: { 'pt-PT': 'chapéu', 'pt-BR': 'chapéu' }, x: 13, y: 46, largura: 12, giro: -6 },
     { id: 'luva', imagem: img('luva'), palavra: { 'pt-PT': 'luva', 'pt-BR': 'luva' }, x: 31, y: 60, largura: 6, giro: 15 },
