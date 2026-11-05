@@ -126,7 +126,7 @@ function limparDestaque() {
 }
 
 /** Pausa entre dois blocos de texto (título → corpo → botão) e entre parágrafos. */
-const PAUSA_ENTRE_BLOCOS = 650;
+const PAUSA_ENTRE_BLOCOS = 350;
 
 /**
  * Ícones, emojis e setas (ex.: o triângulo "▶" dos botões) não são lidos: viram espaços,
