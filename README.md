@@ -23,6 +23,7 @@ O Baú de Jogos é **gratuito, sem anúncios, sem login e sem coleta de dados**.
 ## Imagens e créditos
 
 - **Jogos de escrita e leitura:** pictogramas do [ARASAAC](https://arasaac.org) (Governo de Aragão), autor Sergio Palao, licença [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/). Ficam em `public/imagens/arasaac/` (veja o `LICENCA.md` da pasta) e o app tem uma tela **Créditos**.
+- **Achar itens:** por enquanto usa pictogramas do ARASAAC e um fundo em CSS. As imagens finais (livro infantil) entram conforme `docs/GERAR-IMAGENS.md`.
 - **RPG:** usa apenas emojis por enquanto, sem imagens externas.
 - As imagens são guardadas no repositório (não vêm de API), para o app funcionar offline.
 - Imagens do ARASAAC editadas (recoloridas, por exemplo) devem manter a mesma licença CC BY-NC-SA.

@@ -61,10 +61,15 @@ src/
       MotorSala.tsx      a sala jogável: objetos tocáveis, inventário, dicas, estrelas
       enigmas/           tipos de enigma: Codigo, Ordem, Escolha, Pares (novos entram em EnigmaView.tsx)
       salas/             uma sala por arquivo (texto por variante); liste em salas/index.ts
+    achar/               jogo 4: achar itens escondidos em cenas (fundo + itens soltos em camadas)
+      tipos.ts           modelo de dados: Cena, ItemCena (posição em % da cena)
+      cenas/             uma cena por arquivo (palavras por variante); liste em cenas/index.ts
 public/                  ícones do app
 ```
 
 Para criar uma sala nova de escape room: crie `src/jogos/escape/salas/<nome>.ts` com uma `Sala` e adicione em `salas/index.ts`.
+
+Para criar uma cena nova de achar itens: crie `src/jogos/achar/cenas/<nome>.ts` com uma `Cena` e adicione em `cenas/index.ts`. Como gerar as imagens: `docs/GERAR-IMAGENS.md`.
 
 Para criar um jogo novo: crie a pasta em `src/jogos/<nome>/`, exporte um componente React e registre em `src/jogos/registro.ts`.
 

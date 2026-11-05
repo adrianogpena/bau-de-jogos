@@ -1385,3 +1385,89 @@ p {
   margin: 0;
   font-size: 2.4rem;
 }
+
+/* ---------- achar itens ---------- */
+.tela-achar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.progresso-achar {
+  font-weight: 700;
+  text-align: center;
+}
+
+.lista-achar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.palavra-achar {
+  min-height: 48px;
+  padding: 8px 18px;
+  border: 2px solid var(--borda);
+  border-radius: 999px;
+  background: var(--painel);
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.palavra-achada {
+  border-color: var(--sucesso);
+  color: var(--sucesso);
+  text-decoration: line-through;
+}
+
+.cena-achar {
+  max-height: 62vh;
+  margin: 0 auto;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* O item é desenhado na largura pedida, mas o alvo de toque nunca fica abaixo de 64 px. */
+.item-achar {
+  position: absolute;
+  width: max(var(--largura), 64px);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.item-achar img {
+  width: var(--largura);
+  min-width: 100%;
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.item-achado {
+  box-shadow: 0 0 0 4px var(--sucesso), 0 0 18px var(--sucesso);
+  background: rgba(61, 220, 132, 0.25);
+  pointer-events: none;
+}
+
+.item-dica {
+  animation: pulsar-dica 0.9s ease-in-out infinite;
+}
+
+@keyframes pulsar-dica {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px var(--ouro);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 201, 77, 0.35);
+  }
+}

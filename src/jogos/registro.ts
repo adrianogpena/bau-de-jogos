@@ -3,6 +3,7 @@ import { Rpg } from './rpg/Rpg';
 import { Escrita } from './escrita/Escrita';
 import { Leitura } from './leitura/Leitura';
 import { Escape } from './escape/Escape';
+import { Achar } from './achar/Achar';
 
 /** Lista de todos os jogos. Para adicionar um jogo novo, registre-o aqui. */
 export const JOGOS: Jogo[] = [
@@ -53,5 +54,17 @@ export const JOGOS: Jogo[] = [
     etiqueta: { 'pt-PT': 'Lógica', 'pt-BR': 'Lógica' },
     cor: '#ffc94d',
     componente: Escape,
+  },
+  {
+    id: 'achar',
+    emoji: '🔍',
+    titulo: { 'pt-PT': 'Achar itens', 'pt-BR': 'Achar itens' },
+    descricao: {
+      'pt-PT': 'Lê a lista e encontra as coisas escondidas na imagem!',
+      'pt-BR': 'Leia a lista e ache as coisas escondidas na imagem!',
+    },
+    etiqueta: { 'pt-PT': 'Observação', 'pt-BR': 'Observação' },
+    cor: '#4dabf7',
+    componente: Achar,
   },
 ];
