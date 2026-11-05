@@ -7,8 +7,25 @@ const TEXTOS = {
   parar: { 'pt-PT': 'Parar', 'pt-BR': 'Parar' },
 } satisfies Record<string, TextoPorIdioma>;
 
-/** Velocidade calma, boa para crianças que estão aprendendo a ler. */
-const VELOCIDADE = 0.75;
+/**
+ * Presets de voz. Para voltar ao anterior, troque PRESET_ATIVO por 'anterior'.
+ * - anterior: velocidade 0.9, qualquer voz portuguesa da variante, preferência leve por nomes "naturais".
+ * - natural: voz neural/online da variante em primeiro lugar, tom e ritmo mais suaves.
+ */
+const PRESETS: Record<
+  string,
+  { velocidade: number; tom: number; bonusVozBoa: number; vozPreferida?: Partial<Record<Idioma, string>> }
+> = {
+  anterior: { velocidade: 0.9, tom: 1, bonusVozBoa: 5 },
+  natural: {
+    velocidade: 0.95,
+    tom: 1.05,
+    bonusVozBoa: 50,
+    vozPreferida: { 'pt-BR': 'Thalita', 'pt-PT': 'Raquel' },
+  },
+};
+const PRESET_ATIVO: keyof typeof PRESETS = 'natural';
+const VELOCIDADE = PRESETS[PRESET_ATIVO].velocidade;
 
 const temVoz = typeof window !== 'undefined' && 'speechSynthesis' in window;
 
@@ -77,7 +94,10 @@ function escolherVoz(idioma: Idioma): SpeechSynthesisVoice | undefined {
     if (lang === idioma.toLowerCase()) pontos += 100;
     else if (lang.startsWith('pt')) pontos += 10;
     else return -1;
-    if (VOZ_BOA.test(v.name)) pontos += 5;
+    const preferida = PRESETS[PRESET_ATIVO].vozPreferida?.[idioma];
+    if (preferida && v.name.includes(preferida)) pontos += 200;
+    if (VOZ_BOA.test(v.name)) pontos += PRESETS[PRESET_ATIVO].bonusVozBoa;
+    if (/compact|espeak|eloquence/i.test(v.name)) pontos -= 20;
     if (v.default) pontos += 1;
     return pontos;
   };
@@ -92,6 +112,9 @@ if (temVoz) {
   window.speechSynthesis.getVoices();
   window.speechSynthesis.addEventListener?.('voiceschanged', () => window.speechSynthesis.getVoices());
 }
+
+/** Função de parar do botão que está lendo agora; só um texto lê por vez. */
+let pararLeituraAtiva: (() => void) | null = null;
 
 /** Tempo estimado para dizer uma palavra, quando o aparelho não avisa onde vai. */
 function tempoDaPalavra(palavra: string): number {
@@ -136,6 +159,7 @@ export function TextoNarrado({
     leitura.current += 1;
     window.clearTimeout(temporizador.current);
     falaAtual.current = null;
+    if (pararLeituraAtiva === parar) pararLeituraAtiva = null;
     if (temVoz) window.speechSynthesis.cancel();
     setLendo(false);
     setAtual(null);
@@ -152,7 +176,9 @@ export function TextoNarrado({
 
   function ler() {
     if (!temVoz || frases.length === 0) return;
+    if (pararLeituraAtiva && pararLeituraAtiva !== parar) pararLeituraAtiva();
     parar();
+    pararLeituraAtiva = parar;
     const minhaLeitura = leitura.current;
     const voz = escolherVoz(idioma);
     setLendo(true);
@@ -168,6 +194,7 @@ export function TextoNarrado({
       falaAtual.current = fala;
       fala.lang = idioma;
       fala.rate = VELOCIDADE;
+      fala.pitch = PRESETS[PRESET_ATIVO].tom;
       if (voz) fala.voice = voz;
 
       let recebeuMarcacao = false;
@@ -195,6 +222,7 @@ export function TextoNarrado({
         avancarPorTempo(indice);
       };
       fala.onend = () => {
+        if (leitura.current !== minhaLeitura) return;
         window.clearTimeout(temporizador.current);
         lerFrase(n + 1);
       };
@@ -206,7 +234,8 @@ export function TextoNarrado({
       window.speechSynthesis.speak(fala);
     };
 
-    lerFrase(0);
+    // o Chrome corta a fala nova se ela vier logo depois de um cancel()
+    temporizador.current = window.setTimeout(() => lerFrase(0), 150);
   }
 
   return (

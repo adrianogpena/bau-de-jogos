@@ -5,10 +5,12 @@ import { VitePWA } from 'vite-plugin-pwa';
 // O app é publicado em https://<usuario>.github.io/bau-de-jogos/
 const BASE = '/bau-de-jogos/';
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   base: BASE,
   plugins: [
     react(),
+    // o service worker só existe no build; no servidor de testes ele serviria arquivos antigos
+    command === 'build' &&
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icone.svg'],
@@ -36,4 +38,4 @@ export default defineConfig({
       },
     }),
   ],
-});
+}));
