@@ -3,6 +3,8 @@ import { falarTexto } from './TextoNarrado';
 
 const INTERATIVO = 'button, a, [role="button"], summary, label, select';
 const CAMPO = 'input, textarea, [contenteditable="true"]';
+/** Elementos marcados com isto não são lidos ao tocar (ex.: a história com a palavra em falta). */
+const SEM_LEITURA = '[data-sem-leitura]';
 const TEMPO_SEGURAR = 500;
 const DISTANCIA_MAXIMA = 12;
 
@@ -106,6 +108,7 @@ export function instalarLeituraGlobal() {
   document.addEventListener('click', (e) => {
     const alvo = e.target instanceof Element ? e.target : null;
     if (!alvo || alvo.closest(INTERATIVO) || alvo.closest(CAMPO) || alvo.closest('.texto-tocavel')) return;
+    if (alvo.closest(SEM_LEITURA)) return;
     const bloco = blocoDeTexto(alvo);
     if (!bloco || !temLetras(bloco.innerText)) return;
     falarTexto(bloco.innerText, idiomaDe(bloco), bloco);

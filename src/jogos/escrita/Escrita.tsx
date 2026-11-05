@@ -154,7 +154,8 @@ function EscritaFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
           lerAoAbrir
         />
       ) : (
-        <p className="texto-historia" lang={idioma}>
+        // sem leitura até a criança acertar a palavra; depois pode ouvir quantas vezes quiser
+        <p className="texto-historia" lang={idioma} data-sem-leitura>
           {partes.antes}
           <span className="lacuna" aria-label={t(TEXTOS.instrucao, idioma)}>
             {letras.map((letra, i) => (i < dicas ? letra : '_')).join(' ')}

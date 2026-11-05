@@ -480,6 +480,12 @@ p {
   font-weight: 700;
 }
 
+/* a palavra a ser lida tem prioridade sobre o destaque fixo */
+.palavra-destacada.palavra-lida {
+  background: #ffe28a;
+  color: #8a1c3c;
+}
+
 /* escolha de história por coleção (fábulas, Grimm, Mil e Uma Noites) */
 .colecao-historias {
   width: 100%;
