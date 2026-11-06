@@ -1,17 +1,14 @@
-import type { Cena, ItemCena, Posicao } from '../tipos';
+import type { Cena } from '../tipos';
+import { item, lugar } from './util';
 
 /**
- * Cena do Quarto. Fundo e itens em `public/imagens/achar/quarto/`.
+ * Cena do Quarto. Fundo em `public/imagens/achar/fundos/quarto.jpg`, itens em `public/imagens/achar/itens/`.
  * Não peça como item nada que já esteja desenhado no fundo (livros, baú, cestos, plantas, abajur).
  *
  * Cada item tem uma lista de `posicoes` permitidas; a cada rodada o jogo sorteia uma.
  * As listas são montadas juntando os "lugares" abaixo (coordenadas em % do fundo 4:3).
  * Para mudar onde algo pode aparecer, edite o lugar ou a lista do item.
  */
-const img = (id: string) => `imagens/achar/quarto/${id}.png`;
-
-const lugar = (...pontos: [x: number, y: number][]): Posicao[] => pontos.map(([x, y]) => ({ x, y }));
-
 /** Cobertor da cama (e o travesseiro). */
 const CAMA = lugar([8, 56], [16, 57], [23, 59], [14, 41]);
 /** Em cima do baú, ao pé da cama. */
@@ -38,14 +35,6 @@ const PAREDE = lugar([24, 31], [54, 56]);
 const CHAO = [...TAPETE, ...CHAO_FUNDO, ...CHAO_ESQ, ...CHAO_DIREITA, ...CHAO_FRENTE];
 const SOBRE_MOVEIS = [...CRIADO, ...PEITORIL, ...PRATELEIRA, ...BAU];
 
-/** Atalho: item com o mesmo nome nas duas variantes, ou com a palavra de cada uma. */
-const item = (id: string, nome: string | [string, string], largura: number, posicoes: Posicao[]): ItemCena => ({
-  id,
-  imagem: img(id),
-  palavra: Array.isArray(nome) ? { 'pt-PT': nome[0], 'pt-BR': nome[1] } : { 'pt-PT': nome, 'pt-BR': nome },
-  largura,
-  posicoes,
-});
 
 export const quarto: Cena = {
   id: 'quarto',
@@ -55,7 +44,7 @@ export const quarto: Cena = {
     'pt-PT': 'Anda tudo espalhado pelo quarto. Consegues encontrar tudo?',
     'pt-BR': 'Tem coisa espalhada pelo quarto todo. Você consegue achar tudo?',
   },
-  fundo: 'imagens/achar/quarto/fundo.jpg',
+  fundo: 'imagens/achar/fundos/quarto.jpg',
   fundoCss: 'linear-gradient(180deg, #b9c8f0 0%, #b9c8f0 60%, #e0a24a 60%, #c98a35 100%)',
   alvos: 6,
   itensPorRodada: 18,

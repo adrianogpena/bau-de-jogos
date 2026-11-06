@@ -6,11 +6,12 @@ posiciona os itens sobre o fundo (e os esconde atrás de móveis), então o toqu
 
 | O quê | Formato | Arquivo |
 |---|---|---|
-| 1 fundo por cena | proporção **4:3** (ex.: 1600×1200) | `public/imagens/achar/<cena>/fundo.jpg` |
-| N itens por cena | **quadrados** (ex.: 1024×1024), PNG **fundo transparente** | `public/imagens/achar/<cena>/<id>.png` |
+| 1 fundo por cena | proporção **4:3** (ex.: 1600×1200) | `public/imagens/achar/fundos/<cena>.jpg` |
+| N itens | **quadrados** (ex.: 1024×1024), PNG **fundo transparente** | `public/imagens/achar/itens/<id>.png` |
 
-Itens compartilhados entre cenários (lista no fim) ficam **na pasta da primeira cena que os usa** e são
-gerados uma só vez; o código da cena aponta para o arquivo.
+**Todos os itens ficam numa pasta só** (`public/imagens/achar/itens/`, ids únicos); os fundos ficam em
+`public/imagens/achar/fundos/`. Cada cena escolhe pelo `id` os itens que quer, então um item compartilhado é gerado uma vez
+e serve a várias cenas. Dois objetos diferentes não podem ter o mesmo nome de arquivo.
 
 ## Regra de ouro: um estilo só
 
@@ -41,7 +42,7 @@ white #FFFFFF"*).
 
 Depois rode `/split-image-objects <caminho da imagem>`: a skill separa os objetos, tira o fundo e salva
 um PNG transparente por objeto em `split-output/`. Peça para ignorar o que não quiser e informe a pasta
-`public/imagens/achar/<cena>` como destino, para nomear os arquivos pelo `id` e não repetir nomes.
+`public/imagens/achar/itens` como destino, para nomear os arquivos pelo `id` e não repetir nomes.
 Se dois objetos grudarem no preview numerado, gere de novo com mais espaço.
 
 Prompt de **fundo** (troque `[ROOM]` e `[FURNITURE]` pelos da seção da cena):
@@ -78,7 +79,7 @@ layout, colors and style."*
 
 ## Depois de gerar
 
-1. Ponha os arquivos em `public/imagens/achar/<cena>/`.
+1. Ponha os itens em `public/imagens/achar/itens/` (o fundo em `public/imagens/achar/fundos/<cena>.jpg`).
 2. Crie `src/jogos/achar/cenas/<cena>.ts` (modelo: `quarto.ts`) e liste em `cenas/index.ts`.
 3. Posições, tamanhos e esconderijos ficam no arquivo da cena; ajusto quando o fundo existir.
 
@@ -100,7 +101,7 @@ vários estão em "Itens compartilhados", no fim.
   vestido, gorro, bota, patinho, pião, helicóptero, barco, trem, ônibus, robô, fantoche, caixa de
   surpresa, cavalinho, tambor, xilofone, ioiô, corda de pular, caleidoscópio.
 
-## 2. Sala de estar ✅ (fundo pronto em `public/imagens/achar/sala/fundo.jpg`; faltam os itens)
+## 2. Sala de estar ✅ (fundo pronto em `public/imagens/achar/fundos/sala.jpg`; faltam os itens)
 
 - **Fundo**: `a cozy living room` / `a big sofa, an armchair, a low coffee table, a TV
   stand with a TV, a bookcase, a window with curtains, a rug, a floor lamp`
@@ -124,7 +125,7 @@ vários estão em "Itens compartilhados", no fim.
 | oculos | óculos | óculos | round eyeglasses |
 | gato-brinquedo | gato de peluche | gato de pelúcia | a plush toy cat |
 
-## 3. Cozinha ✅ (fundo pronto em `public/imagens/achar/cozinha/fundo.jpg`; faltam os itens)
+## 3. Cozinha ✅ (fundo pronto em `public/imagens/achar/fundos/cozinha.jpg`; faltam os itens)
 
 - **Fundo**: `a cheerful kitchen` / `kitchen cabinets, a stove with an oven, a sink, a fridge, a round
   table with two chairs, a window with curtains, shelves with jars (closed), a tiled floor`
@@ -152,7 +153,7 @@ vários estão em "Itens compartilhados", no fim.
 | uvas | uvas | uvas | a bunch of grapes |
 | limao | limão | limão | a lemon |
 
-## 4. Casa de banho (banheiro) ✅ (fundo pronto em `public/imagens/achar/banheiro/fundo.jpg`; faltam os itens)
+## 4. Casa de banho (banheiro) ✅ (fundo pronto em `public/imagens/achar/fundos/banheiro.jpg`; faltam os itens)
 
 - **Fundo**: `a bathroom` / `a bathtub with a shower curtain, a sink with a mirror, a toilet, a small
   cabinet, a towel rack, a laundry hamper, a bath mat, a tiled floor`
@@ -176,7 +177,7 @@ vários estão em "Itens compartilhados", no fim.
 | bolhas | bolas de sabão | bolhas de sabão | a bubble wand with soap bubbles |
 | cotonete | cotonete | cotonete | a cotton swab |
 
-## 5. Escritório (cantinho de estudo) ✅ (fundo pronto em `public/imagens/achar/escritorio/fundo.jpg`; faltam os itens)
+## 5. Escritório (cantinho de estudo) ✅ (fundo pronto em `public/imagens/achar/fundos/escritorio.jpg`; faltam os itens)
 
 - **Fundo**: `a home study room` / `a desk with a chair, a bookshelf, a wall map, a drawer unit, a
   window, a floor rug, a wastebasket`
@@ -202,7 +203,7 @@ vários estão em "Itens compartilhados", no fim.
 | pasta | pasta | pasta | a folder |
 | tinteiro | tinteiro | tinteiro | an ink bottle with a feather pen |
 
-## 6. Lavandaria (área de serviço) ✅ (fundo pronto em `public/imagens/achar/lavanderia/fundo.jpg`; faltam os itens)
+## 6. Lavandaria (área de serviço) ✅ (fundo pronto em `public/imagens/achar/fundos/lavanderia.jpg`; faltam os itens)
 
 - **Fundo**: `a laundry room` / `a washing machine, a dryer, a utility sink, a clothesline with no
   clothes, shelves with closed boxes, a tall cabinet, a wicker basket (empty), a tiled floor`
@@ -224,7 +225,7 @@ vários estão em "Itens compartilhados", no fim.
 | sabao-barra | sabão em barra | sabão em barra | a bar of laundry soap |
 | balde-agua | balde | balde | a plastic bucket |
 
-## 7. Garagem (oficina) ✅ (fundo pronto em `public/imagens/achar/garagem/fundo.jpg`; faltam os itens)
+## 7. Garagem (oficina) ✅ (fundo pronto em `public/imagens/achar/fundos/garagem.jpg`; faltam os itens)
 
 - **Fundo**: `a garage workshop` / `a workbench, wall shelves with closed boxes, a pegboard with no
   tools, a parked car seen from the front, a ladder against the wall, a stack of cardboard boxes, a
@@ -249,7 +250,7 @@ vários estão em "Itens compartilhados", no fim.
 | patins | patins | patins | a pair of roller skates |
 | capacete | capacete | capacete | a bicycle helmet |
 
-## 8. Quintal (jardim) ✅ (fundo pronto em `public/imagens/achar/quintal/fundo.jpg`; faltam os itens)
+## 8. Quintal (jardim) ✅ (fundo pronto em `public/imagens/achar/fundos/quintal.jpg`; faltam os itens)
 
 - **Fundo**: `a backyard garden` / `a big tree, a wooden fence, a small shed, flower beds, a bush, a
   garden bench, a path of stones, a swing, grass`
