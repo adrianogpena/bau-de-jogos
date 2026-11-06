@@ -103,6 +103,7 @@ npm run dev        # servidor de desenvolvimento (acessível na rede local para 
 npm run servidor   # servidor local de testes, sempre na porta 5199 (http://localhost:5199/bau-de-jogos/)
 npm run build      # build de produção
 npm run typecheck  # checagem de tipos
+npm run audio      # gera a narração das histórias com ElevenLabs (vozes em scripts/vozes.json; veja docs/NARRACAO-ELEVENLABS.md)
 ```
 
 ## Fluxo de trabalho (git)
