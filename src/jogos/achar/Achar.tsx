@@ -3,7 +3,7 @@ import type { PropsJogo } from '../tipos';
 import { type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
 import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
 import { CENAS } from './cenas';
-import type { Cena, ItemCena } from './tipos';
+import type { AreaLivre, Cena, ItemCena, Posicao } from './tipos';
 
 const TEXTOS = {
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
@@ -51,6 +51,48 @@ function embaralhar<T>(lista: T[]): T[] {
   return copia;
 }
 
+/** Item com o lugar sorteado para esta rodada. */
+interface ItemPosto {
+  item: ItemCena;
+  pos: Required<Pick<Posicao, 'x' | 'y' | 'camada' | 'giro'>>;
+}
+
+/** Sorteia a posição de cada item entre as permitidas, sem nunca sobrepor outro item. */
+function sortearPosicoes(itens: ItemCena[], alvos: ItemCena[], area?: AreaLivre): ItemPosto[] {
+  const postos: ItemPosto[] = [];
+  const sobrepoe = (x: number, y: number, largura: number) =>
+    postos.some((o) => {
+      const meio = (largura + o.item.largura) / 2;
+      return Math.abs(x - o.pos.x) < meio && Math.abs(y - o.pos.y) < meio * 1.33;
+    });
+  const pos = (p: Posicao) => ({ x: p.x, y: p.y, camada: p.camada ?? 0, giro: p.giro ?? Math.round(Math.random() * 20 - 10) });
+
+  // Alvos primeiro (precisam ficar tocáveis); dentro de cada grupo, quem tem menos opções escolhe antes.
+  const grupo = (lista: ItemCena[]) => embaralhar(lista).sort((a, b) => a.posicoes.length - b.posicoes.length);
+  const enfeites = itens.filter((i) => !alvos.includes(i));
+  for (const item of [...grupo(alvos), ...grupo(enfeites)]) {
+    const eAlvo = alvos.includes(item);
+    const livres = item.posicoes.filter((p) => !sobrepoe(p.x, p.y, item.largura));
+    if (livres.length > 0) {
+      postos.push({ item, pos: pos(livres[Math.floor(Math.random() * livres.length)]) });
+      continue;
+    }
+    // Sem lugar livre entre os permitidos: tenta um ponto livre qualquer da área.
+    let achou: Posicao | null = null;
+    if (area) {
+      for (let t = 0; t < 300 && !achou; t++) {
+        const x = area.x1 + Math.random() * (area.x2 - area.x1);
+        const y = area.y1 + Math.random() * (area.y2 - area.y1);
+        if (!sobrepoe(x, y, item.largura)) achou = { x: Math.round(x), y: Math.round(y) };
+      }
+    }
+    if (achou) postos.push({ item, pos: pos(achou) });
+    // Sem lugar nenhum: o enfeite some desta rodada; o alvo vai para um lugar permitido (nunca falta).
+    else if (eAlvo) postos.push({ item, pos: pos(item.posicoes[Math.floor(Math.random() * item.posicoes.length)]) });
+  }
+  return postos;
+}
+
 /** Jogo de achar itens escondidos em cenas. As cenas ficam em `cenas/`. */
 export function Achar({ idioma, aoVoltar }: PropsJogo) {
   const [cena, setCena] = useState<Cena | null>(null);
@@ -93,7 +135,14 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
 
   // Itens procurados nesta rodada (sorteados de novo a cada "jogar de novo").
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const alvos = useMemo(() => embaralhar(cena.itens).slice(0, cena.alvos), [cena, rodada]);
+  const sorteio = useMemo(() => {
+    const ordem = embaralhar(cena.itens);
+    const alvos = ordem.slice(0, cena.alvos);
+    const total = cena.itensPorRodada ?? cena.itens.length;
+    const naCena = ordem.slice(0, Math.max(total, cena.alvos));
+    return { alvos, postos: sortearPosicoes(naCena, alvos, cena.areaLivre) };
+  }, [cena, rodada]);
+  const { alvos, postos } = sorteio;
   // Só as próximas palavras ainda não achadas aparecem na lista.
   const visiveis = alvos.filter((a) => !achados.includes(a.id)).slice(0, PALAVRAS_VISIVEIS);
   const idsAlvo = visiveis.map((a) => a.id);
@@ -185,16 +234,16 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
       </section>
 
       <div className="cena cena-achar" style={estiloCena} onClick={tocarFundo} data-sem-leitura>
-        {[...cena.itens]
-          .sort((a, b) => (a.camada ?? 0) - (b.camada ?? 0))
-          .map((item) => {
+        {[...postos]
+          .sort((a, b) => a.pos.camada - b.pos.camada || a.pos.y - b.pos.y)
+          .map(({ item, pos }) => {
             const achado = achados.includes(item.id);
             const estilo = {
-              left: `${item.x}%`,
-              top: `${item.y}%`,
+              left: `${pos.x}%`,
+              top: `${pos.y}%`,
               '--largura': `${item.largura}%`,
-              zIndex: item.camada ?? 0,
-              transform: `translate(-50%, -50%) rotate(${item.giro ?? 0}deg)`,
+              zIndex: pos.camada,
+              transform: `translate(-50%, -50%) rotate(${pos.giro}deg)`,
             } as CSSProperties;
             return (
               <button

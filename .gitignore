@@ -28,3 +28,6 @@ Thumbs.db
 coverage
 playwright-report
 test-results
+
+# Imagens geradas pela skill split-image-objects
+split-output
