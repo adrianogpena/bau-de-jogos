@@ -2,7 +2,7 @@ import type { Cena } from '../tipos';
 import { item, lugar } from './util';
 
 /**
- * Cena da Lavandaria (lavanderia). Fundo em `public/imagens/achar/fundos/lavanderia.jpg`, itens em `public/imagens/achar/itens/`.
+ * Cena da Lavandaria (lavanderia). Fundo em `public/imagens/achar/fundos/lavanderia.jpg`, itens em `public/imagens/itens/`.
  * Não peça como item nada que já esteja desenhado no fundo (caixas das prateleiras, cesto de vime, vasos, molas do estendal).
  * Cada item lista os lugares onde faz sentido ficar; se todos estiverem ocupados, cai num ponto livre da `areaLivre`.
  */

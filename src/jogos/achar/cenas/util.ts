@@ -1,7 +1,7 @@
 import type { ItemCena, Posicao } from '../tipos';
 
-/** Caminho da imagem de um item. Todos os itens ficam em `public/imagens/achar/itens/`. */
-export const img = (id: string) => `imagens/achar/itens/${id}.png`;
+/** Caminho da imagem de um item. Todos os itens ficam em `public/imagens/itens/`. */
+export const img = (id: string) => `imagens/itens/${id}.png`;
 
 /** Lista de pontos `[x, y]` (em % da cena 4:3) onde um item pode ficar. */
 export const lugar = (...pontos: [x: number, y: number][]): Posicao[] => pontos.map(([x, y]) => ({ x, y }));

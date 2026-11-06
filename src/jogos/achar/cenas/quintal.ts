@@ -2,7 +2,7 @@ import type { Cena } from '../tipos';
 import { item, lugar } from './util';
 
 /**
- * Cena do Quintal (jardim). Fundo em `public/imagens/achar/fundos/quintal.jpg`, itens em `public/imagens/achar/itens/`.
+ * Cena do Quintal (jardim). Fundo em `public/imagens/achar/fundos/quintal.jpg`, itens em `public/imagens/itens/`.
  * Não peça como item nada que já esteja desenhado no fundo (árvore, baloiço, banco, arbustos e flores do canteiro).
  * Cada item lista os lugares onde faz sentido ficar; se todos estiverem ocupados, cai num ponto livre da `areaLivre`.
  */

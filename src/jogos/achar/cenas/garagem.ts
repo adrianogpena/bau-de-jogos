@@ -2,7 +2,7 @@ import type { Cena } from '../tipos';
 import { item, lugar } from './util';
 
 /**
- * Cena da Garagem (oficina). Fundo em `public/imagens/achar/fundos/garagem.jpg`, itens em `public/imagens/achar/itens/`.
+ * Cena da Garagem (oficina). Fundo em `public/imagens/achar/fundos/garagem.jpg`, itens em `public/imagens/itens/`.
  * Não peça como item nada que já esteja desenhado no fundo (caixas, vasos, escada, carro).
  * Cada item lista os lugares onde faz sentido ficar; se todos estiverem ocupados, cai num ponto livre da `areaLivre`.
  */

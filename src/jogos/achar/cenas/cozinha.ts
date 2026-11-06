@@ -2,7 +2,7 @@ import type { Cena } from '../tipos';
 import { item, lugar } from './util';
 
 /**
- * Cena da Cozinha. Fundo em `public/imagens/achar/fundos/cozinha.jpg`, itens em `public/imagens/achar/itens/`.
+ * Cena da Cozinha. Fundo em `public/imagens/achar/fundos/cozinha.jpg`, itens em `public/imagens/itens/`.
  * Não peça como item nada que já esteja desenhado no fundo (frascos, vasos das prateleiras).
  * Cada item lista os lugares onde faz sentido ficar; se todos estiverem ocupados, cai num ponto livre da `areaLivre`.
  */

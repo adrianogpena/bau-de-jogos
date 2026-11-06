@@ -3,7 +3,7 @@ import { item, lugar } from './util';
 
 /**
  * Cena do Escritório (cantinho de estudo). Fundo em `public/imagens/achar/fundos/escritorio.jpg`,
- * itens em `public/imagens/achar/itens/`.
+ * itens em `public/imagens/itens/`.
  * Não peça como item nada que já esteja desenhado no fundo (livros, plantas, mapa-múndi).
  * Cada item lista os lugares onde faz sentido ficar; se todos estiverem ocupados, cai num ponto livre da `areaLivre`.
  */

@@ -2,7 +2,7 @@ import type { Cena } from '../tipos';
 import { item, lugar } from './util';
 
 /**
- * Cena da Sala. Fundo em `public/imagens/achar/fundos/sala.jpg`, itens em `public/imagens/achar/itens/`.
+ * Cena da Sala. Fundo em `public/imagens/achar/fundos/sala.jpg`, itens em `public/imagens/itens/`.
  * Não peça como item nada que já esteja desenhado no fundo (livros, planta da estante, candeeiro de pé).
  * Cada item lista os lugares onde faz sentido ficar; se todos estiverem ocupados, cai num ponto livre da `areaLivre`.
  */

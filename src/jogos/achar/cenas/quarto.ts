@@ -2,7 +2,7 @@ import type { Cena } from '../tipos';
 import { item, lugar } from './util';
 
 /**
- * Cena do Quarto. Fundo em `public/imagens/achar/fundos/quarto.jpg`, itens em `public/imagens/achar/itens/`.
+ * Cena do Quarto. Fundo em `public/imagens/achar/fundos/quarto.jpg`, itens em `public/imagens/itens/`.
  * Não peça como item nada que já esteja desenhado no fundo (livros, baú, cestos, plantas, abajur).
  *
  * Cada item tem uma lista de `posicoes` permitidas; a cada rodada o jogo sorteia uma.

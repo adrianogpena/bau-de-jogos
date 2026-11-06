@@ -133,143 +133,85 @@ Five separate fantasy items on a pure white background (#FFFFFF), flat and unifo
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-## Palavras dos jogos de Escrita e Leitura — 122 imagens em 25 prompts
+## Palavras dos jogos de Escrita e Leitura — 90 imagens em 18 prompts
 
-Hoje essas palavras usam pictogramas do ARASAAC (`public/imagens/arasaac/<número>.png`). Estes prompts geram imagens no estilo do app para substituí-los. Cada prompt traz até 5 objetos em fundo branco puro; depois a skill `split-image-objects` separa cada um em `public/imagens/palavras/<número>.png` (o número é o mesmo pictograma de `src/compartilhado/palavras.ts`, na ordem do prompt). Formato **4:3**. A imagem é a mesma em pt-PT e pt-BR (por isso fica neutra, sem texto).
+As palavras abaixo ainda usam pictogramas do ARASAAC (`public/imagens/arasaac/<número>.png`). Estes prompts geram imagens no estilo do app para substituí-los. As outras 32 palavras já usam imagens de `public/imagens/itens/`.
 
-### palavras-01 (5 objetos: gato 2406, cão/cachorro 2517, peixe 2520, pássaro 2490, maçã 2462)
+Cada prompt traz até 5 objetos em fundo branco puro; depois a skill `split-image-objects` separa cada um em `public/imagens/itens/<nome>.png` (pasta compartilhada entre os jogos; o nome do arquivo vem do cabeçalho, na ordem do prompt). Depois de salvar, ponha `arquivo: '<nome>'` na palavra em `src/compartilhado/palavras.ts`. Formato **4:3**. A imagem é a mesma em pt-PT e pt-BR (por isso fica neutra, sem texto).
+
+### palavras-01 (5 objetos: gato → gato, cão/cachorro → cachorro, peixe → peixe, laranja → laranja, leite → leite)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
 1. a cute friendly cat sitting, orange tabby with white paws, curled tail;
 2. a cute friendly puppy dog sitting, brown and white with floppy ears and a wagging tail;
 3. a cute colorful fish swimming, orange with blue fins and a smiling eye;
-4. a small cute songbird perched, blue and yellow feathers, open friendly eye;
-5. a shiny red apple with a short brown stem and one green leaf.
+4. a juicy round orange with a small green leaf on top;
+5. a glass bottle of white milk with a glass of milk beside it.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-02 (5 objetos: banana 2530, laranja 2483, pão 2494, leite 2445, casa 2317)
+### palavras-02 (5 objetos: casa → casa, gelado/sorvete → sorvete, sumo/suco → suco, telemóvel/celular → celular, árvore → arvore)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a ripe yellow banana, slightly curved, with a small green tip;
-2. a juicy round orange with a small green leaf on top;
-3. a golden crusty loaf of bread with a few diagonal cuts on top;
-4. a glass bottle of white milk with a glass of milk beside it;
-5. a cozy little house with a red roof, a door, two windows and a small chimney.
+1. a cozy little house with a red roof, a door, two windows and a small chimney;
+2. an ice cream cone with two scoops, pink and cream, with a small cherry on top;
+3. a tall glass of orange juice with a straw and a slice of orange on the rim;
+4. a smartphone, front view, with a colorful screen showing only simple round app icons (no text);
+5. a big leafy green tree with a thick brown trunk.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-03 (5 objetos: bola 2269, carro 2339, autocarro/ônibus 38090, comboio/trem 2603, gelado/sorvete 35209)
+### palavras-03 (5 objetos: bebé/bebê → bebe, sandes/sanduíche → sanduiche, cavalo → cavalo, cama → cama, camião/caminhão → caminhao)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a colorful round beach ball with red, yellow and blue panels;
-2. a cute small red car, side view, round headlights and friendly look;
-3. a cute yellow city bus, side view, many windows and round wheels;
-4. a cute little blue train with a locomotive and one wagon, side view;
-5. an ice cream cone with two scoops, pink and cream, with a small cherry on top.
+1. a cute smiling baby sitting in a diaper, with a tiny curl of hair;
+2. a sandwich with bread, lettuce, tomato and cheese layers visible, cut in half;
+3. a friendly brown horse standing, with a dark mane and tail;
+4. a cozy bed with a blue blanket and a white pillow;
+5. a cute big orange truck, side view, with an open cargo bed.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-04 (5 objetos: sumo/suco 11461, telemóvel/celular 2586, árvore 2256, flor 3102, abelha 2239)
+### palavras-04 (5 objetos: porco → porco, colher → colher, elefante → elefante, morango → morango, leão → leao)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a tall glass of orange juice with a straw and a slice of orange on the rim;
-2. a smartphone, front view, with a colorful screen showing only simple round app icons (no text);
-3. a big leafy green tree with a thick brown trunk;
-4. a pretty flower with pink petals, a yellow center, a green stem and two leaves;
-5. a cute striped yellow and black bee flying, with small transparent wings.
+1. a cute pink pig standing, with a curly tail and a round snout;
+2. a shiny silver spoon, tilted, showing the bowl of the spoon;
+3. a cute gray elephant standing, with a long trunk raised and big ears;
+4. a juicy red strawberry with tiny yellow seeds and a green leafy top;
+5. a friendly lion sitting, with a golden mane and a smiling face.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-05 (5 objetos: avião 2264, barco 2273, bebé/bebê 2275, bicicleta 2277, sandes/sanduíche 2281)
+### palavras-05 (5 objetos: macaco → macaco, pera → pera, pato → pato, tartaruga → tartaruga, vaca → vaca)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a cute white passenger airplane with blue stripes, side view;
-2. a small sailing boat with a red hull and a white sail, floating on a bit of blue water;
-3. a cute smiling baby sitting in a diaper, with a tiny curl of hair;
-4. a red bicycle, side view, with a small basket at the front;
-5. a sandwich with bread, lettuce, tomato and cheese layers visible, cut in half.
-Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
-```
-
-### palavras-06 (5 objetos: cavalo 2294, cama 2304, camião/caminhão 2306, porco 2327, coelho 2351)
-```
-Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
-Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a friendly brown horse standing, with a dark mane and tail;
-2. a cozy bed with a blue blanket and a white pillow;
-3. a cute big orange truck, side view, with an open cargo bed;
-4. a cute pink pig standing, with a curly tail and a round snout;
-5. a cute white rabbit sitting, with long upright ears and a pink nose.
-Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
-```
-
-### palavras-07 (5 objetos: colher 2362, elefante 2372, morango 2400, ovo 2427, lápis 2440)
-```
-Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
-Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a shiny silver spoon, tilted, showing the bowl of the spoon;
-2. a cute gray elephant standing, with a long trunk raised and big ears;
-3. a juicy red strawberry with tiny yellow seeds and a green leafy top;
-4. a white egg, whole, next to a cracked egg showing a bright yolk;
-5. a yellow pencil with a pink eraser and a sharpened tip, laid diagonally.
-Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
-```
-
-### palavras-08 (5 objetos: leão 2449, livro 2450, borboleta 2465, macaco 2477, queijo 2541)
-```
-Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
-Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a friendly lion sitting, with a golden mane and a smiling face;
-2. a closed hardcover book with a red cover and a golden bookmark ribbon, no text on the cover;
-3. a beautiful butterfly with open wings in orange, yellow and blue patterns;
-4. a cute brown monkey sitting, with a long curled tail and a light face;
-5. a wedge of yellow cheese with round holes.
-Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
-```
-
-### palavras-09 (5 objetos: relógio 2549, pera 2561, pato 2563, chapéu 2572, tomate 2594)
-```
-Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
-Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a round wall clock with a white face, simple hands and no numbers, only small tick marks;
+1. a cute brown monkey sitting, with a long curled tail and a light face;
 2. a ripe green-yellow pear with a short brown stem and a leaf;
 3. a cute yellow duck swimming, with an orange beak;
-4. a classic brimmed hat in warm brown with a red band;
-5. a shiny red tomato with a green star-shaped top.
+4. a cute green tortoise walking, with a patterned brown shell;
+5. a friendly black and white cow standing, with a pink nose and a small bell.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-10 (5 objetos: tartaruga 2596, vaca 2609, cenoura 2619, mesa 3129, cadeira 3155)
+### palavras-06 (5 objetos: mesa → mesa, cadeira → cadeira, frigorífico/geladeira → geladeira, sol → sol, bolo → bolo)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a cute green tortoise walking, with a patterned brown shell;
-2. a friendly black and white cow standing, with a pink nose and a small bell;
-3. an orange carrot with a green leafy top;
-4. a simple wooden table with four legs, slightly angled view;
-5. a simple wooden chair with a straight back, three-quarter view.
-Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
-```
-
-### palavras-11 (5 objetos: uvas 3247, frigorífico/geladeira 3272, óculos 3329, sol 7252, bolo 8042)
-```
-Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
-Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a bunch of purple grapes with a green leaf and a small stem;
-2. a tall white refrigerator with two doors, one slightly open showing bright light inside;
-3. a pair of round eyeglasses with a blue frame;
+1. a simple wooden table with four legs, slightly angled view;
+2. a simple wooden chair with a straight back, three-quarter view;
+3. a tall white refrigerator with two doors, one slightly open showing bright light inside;
 4. a bright yellow sun with soft rounded rays (no face);
 5. a birthday cake with pink frosting and one lit candle.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-12 (5 objetos: sapato 32923, lebre 17265, meta 16817, rato 2546, pedra 6594)
+### palavras-07 (5 objetos: sapato → sapato, lebre → lebre, meta → meta, rato → rato, pedra → pedra)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
@@ -281,115 +223,103 @@ Five separate objects on a pure white background (#FFFFFF), flat and uniform: no
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-13 (5 objetos: rede 2548, corda 26026, cigarra 16613, formiga 2425, trigo 7285)
+### palavras-08 (5 objetos: rede → rede, cigarra → cigarra, formiga → formiga, trigo → trigo, violino → violino)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
 1. a fishing net, spread open, made of knotted brown cords, with a few floats;
-2. a coil of thick beige rope, neatly rolled, with one end hanging;
-3. a cicada insect sitting on a branch, green with transparent veined wings;
-4. a cute black-brown ant seen from the side, carrying a tiny crumb;
-5. a bundle of golden wheat stalks tied with a ribbon.
+2. a cicada insect sitting on a branch, green with transparent veined wings;
+3. a cute black-brown ant seen from the side, carrying a tiny crumb;
+4. a bundle of golden wheat stalks tied with a ribbon;
+5. a brown violin with a bow lying next to it.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-14 (5 objetos: violino 2615, neve 3135, corvo 4619, raposa 2623, bico 5538)
+### palavras-09 (5 objetos: neve → neve, corvo → corvo, raposa → raposa, bico → bico, porquinho → porquinho)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a brown violin with a bow lying next to it;
-2. a small pile of fresh white snow with a few snowflakes falling above;
-3. a black crow perched, with glossy feathers and a strong beak;
-4. a cute orange fox sitting, with a bushy white-tipped tail and pointed ears;
-5. a close-up of a bird's head in profile with a large, clear yellow-orange beak.
+1. a small pile of fresh white snow with a few snowflakes falling above;
+2. a black crow perched, with glossy feathers and a strong beak;
+3. a cute orange fox sitting, with a bushy white-tipped tail and pointed ears;
+4. a close-up of a bird's head in profile with a large, clear yellow-orange beak;
+5. a cute little pink piglet standing, smiling, with a small curly tail.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-15 (5 objetos: porquinho 5954, palha 6163, madeira 6143, tijolo 2951, lobo 6140)
+### palavras-10 (5 objetos: palha → palha, madeira → madeira, tijolo → tijolo, lobo → lobo, avó → avo)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a cute little pink piglet standing, smiling, with a small curly tail;
-2. a loose bundle of yellow straw tied in the middle;
-3. a neat stack of brown wooden planks and a couple of logs;
-4. a small stack of red-orange bricks with a trowel of cement on top;
-5. a gray wolf standing, with pointed ears and a bushy tail, wild but friendly-looking (not scary).
+1. a loose bundle of yellow straw tied in the middle;
+2. a neat stack of brown wooden planks and a couple of logs;
+3. a small stack of red-orange bricks with a trowel of cement on top;
+4. a gray wolf standing, with pointed ears and a bushy tail, wild but friendly-looking (not scary);
+5. a kind smiling grandmother with gray hair in a bun, round glasses, a shawl and an apron.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-16 (5 objetos: cesto/cesta 3012, avó 23710, olhos 2876, lenhador 2943, chocolate 25940)
+### palavras-11 (5 objetos: olhos → olhos, lenhador → lenhador, chocolate → chocolate, bruxa → bruxa, forno → forno)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a woven wicker basket with a handle and a checkered cloth inside;
-2. a kind smiling grandmother with gray hair in a bun, round glasses, a shawl and an apron;
-3. a pair of big expressive eyes, front view, brown with long lashes, no face around them;
-4. a friendly lumberjack in a red plaid shirt holding an axe, with a beard and boots;
-5. a bar of chocolate with some squares broken off, wrapped partly in golden foil (no text).
+1. a pair of big expressive eyes, front view, brown with long lashes, no face around them;
+2. a friendly lumberjack in a red plaid shirt holding an axe, with a beard and boots;
+3. a bar of chocolate with some squares broken off, wrapped partly in golden foil (no text);
+4. a witch with a pointed black hat, green skin, a crooked nose and a purple robe, holding a broom (cute, not scary);
+5. a stone oven with an arched opening, glowing orange fire inside and a small chimney.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-17 (5 objetos: bruxa 5404, forno 10135, espelho 2385, anão 5450, príncipe 5555)
+### palavras-12 (5 objetos: anão → anao, príncipe → principe, burro → burro, galo → galo, janela → janela)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a witch with a pointed black hat, green skin, a crooked nose and a purple robe, holding a broom (cute, not scary);
-2. a stone oven with an arched opening, glowing orange fire inside and a small chimney;
-3. an ornate hand mirror with a golden frame and a soft shine on the glass;
-4. a cute dwarf with a long white beard, a red pointed hat, a blue jacket and a small pickaxe;
-5. a young prince with a small golden crown, a blue cape, a white shirt and a thin sword at his belt.
+1. a cute dwarf with a long white beard, a red pointed hat, a blue jacket and a small pickaxe;
+2. a young prince with a small golden crown, a blue cape, a white shirt and a thin sword at his belt;
+3. a gray donkey standing, with long ears and a friendly face;
+4. a proud rooster with a red comb and colorful tail feathers, standing;
+5. a wooden window with open shutters and a flower box with red flowers beneath it.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-18 (5 objetos: burro 2291, galo 2404, janela 2611, princesa 5554, poço 8197)
+### palavras-13 (5 objetos: princesa → princesa, poço → poco, coroa → coroa, porta → porta, gruta/caverna → caverna)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a gray donkey standing, with long ears and a friendly face;
-2. a proud rooster with a red comb and colorful tail feathers, standing;
-3. a wooden window with open shutters and a flower box with red flowers beneath it;
-4. a beautiful young princess with a long pink dress, a small tiara and long brown hair;
-5. a round stone well with a little wooden roof, a rope and a wooden bucket.
+1. a beautiful young princess with a long pink dress, a small tiara and long brown hair;
+2. a round stone well with a little wooden roof, a rope and a wooden bucket;
+3. a golden royal crown with red and blue gems and small pearls on its points;
+4. a wooden door with an arched top, iron hinges and a round handle, closed;
+5. a rocky cave entrance, a dark opening in a gray stone hill, with a couple of small plants at its base.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-19 (5 objetos: sapo 3384, coroa 25016, porta 3244, gruta/caverna 2729, tesouro 6229)
+### palavras-14 (5 objetos: tesouro → tesouro, anel → anel, génio/gênio → genio, palácio → palacio, ilha → ilha)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a cute green frog sitting, with big round eyes and a light belly;
-2. a golden royal crown with red and blue gems and small pearls on its points;
-3. a wooden door with an arched top, iron hinges and a round handle, closed;
-4. a rocky cave entrance, a dark opening in a gray stone hill, with a couple of small plants at its base;
-5. an open wooden treasure chest overflowing with gold coins, pearls and gems.
+1. an open wooden treasure chest overflowing with gold coins, pearls and gems;
+2. a golden ring with a sparkling blue gem, shown slightly tilted;
+3. a friendly blue genie, floating with arms crossed, a turban, a curly mustache and a smoky tail instead of legs;
+4. a grand fairy-tale palace with white walls, golden domes, tall towers and blue flags;
+5. a small tropical island with a sandy beach, a green palm tree and blue water around it.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-20 (5 objetos: anel 2252, génio/gênio 6004, palácio 17279, ilha 2966, diamante 6475)
+### palavras-15 (5 objetos: diamante → diamante, caçador → cacador, baleia → baleia, sopa → sopa, águia → aguia)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a golden ring with a sparkling blue gem, shown slightly tilted;
-2. a friendly blue genie, floating with arms crossed, a turban, a curly mustache and a smoky tail instead of legs;
-3. a grand fairy-tale palace with white walls, golden domes, tall towers and blue flags;
-4. a small tropical island with a sandy beach, a green palm tree and blue water around it;
-5. a big sparkling blue diamond, cut in facets, with small shine stars around.
-Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
-```
-
-### palavras-21 (5 objetos: caçador 8533, prato 16857, baleia 2268, sopa 2573, águia 2638)
-```
-Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
-Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. a hunter in a green jacket and a feathered hat, holding a bow, with a leather bag, friendly look;
-2. a round white dinner plate with a blue border, top view, empty;
+1. a big sparkling blue diamond, cut in facets, with small shine stars around;
+2. a hunter in a green jacket and a feathered hat, holding a bow, with a leather bag, friendly look;
 3. a cute big blue whale, side view, with a white belly and a small water spout on top;
 4. a bowl of hot soup with a spoon, steam rising and small vegetables visible;
 5. a majestic eagle with open wings, brown feathers, white head and a yellow beak.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-22 (5 objetos: boca 2663, barriga 2786, orelhas 2871, feiticeiro 38024, lua 2933)
+### palavras-16 (5 objetos: boca → boca, barriga → barriga, orelhas → orelhas, feiticeiro → feiticeiro, lua → lua)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
@@ -401,35 +331,26 @@ Five separate objects on a pure white background (#FFFFFF), flat and uniform: no
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-23 (5 objetos: osso 2972, folha 5077, cobra 35051, jarro 37689, ladrão 4674)
+### palavras-17 (5 objetos: osso → osso, cobra → cobra, jarro → jarro, ladrão → ladrao, jaula → jaula)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
 1. a white bone, cartoon style, with round knobs at both ends;
-2. a single green leaf with visible veins and a short stem;
-3. a cute green snake coiled up with a lifted head and a thin red tongue;
-4. a clay jar with two handles, brown with a decorative pattern around the belly;
-5. a thief wearing a striped shirt and a black eye mask, sneaking with a small sack over the shoulder (cute, not scary).
+2. a cute green snake coiled up with a lifted head and a thin red tongue;
+3. a clay jar with two handles, brown with a decorative pattern around the belly;
+4. a thief wearing a striped shirt and a black eye mask, sneaking with a small sack over the shoulder (cute, not scary);
+5. an empty metal cage with a rounded top, thin vertical bars and a small open door.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
 
-### palavras-24 (5 objetos: jaula 5494, rei 5563, lareira 8072, panela 9086, lâmpada 9178)
+### palavras-18 (5 objetos: rei → rei, lareira → lareira, lâmpada → lampada, saco → saco, chaminé → chamine)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
-1. an empty metal cage with a rounded top, thin vertical bars and a small open door;
-2. a kind old king with a white beard, a golden crown, a red and white royal robe and a golden scepter;
-3. a stone fireplace with a warm crackling fire and a couple of logs;
-4. a silver cooking pot with two handles and a lid, with steam rising;
-5. an old golden oil lamp (magic lamp style) with a curved spout and a small handle, with a tiny sparkle.
-Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
-```
-
-### palavras-25 (2 objetos: saco 6210, chaminé 2333)
-```
-Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
-Two separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in a single row:
-1. a beige cloth sack tied at the top with a rope, rounded and full;
-2. a red brick chimney on top of a small roof section, with a little smoke rising.
+1. a kind old king with a white beard, a golden crown, a red and white royal robe and a golden scepter;
+2. a stone fireplace with a warm crackling fire and a couple of logs;
+3. an old golden oil lamp (magic lamp style) with a curved spout and a small handle, with a tiny sparkle;
+4. a beige cloth sack tied at the top with a rope, rounded and full;
+5. a red brick chimney on top of a small roof section, with a little smoke rising.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```

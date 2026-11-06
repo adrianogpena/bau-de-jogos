@@ -2,7 +2,7 @@ import type { Cena } from '../tipos';
 import { item, lugar } from './util';
 
 /**
- * Cena da Casa de banho (banheiro). Fundo em `public/imagens/achar/fundos/banheiro.jpg`, itens em `public/imagens/achar/itens/`.
+ * Cena da Casa de banho (banheiro). Fundo em `public/imagens/achar/fundos/banheiro.jpg`, itens em `public/imagens/itens/`.
  * Não peça como item nada que já esteja desenhado no fundo (plantas, livros do armário).
  * Cada item lista os lugares onde faz sentido ficar; se todos estiverem ocupados, cai num ponto livre da `areaLivre`.
  */
