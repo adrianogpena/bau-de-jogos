@@ -1,8 +1,16 @@
 {
   "vozes": [
-    { "id": "tugao", "nome": "Tugão", "variante": "pt-PT", "modelo": "pt_PT-tugão-medium.onnx" },
-    { "id": "cadu", "nome": "Cadu", "variante": "pt-BR", "modelo": "pt_BR-cadu-medium.onnx" },
-    { "id": "faber", "nome": "Faber", "variante": "pt-BR", "modelo": "pt_BR-faber-medium.onnx" },
-    { "id": "jeff", "nome": "Jeff", "variante": "pt-BR", "modelo": "pt_BR-jeff-medium.onnx" }
+    {
+      "id": "tugao",
+      "nome": "Tugão",
+      "variante": "pt-PT",
+      "modelo": "pt_PT-tugão-medium.onnx"
+    },
+    {
+      "id": "faber",
+      "nome": "Faber",
+      "variante": "pt-BR",
+      "modelo": "pt_BR-faber-medium.onnx"
+    }
   ]
 }

@@ -3,12 +3,12 @@ import { hashTexto } from './hashTexto';
 import config from './vozes-narrador.json';
 
 /**
- * Narração com áudio de vozes escolhidas (em vez da voz do aparelho).
+ * Narração com a voz de áudio da variante (Tugão em pt-PT, Faber em pt-BR), em vez da voz do aparelho.
  *
  * Cada fala tem um arquivo `audio/<variante>/<voz>/t/<hash do texto>.mp3`. No servidor de testes
  * (`npm run servidor`), se o arquivo ainda não existe, ele é gerado na hora com o Piper e fica guardado
  * em `public/audio/`. Se o áudio não puder ser tocado, a fala cai na voz do aparelho.
- * No app publicado só existem os áudios já gerados (as histórias de escrita e leitura); o resto cai na voz do aparelho.
+ * No app publicado só existem os áudios já gerados (as histórias de escrita e leitura); o resto fica com a voz do aparelho.
  */
 
 export interface VozNarrador {
@@ -35,37 +35,11 @@ export interface OpcoesAparelho {
   voz?: SpeechSynthesisVoice;
 }
 
-// ---------- voz escolhida ----------
+// ---------- voz do narrador ----------
 
-const CHAVE = 'bau-de-jogos:voz-narrador';
-
-function lerEscolhas(): Partial<Record<Idioma, string>> {
-  try {
-    return JSON.parse(localStorage.getItem(CHAVE) ?? '{}');
-  } catch {
-    return {};
-  }
-}
-
-export function vozesDaVariante(idioma: Idioma): VozNarrador[] {
-  return VOZES_NARRADOR.filter((v) => v.variante === idioma);
-}
-
-/** Voz de áudio escolhida para a variante, ou null para usar a voz do aparelho. */
+/** Voz de áudio da variante (a primeira da lista), ou null para usar a voz do aparelho. */
 export function vozEscolhida(idioma: Idioma): VozNarrador | null {
-  const id = lerEscolhas()[idioma];
-  return vozesDaVariante(idioma).find((v) => v.id === id) ?? null;
-}
-
-export function escolherVozNarrador(idioma: Idioma, id: string | null): void {
-  const escolhas = lerEscolhas();
-  if (id) escolhas[idioma] = id;
-  else delete escolhas[idioma];
-  try {
-    localStorage.setItem(CHAVE, JSON.stringify(escolhas));
-  } catch {
-    // sem armazenamento: a escolha vale só até recarregar
-  }
+  return VOZES_NARRADOR.find((v) => v.variante === idioma) ?? null;
 }
 
 // ---------- falas ----------

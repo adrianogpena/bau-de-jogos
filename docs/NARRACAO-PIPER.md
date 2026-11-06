@@ -1,17 +1,16 @@
-# Testar vozes do Piper no app
+# Narrador com vozes do Piper
 
-O Piper é um narrador gratuito que roda no seu computador (sem internet). No servidor de testes, o menu inicial ganha o grupo **Voz**: *Aparelho* (a voz do tablet/navegador, como sempre) e as vozes do Piper da variante escolhida. A escolha vale para **todos os textos do app** (histórias, RPG, escape room, leitura ao segurar botões).
+O Piper é um narrador gratuito que roda no computador (sem internet). O app usa **Tugão** (pt-PT) e **Faber** (pt-BR) como voz do narrador. Se o áudio de uma frase não existir ou falhar, a frase é lida pela voz do aparelho.
 
-| Variante | Vozes |
-|---|---|
-| pt-PT | Tugão |
-| pt-BR | Cadu, Faber, Jeff |
-
-Todas são vozes de qualidade média, treinadas com dados CC0 (domínio público) a partir de vozes inglesas. Antes de publicar o app com elas, confira a licença das vozes inglesas de origem (lessac).
+Ambas são vozes de qualidade média, treinadas com dados CC0 (domínio público) a partir de vozes inglesas. Antes de cobrar pelo app, confira a licença das vozes inglesas de origem (lessac).
 
 ## Como funciona
 
-Cada frase lida vira um arquivo `public/audio/<variante>/<voz>/t/<código do texto>.mp3`. Na primeira vez que uma frase é lida com uma voz, o servidor de testes a gera na hora (cerca de 1 a 2 segundos de espera); nas próximas já está pronta. Se algo falhar, a frase é lida pela voz do aparelho. Esses arquivos são só um cache de testes e não vão para o git.
+Cada frase lida vira um arquivo `public/audio/<variante>/<voz>/t/<código do texto>.mp3`.
+
+- **App publicado:** só toca as frases já geradas e guardadas no projeto: as histórias dos jogos de escrita e leitura. O resto fica com a voz do aparelho.
+- **Servidor de testes (`npm run servidor`):** uma frase sem áudio é gerada na hora (1 a 2 segundos) e fica guardada em `public/audio/`. Assim dá para ouvir o RPG e o escape room com a voz do Piper.
+- **Gerar todas as histórias de uma vez:** `npm run audio:piper` (com `-- --simular` só conta as frases). Se uma história mudar, rode de novo: só as frases novas são geradas.
 
 ## Preparar (uma vez)
 
@@ -21,7 +20,7 @@ Cada frase lida vira um arquivo `public/audio/<variante>/<voz>/t/<código do tex
 ```bash
 mkdir -p modelos-piper && cd modelos-piper
 B=https://huggingface.co/rhasspy/piper-voices/resolve/main/pt
-for v in pt_PT/tugão pt_BR/cadu pt_BR/faber pt_BR/jeff; do
+for v in pt_PT/tugão pt_BR/faber; do
   l=${v%%/*}; n=${v##*/}
   for ext in onnx onnx.json; do curl -L -O "$B/$l/$n/medium/$l-$n-medium.$ext"; done
 done
@@ -35,13 +34,11 @@ done
 npm run servidor     # http://localhost:5199/bau-de-jogos/
 ```
 
-No menu, escolha o idioma e depois a voz. Toque em qualquer texto para ouvir. Jogue normalmente e compare as vozes com as frases de cada jogo.
+## Trocar de voz
 
-## Adicionar ou trocar vozes
-
-Edite `src/compartilhado/vozes-narrador.json` (id, nome, variante e arquivo do modelo) e coloque o `.onnx` em `modelos-piper/`. Outras vozes: <https://huggingface.co/rhasspy/piper-voices>.
+Edite `src/compartilhado/vozes-narrador.json` (id, nome, variante e arquivo do modelo), coloque o `.onnx` em `modelos-piper/` e rode `npm run audio:piper`. O app usa a primeira voz de cada variante. Outras vozes: <https://huggingface.co/rhasspy/piper-voices>.
 
 ## Limites
 
-- A troca de voz só aparece em `npm run servidor`/`npm run dev`, não no app publicado. Para publicar uma voz, os áudios precisam ser gerados e entrar no projeto (próximo passo).
+- Os áudios do app publicado não ficam guardados para uso offline; sem internet, a leitura usa a voz do aparelho.
 - O destaque da palavra lida acompanha o áudio por uma estimativa (proporcional ao tamanho das palavras), então pode adiantar ou atrasar um pouco.
