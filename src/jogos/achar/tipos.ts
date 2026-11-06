@@ -30,7 +30,7 @@ export interface Posicao {
 /** Um item escondido na cena. */
 export interface ItemCena {
   id: string;
-  /** Caminho da imagem a partir de `public/` (ex.: `imagens/achar/quintal/gato.png`). */
+  /** Caminho da imagem a partir de `public/` (ex.: `imagens/achar/quarto/ursinho.png`). */
   imagem: string;
   /** A palavra certa depende da variante (ex.: cão / cachorro). */
   palavra: TextoPorIdioma;
