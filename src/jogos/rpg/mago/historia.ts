@@ -15,7 +15,7 @@ const O_QUE_FAZER: TextoPorIdioma = {
 export const CENAS_MAGO: Record<string, CenaMago> = {
   hall: {
     id: 'hall',
-    emoji: '🏰',
+    emoji: '[[cenas/hall]]',
     texto: {
       'pt-PT':
         '{nome}, aprendiz de {escola}, chega ao grande hall da Torre Encantada. O Mestre dos Magos está preocupado: «Ontem caiu uma estrela no topo da torre e a magia ficou toda baralhada! Os livros voam, as plantas crescem sozinhas e as escadas mudam de lugar. Sobe até ao topo e descobre o que se passa. Os teus feitiços vão ajudar-te!»',
@@ -27,7 +27,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
 
   biblioteca: {
     id: 'biblioteca',
-    emoji: '📚',
+    emoji: '[[cenas/biblioteca]]',
     texto: {
       'pt-PT':
         'No primeiro andar fica a biblioteca, e está uma loucura! Os livros voam pelo ar. Um deles, o Livro Mordilhão, vem a bater as capas na direção de {nome}!',
@@ -39,7 +39,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
 
   estudo: {
     id: 'estudo',
-    emoji: '📖',
+    emoji: '[[cenas/estudo]]',
     texto: {
       'pt-PT':
         'Depois da confusão, um livro velho cai aberto aos pés de {nome}. Lá dentro há feitiços de outras escolas de magia! Um bom mago aprende sempre algo novo.',
@@ -51,7 +51,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
 
   estufa: {
     id: 'estufa',
-    emoji: '🌿',
+    emoji: '[[cenas/estufa]]',
     texto: {
       'pt-PT':
         'No segundo andar fica a estufa. Trepadeiras gigantes taparam a porta da escada! É preciso abrir caminho.',
@@ -103,7 +103,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   estufa_fogo: {
     id: 'estufa_fogo',
-    emoji: '🔥',
+    emoji: '[[feiticos/chama]]',
     texto: {
       'pt-PT':
         '{nome} estala os dedos e uma chama bem pequenina salta para as trepadeiras. Fuuuum! Elas encolhem e a porta fica livre, sem estragar nenhuma flor.',
@@ -114,7 +114,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   estufa_gelo: {
     id: 'estufa_gelo',
-    emoji: '🧊',
+    emoji: '[[feiticos/estilhaco-de-gelo]]',
     texto: {
       'pt-PT':
         '{nome} sopra um vento gelado. As trepadeiras ficam duras como vidro e, com um toque, partem-se em mil pedacinhos a tilintar. A porta está livre!',
@@ -125,7 +125,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   estufa_natureza: {
     id: 'estufa_natureza',
-    emoji: '🌱',
+    emoji: '[[cenas/broto]]',
     texto: {
       'pt-PT':
         '{nome} fala baixinho com as plantas. As trepadeiras percebem que estavam a atrapalhar, desenrolam-se devagar e até fazem uma vénia. A porta está livre!',
@@ -136,7 +136,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   estufa_estrelas: {
     id: 'estufa_estrelas',
-    emoji: '💡',
+    emoji: '[[interface/lampada-dica]]',
     texto: {
       'pt-PT':
         '{nome} faz brilhar uma estrelinha no ar. A luz mostra uma porta secreta atrás das folhas, uma passagem que ninguém via. Está livre o caminho!',
@@ -147,7 +147,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   estufa_procura: {
     id: 'estufa_procura',
-    emoji: '🔎',
+    emoji: '[[cenas/lupa]]',
     texto: {
       'pt-PT': '{nome} espreita entre as folhas e procura uma alavanca ou um segredo. Pensa bem!',
       'pt-BR': '{nome} espia entre as folhas e procura uma alavanca ou um segredo. Pense bem!',
@@ -156,7 +156,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   estufa_alavanca: {
     id: 'estufa_alavanca',
-    emoji: '🪝',
+    emoji: '[[cenas/gancho]]',
     texto: {
       'pt-PT': 'Achou! Uma alavanca escondida atrás de um vaso. Clic! As trepadeiras recolhem-se.',
       'pt-BR': 'Achou! Uma alavanca escondida atrás de um vaso. Clic! As trepadeiras se recolhem.',
@@ -165,7 +165,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   estufa_planta: {
     id: 'estufa_planta',
-    emoji: '🪴',
+    emoji: '[[inimigos/planta-comilona]]',
     texto: {
       'pt-PT': 'Ups! Com o barulho, uma planta comilona acordou e abriu a boca enorme!',
       'pt-BR': 'Ops! Com o barulho, uma planta comilona acordou e abriu a boca enorme!',
@@ -175,7 +175,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
 
   laboratorio: {
     id: 'laboratorio',
-    emoji: '🧪',
+    emoji: '[[cenas/laboratorio]]',
     texto: {
       'pt-PT':
         'No terceiro andar fica o laboratório, com poções a borbulhar e ninguém por perto. {nome} encontra uma caminha quentinha e uma chávena de chá mágico. Descansa um pouco e recupera a vida e a energia mágica.',
@@ -188,7 +188,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
 
   corredor: {
     id: 'corredor',
-    emoji: '👻',
+    emoji: '[[cenas/corredor]]',
     texto: {
       'pt-PT':
         'No quarto andar, o corredor está cheio de névoa. De repente, um fantasma aparece a rir: «Buuu! Ninguém passa sem brincar comigo!»',
@@ -200,7 +200,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
 
   abismo: {
     id: 'abismo',
-    emoji: '🌌',
+    emoji: '[[cenas/abismo]]',
     texto: {
       'pt-PT':
         'No quinto andar, o chão da escada desabou! Há um buraco enorme e, do outro lado, está a porta que leva ao topo. Como vai {nome} atravessar?',
@@ -246,7 +246,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   abismo_fogo: {
     id: 'abismo_fogo',
-    emoji: '🎈',
+    emoji: '[[cenas/balao]]',
     texto: {
       'pt-PT':
         '{nome} acende uma fogueira mágica e o ar quente sobe, sobe, sobe! Leve como uma pena, {nome} flutua até ao outro lado.',
@@ -257,7 +257,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   abismo_gelo: {
     id: 'abismo_gelo',
-    emoji: '🌉',
+    emoji: '[[cenas/ponte]]',
     texto: {
       'pt-PT':
         '{nome} aponta o cajado e o gelo cresce, cresce, até formar uma ponte brilhante e escorregadia. Deslizar por ela é uma festa!',
@@ -268,7 +268,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   abismo_natureza: {
     id: 'abismo_natureza',
-    emoji: '🌳',
+    emoji: '[[cenas/arvore]]',
     texto: {
       'pt-PT':
         '{nome} planta uma sementinha no chão e, num instante, raízes grossas e fortes crescem e formam uma ponte cheia de florzinhas.',
@@ -279,7 +279,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   abismo_estrelas: {
     id: 'abismo_estrelas',
-    emoji: '🌈',
+    emoji: '[[cenas/arco-iris]]',
     texto: {
       'pt-PT':
         '{nome} risca o ar com o cajado e deixa um rasto de estrelas. A luz fica firme como pedra e forma uma ponte para atravessar.',
@@ -290,7 +290,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   abismo_salto: {
     id: 'abismo_salto',
-    emoji: '⚡',
+    emoji: '[[cenas/raio]]',
     texto: {
       'pt-PT': '{nome} junta toda a magia nas pernas, respira fundo e... salta por cima do buraco!',
       'pt-BR': '{nome} junta toda a magia nas pernas, respira fundo e... pula por cima do buraco!',
@@ -299,7 +299,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   abismo_saltou: {
     id: 'abismo_saltou',
-    emoji: '🤸',
+    emoji: '[[cenas/acrobata]]',
     texto: {
       'pt-PT': 'Que salto! {nome} aterra do outro lado, com a capa a esvoaçar.',
       'pt-BR': 'Que pulo! {nome} aterrissa do outro lado, com a capa esvoaçando.',
@@ -308,7 +308,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   abismo_gargula: {
     id: 'abismo_gargula',
-    emoji: '🗿',
+    emoji: '[[inimigos/gargula]]',
     texto: {
       'pt-PT':
         'Quase! {nome} agarra-se à borda e uma gárgula de pedra acorda, toda zangada por ter sido incomodada!',
@@ -320,7 +320,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
 
   topo: {
     id: 'topo',
-    emoji: '🪨',
+    emoji: '[[inimigos/golem-guardiao]]',
     texto: {
       'pt-PT':
         'No topo da torre, uma luz dourada enche a sala. À frente, o Golem Guardião bloqueia a porta e grita com voz de pedra: «Ninguém se aproxima da estrela!»',
@@ -332,7 +332,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
 
   dragao: {
     id: 'dragao',
-    emoji: '🐉',
+    emoji: '[[inimigos/dragao]]',
     texto: {
       'pt-PT':
         'O Golem desfaz-se em pedrinhas. Atrás dele, {nome} vê a estrela caída e, enroscado nela, um dragãozinho de estrelas a tremer de medo. Foi ele que, sem querer, baralhou toda a magia da torre! Como vai {nome} acalmá-lo?',
@@ -381,7 +381,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   fim_fogo: {
     id: 'fim_fogo',
-    emoji: '🔥',
+    emoji: '[[feiticos/chama]]',
     texto: {
       'pt-PT':
         '{nome} acende uma fogueirinha, quentinha como uma noite de acampamento. O dragãozinho aquece-se, sorri e deixa de tremer. A estrela sobe ao céu e a Torre Encantada volta a brilhar. O Mestre dos Magos aplaude: «Que grande aprendiz de Fogo!»',
@@ -392,7 +392,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   fim_gelo: {
     id: 'fim_gelo',
-    emoji: '❄️',
+    emoji: '[[feiticos/congelar]]',
     texto: {
       'pt-PT':
         '{nome} faz cair uma neve macia e brilhante. O dragãozinho ri, apanha os flocos com as patinhas e acalma-se. A estrela sobe ao céu e a Torre Encantada volta a brilhar. O Mestre dos Magos aplaude: «Que grande aprendiz de Gelo!»',
@@ -403,7 +403,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   fim_natureza: {
     id: 'fim_natureza',
-    emoji: '🌿',
+    emoji: '[[feiticos/folhas-curativas]]',
     texto: {
       'pt-PT':
         '{nome} faz crescer uma caminha de folhas macias e flores cheirosas. O dragãozinho deita-se, boceja e adormece sem medo. A estrela sobe ao céu e a Torre Encantada volta a brilhar. O Mestre dos Magos aplaude: «Que grande aprendiz da Natureza!»',
@@ -414,7 +414,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   fim_estrelas: {
     id: 'fim_estrelas',
-    emoji: '⭐',
+    emoji: '[[feiticos/chuva-de-estrelas]]',
     texto: {
       'pt-PT':
         '{nome} faz dançar pequenas estrelinhas no ar. O dragãozinho reconhece aquelas luzes, é como estar em casa, e acalma-se. A estrela sobe ao céu e a Torre Encantada volta a brilhar. O Mestre dos Magos aplaude: «Que grande aprendiz das Estrelas!»',
@@ -425,7 +425,7 @@ export const CENAS_MAGO: Record<string, CenaMago> = {
   },
   fim_carinho: {
     id: 'fim_carinho',
-    emoji: '🤗',
+    emoji: '[[cenas/abraco]]',
     texto: {
       'pt-PT':
         '{nome} senta-se ao lado do dragãozinho, fala baixinho e faz-lhe festinhas na cabeça. Sem magia nenhuma, ele deixa de ter medo. A estrela sobe ao céu e a Torre Encantada volta a brilhar. O Mestre dos Magos aplaude: «Às vezes, a melhor magia é a gentileza!»',

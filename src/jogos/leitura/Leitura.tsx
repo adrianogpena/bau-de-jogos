@@ -6,6 +6,7 @@ import { type Fabula, paragrafoCompleto, segmentosDoParagrafo } from '../../comp
 import { EscolherFabula } from '../../compartilhado/EscolherFabula';
 import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
+import { Icone, comIcones } from '../../compartilhado/icones';
 
 const OPCOES = 4;
 
@@ -96,9 +97,9 @@ function LeituraFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
   if (!rodada) {
     return (
       <main className="tela tela-centro">
-        <h1>{t(TEXTOS.fim, idioma)}</h1>
+        <h1>{comIcones(t(TEXTOS.fim, idioma))}</h1>
         <p className="texto-grande">
-          ⭐ {pontos} / {fabula.rodadas.length}
+          <Icone id="interface/estrela" /> {pontos} / {fabula.rodadas.length}
         </p>
         <p>{t(TEXTOS.historiaToda, idioma)}</p>
         <TextoNarrado
@@ -133,7 +134,7 @@ function LeituraFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
       </header>
 
       <h2>
-        {fabula.emoji} {t(fabula.titulo, idioma)}
+        {comIcones(fabula.emoji)} {t(fabula.titulo, idioma)}
       </h2>
 
       {acertou && rodada.ultima ? (
@@ -181,7 +182,7 @@ function LeituraFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
       </div>
 
       <p className="mensagem mensagem-acerto">
-        {acertou ? t(TEXTOS.muitoBem, idioma) : erradas.length > 0 ? t(TEXTOS.tentaOutra, idioma) : ''}
+        {acertou ? comIcones(t(TEXTOS.muitoBem, idioma)) : erradas.length > 0 ? t(TEXTOS.tentaOutra, idioma) : ''}
       </p>
 
       {acertou && (

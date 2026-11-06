@@ -2,7 +2,7 @@ import { fabula } from './modelo';
 
 export const brancaDeNeve = fabula({
   id: 'branca-de-neve',
-  emoji: '🍎',
+  emoji: '[[historias/branca-de-neve]]',
   titulo: { 'pt-PT': 'A Branca de Neve', 'pt-BR': 'Branca de Neve' },
   paragrafos: [
     {

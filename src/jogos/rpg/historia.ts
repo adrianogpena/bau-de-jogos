@@ -1,7 +1,7 @@
 import type { TextoPorIdioma } from '../../compartilhado/idioma';
 import type { Cena, Inimigo, NomeAtributo } from './tipos';
 
-export const AVATARES = ['🦊', '🐻', '🦁', '🐰'];
+export const AVATARES = ['[[menu/categoria-fabulas]]', '[[extras/ursinho]]', '[[historias/leao-rato]]', '[[cenas/coelho]]'];
 
 export const PONTOS_PARA_DISTRIBUIR = 6;
 export const ATRIBUTO_MINIMO = 1;
@@ -15,25 +15,25 @@ export const ATRIBUTOS: {
 }[] = [
   {
     id: 'forca',
-    emoji: '💪',
+    emoji: '[[interface/forca]]',
     nome: { 'pt-PT': 'Força', 'pt-BR': 'Força' },
     ajuda: { 'pt-PT': 'Acerta mais e bate mais forte', 'pt-BR': 'Acerta mais e bate mais forte' },
   },
   {
     id: 'agilidade',
-    emoji: '⚡',
+    emoji: '[[interface/agilidade]]',
     nome: { 'pt-PT': 'Agilidade', 'pt-BR': 'Agilidade' },
     ajuda: { 'pt-PT': 'Foge dos golpes e salta bem', 'pt-BR': 'Foge dos golpes e pula bem' },
   },
   {
     id: 'inteligencia',
-    emoji: '🧠',
+    emoji: '[[extras/inteligencia]]',
     nome: { 'pt-PT': 'Inteligência', 'pt-BR': 'Inteligência' },
     ajuda: { 'pt-PT': 'Resolve enigmas', 'pt-BR': 'Resolve enigmas' },
   },
   {
     id: 'coragem',
-    emoji: '❤️',
+    emoji: '[[extras/coragem]]',
     nome: { 'pt-PT': 'Coragem', 'pt-BR': 'Coragem' },
     ajuda: { 'pt-PT': 'Dá mais vida', 'pt-BR': 'Dá mais vida' },
   },
@@ -47,7 +47,7 @@ export function vidaMaxima(coragem: number): number {
 export const INIMIGOS: Record<string, Inimigo> = {
   lobo: {
     id: 'lobo',
-    emoji: '🐺',
+    emoji: '[[inimigos/lobo]]',
     nome: { 'pt-PT': 'O Lobo', 'pt-BR': 'O Lobo' },
     pontosDeVida: 8,
     defesa: 11,
@@ -56,7 +56,7 @@ export const INIMIGOS: Record<string, Inimigo> = {
   },
   lesma: {
     id: 'lesma',
-    emoji: '🐌',
+    emoji: '[[inimigos/lesma]]',
     nome: { 'pt-PT': 'A Lesma Gigante', 'pt-BR': 'A Lesma Gigante' },
     pontosDeVida: 6,
     defesa: 8,
@@ -65,7 +65,7 @@ export const INIMIGOS: Record<string, Inimigo> = {
   },
   morcego: {
     id: 'morcego',
-    emoji: '🦇',
+    emoji: '[[inimigos/morcego]]',
     nome: { 'pt-PT': 'O Morcego', 'pt-BR': 'O Morcego' },
     pontosDeVida: 6,
     defesa: 12,
@@ -74,7 +74,7 @@ export const INIMIGOS: Record<string, Inimigo> = {
   },
   esqueleto: {
     id: 'esqueleto',
-    emoji: '💀',
+    emoji: '[[inimigos/esqueleto]]',
     nome: { 'pt-PT': 'O Esqueleto', 'pt-BR': 'O Esqueleto' },
     pontosDeVida: 9,
     defesa: 11,
@@ -83,7 +83,7 @@ export const INIMIGOS: Record<string, Inimigo> = {
   },
   sapo: {
     id: 'sapo',
-    emoji: '🐸',
+    emoji: '[[inimigos/sapo-gigante]]',
     nome: { 'pt-PT': 'O Sapo Gigante', 'pt-BR': 'O Sapo Gigante' },
     pontosDeVida: 8,
     defesa: 9,
@@ -92,7 +92,7 @@ export const INIMIGOS: Record<string, Inimigo> = {
   },
   goblin: {
     id: 'goblin',
-    emoji: '👺',
+    emoji: '[[inimigos/goblin-chefe]]',
     nome: { 'pt-PT': 'O Goblin Chefe', 'pt-BR': 'O Goblin Chefe' },
     pontosDeVida: 16,
     defesa: 12,
@@ -191,7 +191,7 @@ const O_QUE_FAZER: TextoPorIdioma = {
 export const CENAS: Record<string, Cena> = {
   aldeia: {
     id: 'aldeia',
-    emoji: '🏘️',
+    emoji: '[[cenas/aldeia]]',
     texto: {
       'pt-PT':
         'O Chefe da aldeia chama {nome} à praça: «A Pedra da Lua foi roubada pelo Goblin Chefe e o céu ficou escuro! Ele escondeu-se numa caverna, longe daqui. Só tu podes trazer a Pedra de volta!»',
@@ -207,7 +207,7 @@ export const CENAS: Record<string, Cena> = {
   },
   mapa: {
     id: 'mapa',
-    emoji: '🗺️',
+    emoji: '[[interface/mapa]]',
     texto: {
       'pt-PT':
         'O Chefe desenrola um mapa velho e cheio de enigmas: «Este mapa esconde atalhos secretos! Lê as pistas com atenção e descobre onde fica cada atalho. Se acertares tudo, o caminho será mais fácil.»',
@@ -218,7 +218,7 @@ export const CENAS: Record<string, Cena> = {
   },
   saida: {
     id: 'saida',
-    emoji: '🛤️',
+    emoji: '[[cenas/estrada]]',
     texto: {
       'pt-PT':
         '{nome} chega ao fim da aldeia. O caminho divide-se: de um lado, a floresta escura; do outro, um rio com pedras no meio da água.',
@@ -240,7 +240,7 @@ export const CENAS: Record<string, Cena> = {
   },
   floresta: {
     id: 'floresta',
-    emoji: '🌲',
+    emoji: '[[cenas/floresta]]',
     texto: {
       'pt-PT': '{nome} entra na floresta escura. Dois olhos amarelos brilham entre as árvores... É um lobo!',
       'pt-BR': '{nome} entra na floresta escura. Dois olhos amarelos brilham entre as árvores... É um lobo!',
@@ -249,7 +249,7 @@ export const CENAS: Record<string, Cena> = {
   },
   rio: {
     id: 'rio',
-    emoji: '🌊',
+    emoji: '[[cenas/rio]]',
     texto: {
       'pt-PT': '{nome} chega ao rio. Há pedras no meio da água para atravessar. Salta de pedra em pedra sem cair!',
       'pt-BR': '{nome} chega ao rio. Há pedras no meio da água para atravessar. Pule de pedra em pedra sem cair!',
@@ -258,7 +258,7 @@ export const CENAS: Record<string, Cena> = {
   },
   rio_certo: {
     id: 'rio_certo',
-    emoji: '🐇',
+    emoji: '[[cenas/coelho]]',
     texto: {
       'pt-PT': 'Que salto! {nome} atravessou como um coelho, sem molhar os pés.',
       'pt-BR': 'Que pulo! {nome} atravessou como um coelho, sem molhar os pés.',
@@ -267,7 +267,7 @@ export const CENAS: Record<string, Cena> = {
   },
   rio_errado: {
     id: 'rio_errado',
-    emoji: '💦',
+    emoji: '[[cenas/rio]]',
     texto: {
       'pt-PT': 'Escorregou! Plof! Uma lesma gigante saiu da água, toda gosmenta!',
       'pt-BR': 'Escorregou! Plof! Uma lesma gigante saiu da água, toda gosmenta!',
@@ -276,7 +276,7 @@ export const CENAS: Record<string, Cena> = {
   },
   trilha: {
     id: 'trilha',
-    emoji: '⛰️',
+    emoji: '[[cenas/montanha]]',
     texto: {
       'pt-PT':
         'Seguindo o mapa, {nome} encontra uma trilha escondida na montanha. Ninguém passa por ali há anos! Sobre uma pedra, está esquecida uma poção de força. 💥',
@@ -288,7 +288,7 @@ export const CENAS: Record<string, Cena> = {
   },
   clareira: {
     id: 'clareira',
-    emoji: '🧪',
+    emoji: '[[cenas/clareira]]',
     texto: {
       'pt-PT':
         'Numa clareira, um baú brilha ao luar. Lá dentro está uma poção mágica! 🧪 {nome} descansa um pouco e recupera as forças.',
@@ -300,7 +300,7 @@ export const CENAS: Record<string, Cena> = {
   },
   vale: {
     id: 'vale',
-    emoji: '🏞️',
+    emoji: '[[cenas/vale]]',
     texto: {
       'pt-PT':
         'Depois da clareira, o caminho chega a um vale. À frente há uma ponte velha de madeira e, ao lado, um pântano cheio de sapos.',
@@ -322,7 +322,7 @@ export const CENAS: Record<string, Cena> = {
   },
   ponte: {
     id: 'ponte',
-    emoji: '🌉',
+    emoji: '[[cenas/ponte]]',
     texto: {
       'pt-PT': 'A ponte velha range e abana. Cuidado com as tábuas podres! Atravessa com equilíbrio.',
       'pt-BR': 'A ponte velha range e balança. Cuidado com as tábuas podres! Atravesse com equilíbrio.',
@@ -331,7 +331,7 @@ export const CENAS: Record<string, Cena> = {
   },
   ponte_certo: {
     id: 'ponte_certo',
-    emoji: '🤸',
+    emoji: '[[cenas/acrobata]]',
     texto: {
       'pt-PT': 'Que equilíbrio! {nome} atravessou a ponte sem partir nenhuma tábua.',
       'pt-BR': 'Que equilíbrio! {nome} atravessou a ponte sem quebrar nenhuma tábua.',
@@ -340,7 +340,7 @@ export const CENAS: Record<string, Cena> = {
   },
   ponte_errado: {
     id: 'ponte_errado',
-    emoji: '💀',
+    emoji: '[[inimigos/esqueleto]]',
     texto: {
       'pt-PT': 'Crac! Uma tábua partiu-se e um esqueleto saiu de baixo da ponte, a chocalhar os ossos!',
       'pt-BR': 'Crac! Uma tábua quebrou e um esqueleto saiu de baixo da ponte, chacoalhando os ossos!',
@@ -349,7 +349,7 @@ export const CENAS: Record<string, Cena> = {
   },
   pantano: {
     id: 'pantano',
-    emoji: '🐸',
+    emoji: '[[inimigos/sapo-gigante]]',
     texto: {
       'pt-PT': '{nome} entra no pântano. Plop! Um sapo gigante salta da lama!',
       'pt-BR': '{nome} entra no pântano. Plop! Um sapo gigante pula da lama!',
@@ -358,7 +358,7 @@ export const CENAS: Record<string, Cena> = {
   },
   tunel: {
     id: 'tunel',
-    emoji: '🔦',
+    emoji: '[[cenas/tunel-lanterna]]',
     texto: {
       'pt-PT':
         'Seguindo o mapa, {nome} encontra um túnel secreto escondido atrás de umas pedras. Lá dentro há um cantinho quente para descansar e uma poção de cura. 🧪',
@@ -370,7 +370,7 @@ export const CENAS: Record<string, Cena> = {
   },
   caverna: {
     id: 'caverna',
-    emoji: '🕳️',
+    emoji: '[[cenas/caverna]]',
     texto: {
       'pt-PT':
         '{nome} chega a uma grande porta de pedra, na entrada da caverna do Goblin Chefe. Tem três símbolos a brilhar: 🌙 ⭐ ☀️.',
@@ -396,7 +396,7 @@ export const CENAS: Record<string, Cena> = {
   },
   fechadura: {
     id: 'fechadura',
-    emoji: '🧠',
+    emoji: '[[extras/inteligencia]]',
     texto: {
       'pt-PT': 'A fechadura tem engrenagens e símbolos que rodam. Pensa bem na ordem certa!',
       'pt-BR': 'A fechadura tem engrenagens e símbolos que giram. Pense bem na ordem certa!',
@@ -405,7 +405,7 @@ export const CENAS: Record<string, Cena> = {
   },
   empurrar: {
     id: 'empurrar',
-    emoji: '💪',
+    emoji: '[[interface/forca]]',
     texto: {
       'pt-PT': '{nome} encosta o ombro à porta e empurra com todas as forças!',
       'pt-BR': '{nome} encosta o ombro na porta e empurra com todas as forças!',
@@ -414,7 +414,7 @@ export const CENAS: Record<string, Cena> = {
   },
   porta_mapa: {
     id: 'porta_mapa',
-    emoji: '🌙',
+    emoji: '[[cenas/lua]]',
     texto: {
       'pt-PT': 'Seguindo o mapa, {nome} toca no símbolo da Lua. A porta brilha e abre-se sozinha!',
       'pt-BR': 'Seguindo o mapa, {nome} toca no símbolo da Lua. A porta brilha e se abre sozinha!',
@@ -423,7 +423,7 @@ export const CENAS: Record<string, Cena> = {
   },
   porta_aberta: {
     id: 'porta_aberta',
-    emoji: '🚪',
+    emoji: '[[cenas/porta-de-pedra]]',
     texto: {
       'pt-PT': 'Clique! A porta abre-se devagarinho. {nome} conseguiu!',
       'pt-BR': 'Clique! A porta se abre devagarinho. {nome} conseguiu!',
@@ -432,7 +432,7 @@ export const CENAS: Record<string, Cena> = {
   },
   porta_morcego: {
     id: 'porta_morcego',
-    emoji: '🦇',
+    emoji: '[[inimigos/morcego]]',
     texto: {
       'pt-PT': 'Ups! A porta tremeu com o barulho. Um morcego acordou e voou na direção de {nome}!',
       'pt-BR': 'Ops! A porta tremeu com o barulho. Um morcego acordou e voou na direção de {nome}!',
@@ -441,7 +441,7 @@ export const CENAS: Record<string, Cena> = {
   },
   fundo: {
     id: 'fundo',
-    emoji: '👺',
+    emoji: '[[inimigos/goblin-chefe]]',
     texto: {
       'pt-PT': 'No fundo da caverna, o Goblin Chefe segura a Pedra da Lua. «É minha!», grita ele.',
       'pt-BR': 'No fundo da caverna, o Goblin Chefe segura a Pedra da Lua. «É minha!», grita ele.',
@@ -450,7 +450,7 @@ export const CENAS: Record<string, Cena> = {
   },
   fim: {
     id: 'fim',
-    emoji: '🌕',
+    emoji: '[[cenas/lua-cheia]]',
     texto: {
       'pt-PT':
         'A Pedra da Lua voltou ao céu e a noite ficou clara! A aldeia inteira festeja {nome}, o herói da aventura.',

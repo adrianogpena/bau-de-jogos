@@ -15,6 +15,7 @@ import {
   energiaMaxima,
   escolaPorId,
 } from './feiticos';
+import { Icone, comIcones } from '../../../compartilhado/icones';
 
 const TEXTOS = {
   titulo: { 'pt-PT': 'Cria o teu mago', 'pt-BR': 'Crie seu mago' },
@@ -85,7 +86,7 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
         </button>
       </header>
 
-      <h1>🧙 {t(TEXTOS.titulo, idioma)}</h1>
+      <h1><Icone id="interface/chapeu-de-mago" /> {t(TEXTOS.titulo, idioma)}</h1>
 
       <div className="ficha-papel">
         <label className="ficha-rotulo">
@@ -109,7 +110,7 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
               onClick={() => setAvatar(a)}
               aria-pressed={a === avatar}
             >
-              {a}
+              {comIcones(a)}
             </button>
           ))}
         </div>
@@ -124,7 +125,7 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
               aria-pressed={e.id === escolaId}
             >
               <span className="escola-emoji" aria-hidden="true">
-                {e.emoji}
+                {comIcones(e.emoji)}
               </span>
               <strong>{t(e.nome, idioma)}</strong>
               <small>{t(e.resumo, idioma)}</small>
@@ -141,11 +142,11 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
             return (
               <li key={id} className="feitico-linha">
                 <span className="feitico-emoji" aria-hidden="true">
-                  {f.emoji}
+                  {comIcones(f.emoji)}
                 </span>
                 <span className="feitico-texto">
                   <strong>
-                    {t(f.nome, idioma)} · <small>{preencher(t(TEXTOS.custo, idioma), { n: f.custo })}</small>
+                    {t(f.nome, idioma)} · <small>{comIcones(preencher(t(TEXTOS.custo, idioma), { n: f.custo }))}</small>
                   </strong>
                   <TextoNarrado compacto idioma={idioma} texto={t(f.descricao, idioma)} />
                 </span>
@@ -163,7 +164,7 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
         {HABILIDADES.map((hab) => (
           <div key={hab.id} className="linha-atributo">
             <span className="atributo-nome">
-              <span aria-hidden="true">{hab.emoji}</span>
+              <span aria-hidden="true">{comIcones(hab.emoji)}</span>
               <TextoNarrado
                 compacto
                 idioma={idioma}
@@ -193,7 +194,7 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
         ))}
 
         <p className="texto-grande">
-          ❤️ {t(TEXTOS.vida, idioma)}: {VIDA_MAGO} · 🔮 {t(TEXTOS.energia, idioma)}:{' '}
+          <Icone id="interface/coracao" /> {t(TEXTOS.vida, idioma)}: {VIDA_MAGO} · <Icone id="interface/bola-de-cristal" /> {t(TEXTOS.energia, idioma)}:{' '}
           {energiaMaxima(habilidades.energia)}
         </p>
       </div>

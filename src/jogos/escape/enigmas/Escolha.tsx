@@ -3,6 +3,7 @@ import { t } from '../../../compartilhado/idioma';
 import { somAcerto, somTentarDeNovo } from '../../../compartilhado/som';
 import type { EnigmaEscolha } from '../tipos';
 import { type PropsEnigma, TEXTOS_ENIGMA } from './tipos';
+import { comIcones } from '../../../compartilhado/icones';
 
 /** Escolher a opção certa; as erradas ficam apagadas, sem punição. */
 export function Escolha({ enigma, idioma, aoAcertar }: PropsEnigma<EnigmaEscolha>) {
@@ -30,7 +31,7 @@ export function Escolha({ enigma, idioma, aoAcertar }: PropsEnigma<EnigmaEscolha
             onClick={() => escolher(i)}
           >
             <span className="emoji-opcao" aria-hidden="true">
-              {opcao.emoji}
+              {comIcones(opcao.emoji)}
             </span>
             {t(opcao.nome, idioma)}
           </button>

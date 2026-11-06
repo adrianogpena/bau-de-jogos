@@ -25,7 +25,7 @@ const CHAO = lugar([38, 82], [48, 88], [58, 82], [68, 86], [78, 83], [88, 92], [
 
 export const banheiro: Cena = {
   id: 'banheiro',
-  emoji: '🛁',
+  emoji: '[[menu/comodo-banheiro]]',
   titulo: { 'pt-PT': 'A Casa de Banho', 'pt-BR': 'O Banheiro' },
   resumo: {
     'pt-PT': 'Alguém deixou tudo espalhado pela casa de banho. Consegues encontrar tudo?',

@@ -27,7 +27,7 @@ const PAREDE = lugar([77, 18]);
 
 export const cozinha: Cena = {
   id: 'cozinha',
-  emoji: '🍳',
+  emoji: '[[menu/comodo-cozinha]]',
   titulo: { 'pt-PT': 'A Cozinha', 'pt-BR': 'A Cozinha' },
   resumo: {
     'pt-PT': 'A cozinha está toda desarrumada. Consegues encontrar tudo?',

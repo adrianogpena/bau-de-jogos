@@ -12,6 +12,7 @@ import {
   PONTOS_PARA_DISTRIBUIR,
   vidaMaxima,
 } from './historia';
+import { Icone, comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
   titulo: { 'pt-PT': 'Cria o teu herói', 'pt-BR': 'Crie seu herói' },
@@ -85,7 +86,7 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
         </button>
       </header>
 
-      <h1>📜 {t(TEXTOS.titulo, idioma)}</h1>
+      <h1><Icone id="interface/pergaminho" /> {t(TEXTOS.titulo, idioma)}</h1>
 
       <div className="ficha-papel">
         <label className="ficha-rotulo">
@@ -109,7 +110,7 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
               onClick={() => setAvatar(a)}
               aria-pressed={a === avatar}
             >
-              {a}
+              {comIcones(a)}
             </button>
           ))}
         </div>
@@ -123,7 +124,7 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
         {ATRIBUTOS.map((atr) => (
           <div key={atr.id} className="linha-atributo">
             <span className="atributo-nome">
-              <span aria-hidden="true">{atr.emoji}</span>
+              <span aria-hidden="true">{comIcones(atr.emoji)}</span>
               <TextoNarrado
                 compacto
                 idioma={idioma}
@@ -153,7 +154,7 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
         ))}
 
         <p className="texto-grande">
-          ❤️ {t(TEXTOS.vida, idioma)}: {vidaMaxima(atributos.coragem)}
+          <Icone id="interface/coracao" /> {t(TEXTOS.vida, idioma)}: {vidaMaxima(atributos.coragem)}
         </p>
       </div>
 
@@ -170,18 +171,18 @@ export function ResumoFicha({ ficha, idioma }: { ficha: FichaPersonagem; idioma:
   return (
     <div className="resumo-ficha">
       <span className="resumo-avatar" aria-hidden="true">
-        {ficha.avatar}
+        {comIcones(ficha.avatar)}
       </span>
       <strong>{ficha.nome}</strong>
       <span>
-        ❤️ {ficha.pontosDeVida}/{ficha.pontosDeVidaMaximos}
+        <Icone id="interface/coracao" /> {ficha.pontosDeVida}/{ficha.pontosDeVidaMaximos}
       </span>
-      <span>🛡️ CA {estatisticas(ficha).ca}</span>
-      <span>🧪 {totalPocoes(ficha)}</span>
+      <span><Icone id="interface/escudo" /> CA {estatisticas(ficha).ca}</span>
+      <span><Icone id="interface/pocao" /> {totalPocoes(ficha)}</span>
       <Moedas pratas={ficha.prata} />
       {ATRIBUTOS.map((atr) => (
         <span key={atr.id} title={t(atr.nome, idioma)}>
-          {atr.emoji} {ficha.atributos[atr.id]}
+          {comIcones(atr.emoji)} {ficha.atributos[atr.id]}
         </span>
       ))}
     </div>

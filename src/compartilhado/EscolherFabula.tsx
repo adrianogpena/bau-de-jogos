@@ -1,5 +1,6 @@
 import { type Idioma, type TextoPorIdioma, t } from './idioma';
 import { COLECOES, type Fabula } from './historias';
+import { comIcones } from '../compartilhado/icones';
 
 const TEXTOS = {
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
@@ -30,7 +31,7 @@ export function EscolherFabula({
       </header>
 
       <h1>
-        {emoji} {t(TEXTOS.escolha, idioma)}
+        {comIcones(emoji)} {t(TEXTOS.escolha, idioma)}
       </h1>
       <p>{instrucao}</p>
 
@@ -41,7 +42,7 @@ export function EscolherFabula({
             {colecao.historias.map((fabula) => (
               <button key={fabula.id} className="cartao-jogo cartao-historia" onClick={() => aoEscolher(fabula)}>
                 <span className="emoji-grande" aria-hidden="true">
-                  {fabula.emoji}
+                  {comIcones(fabula.emoji)}
                 </span>
                 <strong>{t(fabula.titulo, idioma)}</strong>
                 <small>

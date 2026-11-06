@@ -2,7 +2,7 @@ import { fabula } from './modelo';
 
 export const simbad = fabula({
   id: 'simbad',
-  emoji: '⛵',
+  emoji: '[[historias/simbad]]',
   titulo: { 'pt-PT': 'Simbad, o Marinheiro', 'pt-BR': 'Simbad, o Marinheiro' },
   paragrafos: [
     {

@@ -10,6 +10,7 @@ import { CriarFicha, ResumoFicha } from './Ficha';
 import { Luta } from './Luta';
 import { Loja, PerguntaLoja } from './Loja';
 import { ListaPistas, Puzzle } from './Puzzle';
+import { Icone, comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
@@ -146,7 +147,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
         </button>
         {viuMapa && (
           <button className="botao botao-secundario" onClick={() => setVerPistas(!verPistas)} aria-pressed={verPistas}>
-            📜 {t(TEXTOS.pistas, idioma)}
+            <Icone id="interface/pergaminho" /> {t(TEXTOS.pistas, idioma)}
           </button>
         )}
       </header>
@@ -156,7 +157,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
       <ResumoFicha ficha={ficha} idioma={idioma} />
 
       <div className="emoji-grande" aria-hidden="true">
-        {cena.emoji}
+        {comIcones(cena.emoji)}
       </div>
       <TextoNarrado
         className="texto-historia"
@@ -219,12 +220,12 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
           <div className="acoes">
             {cena.luta && (
               <button className="botao" onClick={() => setFase('luta')}>
-                {t(TEXTOS.lutar, idioma)}
+                {comIcones(t(TEXTOS.lutar, idioma))}
               </button>
             )}
             {cena.teste && passou === null && (
               <button className="botao" onClick={fazerTeste} disabled={ocupado}>
-                {t(TEXTOS.lancar, idioma)}
+                {comIcones(t(TEXTOS.lancar, idioma))}
               </button>
             )}
             {cena.teste && passou !== null && (
@@ -232,7 +233,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
                 className="botao"
                 onClick={() => irPara(passou ? cena.teste!.sucesso : cena.teste!.falha)}
               >
-                {t(TEXTOS.continuar, idioma)}
+                {comIcones(t(TEXTOS.continuar, idioma))}
               </button>
             )}
             {cena.escolhas?.filter((e) => !e.exigeMapa || mapaDecifrado).map((escolha) => (
@@ -244,7 +245,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
 
           {cena.fim && (
             <>
-              <h2>{t(TEXTOS.fim, idioma)}</h2>
+              <h2>{comIcones(t(TEXTOS.fim, idioma))}</h2>
               <div className="acoes">
                 <button className="botao" onClick={aoRecomecar}>
                   {t(TEXTOS.jogarDeNovo, idioma)}

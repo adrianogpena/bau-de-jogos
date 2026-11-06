@@ -30,7 +30,7 @@ const PRATELEIRAS = [...PRATELEIRA_ALTA, ...PRATELEIRA_BAIXA];
 
 export const lavanderia: Cena = {
   id: 'lavanderia',
-  emoji: '🧺',
+  emoji: '[[menu/comodo-lavanderia]]',
   titulo: { 'pt-PT': 'A Lavandaria', 'pt-BR': 'A Lavanderia' },
   resumo: {
     'pt-PT': 'Anda tudo fora do sítio na lavandaria. Consegues encontrar tudo?',

@@ -23,7 +23,7 @@ const PAREDE = lugar([50, 25], [58, 33]);
 
 export const sala: Cena = {
   id: 'sala',
-  emoji: '🛋️',
+  emoji: '[[menu/comodo-sala]]',
   titulo: { 'pt-PT': 'A Sala', 'pt-BR': 'A Sala' },
   resumo: {
     'pt-PT': 'Há coisas perdidas pela sala toda. Consegues encontrá-las?',

@@ -2,7 +2,7 @@ import { fabula } from './modelo';
 
 export const lebreTartaruga = fabula({
   id: 'lebre-tartaruga',
-  emoji: '🐢',
+  emoji: '[[historias/lebre-tartaruga]]',
   titulo: { 'pt-PT': 'A Lebre e a Tartaruga', 'pt-BR': 'A Lebre e a Tartaruga' },
   paragrafos: [
     {

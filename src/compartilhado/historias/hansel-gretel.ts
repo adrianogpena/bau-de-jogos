@@ -2,7 +2,7 @@ import { fabula } from './modelo';
 
 export const hanselGretel = fabula({
   id: 'hansel-gretel',
-  emoji: '🍫',
+  emoji: '[[historias/joao-e-maria]]',
   titulo: { 'pt-PT': 'Hansel e Gretel', 'pt-BR': 'João e Maria' },
   paragrafos: [
     {

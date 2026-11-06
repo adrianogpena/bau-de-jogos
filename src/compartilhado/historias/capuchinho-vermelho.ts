@@ -2,7 +2,7 @@ import { fabula } from './modelo';
 
 export const capuchinhoVermelho = fabula({
   id: 'capuchinho-vermelho',
-  emoji: '🧺',
+  emoji: '[[historias/chapeuzinho-vermelho]]',
   titulo: { 'pt-PT': 'O Capuchinho Vermelho', 'pt-BR': 'Chapeuzinho Vermelho' },
   paragrafos: [
     {

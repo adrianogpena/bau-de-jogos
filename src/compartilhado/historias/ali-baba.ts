@@ -2,7 +2,7 @@ import { fabula } from './modelo';
 
 export const aliBaba = fabula({
   id: 'ali-baba',
-  emoji: '💰',
+  emoji: '[[historias/ali-baba]]',
   titulo: { 'pt-PT': 'Ali Babá e os Quarenta Ladrões', 'pt-BR': 'Ali Babá e os Quarenta Ladrões' },
   paragrafos: [
     {

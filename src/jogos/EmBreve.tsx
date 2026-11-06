@@ -1,5 +1,6 @@
 import type { PropsJogo } from './tipos';
 import { type TextoPorIdioma, t } from '../compartilhado/idioma';
+import { comIcones } from '../compartilhado/icones';
 
 const EM_CONSTRUCAO: TextoPorIdioma = {
   'pt-PT': 'Este jogo ainda está a ser construído!',
@@ -21,7 +22,7 @@ export function EmBreve({ idioma, aoVoltar, emoji, titulo }: Props) {
   return (
     <main className="tela tela-centro">
       <div className="emoji-grande" aria-hidden="true">
-        {emoji}
+        {comIcones(emoji)}
       </div>
       <h1>{t(titulo, idioma)}</h1>
       <p>{t(EM_CONSTRUCAO, idioma)}</p>

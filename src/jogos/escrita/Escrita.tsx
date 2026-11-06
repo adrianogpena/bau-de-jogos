@@ -6,6 +6,7 @@ import { type Fabula, paragrafoCompleto, segmentosDoParagrafo } from '../../comp
 import { EscolherFabula } from '../../compartilhado/EscolherFabula';
 import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
+import { Icone, comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
   escolha: {
@@ -105,9 +106,9 @@ function EscritaFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
   if (!rodada || !paragrafo || !segmentos) {
     return (
       <main className="tela tela-centro">
-        <h1>{t(TEXTOS.fim, idioma)}</h1>
+        <h1>{comIcones(t(TEXTOS.fim, idioma))}</h1>
         <p className="texto-grande">
-          ⭐ {acertos} / {fabula.rodadas.length}
+          <Icone id="interface/estrela" /> {acertos} / {fabula.rodadas.length}
         </p>
         <p>{t(TEXTOS.historiaToda, idioma)}</p>
         <TextoNarrado
@@ -141,7 +142,7 @@ function EscritaFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
       </header>
 
       <h2>
-        {fabula.emoji} {t(fabula.titulo, idioma)}
+        {comIcones(fabula.emoji)} {t(fabula.titulo, idioma)}
       </h2>
 
       {acertou && rodada.ultima ? (
@@ -203,7 +204,7 @@ function EscritaFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
               disabled={dicas >= letras.length}
               aria-label={t(TEXTOS.ajuda, idioma)}
             >
-              💡
+              <Icone id="interface/lampada-dica" />
             </button>
           </div>
         </>
@@ -237,7 +238,7 @@ function EscritaFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
 
         {acertou && (
           <p className="mensagem mensagem-acerto">
-            {t(TEXTOS.muitoBem, idioma)}
+            {comIcones(t(TEXTOS.muitoBem, idioma))}
             {resposta.trim().toLocaleLowerCase('pt') !== certa ? ` ${escreveSe(certa, idioma)}` : ''}
           </p>
         )}

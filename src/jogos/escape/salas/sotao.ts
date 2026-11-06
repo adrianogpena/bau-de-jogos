@@ -3,7 +3,7 @@ import type { Sala } from '../tipos';
 /** Sala de exemplo: mostra os quatro tipos de enigma e um objeto que precisa de uma chave. */
 export const sotao: Sala = {
   id: 'sotao',
-  emoji: '🏚️',
+  emoji: '[[extras/sotao]]',
   cor: '#ffc94d',
   titulo: { 'pt-PT': 'O Sótão Misterioso', 'pt-BR': 'O Sótão Misterioso' },
   resumo: {
@@ -50,7 +50,7 @@ export const sotao: Sala = {
     },
     {
       id: 'quadro',
-      emoji: '🖼️',
+      emoji: '[[extras/quadro]]',
       nome: { 'pt-PT': 'Quadro', 'pt-BR': 'Quadro' },
       x: 78,
       y: 22,
@@ -65,7 +65,7 @@ export const sotao: Sala = {
       },
       recompensa: {
         id: 'chave',
-        emoji: '🗝️',
+        emoji: '[[extras/chave-antiga]]',
         nome: { 'pt-PT': 'Chave pequena', 'pt-BR': 'Chave pequena' },
       },
       sucesso: {
@@ -79,7 +79,7 @@ export const sotao: Sala = {
     },
     {
       id: 'estante',
-      emoji: '📚',
+      emoji: '[[cenas/biblioteca]]',
       nome: { 'pt-PT': 'Estante', 'pt-BR': 'Estante' },
       x: 50,
       y: 48,
@@ -99,7 +99,7 @@ export const sotao: Sala = {
       },
       recompensa: {
         id: 'numero-7',
-        emoji: '📚',
+        emoji: '[[cenas/biblioteca]]',
         valor: '7',
         nome: { 'pt-PT': 'Estante', 'pt-BR': 'Estante' },
       },
@@ -114,7 +114,7 @@ export const sotao: Sala = {
     },
     {
       id: 'bau',
-      emoji: '🧸',
+      emoji: '[[extras/ursinho]]',
       nome: { 'pt-PT': 'Baú de brinquedos', 'pt-BR': 'Baú de brinquedos' },
       x: 22,
       y: 72,
@@ -133,7 +133,7 @@ export const sotao: Sala = {
       },
       recompensa: {
         id: 'numero-1',
-        emoji: '🧸',
+        emoji: '[[extras/ursinho]]',
         valor: '1',
         nome: { 'pt-PT': 'Baú', 'pt-BR': 'Baú' },
       },
@@ -148,7 +148,7 @@ export const sotao: Sala = {
     },
   ],
   saida: {
-    emoji: '🚪',
+    emoji: '[[cenas/porta-de-pedra]]',
     nome: { 'pt-PT': 'Porta', 'pt-BR': 'Porta' },
     enigma: {
       tipo: 'codigo',

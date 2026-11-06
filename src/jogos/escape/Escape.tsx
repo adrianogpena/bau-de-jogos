@@ -5,6 +5,7 @@ import { MotorSala } from './MotorSala';
 import { lerEstrelas } from './progresso';
 import { SALAS } from './salas';
 import type { Sala } from './tipos';
+import { Icone, comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
@@ -29,17 +30,17 @@ export function Escape({ idioma, aoVoltar }: PropsJogo) {
           ← {t(TEXTOS.voltar, idioma)}
         </button>
       </header>
-      <h1>🔐 {t(TEXTOS.titulo, idioma)}</h1>
+      <h1><Icone id="menu/jogo-escape" /> {t(TEXTOS.titulo, idioma)}</h1>
       <p>{t(TEXTOS.instrucao, idioma)}</p>
       <div className="grade-jogos">
         {SALAS.map((s) => (
           <button key={s.id} className="cartao-jogo cartao-historia" onClick={() => setSala(s)}>
             <span className="emoji-grande" aria-hidden="true">
-              {s.emoji}
+              {comIcones(s.emoji)}
             </span>
             <strong>{t(s.titulo, idioma)}</strong>
             <small>{t(s.resumo, idioma)}</small>
-            {estrelas[s.id] ? <span className="estrelas">{'⭐'.repeat(estrelas[s.id])}</span> : null}
+            {estrelas[s.id] ? <span className="estrelas">{comIcones('⭐'.repeat(estrelas[s.id]))}</span> : null}
           </button>
         ))}
       </div>

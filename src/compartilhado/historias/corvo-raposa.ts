@@ -2,7 +2,7 @@ import { fabula } from './modelo';
 
 export const corvoRaposa = fabula({
   id: 'corvo-raposa',
-  emoji: '🦊',
+  emoji: '[[historias/corvo-raposa]]',
   titulo: { 'pt-PT': 'O Corvo e a Raposa', 'pt-BR': 'O Corvo e a Raposa' },
   paragrafos: [
     {

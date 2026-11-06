@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { somAcerto, somTentarDeNovo } from '../../../compartilhado/som';
 import type { EnigmaPares } from '../tipos';
 import { type PropsEnigma, embaralhar } from './tipos';
+import { comIcones } from '../../../compartilhado/icones';
 
 /** Jogo da memória: virar duas cartas de cada vez até achar todos os pares. */
 export function Pares({ enigma, aoAcertar }: PropsEnigma<EnigmaPares>) {
@@ -42,7 +43,7 @@ export function Pares({ enigma, aoAcertar }: PropsEnigma<EnigmaPares>) {
               onClick={() => virar(i)}
               aria-label={aberta ? emoji : '?'}
             >
-              {aberta ? emoji : '❔'}
+              {comIcones(aberta ? emoji : '❔')}
             </button>
           );
         })}

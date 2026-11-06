@@ -182,8 +182,7 @@ p {
   width: 64px;
   height: 64px;
   border-radius: 18px;
-  background: linear-gradient(135deg, var(--destaque), var(--turquesa));
-  font-size: 2rem;
+  object-fit: cover;
   box-shadow: 0 8px 24px rgba(124, 92, 255, 0.45);
 }
 
@@ -1561,4 +1560,16 @@ p {
     align-content: flex-start;
     justify-content: flex-start;
   }
+}
+
+/* ícones desenhados no lugar dos emojis */
+.icone-texto {
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  vertical-align: -0.2em;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }

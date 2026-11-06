@@ -4,6 +4,7 @@ import { type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilh
 import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
 import { CENAS } from './cenas';
 import type { AreaLivre, Cena, ItemCena, Posicao } from './tipos';
+import { Icone, comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
@@ -106,13 +107,13 @@ export function Achar({ idioma, aoVoltar }: PropsJogo) {
           ← {t(TEXTOS.voltar, idioma)}
         </button>
       </header>
-      <h1>🔍 {t(TEXTOS.titulo, idioma)}</h1>
+      <h1><Icone id="menu/jogo-achar" /> {t(TEXTOS.titulo, idioma)}</h1>
       <p>{t(TEXTOS.instrucao, idioma)}</p>
       <div className="grade-jogos">
         {CENAS.map((c) => (
           <button key={c.id} className="cartao-jogo cartao-historia" onClick={() => setCena(c)}>
             <span className="emoji-grande" aria-hidden="true">
-              {c.emoji}
+              {comIcones(c.emoji)}
             </span>
             <strong>{t(c.titulo, idioma)}</strong>
             <small>{t(c.resumo, idioma)}</small>
@@ -201,18 +202,18 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
         <span className="vidas-achar" role="img" aria-label={`${t(TEXTOS.vidas, idioma)}: ${vidas}`}>
           {Array.from({ length: VIDAS }, (_, i) => (
             <span key={i} className="coracao">
-              {i < vidas ? '❤️' : <span className="coracao-vazio">🤍</span>}
+              {i < vidas ? <Icone id="interface/coracao" /> : <span className="coracao-vazio"><Icone id="interface/coracao-vazio" /></span>}
               {quebrando === i && i >= vidas && (
                 <>
                   <span className="metade metade-esq" aria-hidden="true">
-                    ❤️
+                    <Icone id="interface/coracao" />
                   </span>
                   <span
                     className="metade metade-dir"
                     aria-hidden="true"
                     onAnimationEnd={() => setQuebrando(null)}
                   >
-                    ❤️
+                    <Icone id="interface/coracao" />
                   </span>
                 </>
               )}
@@ -220,7 +221,7 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
           ))}
         </span>
         <button className="botao botao-secundario" onClick={pedirDica} disabled={terminou || perdeu}>
-          {t(TEXTOS.dica, idioma)}
+          {comIcones(t(TEXTOS.dica, idioma))}
         </button>
       </header>
 
@@ -263,13 +264,13 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
       </div>
 
       <p className="mensagem-sala" role="status">
-        {aviso ?? ' '}
+        {aviso ? comIcones(aviso) : ' '}
       </p>
 
       {perdeu && (
         <div className="fundo-modal">
           <div className="modal-enigma">
-            <h2>{t(TEXTOS.perdeu, idioma)}</h2>
+            <h2>{comIcones(t(TEXTOS.perdeu, idioma))}</h2>
             <p>{t(TEXTOS.perdeuTexto, idioma)}</p>
             <button className="botao" onClick={jogarDeNovo}>
               {t(TEXTOS.recomecar, idioma)}
@@ -284,7 +285,7 @@ function CenaJogavel({ cena, idioma, aoSair }: { cena: Cena; idioma: Idioma; aoS
       {terminou && (
         <div className="fundo-modal">
           <div className="modal-enigma">
-            <h2>{t(TEXTOS.fim, idioma)}</h2>
+            <h2>{comIcones(t(TEXTOS.fim, idioma))}</h2>
             {dicas > 0 && <p>{preencher(t(TEXTOS.dicasUsadas, idioma), { n: dicas })}</p>}
             <button className="botao" onClick={jogarDeNovo}>
               {t(TEXTOS.outraVez, idioma)}

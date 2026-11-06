@@ -5,6 +5,7 @@ import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
 import type { FichaPersonagem } from './tipos';
 import { CATEGORIAS, ITENS, type Item, estatisticas, totalPocoes } from './itens';
 import { Moedas } from './Moedas';
+import { Icone, comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
   pergunta: {
@@ -57,7 +58,7 @@ export function PerguntaLoja({
         </button>
       </header>
       <div className="emoji-grande" aria-hidden="true">
-        🛒
+        <Icone id="interface/carrinho-loja" />
       </div>
       <TextoNarrado className="texto-historia" idioma={idioma} texto={t(TEXTOS.pergunta, idioma)} />
       <p className="texto-grande">
@@ -65,7 +66,7 @@ export function PerguntaLoja({
       </p>
       <div className="acoes">
         <button className="botao" onClick={aoIrLoja}>
-          {t(TEXTOS.irLoja, idioma)}
+          {comIcones(t(TEXTOS.irLoja, idioma))}
         </button>
         <button className="botao botao-secundario" onClick={aoComecar}>
           {t(TEXTOS.semLoja, idioma)}
@@ -112,13 +113,13 @@ export function Loja({ idioma, ficha, aoAtualizar, aoComecar }: Props) {
 
   return (
     <main className="tela tela-centro">
-      <h1>🛒 {t(TEXTOS.titulo, idioma)}</h1>
+      <h1><Icone id="interface/carrinho-loja" /> {t(TEXTOS.titulo, idioma)}</h1>
       <p className="texto-grande">
         {t(TEXTOS.moedas, idioma)} <Moedas pratas={ficha.prata} />
       </p>
       <p>
         {preencher(t(TEXTOS.resumo, idioma), { ca: est.ca, ataque: est.bonusAtaque, dano: est.bonusDano })}
-        {ficha.escudo ? ' · 🛡️' : ''} · 🧪 {totalPocoes(ficha)}
+        {ficha.escudo ? <> · <Icone id="interface/escudo" /></> : ''} · <Icone id="interface/pocao" /> {totalPocoes(ficha)}
       </p>
 
       <div className="acoes" role="group">
@@ -129,7 +130,7 @@ export function Loja({ idioma, ficha, aoAtualizar, aoComecar }: Props) {
             onClick={() => setCategoria(c.id)}
             aria-pressed={c.id === categoria}
           >
-            {c.emoji} {t(c.nome, idioma)}
+            {comIcones(c.emoji)} {t(c.nome, idioma)}
           </button>
         ))}
       </div>
@@ -140,7 +141,7 @@ export function Loja({ idioma, ficha, aoAtualizar, aoComecar }: Props) {
           return (
             <div key={item.id} className="item-loja">
               <span className="item-emoji" aria-hidden="true">
-                {item.emoji}
+                {comIcones(item.emoji)}
               </span>
               <div className="item-texto">
                 <strong>{item.nome[idioma]}</strong>
@@ -167,7 +168,7 @@ export function Loja({ idioma, ficha, aoAtualizar, aoComecar }: Props) {
         })}
       </div>
 
-      <p className="mensagem mensagem-acerto">{aviso}</p>
+      <p className="mensagem mensagem-acerto">{comIcones(aviso)}</p>
       <button className="botao" onClick={aoComecar}>
         {t(TEXTOS.terminar, idioma)}
       </button>

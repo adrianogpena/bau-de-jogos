@@ -30,7 +30,7 @@ const FLORES = [...FLORES_ESQ, ...FLORES_DIR];
 
 export const quintal: Cena = {
   id: 'quintal',
-  emoji: '🌳',
+  emoji: '[[menu/comodo-quintal]]',
   titulo: { 'pt-PT': 'O Quintal', 'pt-BR': 'O Quintal' },
   resumo: {
     'pt-PT': 'Há coisas escondidas no jardim todo. Consegues encontrá-las?',

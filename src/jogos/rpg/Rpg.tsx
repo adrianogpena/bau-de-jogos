@@ -4,6 +4,7 @@ import type { PropsJogo } from '../tipos';
 import { type TextoPorIdioma, t } from '../../compartilhado/idioma';
 import { PedraDaLua } from './PedraDaLua';
 import { TorreEncantada } from './mago/AventuraMago';
+import { Icone, comIcones } from '../../compartilhado/icones';
 
 interface Historia {
   id: string;
@@ -19,7 +20,7 @@ interface Historia {
 const HISTORIAS: Historia[] = [
   {
     id: 'pedra-da-lua',
-    emoji: '🌕',
+    emoji: '[[historias/rpg-pedra-da-lua]]',
     titulo: { 'pt-PT': 'A Pedra da Lua', 'pt-BR': 'A Pedra da Lua' },
     descricao: {
       'pt-PT': 'O Goblin Chefe roubou a Pedra da Lua e o céu ficou escuro. Só o teu herói a pode trazer de volta!',
@@ -33,7 +34,7 @@ const HISTORIAS: Historia[] = [
   },
   {
     id: 'torre-encantada',
-    emoji: '🏰',
+    emoji: '[[historias/rpg-torre-encantada]]',
     titulo: { 'pt-PT': 'A Torre Encantada', 'pt-BR': 'A Torre Encantada' },
     descricao: {
       'pt-PT': 'Uma estrela caiu na torre dos magos e a magia ficou baralhada. Sobe até ao topo e descobre porquê!',
@@ -70,17 +71,17 @@ export function Rpg({ idioma, aoVoltar }: PropsJogo) {
         </button>
       </header>
 
-      <h1>🐉 {t(TEXTOS.escolha, idioma)}</h1>
+      <h1><Icone id="menu/jogo-rpg" /> {t(TEXTOS.escolha, idioma)}</h1>
 
       <section className="grade-jogos">
         {HISTORIAS.map((h) => (
           <button key={h.id} className="cartao-jogo" onClick={() => setHistoriaId(h.id)}>
             <span className="emoji-grande" aria-hidden="true">
-              {h.emoji}
+              {comIcones(h.emoji)}
             </span>
             <strong>{t(h.titulo, idioma)}</strong>
             <span>{t(h.descricao, idioma)}</span>
-            <small>{t(h.destaque, idioma)}</small>
+            <small>{comIcones(t(h.destaque, idioma))}</small>
           </button>
         ))}
       </section>

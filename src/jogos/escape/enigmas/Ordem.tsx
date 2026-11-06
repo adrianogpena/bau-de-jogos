@@ -3,6 +3,7 @@ import { t } from '../../../compartilhado/idioma';
 import { somAcerto, somTentarDeNovo } from '../../../compartilhado/som';
 import type { EnigmaOrdem } from '../tipos';
 import { type PropsEnigma, TEXTOS_ENIGMA, embaralhar } from './tipos';
+import { comIcones } from '../../../compartilhado/icones';
 
 /** Tocar nos símbolos pela ordem certa. */
 export function Ordem({ enigma, idioma, aoAcertar }: PropsEnigma<EnigmaOrdem>) {
@@ -37,7 +38,7 @@ export function Ordem({ enigma, idioma, aoAcertar }: PropsEnigma<EnigmaOrdem>) {
       <div className="fila-ordem" aria-label="ordem">
         {enigma.itens.map((_, posicao) => (
           <span key={posicao} className={`casa-ordem ${errou ? 'casa-erro' : ''}`}>
-            {escolhidos[posicao] !== undefined ? enigma.itens[escolhidos[posicao]] : posicao + 1}
+            {escolhidos[posicao] !== undefined ? comIcones(enigma.itens[escolhidos[posicao]]) : posicao + 1}
           </span>
         ))}
       </div>
@@ -50,7 +51,7 @@ export function Ordem({ enigma, idioma, aoAcertar }: PropsEnigma<EnigmaOrdem>) {
             disabled={escolhidos.includes(indice)}
             onClick={() => tocar(indice)}
           >
-            {enigma.itens[indice]}
+            {comIcones(enigma.itens[indice])}
           </button>
         ))}
       </div>

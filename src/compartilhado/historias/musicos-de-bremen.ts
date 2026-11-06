@@ -2,7 +2,7 @@ import { fabula } from './modelo';
 
 export const musicosDeBremen = fabula({
   id: 'musicos-de-bremen',
-  emoji: '🎺',
+  emoji: '[[historias/musicos-de-bremen]]',
   titulo: { 'pt-PT': 'Os Músicos de Bremen', 'pt-BR': 'Os Músicos de Bremen' },
   paragrafos: [
     {

@@ -9,7 +9,7 @@ import { Achar } from './achar/Achar';
 export const JOGOS: Jogo[] = [
   {
     id: 'rpg',
-    emoji: '🐉',
+    emoji: '[[menu/jogo-rpg]]',
     titulo: { 'pt-PT': 'Aventura RPG', 'pt-BR': 'Aventura RPG' },
     descricao: {
       'pt-PT': 'Vive uma história, cria o teu herói e lança os dados nas lutas!',
@@ -21,7 +21,7 @@ export const JOGOS: Jogo[] = [
   },
   {
     id: 'escrita',
-    emoji: '✏️',
+    emoji: '[[menu/jogo-escrita]]',
     titulo: { 'pt-PT': 'Escrever palavras', 'pt-BR': 'Escrever palavras' },
     descricao: {
       'pt-PT': 'Completa as fábulas: escreve a palavra da imagem que falta em cada parte.',
@@ -33,7 +33,7 @@ export const JOGOS: Jogo[] = [
   },
   {
     id: 'leitura',
-    emoji: '📖',
+    emoji: '[[menu/jogo-leitura]]',
     titulo: { 'pt-PT': 'Ler palavras', 'pt-BR': 'Ler palavras' },
     descricao: {
       'pt-PT': 'Lê as fábulas e escolhe a imagem da palavra em destaque.',
@@ -45,7 +45,7 @@ export const JOGOS: Jogo[] = [
   },
   {
     id: 'escape',
-    emoji: '🔐',
+    emoji: '[[menu/jogo-escape]]',
     titulo: { 'pt-PT': 'Escape Room', 'pt-BR': 'Escape Room' },
     descricao: {
       'pt-PT': 'Encontra pistas, resolve enigmas e descobre o código para escapar da sala!',
@@ -57,7 +57,7 @@ export const JOGOS: Jogo[] = [
   },
   {
     id: 'achar',
-    emoji: '🔍',
+    emoji: '[[menu/jogo-achar]]',
     titulo: { 'pt-PT': 'Achar itens', 'pt-BR': 'Achar itens' },
     descricao: {
       'pt-PT': 'Lê a lista e encontra as coisas escondidas na imagem!',

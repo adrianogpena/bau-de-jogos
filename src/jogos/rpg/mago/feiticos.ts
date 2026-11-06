@@ -21,7 +21,7 @@ export const HABILIDADES: {
 }[] = [
   {
     id: 'poder',
-    emoji: '✨',
+    emoji: '[[feiticos/habilidade-poder]]',
     nome: { 'pt-PT': 'Poder', 'pt-BR': 'Poder' },
     ajuda: {
       'pt-PT': 'Os feitiços acertam mais e batem mais forte',
@@ -30,7 +30,7 @@ export const HABILIDADES: {
   },
   {
     id: 'energia',
-    emoji: '🔮',
+    emoji: '[[feiticos/habilidade-energia]]',
     nome: { 'pt-PT': 'Energia mágica', 'pt-BR': 'Energia mágica' },
     ajuda: {
       'pt-PT': 'Mais energia para lançar feitiços',
@@ -39,7 +39,7 @@ export const HABILIDADES: {
   },
   {
     id: 'sabedoria',
-    emoji: '📚',
+    emoji: '[[feiticos/habilidade-sabedoria]]',
     nome: { 'pt-PT': 'Sabedoria', 'pt-BR': 'Sabedoria' },
     ajuda: {
       'pt-PT': 'Resolve enigmas e descobre segredos',
@@ -57,7 +57,7 @@ export const FEITICOS: Record<string, Feitico> = {
   faisca: {
     id: 'faisca',
     escola: 'comum',
-    emoji: '✨',
+    emoji: '[[feiticos/faisca]]',
     nome: { 'pt-PT': 'Faísca Mágica', 'pt-BR': 'Faísca Mágica' },
     descricao: {
       'pt-PT': 'Um estalo de magia. Não gasta energia!',
@@ -72,7 +72,7 @@ export const FEITICOS: Record<string, Feitico> = {
   chama: {
     id: 'chama',
     escola: 'fogo',
-    emoji: '🔥',
+    emoji: '[[feiticos/chama]]',
     nome: { 'pt-PT': 'Chama', 'pt-BR': 'Chama' },
     descricao: { 'pt-PT': 'Lança uma chama. Dano d8.', 'pt-BR': 'Lança uma chama. Dano d8.' },
     custo: 1,
@@ -82,7 +82,7 @@ export const FEITICOS: Record<string, Feitico> = {
   bola_de_fogo: {
     id: 'bola_de_fogo',
     escola: 'fogo',
-    emoji: '☄️',
+    emoji: '[[feiticos/bola-de-fogo]]',
     nome: { 'pt-PT': 'Bola de Fogo', 'pt-BR': 'Bola de Fogo' },
     descricao: {
       'pt-PT': 'Nunca falha! Dano d10 +2.',
@@ -97,7 +97,7 @@ export const FEITICOS: Record<string, Feitico> = {
   capa_de_brasas: {
     id: 'capa_de_brasas',
     escola: 'fogo',
-    emoji: '♨️',
+    emoji: '[[feiticos/capa-de-brasas]]',
     nome: { 'pt-PT': 'Capa de Brasas', 'pt-BR': 'Capa de Brasas' },
     descricao: {
       'pt-PT': 'Sobe +3 de CA no próximo ataque do inimigo.',
@@ -112,7 +112,7 @@ export const FEITICOS: Record<string, Feitico> = {
   estilhaco: {
     id: 'estilhaco',
     escola: 'gelo',
-    emoji: '🧊',
+    emoji: '[[feiticos/estilhaco-de-gelo]]',
     nome: { 'pt-PT': 'Estilhaço de Gelo', 'pt-BR': 'Estilhaço de Gelo' },
     descricao: {
       'pt-PT': 'Pontaria afiada: +2 para acertar. Dano d6.',
@@ -126,7 +126,7 @@ export const FEITICOS: Record<string, Feitico> = {
   congelar: {
     id: 'congelar',
     escola: 'gelo',
-    emoji: '❄️',
+    emoji: '[[feiticos/congelar]]',
     nome: { 'pt-PT': 'Congelar', 'pt-BR': 'Congelar' },
     descricao: {
       'pt-PT': 'Nunca falha! Dano d4 e o inimigo perde a vez.',
@@ -140,7 +140,7 @@ export const FEITICOS: Record<string, Feitico> = {
   armadura_de_gelo: {
     id: 'armadura_de_gelo',
     escola: 'gelo',
-    emoji: '🥶',
+    emoji: '[[feiticos/armadura-de-gelo]]',
     nome: { 'pt-PT': 'Armadura de Gelo', 'pt-BR': 'Armadura de Gelo' },
     descricao: {
       'pt-PT': 'Sobe +4 de CA no próximo ataque do inimigo.',
@@ -155,7 +155,7 @@ export const FEITICOS: Record<string, Feitico> = {
   espinhos: {
     id: 'espinhos',
     escola: 'natureza',
-    emoji: '🌵',
+    emoji: '[[feiticos/espinhos]]',
     nome: { 'pt-PT': 'Espinhos', 'pt-BR': 'Espinhos' },
     descricao: {
       'pt-PT': 'Espinhos voadores: +1 para acertar. Dano d6.',
@@ -169,7 +169,7 @@ export const FEITICOS: Record<string, Feitico> = {
   raizes: {
     id: 'raizes',
     escola: 'natureza',
-    emoji: '🌿',
+    emoji: '[[feiticos/raizes-presas]]',
     nome: { 'pt-PT': 'Raízes Presas', 'pt-BR': 'Raízes Presas' },
     descricao: {
       'pt-PT': 'Nunca falha! Dano d4 e o inimigo perde a vez.',
@@ -182,7 +182,7 @@ export const FEITICOS: Record<string, Feitico> = {
   folhas: {
     id: 'folhas',
     escola: 'natureza',
-    emoji: '🍃',
+    emoji: '[[feiticos/folhas-curativas]]',
     nome: { 'pt-PT': 'Folhas Curativas', 'pt-BR': 'Folhas Curativas' },
     descricao: {
       'pt-PT': 'Recupera vida: d6 +4.',
@@ -199,7 +199,7 @@ export const FEITICOS: Record<string, Feitico> = {
   raio_de_estrela: {
     id: 'raio_de_estrela',
     escola: 'estrelas',
-    emoji: '⭐',
+    emoji: '[[feiticos/raio-de-estrela]]',
     nome: { 'pt-PT': 'Raio de Estrela', 'pt-BR': 'Raio de Estrela' },
     descricao: {
       'pt-PT': 'Um raio de luz: +1 para acertar. Dano d8.',
@@ -213,7 +213,7 @@ export const FEITICOS: Record<string, Feitico> = {
   chuva_de_estrelas: {
     id: 'chuva_de_estrelas',
     escola: 'estrelas',
-    emoji: '🌠',
+    emoji: '[[feiticos/chuva-de-estrelas]]',
     nome: { 'pt-PT': 'Chuva de Estrelas', 'pt-BR': 'Chuva de Estrelas' },
     descricao: {
       'pt-PT': 'Nunca falha! Dano d8 +3.',
@@ -228,7 +228,7 @@ export const FEITICOS: Record<string, Feitico> = {
   brilho_curador: {
     id: 'brilho_curador',
     escola: 'estrelas',
-    emoji: '💫',
+    emoji: '[[feiticos/brilho-curador]]',
     nome: { 'pt-PT': 'Brilho Curador', 'pt-BR': 'Brilho Curador' },
     descricao: {
       'pt-PT': 'Recupera vida: d6 +2.',
@@ -244,7 +244,7 @@ export const FEITICOS: Record<string, Feitico> = {
 export const ESCOLAS: Escola[] = [
   {
     id: 'fogo',
-    emoji: '🔥',
+    emoji: '[[extras/escola-fogo]]',
     nome: { 'pt-PT': 'Mago de Fogo', 'pt-BR': 'Mago de Fogo' },
     curto: { 'pt-PT': 'Fogo', 'pt-BR': 'Fogo' },
     resumo: { 'pt-PT': 'Ataques muito fortes', 'pt-BR': 'Ataques muito fortes' },
@@ -252,7 +252,7 @@ export const ESCOLAS: Escola[] = [
   },
   {
     id: 'gelo',
-    emoji: '❄️',
+    emoji: '[[extras/escola-gelo]]',
     nome: { 'pt-PT': 'Mago de Gelo', 'pt-BR': 'Mago de Gelo' },
     curto: { 'pt-PT': 'Gelo', 'pt-BR': 'Gelo' },
     resumo: { 'pt-PT': 'Segura os inimigos', 'pt-BR': 'Segura os inimigos' },
@@ -260,7 +260,7 @@ export const ESCOLAS: Escola[] = [
   },
   {
     id: 'natureza',
-    emoji: '🌿',
+    emoji: '[[extras/escola-natureza]]',
     nome: { 'pt-PT': 'Mago da Natureza', 'pt-BR': 'Mago da Natureza' },
     curto: { 'pt-PT': 'Natureza', 'pt-BR': 'Natureza' },
     resumo: { 'pt-PT': 'Cura e prende os inimigos', 'pt-BR': 'Cura e prende os inimigos' },
@@ -268,7 +268,7 @@ export const ESCOLAS: Escola[] = [
   },
   {
     id: 'estrelas',
-    emoji: '⭐',
+    emoji: '[[extras/escola-estrelas]]',
     nome: { 'pt-PT': 'Mago das Estrelas', 'pt-BR': 'Mago das Estrelas' },
     curto: { 'pt-PT': 'Estrelas', 'pt-BR': 'Estrelas' },
     resumo: { 'pt-PT': 'Pontaria certeira e cura', 'pt-BR': 'Pontaria certeira e cura' },
@@ -296,7 +296,7 @@ export const HABILIDADES_INICIAIS: Habilidades = {
 export const INIMIGOS_MAGO: Record<string, InimigoMago> = {
   livro: {
     id: 'livro',
-    emoji: '📕',
+    emoji: '[[inimigos/livro-mordilhao]]',
     nome: { 'pt-PT': 'O Livro Mordilhão', 'pt-BR': 'O Livro Mordilhão' },
     pontosDeVida: 7,
     defesa: 9,
@@ -305,7 +305,7 @@ export const INIMIGOS_MAGO: Record<string, InimigoMago> = {
   },
   planta: {
     id: 'planta',
-    emoji: '🪴',
+    emoji: '[[inimigos/planta-comilona]]',
     nome: { 'pt-PT': 'A Planta Comilona', 'pt-BR': 'A Planta Comilona' },
     pontosDeVida: 9,
     defesa: 10,
@@ -314,7 +314,7 @@ export const INIMIGOS_MAGO: Record<string, InimigoMago> = {
   },
   fantasma: {
     id: 'fantasma',
-    emoji: '👻',
+    emoji: '[[inimigos/fantasma-brincalhao]]',
     nome: { 'pt-PT': 'O Fantasma Brincalhão', 'pt-BR': 'O Fantasma Brincalhão' },
     pontosDeVida: 10,
     defesa: 11,
@@ -323,7 +323,7 @@ export const INIMIGOS_MAGO: Record<string, InimigoMago> = {
   },
   gargula: {
     id: 'gargula',
-    emoji: '🗿',
+    emoji: '[[inimigos/gargula]]',
     nome: { 'pt-PT': 'A Gárgula', 'pt-BR': 'A Gárgula' },
     pontosDeVida: 10,
     defesa: 11,
@@ -332,7 +332,7 @@ export const INIMIGOS_MAGO: Record<string, InimigoMago> = {
   },
   golem: {
     id: 'golem',
-    emoji: '🪨',
+    emoji: '[[inimigos/golem-guardiao]]',
     nome: { 'pt-PT': 'O Golem Guardião', 'pt-BR': 'O Golem Guardião' },
     pontosDeVida: 18,
     defesa: 12,

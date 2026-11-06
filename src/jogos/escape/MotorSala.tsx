@@ -4,6 +4,7 @@ import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { EnigmaView } from './enigmas/EnigmaView';
 import { estrelasPorDicas, salvarEstrelas } from './progresso';
 import type { Enigma, Sala } from './tipos';
+import { comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
@@ -103,7 +104,7 @@ export function MotorSala({
       <main className="tela tela-centro">
         {cabecalho}
         <p className="emoji-grande" aria-hidden="true">
-          {sala.emoji}
+          {comIcones(sala.emoji)}
         </p>
         <h1>{t(sala.titulo, idioma)}</h1>
         <TextoNarrado className="folha" idioma={idioma} texto={t(sala.intro, idioma)} />
@@ -118,10 +119,9 @@ export function MotorSala({
     const estrelas = estrelasPorDicas(dicas);
     return (
       <main className="tela tela-centro">
-        <h1>{t(TEXTOS.escapou, idioma)}</h1>
+        <h1>{comIcones(t(TEXTOS.escapou, idioma))}</h1>
         <p className="estrelas" aria-label={`${estrelas}/3`}>
-          {'⭐'.repeat(estrelas)}
-          {'☆'.repeat(3 - estrelas)}
+          {comIcones('⭐'.repeat(estrelas) + '☆'.repeat(3 - estrelas))}
         </p>
         <TextoNarrado className="folha" idioma={idioma} texto={t(sala.vitoria, idioma)} lerAoAbrir />
         <p className="progresso">{preencher(t(TEXTOS.dicasUsadas, idioma), { n: dicas })}</p>
@@ -155,7 +155,7 @@ export function MotorSala({
           {preencher(t(TEXTOS.objetos, idioma), { n: resolvidos.length, total: sala.objetos.length })}
         </span>
         <button className="botao botao-secundario" onClick={pedirDica}>
-          {t(TEXTOS.dica, idioma)}
+          {comIcones(t(TEXTOS.dica, idioma))}
         </button>
       </header>
 
@@ -171,9 +171,9 @@ export function MotorSala({
               aria-label={t(objeto.nome, idioma)}
             >
               <span className="objeto-emoji" aria-hidden="true">
-                {objeto.emoji}
+                {comIcones(objeto.emoji)}
               </span>
-              <span className="objeto-nome">{feito ? '✅' : t(objeto.nome, idioma)}</span>
+              <span className="objeto-nome">{feito ? comIcones('✅') : t(objeto.nome, idioma)}</span>
             </button>
           );
         })}
@@ -187,14 +187,14 @@ export function MotorSala({
           aria-label={t(sala.saida.nome, idioma)}
         >
           <span className="objeto-emoji" aria-hidden="true">
-            {sala.saida.emoji}
+            {comIcones(sala.saida.emoji)}
           </span>
           <span className="objeto-nome">{t(sala.saida.nome, idioma)}</span>
         </button>
       </div>
 
       <p className="mensagem mensagem-sala" aria-live="polite">
-        {aviso}
+        {aviso ? comIcones(aviso) : aviso}
       </p>
 
       <footer className="inventario">
@@ -202,7 +202,7 @@ export function MotorSala({
         {inventario.length === 0 && <span className="progresso">{t(TEXTOS.nenhuma, idioma)}</span>}
         {inventario.map((pista) => (
           <span key={pista.id} className="pista" title={t(pista.nome, idioma)}>
-            <span aria-hidden="true">{pista.emoji}</span>
+            <span aria-hidden="true">{comIcones(pista.emoji)}</span>
             {pista.valor && <b>{pista.valor}</b>}
             <small>{t(pista.nome, idioma)}</small>
           </span>
@@ -213,7 +213,7 @@ export function MotorSala({
         <div className="fundo-modal" role="dialog" aria-modal="true">
           <div className="modal-enigma">
             <button className="botao botao-secundario fechar-modal" onClick={() => setAberto(null)}>
-              ✕ {t(TEXTOS.fechar, idioma)}
+              {comIcones('✕')} {t(TEXTOS.fechar, idioma)}
             </button>
             <EnigmaView enigma={enigmaAberto.enigma} idioma={idioma} aoAcertar={enigmaAberto.aoAcertar} />
           </div>

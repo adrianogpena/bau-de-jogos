@@ -2,7 +2,7 @@ import { fabula } from './modelo';
 
 export const aladino = fabula({
   id: 'aladino',
-  emoji: '🧞',
+  emoji: '[[historias/aladino]]',
   titulo: { 'pt-PT': 'Aladino e a Lâmpada Mágica', 'pt-BR': 'Aladim e a Lâmpada Maravilhosa' },
   paragrafos: [
     {

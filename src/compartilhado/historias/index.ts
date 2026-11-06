@@ -41,11 +41,11 @@ export const CONTOS_GRIMM: Fabula[] = [capuchinhoVermelho, hanselGretel, brancaD
 export const CONTOS_MIL_E_UMA_NOITES: Fabula[] = [aliBaba, aladino, simbad];
 
 export const COLECOES: Colecao[] = [
-  { id: 'fabulas', titulo: { 'pt-PT': '🦊 Fábulas', 'pt-BR': '🦊 Fábulas' }, historias: FABULAS },
-  { id: 'grimm', titulo: { 'pt-PT': '🏰 Irmãos Grimm', 'pt-BR': '🏰 Irmãos Grimm' }, historias: CONTOS_GRIMM },
+  { id: 'fabulas', titulo: { 'pt-PT': '[[menu/categoria-fabulas]] Fábulas', 'pt-BR': '[[menu/categoria-fabulas]] Fábulas' }, historias: FABULAS },
+  { id: 'grimm', titulo: { 'pt-PT': '[[menu/categoria-grimm]] Irmãos Grimm', 'pt-BR': '[[menu/categoria-grimm]] Irmãos Grimm' }, historias: CONTOS_GRIMM },
   {
     id: 'mil-e-uma-noites',
-    titulo: { 'pt-PT': '🌙 As Mil e Uma Noites', 'pt-BR': '🌙 As Mil e Uma Noites' },
+    titulo: { 'pt-PT': '[[menu/categoria-mil-e-uma-noites]] As Mil e Uma Noites', 'pt-BR': '[[menu/categoria-mil-e-uma-noites]] As Mil e Uma Noites' },
     historias: CONTOS_MIL_E_UMA_NOITES,
   },
 ];

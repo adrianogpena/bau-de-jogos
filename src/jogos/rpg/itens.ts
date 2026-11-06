@@ -47,7 +47,7 @@ export const ITENS: Record<string, Item> = {
   espada: {
     id: 'espada',
     tipo: 'arma',
-    emoji: '⚔️',
+    emoji: '[[interface/espadas]]',
     nome: { 'pt-PT': 'Espada', 'pt-BR': 'Espada' },
     descricao: { 'pt-PT': '+2 de dano em cada golpe.', 'pt-BR': '+2 de dano em cada golpe.' },
     preco: 50,
@@ -95,7 +95,7 @@ export const ITENS: Record<string, Item> = {
   escudo: {
     id: 'escudo',
     tipo: 'escudo',
-    emoji: '🛡️',
+    emoji: '[[interface/escudo]]',
     nome: { 'pt-PT': 'Escudo', 'pt-BR': 'Escudo' },
     descricao: {
       'pt-PT': `Como ação bónus, levanta o escudo: ganhas +${BONUS_ESCUDO} de CA no próximo ataque do inimigo.`,
@@ -106,7 +106,7 @@ export const ITENS: Record<string, Item> = {
   cura: {
     id: 'cura',
     tipo: 'pocao',
-    emoji: '🧪',
+    emoji: '[[interface/pocao]]',
     nome: { 'pt-PT': 'Poção de cura', 'pt-BR': 'Poção de cura' },
     descricao: { 'pt-PT': 'Recupera vida: d6 + 3.', 'pt-BR': 'Recupera vida: d6 + 3.' },
     preco: 15,
@@ -116,7 +116,7 @@ export const ITENS: Record<string, Item> = {
   cura_grande: {
     id: 'cura_grande',
     tipo: 'pocao',
-    emoji: '💖',
+    emoji: '[[interface/cura]]',
     nome: { 'pt-PT': 'Poção de cura grande', 'pt-BR': 'Poção de cura grande' },
     descricao: { 'pt-PT': 'Recupera muita vida: d6 + 6.', 'pt-BR': 'Recupera muita vida: d6 + 6.' },
     preco: 35,
@@ -126,7 +126,7 @@ export const ITENS: Record<string, Item> = {
   precisao: {
     id: 'precisao',
     tipo: 'pocao',
-    emoji: '🎯',
+    emoji: '[[interface/alvo]]',
     nome: { 'pt-PT': 'Poção de pontaria', 'pt-BR': 'Poção de pontaria' },
     descricao: {
       'pt-PT': '+3 para acertar até ao fim da luta.',
@@ -139,7 +139,7 @@ export const ITENS: Record<string, Item> = {
   forca: {
     id: 'forca',
     tipo: 'pocao',
-    emoji: '💥',
+    emoji: '[[interface/explosao]]',
     nome: { 'pt-PT': 'Poção de força', 'pt-BR': 'Poção de força' },
     descricao: {
       'pt-PT': '+2 de dano até ao fim da luta.',
@@ -152,9 +152,9 @@ export const ITENS: Record<string, Item> = {
 };
 
 export const CATEGORIAS: { id: string; emoji: string; nome: TextoPorIdioma; tipos: TipoItem[] }[] = [
-  { id: 'armas', emoji: '⚔️', nome: { 'pt-PT': 'Armas', 'pt-BR': 'Armas' }, tipos: ['arma'] },
-  { id: 'defesa', emoji: '🛡️', nome: { 'pt-PT': 'Defesa', 'pt-BR': 'Defesa' }, tipos: ['armadura', 'escudo'] },
-  { id: 'pocoes', emoji: '🧪', nome: { 'pt-PT': 'Poções', 'pt-BR': 'Poções' }, tipos: ['pocao'] },
+  { id: 'armas', emoji: '[[interface/espadas]]', nome: { 'pt-PT': 'Armas', 'pt-BR': 'Armas' }, tipos: ['arma'] },
+  { id: 'defesa', emoji: '[[interface/escudo]]', nome: { 'pt-PT': 'Defesa', 'pt-BR': 'Defesa' }, tipos: ['armadura', 'escudo'] },
+  { id: 'pocoes', emoji: '[[interface/pocao]]', nome: { 'pt-PT': 'Poções', 'pt-BR': 'Poções' }, tipos: ['pocao'] },
 ];
 
 export function nomeItem(item: Item, idioma: Idioma): string {

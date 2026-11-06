@@ -5,6 +5,7 @@ import { Dado, usarDado } from '../../compartilhado/usarDado';
 import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
 import type { FichaPersonagem, Inimigo } from './tipos';
 import { BONUS_ESCUDO, ITENS, estatisticas } from './itens';
+import { Icone, comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
   apareceu: { 'pt-PT': '{inimigo} apareceu!', 'pt-BR': '{inimigo} apareceu!' },
@@ -94,7 +95,7 @@ export function Barra({
     <div className={`barra-vida ${classe}`} aria-label={`${vida}/${maxima}`}>
       <div className="barra-vida-cheia" style={{ width: `${(vida / maxima) * 100}%` }} />
       <span>
-        {emoji} {vida}/{maxima}
+        {comIcones(emoji)} {vida}/{maxima}
       </span>
     </div>
   );
@@ -105,10 +106,10 @@ function DadosDoCombatente({ idioma, ataque, dano }: { idioma: Idioma; ataque: s
   return (
     <div className="dados-combatente">
       <span className="dado-mini">
-        🎲 {t(TEXTOS.ataque, idioma)}: <b>{ataque}</b>
+        <Icone id="interface/dado" /> {t(TEXTOS.ataque, idioma)}: <b>{ataque}</b>
       </span>
       <span className="dado-mini">
-        🎲 {t(TEXTOS.dano, idioma)}: <b>{dano}</b>
+        <Icone id="interface/dado" /> {t(TEXTOS.dano, idioma)}: <b>{dano}</b>
       </span>
     </div>
   );
@@ -252,12 +253,12 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
       <div className="combatentes">
         <div className="combatente">
           <span className="combatente-emoji" aria-hidden="true">
-            {ficha.avatar}
+            {comIcones(ficha.avatar)}
           </span>
           <strong>{ficha.nome}</strong>
           <Barra vida={vidaHeroi} maxima={ficha.pontosDeVidaMaximos} />
           <small>
-            🛡️ CA {caHeroi}
+            <Icone id="interface/escudo" /> CA {caHeroi}
             {escudoAtivo ? ` (+${BONUS_ESCUDO})` : ''}
           </small>
           <DadosDoCombatente idioma={idioma} ataque={`d20+${ataqueHeroi}`} dano={`d6+${danoHeroi}`} />
@@ -267,11 +268,11 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
 
         <div className="combatente">
           <span className="combatente-emoji" aria-hidden="true">
-            {inimigo.emoji}
+            {comIcones(inimigo.emoji)}
           </span>
           <strong>{nomeInimigo}</strong>
           <Barra vida={vidaInimigo} maxima={inimigo.pontosDeVida} />
-          <small>🛡️ CA {inimigo.defesa}</small>
+          <small><Icone id="interface/escudo" /> CA {inimigo.defesa}</small>
           <DadosDoCombatente
             idioma={idioma}
             ataque={`d20+${inimigo.bonusAtaque}`}
@@ -287,10 +288,10 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
           <TextoNarrado className="texto-grande" idioma={idioma} texto={t(TEXTOS.proximaAcao, idioma)} />
           <div className="acoes">
             <button className="botao" onClick={golpear} disabled={ocupado}>
-              {t(TEXTOS.golpear, idioma)}
+              {comIcones(t(TEXTOS.golpear, idioma))}
             </button>
             <button className="botao" onClick={() => setMenu('pocoes')} disabled={ocupado}>
-              {t(TEXTOS.pocao, idioma)}
+              {comIcones(t(TEXTOS.pocao, idioma))}
             </button>
             {ficha.escudo && (
               <button
@@ -298,7 +299,7 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
                 onClick={levantarEscudo}
                 disabled={ocupado || acaoBonusUsada}
               >
-                {acaoBonusUsada ? t(TEXTOS.escudoFeito, idioma) : t(TEXTOS.escudo, idioma)}
+                {comIcones(acaoBonusUsada ? t(TEXTOS.escudoFeito, idioma) : t(TEXTOS.escudo, idioma))}
               </button>
             )}
           </div>
@@ -318,11 +319,11 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
                 onClick={() => usarPocao(item.id)}
                 disabled={ocupado || pocaoInutil(item.id)}
               >
-                {item.emoji} {item.nome[idioma]} ({pocoes[item.id]})
+                {comIcones(item.emoji)} {item.nome[idioma]} ({pocoes[item.id]})
               </button>
             ))}
             <button className="botao botao-secundario" onClick={() => setMenu('principal')}>
-              {t(TEXTOS.voltarMenu, idioma)}
+              {comIcones(t(TEXTOS.voltarMenu, idioma))}
             </button>
           </div>
         </>
@@ -331,17 +332,17 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
       <div className="acoes">
         {estado === 'inimigo' && (
           <button className="botao" onClick={turnoInimigo} disabled={ocupado}>
-            {preencher(t(TEXTOS.vezInimigo, idioma), { inimigo: nomeInimigo })} 🎲
+            {preencher(t(TEXTOS.vezInimigo, idioma), { inimigo: nomeInimigo })} <Icone id="interface/dado" />
           </button>
         )}
         {estado === 'vitoria' && (
           <button className="botao" onClick={() => aoVencer(vidaHeroi, pocoes)}>
-            {t(TEXTOS.venceu, idioma)} {t(TEXTOS.continuar, idioma)}
+            {comIcones(t(TEXTOS.venceu, idioma))} {comIcones(t(TEXTOS.continuar, idioma))}
           </button>
         )}
         {estado === 'derrota' && (
           <button className="botao" onClick={recomecar}>
-            {t(TEXTOS.perdeu, idioma)} {t(TEXTOS.tentarOutraVez, idioma)}
+            {comIcones(t(TEXTOS.perdeu, idioma))} {t(TEXTOS.tentarOutraVez, idioma)}
           </button>
         )}
       </div>

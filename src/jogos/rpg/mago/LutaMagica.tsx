@@ -6,6 +6,7 @@ import { somAcerto, somTentarDeNovo } from '../../../compartilhado/som';
 import { Barra } from '../Luta';
 import type { FichaMago, Feitico, InimigoMago } from './tipos';
 import { ENERGIA_CONTA_CERTA, ENERGIA_CONTA_ERRADA, FEITICOS } from './feiticos';
+import { Icone, comIcones } from '../../../compartilhado/icones';
 
 /** CA do mago: roupas leves de mago não protegem muito. */
 export const CA_MAGO = 11;
@@ -275,13 +276,13 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
       <div className="combatentes">
         <div className="combatente">
           <span className="combatente-emoji" aria-hidden="true">
-            {ficha.avatar}
+            {comIcones(ficha.avatar)}
           </span>
           <strong>{ficha.nome}</strong>
           <Barra vida={vidaHeroi} maxima={ficha.pontosDeVidaMaximos} />
           <Barra vida={energia} maxima={ficha.energiaMaxima} emoji="🔮" classe="barra-energia" />
           <small>
-            🛡️ CA {caHeroi}
+            <Icone id="interface/escudo" /> CA {caHeroi}
             {bonusCA > 0 ? ` (+${bonusCA})` : ''}
           </small>
         </div>
@@ -290,13 +291,13 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
 
         <div className="combatente">
           <span className="combatente-emoji" aria-hidden="true">
-            {inimigo.emoji}
+            {comIcones(inimigo.emoji)}
           </span>
           <strong>{nomeInimigo}</strong>
           <Barra vida={vidaInimigo} maxima={inimigo.pontosDeVida} />
           <small>
-            🛡️ CA {inimigo.defesa}
-            {inimigoPreso ? ' 🧊' : ''}
+            <Icone id="interface/escudo" /> CA {inimigo.defesa}
+            {inimigoPreso ? <> <Icone id="feiticos/estilhaco-de-gelo" /></> : ''}
           </small>
         </div>
       </div>
@@ -308,14 +309,14 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
           <TextoNarrado className="texto-grande" idioma={idioma} texto={t(TEXTOS.proximaAcao, idioma)} />
           <div className="acoes">
             <button className="botao" onClick={() => setMenuFeiticos(true)} disabled={ocupado}>
-              {t(TEXTOS.lancar, idioma)}
+              {comIcones(t(TEXTOS.lancar, idioma))}
             </button>
             <button
               className="botao botao-secundario"
               onClick={abrirConta}
               disabled={ocupado || energia >= ficha.energiaMaxima}
             >
-              {t(TEXTOS.concentrar, idioma)}
+              {comIcones(t(TEXTOS.concentrar, idioma))}
             </button>
           </div>
         </>
@@ -341,11 +342,11 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
               0
             </button>
             <button className="botao" onClick={concentrar} disabled={digitos === ''}>
-              {t(TEXTOS.confirmar, idioma)}
+              {comIcones(t(TEXTOS.confirmar, idioma))}
             </button>
           </div>
           <button className="botao botao-secundario" onClick={() => setConta(null)}>
-            {t(TEXTOS.voltarMenu, idioma)}
+            {comIcones(t(TEXTOS.voltarMenu, idioma))}
           </button>
         </div>
       )}
@@ -362,15 +363,15 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
                 disabled={ocupado || energia < f.custo}
               >
                 <span>
-                  {f.emoji} {t(f.nome, idioma)} ·{' '}
-                  <span className="sem-quebra">{f.custo === 0 ? t(TEXTOS.gratis, idioma) : `${f.custo} 🔮`}</span>
+                  {comIcones(f.emoji)} {t(f.nome, idioma)} ·{' '}
+                  <span className="sem-quebra">{comIcones(f.custo === 0 ? t(TEXTOS.gratis, idioma) : `${f.custo} 🔮`)}</span>
                 </span>
                 <small>{t(f.descricao, idioma)}</small>
               </button>
             ))}
           </div>
           <button className="botao botao-secundario" onClick={() => setMenuFeiticos(false)}>
-            {t(TEXTOS.voltarMenu, idioma)}
+            {comIcones(t(TEXTOS.voltarMenu, idioma))}
           </button>
         </>
       )}
@@ -378,17 +379,17 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
       <div className="acoes">
         {estado === 'inimigo' && (
           <button className="botao" onClick={turnoInimigo} disabled={ocupado}>
-            {preencher(t(TEXTOS.vezInimigo, idioma), { inimigo: nomeInimigo })} 🎲
+            {preencher(t(TEXTOS.vezInimigo, idioma), { inimigo: nomeInimigo })} <Icone id="interface/dado" />
           </button>
         )}
         {estado === 'vitoria' && (
           <button className="botao" onClick={() => aoVencer(vidaHeroi, energia)}>
-            {t(TEXTOS.venceu, idioma)} {t(TEXTOS.continuar, idioma)}
+            {comIcones(t(TEXTOS.venceu, idioma))} {comIcones(t(TEXTOS.continuar, idioma))}
           </button>
         )}
         {estado === 'derrota' && (
           <button className="botao" onClick={recomecar}>
-            {t(TEXTOS.perdeu, idioma)} {t(TEXTOS.tentarOutraVez, idioma)}
+            {comIcones(t(TEXTOS.perdeu, idioma))} {t(TEXTOS.tentarOutraVez, idioma)}
           </button>
         )}
       </div>

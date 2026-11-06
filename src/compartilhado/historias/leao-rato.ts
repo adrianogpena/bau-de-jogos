@@ -2,7 +2,7 @@ import { fabula } from './modelo';
 
 export const leaoRato = fabula({
   id: 'leao-rato',
-  emoji: '🦁',
+  emoji: '[[historias/leao-rato]]',
   titulo: { 'pt-PT': 'O Leão e o Rato', 'pt-BR': 'O Leão e o Rato' },
   paragrafos: [
     {

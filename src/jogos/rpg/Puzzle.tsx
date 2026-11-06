@@ -3,6 +3,7 @@ import { type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilh
 import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
 import { PUZZLE } from './historia';
+import { comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
   pistas: { 'pt-PT': '📜 Pistas do Chefe', 'pt-BR': '📜 Pistas do Chefe' },
@@ -29,7 +30,7 @@ export function ListaPistas({ idioma }: { idioma: Idioma }) {
   const texto = PUZZLE.pistas.map((p, i) => `${i + 1}. ${t(p, idioma)}`).join('\n');
   return (
     <div className="pistas">
-      <strong>{t(TEXTOS.pistas, idioma)}</strong>
+      <strong>{comIcones(t(TEXTOS.pistas, idioma))}</strong>
       <TextoNarrado className="texto-pistas" idioma={idioma} texto={texto} />
     </div>
   );
@@ -84,7 +85,7 @@ export function Puzzle({ idioma, aoConcluir }: { idioma: Idioma; aoConcluir: (de
                 disabled={terminou}
                 onClick={() => setRespostas({ ...respostas, [pergunta.id]: opcao.id })}
               >
-                {opcao.emoji} {t(opcao.nome, idioma)}
+                {comIcones(opcao.emoji)} {t(opcao.nome, idioma)}
               </button>
             ))}
           </div>
@@ -99,14 +100,14 @@ export function Puzzle({ idioma, aoConcluir }: { idioma: Idioma; aoConcluir: (de
         />
       )}
       {!terminou && (
-        <p className="progresso">{preencher(t(TEXTOS.tentativas, idioma), { n: '🔑'.repeat(restantes) })}</p>
+        <p className="progresso">{comIcones(preencher(t(TEXTOS.tentativas, idioma), { n: '🔑'.repeat(restantes) }))}</p>
       )}
 
       <div className="acoes">
         {!terminou && (
           <>
             <button className="botao" onClick={decifrar} disabled={!completo}>
-              {t(TEXTOS.decifrar, idioma)}
+              {comIcones(t(TEXTOS.decifrar, idioma))}
             </button>
             <button className="botao botao-secundario" onClick={() => aoConcluir(false)}>
               {t(TEXTOS.seguirSem, idioma)}
@@ -115,7 +116,7 @@ export function Puzzle({ idioma, aoConcluir }: { idioma: Idioma; aoConcluir: (de
         )}
         {terminou && (
           <button className="botao" onClick={() => aoConcluir(resultado === 'certo')}>
-            {t(TEXTOS.continuar, idioma)}
+            {comIcones(t(TEXTOS.continuar, idioma))}
           </button>
         )}
       </div>

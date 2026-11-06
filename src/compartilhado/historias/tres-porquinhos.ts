@@ -2,7 +2,7 @@ import { fabula } from './modelo';
 
 export const tresPorquinhos = fabula({
   id: 'tres-porquinhos',
-  emoji: '🐷',
+  emoji: '[[historias/tres-porquinhos]]',
   titulo: { 'pt-PT': 'Os Três Porquinhos', 'pt-BR': 'Os Três Porquinhos' },
   paragrafos: [
     {

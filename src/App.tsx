@@ -2,6 +2,7 @@ import { type CSSProperties, useEffect, useState } from 'react';
 import { IDIOMAS, type Idioma, idiomaInicial, salvarIdioma, t } from './compartilhado/idioma';
 import { JOGOS } from './jogos/registro';
 import { Creditos } from './Creditos';
+import { comIcones } from './compartilhado/icones';
 
 const TITULO = { 'pt-PT': 'Baú de Jogos', 'pt-BR': 'Baú de Jogos' };
 const CREDITOS = { 'pt-PT': 'Créditos', 'pt-BR': 'Créditos' };
@@ -42,9 +43,7 @@ export function App() {
     <main className="tela">
       <header className="cabecalho">
         <div className="marca">
-          <span className="marca-icone" aria-hidden="true">
-            🎲
-          </span>
+          <img className="marca-icone" src={`${import.meta.env.BASE_URL}icone-192.png`} alt="" draggable={false} />
           <h1>{t(TITULO, idioma)}</h1>
         </div>
         <div className="seletor-idioma" role="group" aria-label="Idioma">
@@ -76,7 +75,7 @@ export function App() {
           >
             <span className="cartao-menu-topo">
               <span className="icone-jogo" aria-hidden="true">
-                {jogo.emoji}
+                {comIcones(jogo.emoji)}
               </span>
               <span className="etiqueta">{t(jogo.etiqueta, idioma)}</span>
             </span>

@@ -2,7 +2,7 @@ import { fabula } from './modelo';
 
 export const cigarraFormiga = fabula({
   id: 'cigarra-formiga',
-  emoji: '🐜',
+  emoji: '[[historias/cigarra-formiga]]',
   titulo: { 'pt-PT': 'A Cigarra e a Formiga', 'pt-BR': 'A Cigarra e a Formiga' },
   paragrafos: [
     {

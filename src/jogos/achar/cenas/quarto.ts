@@ -38,7 +38,7 @@ const SOBRE_MOVEIS = [...CRIADO, ...PEITORIL, ...PRATELEIRA, ...BAU];
 
 export const quarto: Cena = {
   id: 'quarto',
-  emoji: '🛏️',
+  emoji: '[[menu/comodo-quarto]]',
   titulo: { 'pt-PT': 'O Quarto', 'pt-BR': 'O Quarto' },
   resumo: {
     'pt-PT': 'Anda tudo espalhado pelo quarto. Consegues encontrar tudo?',

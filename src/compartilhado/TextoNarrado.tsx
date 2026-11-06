@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Idioma } from './idioma';
+import { comIcones } from '../compartilhado/icones';
 
 /**
  * Presets de voz. Para voltar ao anterior, troque PRESET_ATIVO por 'anterior'.
@@ -135,7 +136,9 @@ const PAUSA_ENTRE_BLOCOS = 350;
 const SIMBOLO = /[\p{Extended_Pictographic}\p{So}←-⇿■-◿☀-➿️‍⃣]/gu;
 
 export function semSimbolos(texto: string): string {
-  return texto.replace(SIMBOLO, (s) => ' '.repeat(s.length));
+  return texto
+    .replace(/\[\[[a-z0-9/-]+\]\]/g, (s) => ' '.repeat(s.length))
+    .replace(SIMBOLO, (s) => ' '.repeat(s.length));
 }
 
 /** Pedaço de texto da tela, com a posição dele no texto inteiro e o bloco a que pertence. */
@@ -445,7 +448,7 @@ export function TextoNarrado({
                 .join(' ') || undefined
             }
           >
-            {p.texto}{' '}
+            {comIcones(p.texto)}{' '}
             {p.quebra && <br />}
           </span>
         ))}

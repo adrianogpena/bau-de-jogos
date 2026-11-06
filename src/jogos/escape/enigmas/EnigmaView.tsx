@@ -5,6 +5,7 @@ import { Codigo } from './Codigo';
 import { Escolha } from './Escolha';
 import { Ordem } from './Ordem';
 import { Pares } from './Pares';
+import { comIcones } from '../../../compartilhado/icones';
 
 /** Mostra o visual, a pergunta e o tipo de enigma certo. Novos tipos entram aqui. */
 export function EnigmaView({
@@ -20,7 +21,7 @@ export function EnigmaView({
     <>
       {enigma.visual && (
         <p className="visual-enigma" aria-hidden="true">
-          {enigma.visual}
+          {comIcones(enigma.visual)}
         </p>
       )}
       <TextoNarrado className="pergunta-enigma" idioma={idioma} texto={t(enigma.pergunta, idioma)} compacto />

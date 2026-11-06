@@ -16,6 +16,7 @@ import {
   feiticosParaAprender,
   INIMIGOS_MAGO,
 } from './feiticos';
+import { Icone, comIcones } from '../../../compartilhado/icones';
 
 const TEXTOS = {
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
@@ -63,21 +64,21 @@ function ResumoMago({ ficha, idioma }: { ficha: FichaMago; idioma: Idioma }) {
   return (
     <div className="resumo-ficha">
       <span className="resumo-avatar" aria-hidden="true">
-        {ficha.avatar}
+        {comIcones(ficha.avatar)}
       </span>
       <strong>{ficha.nome}</strong>
       <span>
-        {escola.emoji} {t(escola.nome, idioma)}
+        {comIcones(escola.emoji)} {t(escola.nome, idioma)}
       </span>
       <span>
-        ❤️ {ficha.pontosDeVida}/{ficha.pontosDeVidaMaximos}
+        <Icone id="interface/coracao" /> {ficha.pontosDeVida}/{ficha.pontosDeVidaMaximos}
       </span>
       <span>
-        🔮 {ficha.energia}/{ficha.energiaMaxima}
+        <Icone id="interface/bola-de-cristal" /> {ficha.energia}/{ficha.energiaMaxima}
       </span>
       {HABILIDADES.map((hab) => (
         <span key={hab.id} title={t(hab.nome, idioma)}>
-          {hab.emoji} {ficha.habilidades[hab.id]}
+          {comIcones(hab.emoji)} {ficha.habilidades[hab.id]}
         </span>
       ))}
     </div>
@@ -93,7 +94,7 @@ function ListaFeiticos({ ficha, idioma }: { ficha: FichaMago; idioma: Idioma }) 
         return (
           <li key={id} className="feitico-linha">
             <span className="feitico-emoji" aria-hidden="true">
-              {f.emoji}
+              {comIcones(f.emoji)}
             </span>
             <span className="feitico-texto">
               <strong>
@@ -172,7 +173,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
           onClick={() => setVerFeiticos(!verFeiticos)}
           aria-pressed={verFeiticos}
         >
-          🔮 {t(TEXTOS.feiticos, idioma)}
+          <Icone id="interface/bola-de-cristal" /> {t(TEXTOS.feiticos, idioma)}
         </button>
       </header>
 
@@ -181,7 +182,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
       <ResumoMago ficha={ficha} idioma={idioma} />
 
       <div className="emoji-grande" aria-hidden="true">
-        {cena.emoji}
+        {comIcones(cena.emoji)}
       </div>
       <TextoNarrado
         className="texto-historia"
@@ -247,7 +248,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
                     {opcoesAprender.map((f) => (
                       <button key={f.id} className="botao botao-feitico" onClick={() => aprender(f.id)}>
                         <span>
-                          {f.emoji} {t(f.nome, idioma)} · <span className="sem-quebra">{f.custo} 🔮</span>
+                          {comIcones(f.emoji)} {t(f.nome, idioma)} · <span className="sem-quebra">{f.custo} <Icone id="interface/bola-de-cristal" /></span>
                         </span>
                         <small>{t(f.descricao, idioma)}</small>
                       </button>
@@ -269,22 +270,22 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
           <div className="acoes">
             {cena.luta && (
               <button className="botao" onClick={() => setFase('luta')}>
-                {t(TEXTOS.lutar, idioma)}
+                {comIcones(t(TEXTOS.lutar, idioma))}
               </button>
             )}
             {cena.teste && passou === null && (
               <button className="botao" onClick={fazerTeste} disabled={ocupado}>
-                {t(TEXTOS.lancar, idioma)}
+                {comIcones(t(TEXTOS.lancar, idioma))}
               </button>
             )}
             {cena.teste && passou !== null && (
               <button className="botao" onClick={() => irPara(passou ? cena.teste!.sucesso : cena.teste!.falha)}>
-                {t(TEXTOS.continuar, idioma)}
+                {comIcones(t(TEXTOS.continuar, idioma))}
               </button>
             )}
             {cena.aprender && aprendido && (
               <button className="botao" onClick={() => irPara(cena.aprender!.proxima)}>
-                {t(TEXTOS.continuar, idioma)}
+                {comIcones(t(TEXTOS.continuar, idioma))}
               </button>
             )}
             {cena.escolhas
