@@ -55,8 +55,9 @@ src/
     idioma.ts            tipo Idioma + seletor de variante
     dados.ts             rolagem de dados (d4, d6, d20...)
     palavras.ts          dicionário de palavras com pictograma (por variante)
-    fabulas.ts           histórias dos jogos 1 e 2: fábulas, Irmãos Grimm e Mil e Uma Noites
-                         (texto por variante, uma palavra por parágrafo)
+    historias/           histórias dos jogos 1 e 2, um arquivo por história (index.ts lista as coleções)
+      modelo.ts          tipos e fabula(): confere os dados ao carregar; cada parágrafo tem uma ou mais
+                         palavras (`palavras: [imagem, ...]`) e o texto por variante com `{1}`, `{2}`...
     TextoNarrado.tsx     texto lido em voz alta com destaque da palavra lida
   jogos/
     registro.ts          lista de todos os jogos (adicione novos aqui)

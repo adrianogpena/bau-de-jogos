@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import type { PropsJogo } from '../tipos';
 import { type TextoPorIdioma, t } from '../../compartilhado/idioma';
-import { type PalavraIlustrada, caminhoImagem, sortear } from '../../compartilhado/palavras';
-import { type Fabula, paragrafoCompleto, partesDoParagrafo } from '../../compartilhado/fabulas';
+import { type PalavraIlustrada, caminhoImagem, palavraDe, sortear } from '../../compartilhado/palavras';
+import { type Fabula, paragrafoCompleto, segmentosDoParagrafo } from '../../compartilhado/historias';
 import { EscolherFabula } from '../../compartilhado/EscolherFabula';
 import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
@@ -33,7 +33,7 @@ const TEXTOS = {
  * que são parecidas no tema e obrigam a criança a ler a palavra.
  */
 function opcoesDaFabula(fabula: Fabula): PalavraIlustrada[][] {
-  const todas = fabula.paragrafos.map((p) => p.palavra);
+  const todas = fabula.rodadas.map((r) => r.palavra);
   return todas.map((certa) =>
     sortear([certa, ...sortear(todas.filter((p) => p.imagem !== certa.imagem), OPCOES - 1)], OPCOES),
   );
@@ -64,11 +64,11 @@ function LeituraFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
   const [acertou, setAcertou] = useState(false);
   const [pontos, setPontos] = useState(0);
 
-  const paragrafo = fabula.paragrafos[indice];
+  const rodada = fabula.rodadas[indice];
 
   function escolher(opcao: PalavraIlustrada) {
     if (acertou || erradas.includes(opcao.imagem)) return;
-    if (opcao.imagem === paragrafo.palavra.imagem) {
+    if (opcao.imagem === rodada.palavra.imagem) {
       somAcerto();
       setAcertou(true);
       // acertar de primeira vale ponto
@@ -93,12 +93,12 @@ function LeituraFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
     setPontos(0);
   }
 
-  if (!paragrafo) {
+  if (!rodada) {
     return (
       <main className="tela tela-centro">
         <h1>{t(TEXTOS.fim, idioma)}</h1>
         <p className="texto-grande">
-          ⭐ {pontos} / {fabula.paragrafos.length}
+          ⭐ {pontos} / {fabula.rodadas.length}
         </p>
         <p>{t(TEXTOS.historiaToda, idioma)}</p>
         <TextoNarrado
@@ -118,7 +118,8 @@ function LeituraFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
     );
   }
 
-  const partes = partesDoParagrafo(paragrafo, idioma);
+  const { paragrafo } = rodada;
+  const certaTexto = palavraDe(rodada.palavra, idioma);
 
   return (
     <main className="tela tela-centro">
@@ -127,7 +128,7 @@ function LeituraFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
           ← {t(TEXTOS.voltar, idioma)}
         </button>
         <span className="progresso">
-          {indice + 1} / {fabula.paragrafos.length}
+          {indice + 1} / {fabula.rodadas.length}
         </span>
       </header>
 
@@ -135,31 +136,37 @@ function LeituraFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
         {fabula.emoji} {t(fabula.titulo, idioma)}
       </h2>
 
-      {acertou ? (
-        // depois de acertar, o parágrafo é lido em voz alta
+      {acertou && rodada.ultima ? (
+        // depois de acertar a última palavra, o parágrafo é lido em voz alta
         <TextoNarrado
           key={indice}
           className="texto-historia"
           idioma={idioma}
           texto={paragrafoCompleto(paragrafo, idioma)}
-          destacar={partes.palavra}
+          destacar={certaTexto}
           lerAoAbrir
         />
       ) : (
         <>
           <p className="texto-historia" lang={idioma}>
-            {partes.antes}
-            <span className="palavra-destacada">{partes.palavra}</span>
-            {partes.depois}
+            {segmentosDoParagrafo(paragrafo, idioma).map((segmento, i) =>
+              segmento.tipo === 'palavra' && segmento.posicao === rodada.alvo ? (
+                <span key={i} className="palavra-destacada">
+                  {segmento.texto}
+                </span>
+              ) : (
+                segmento.texto
+              ),
+            )}
           </p>
-          <p>{t(TEXTOS.instrucao, idioma)}</p>
+          {!acertou && <p>{t(TEXTOS.instrucao, idioma)}</p>}
         </>
       )}
 
       <div className="grade-opcoes">
         {opcoes[indice].map((opcao) => {
           const errada = erradas.includes(opcao.imagem);
-          const certa = acertou && opcao.imagem === paragrafo.palavra.imagem;
+          const certa = acertou && opcao.imagem === rodada.palavra.imagem;
           return (
             <button
               key={opcao.imagem}

@@ -1,5 +1,5 @@
 import { type Idioma, type TextoPorIdioma, t } from './idioma';
-import { COLECOES, type Fabula } from './fabulas';
+import { COLECOES, type Fabula } from './historias';
 
 const TEXTOS = {
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },

@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import type { PropsJogo } from '../tipos';
 import { type Idioma, type TextoPorIdioma, t } from '../../compartilhado/idioma';
-import { caminhoImagem, normalizar } from '../../compartilhado/palavras';
-import { type Fabula, paragrafoCompleto, partesDoParagrafo } from '../../compartilhado/fabulas';
+import { caminhoImagem, normalizar, palavraDe } from '../../compartilhado/palavras';
+import { type Fabula, paragrafoCompleto, segmentosDoParagrafo } from '../../compartilhado/historias';
 import { EscolherFabula } from '../../compartilhado/EscolherFabula';
 import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
@@ -60,9 +60,10 @@ function EscritaFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
   const [dicas, setDicas] = useState(0);
   const [usouAjuda, setUsouAjuda] = useState(false);
 
-  const paragrafo = fabula.paragrafos[indice];
-  const partes = useMemo(() => (paragrafo ? partesDoParagrafo(paragrafo, idioma) : null), [paragrafo, idioma]);
-  const certa = partes?.palavra ?? '';
+  const rodada = fabula.rodadas[indice];
+  const paragrafo = rodada?.paragrafo;
+  const segmentos = useMemo(() => (paragrafo ? segmentosDoParagrafo(paragrafo, idioma) : null), [paragrafo, idioma]);
+  const certa = rodada ? palavraDe(rodada.palavra, idioma) : '';
   const letras = useMemo(() => [...certa], [certa]);
 
   function verificar() {
@@ -101,12 +102,12 @@ function EscritaFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
     setUsouAjuda(false);
   }
 
-  if (!paragrafo || !partes) {
+  if (!rodada || !paragrafo || !segmentos) {
     return (
       <main className="tela tela-centro">
         <h1>{t(TEXTOS.fim, idioma)}</h1>
         <p className="texto-grande">
-          ⭐ {acertos} / {fabula.paragrafos.length}
+          ⭐ {acertos} / {fabula.rodadas.length}
         </p>
         <p>{t(TEXTOS.historiaToda, idioma)}</p>
         <TextoNarrado
@@ -135,7 +136,7 @@ function EscritaFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
           ← {t(TEXTOS.voltar, idioma)}
         </button>
         <span className="progresso">
-          {indice + 1} / {fabula.paragrafos.length}
+          {indice + 1} / {fabula.rodadas.length}
         </span>
       </header>
 
@@ -143,7 +144,7 @@ function EscritaFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
         {fabula.emoji} {t(fabula.titulo, idioma)}
       </h2>
 
-      {acertou ? (
+      {acertou && rodada.ultima ? (
         // depois de acertar, o parágrafo completo é lido em voz alta
         <TextoNarrado
           key={indice}
@@ -156,17 +157,31 @@ function EscritaFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
       ) : (
         // sem leitura até a criança acertar a palavra; depois pode ouvir quantas vezes quiser
         <p className="texto-historia" lang={idioma} data-sem-leitura>
-          {partes.antes}
-          <span className="lacuna" aria-label={t(TEXTOS.instrucao, idioma)}>
-            {letras.map((letra, i) => (i < dicas ? letra : '_')).join(' ')}
-          </span>
-          {partes.depois}
+          {segmentos.map((segmento, i) => {
+            if (segmento.tipo === 'texto') return segmento.texto;
+            // palavras já acertadas aparecem escritas; a atual e as próximas ficam em branco
+            if (segmento.posicao < rodada.alvo) return segmento.texto;
+            if (segmento.posicao === rodada.alvo && acertou) {
+              return (
+                <span key={i} className="palavra-destacada">
+                  {segmento.texto}
+                </span>
+              );
+            }
+            const atual = segmento.posicao === rodada.alvo;
+            const letrasDela = atual ? letras : [...segmento.texto];
+            return (
+              <span key={i} className="lacuna" aria-label={t(TEXTOS.instrucao, idioma)}>
+                {letrasDela.map((letra, j) => (atual && j < dicas ? letra : '_')).join(' ')}
+              </span>
+            );
+          })}
         </p>
       )}
 
       <img
         className={`imagem-jogo ${acertou ? 'imagem-acerto' : ''}`}
-        src={caminhoImagem(paragrafo.palavra.imagem)}
+        src={caminhoImagem(rodada.palavra.imagem)}
         alt=""
         draggable={false}
       />
