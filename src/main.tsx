@@ -8,6 +8,10 @@ import { instalarLeituraGlobal } from './compartilhado/leituraGlobal';
 
 instalarLeituraGlobal();
 
+if (import.meta.env.DEV && new URLSearchParams(location.search).has('tablet')) {
+  void import('./compartilhado/ferramentaTablet').then((m) => m.instalarFerramentaTablet());
+}
+
 if (import.meta.env.DEV && 'serviceWorker' in navigator) {
   // remove service worker antigo para o servidor de testes mostrar os ajustes na hora
   void navigator.serviceWorker.getRegistrations().then(async (registros) => {
