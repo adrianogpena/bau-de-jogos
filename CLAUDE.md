@@ -27,6 +27,15 @@ Todo o projeto é em **português**: textos da interface, histórias, nomes de v
 
 Esta tabela é um ponto de partida, não uma lista completa. Revise sempre o texto novo com as duas variantes em mente.
 
+## Imagens novas
+
+Sempre que o trabalho precisar de uma **imagem nova** (cenário, personagem, item, ícone...), **não invente nem use placeholder definitivo**: avise o usuário de que ele deve gerar a imagem e entregue o **prompt**.
+
+- O prompt vai em `docs/PROMPTS-IMAGENS.md` (fila de imagens ainda não geradas). Depois que a imagem for adicionada ao projeto, **apague o prompt** desse arquivo.
+- Escreva o prompt **em inglês**, bem detalhado, encaixando no tema da história/app. Comece com o prompt de estilo único de `docs/GERAR-IMAGENS.md`.
+- Indique o **formato**: `1:1`, `9:16`, `3:4`, `4:3` ou `16:9`, e o caminho onde salvar (`public/imagens/...`).
+- Personagens e itens soltos: fundo branco puro (#FFFFFF), para recorte.
+
 ## Stack
 
 - **TypeScript** (modo estrito) + **React** + **Vite**
