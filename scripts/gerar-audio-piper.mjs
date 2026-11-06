@@ -6,7 +6,7 @@
  *
  *   npm run audio:piper -- --simular     # só conta frases e caracteres
  *   npm run audio:piper                  # gera o que falta (não refaz o que já existe)
- *   npm run audio:piper -- --voz cadu
+ *   npm run audio:piper -- --voz faber
  */
 import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
