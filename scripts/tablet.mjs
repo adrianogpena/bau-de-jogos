@@ -34,12 +34,13 @@ const portaAberta = () =>
     s.once('error', () => resolve(false))
   })
 
+// O vite roda dentro deste mesmo processo: se o botão "stop" matar o script, o servidor morre junto
 let servidor
 if (!(await portaAberta())) {
-  servidor = spawn('npm run servidor', { shell: true, stdio: 'inherit' })
-  for (let i = 0; i < 60 && !(await portaAberta()); i++) {
-    await new Promise((r) => setTimeout(r, 500))
-  }
+  const { createServer } = await import('vite')
+  servidor = await createServer({ server: { host: true, port: PORTA, strictPort: true } })
+  await servidor.listen()
+  servidor.printUrls()
 }
 
 const perfil = mkdtempSync(join(tmpdir(), 'bau-tablet-'))
@@ -57,12 +58,16 @@ const janela = spawn(
   { stdio: 'ignore' },
 )
 
-janela.on('exit', () => {
-  servidor?.kill()
+const encerrar = async () => {
+  await servidor?.close()
   process.exit(0)
-})
+}
+janela.on('exit', encerrar)
 process.on('SIGINT', () => {
   janela.kill()
-  servidor?.kill()
-  process.exit(0)
+  void encerrar()
+})
+process.on('SIGTERM', () => {
+  janela.kill()
+  void encerrar()
 })

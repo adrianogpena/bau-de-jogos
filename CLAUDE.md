@@ -87,6 +87,9 @@ Para criar um jogo novo: crie a pasta em `src/jogos/<nome>/`, exporte um compone
 
 - **Toque primeiro**: alvos de toque com no mínimo **64 px**, botões grandes, espaçamento generoso. Nada que dependa de hover, clique direito ou teclado físico.
 - Orientação paisagem e retrato devem funcionar.
+  - **Cenas** (escape e achar itens) são sempre **4:3 inteiras, nunca cortadas** (os itens ficam em % do desenho). **Retrato**: cena na largura toda, palavras/mensagens/inventário embaixo. **Paisagem**: cena grande à esquerda (limitada pela altura livre) e painel de 280 px à direita. As mesmas imagens servem às duas orientações; não gere fundos em versão retrato.
+  - Imagens de palavra (escrita e leitura): quadrado com `object-fit: contain`, tamanho limitado por `min(30vh, 80vw, 260px)`.
+  - Teste com `npm run dev:tablet` (botão ⟳ gira a janela).
 - Evitar texto pequeno e telas lotadas. Letra grande e legível (fonte clara, bom contraste).
 - Feedback visual e sonoro simples para acertos e erros, sem punição dura.
 - Sem anúncios, sem login, sem coleta de dados pessoais das crianças.
