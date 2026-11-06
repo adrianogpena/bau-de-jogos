@@ -8,7 +8,7 @@ import config from './vozes-narrador.json';
  * Cada fala tem um arquivo `audio/<variante>/<voz>/t/<hash do texto>.mp3`. No servidor de testes
  * (`npm run servidor`), se o arquivo ainda não existe, ele é gerado na hora com o Piper e fica guardado
  * em `public/audio/`. Se o áudio não puder ser tocado, a fala cai na voz do aparelho.
- * A troca de voz só aparece no servidor de testes (veja SeletorVoz).
+ * No app publicado só existem os áudios já gerados (as histórias de escrita e leitura); o resto cai na voz do aparelho.
  */
 
 export interface VozNarrador {
@@ -53,7 +53,6 @@ export function vozesDaVariante(idioma: Idioma): VozNarrador[] {
 
 /** Voz de áudio escolhida para a variante, ou null para usar a voz do aparelho. */
 export function vozEscolhida(idioma: Idioma): VozNarrador | null {
-  if (!import.meta.env.DEV) return null;
   const id = lerEscolhas()[idioma];
   return vozesDaVariante(idioma).find((v) => v.id === id) ?? null;
 }

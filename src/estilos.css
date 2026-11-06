@@ -206,6 +206,19 @@ p {
   align-items: center;
 }
 
+.seletor-voz-bloco {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.seletor-voz-aviso {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--texto-suave);
+}
+
 .seletor-voz-rotulo {
   padding: 0 8px 0 12px;
   color: var(--texto-suave);

@@ -11,7 +11,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host",
     "typecheck": "tsc --noEmit",
-    "audio": "node scripts/gerar-audio.mjs"
+    "audio": "node scripts/gerar-audio.mjs",
+    "audio:piper": "node scripts/gerar-audio-piper.mjs"
   },
   "dependencies": {
     "@fontsource-variable/lexend": "^5.3.0",

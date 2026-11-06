@@ -72,6 +72,13 @@ function separarFrases(texto: string, palavras: Palavra[]): Frase[] {
   return frases;
 }
 
+/** As frases que o narrador diz para um texto, como ele as diz (usado para gerar os áudios das histórias antes). */
+export function frasesFaladas(texto: string): string[] {
+  return separarFrases(texto, separarPalavras(texto))
+    .map((f) => semSimbolos(f.texto))
+    .filter((f) => /\p{L}/u.test(f));
+}
+
 /** Palavra sem pontuação e em minúsculas, para comparar com a palavra em destaque. */
 function limparPontuacao(palavra: string): string {
   return palavra.replace(/^[^\p{L}]+|[^\p{L}]+$/gu, '').toLocaleLowerCase('pt');
