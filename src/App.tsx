@@ -3,6 +3,7 @@ import { IDIOMAS, type Idioma, idiomaInicial, salvarIdioma, t } from './comparti
 import { JOGOS } from './jogos/registro';
 import { Creditos } from './Creditos';
 import { comIcones } from './compartilhado/icones';
+import { SeletorVoz } from './compartilhado/SeletorVoz';
 
 const TITULO = { 'pt-PT': 'Baú de Jogos', 'pt-BR': 'Baú de Jogos' };
 const CREDITOS = { 'pt-PT': 'Créditos', 'pt-BR': 'Créditos' };
@@ -46,17 +47,20 @@ export function App() {
           <img className="marca-icone" src={`${import.meta.env.BASE_URL}icone-192.png`} alt="" draggable={false} />
           <h1>{t(TITULO, idioma)}</h1>
         </div>
-        <div className="seletor-idioma" role="group" aria-label="Idioma">
-          {IDIOMAS.map(({ codigo, rotulo }) => (
-            <button
-              key={codigo}
-              className={codigo === idioma ? 'botao botao-ativo' : 'botao botao-secundario'}
-              onClick={() => mudarIdioma(codigo)}
-              aria-pressed={codigo === idioma}
-            >
-              {rotulo}
-            </button>
-          ))}
+        <div className="seletores">
+          <div className="seletor-idioma" role="group" aria-label="Idioma">
+            {IDIOMAS.map(({ codigo, rotulo }) => (
+              <button
+                key={codigo}
+                className={codigo === idioma ? 'botao botao-ativo' : 'botao botao-secundario'}
+                onClick={() => mudarIdioma(codigo)}
+                aria-pressed={codigo === idioma}
+              >
+                {rotulo}
+              </button>
+            ))}
+          </div>
+          <SeletorVoz idioma={idioma} />
         </div>
       </header>
 

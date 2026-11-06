@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import { piperDev } from './scripts/piper-dev.mjs';
+import { hashTexto } from './src/compartilhado/hashTexto';
 
 // O app é publicado em https://<usuario>.github.io/bau-de-jogos/
 const BASE = '/bau-de-jogos/';
@@ -11,6 +13,8 @@ export default defineConfig(({ command }) => ({
   server: { allowedHosts: true },
   plugins: [
     react(),
+    // no servidor de testes, gera na hora o áudio das vozes do Piper (veja docs/NARRACAO-PIPER.md)
+    piperDev({ raiz: new URL('.', import.meta.url).pathname, hashTexto }),
     // o service worker só existe no build; no servidor de testes ele serviria arquivos antigos
     command === 'build' &&
     VitePWA({

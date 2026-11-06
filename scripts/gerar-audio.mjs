@@ -16,11 +16,10 @@ import { existsSync, readFileSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createServer } from 'vite';
+import { VARIANTES, carregarHistorias, falasDaHistoria } from './textos.mjs';
 
 const raiz = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const API = 'https://api.elevenlabs.io/v1';
-const VARIANTES = ['pt-PT', 'pt-BR'];
 
 // ---------- argumentos e configuração ----------
 
@@ -55,43 +54,6 @@ function lerChave() {
 
 async function lerConfig() {
   return JSON.parse(await readFile(path.join(raiz, 'scripts', 'vozes.json'), 'utf8'));
-}
-
-// ---------- textos das histórias ----------
-
-/** Carrega as histórias do projeto (TypeScript) usando o próprio Vite. */
-async function carregarHistorias() {
-  const servidor = await createServer({
-    root: raiz,
-    configFile: false,
-    logLevel: 'error',
-    server: { middlewareMode: true, hmr: false, watch: null },
-    appType: 'custom',
-    optimizeDeps: { noDiscovery: true, include: [] },
-  });
-  try {
-    const { COLECOES, paragrafoCompleto } = await servidor.ssrLoadModule('/src/compartilhado/historias/index.ts');
-    const historias = COLECOES.flatMap((c) => c.historias);
-    return historias.map((h) => ({
-      id: h.id,
-      titulo: h.titulo,
-      paragrafos: h.paragrafos.map((p) => ({
-        'pt-PT': paragrafoCompleto(p, 'pt-PT'),
-        'pt-BR': paragrafoCompleto(p, 'pt-BR'),
-      })),
-    }));
-  } finally {
-    await servidor.close();
-  }
-}
-
-/** Falas de uma história numa variante: o título (arquivo "titulo") e cada parágrafo ("p01", "p02"...). */
-function falasDaHistoria(historia, variante) {
-  const limpar = (t) => t.replace(/\[\[[^\]]*\]\]/g, '').replace(/\s+/g, ' ').trim();
-  return [
-    { nome: 'titulo', texto: limpar(historia.titulo[variante]) },
-    ...historia.paragrafos.map((p, i) => ({ nome: `p${String(i + 1).padStart(2, '0')}`, texto: limpar(p[variante]) })),
-  ].filter((f) => f.texto);
 }
 
 // ---------- ElevenLabs ----------
@@ -189,7 +151,7 @@ async function principal() {
       throw new Error(`Falta escolher a voz de ${variante} em scripts/vozes.json ("id"). Veja: npm run audio -- --listar-vozes ${variante}`);
     }
     for (const historia of historias) {
-      const pasta = path.join(raiz, 'public', 'audio', variante, historia.id);
+      const pasta = path.join(raiz, 'public', 'audio', variante, voz.pasta ?? 'elevenlabs', historia.id);
       for (const fala of falasDaHistoria(historia, variante)) {
         // a impressão digital muda se o texto, a voz ou os ajustes mudarem: só então o áudio é refeito
         const impressao = createHash('sha256')

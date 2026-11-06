@@ -194,6 +194,24 @@ p {
   color: transparent;
 }
 
+.seletores {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.seletor-voz {
+  align-items: center;
+}
+
+.seletor-voz-rotulo {
+  padding: 0 8px 0 12px;
+  color: var(--texto-suave);
+  font-weight: 700;
+}
+
 .seletor-idioma {
   display: flex;
   gap: 4px;

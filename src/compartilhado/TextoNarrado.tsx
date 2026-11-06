@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Idioma } from './idioma';
 import { comIcones } from '../compartilhado/icones';
+import { type FalaNarrada, cancelarFala, criarFala } from './narradorAudio';
 
 /**
  * Presets de voz. Para voltar ao anterior, troque PRESET_ATIVO por 'anterior'.
@@ -117,7 +118,7 @@ let pararLeituraAtiva: (() => void) | null = null;
 let leituraSimples = 0;
 let temporizadorSimples: number | undefined;
 /** Guarda a fala em curso (sem isto o Chrome pode perdê-la e nunca avisar o fim). */
-const falaSimples: { atual: SpeechSynthesisUtterance | null } = { atual: null };
+const falaSimples: { atual: FalaNarrada | null } = { atual: null };
 
 const NOME_DESTAQUE = 'palavra-lida-global';
 
@@ -226,7 +227,7 @@ export function falarTexto(texto: string, idioma: Idioma, elemento?: HTMLElement
   pararLeituraAtiva?.();
   limparDestaque();
   const minha = ++leituraSimples;
-  window.speechSynthesis.cancel();
+  cancelarFala();
   const voz = escolherVoz(idioma);
   const podeMarcar = nos.length > 0 && 'highlights' in CSS;
   const pedacos = pedacosParaFalar(bruto, nos);
@@ -251,12 +252,8 @@ export function falarTexto(texto: string, idioma: Idioma, elemento?: HTMLElement
       return;
     }
     const pedaco = pedacos[n];
-    const fala = new SpeechSynthesisUtterance(pedaco.texto);
+    const fala = criarFala(pedaco.texto, idioma, { rate: VELOCIDADE, pitch: PRESETS[PRESET_ATIVO].tom, voz });
     falaSimples.atual = fala;
-    fala.lang = idioma;
-    fala.rate = VELOCIDADE;
-    fala.pitch = PRESETS[PRESET_ATIVO].tom;
-    if (voz) fala.voice = voz;
     const fimPedaco = pedaco.inicio + pedaco.texto.length;
 
     let recebeuMarcacao = false;
@@ -290,7 +287,7 @@ export function falarTexto(texto: string, idioma: Idioma, elemento?: HTMLElement
       if (e.error === 'interrupted' || e.error === 'canceled') return;
       seguinte();
     };
-    window.speechSynthesis.speak(fala);
+    fala.falar();
   };
 
   // o Chrome corta a fala nova se ela vier logo depois de um cancel()
@@ -333,14 +330,14 @@ export function TextoNarrado({
   /** Muda a cada leitura; avisos de uma leitura antiga são ignorados. */
   const leitura = useRef(0);
   /** Guarda a fala em curso (sem isto o Chrome pode perdê-la e nunca avisar o fim). */
-  const falaAtual = useRef<SpeechSynthesisUtterance | null>(null);
+  const falaAtual = useRef<FalaNarrada | null>(null);
 
   function parar() {
     leitura.current += 1;
     window.clearTimeout(temporizador.current);
     falaAtual.current = null;
     if (pararLeituraAtiva === parar) pararLeituraAtiva = null;
-    if (temVoz) window.speechSynthesis.cancel();
+    cancelarFala();
     setAtual(null);
   }
 
@@ -376,12 +373,8 @@ export function TextoNarrado({
         lerFrase(n + 1);
         return;
       }
-      const fala = new SpeechSynthesisUtterance(falado);
+      const fala = criarFala(falado, idioma, { rate: VELOCIDADE, pitch: PRESETS[PRESET_ATIVO].tom, voz });
       falaAtual.current = fala;
-      fala.lang = idioma;
-      fala.rate = VELOCIDADE;
-      fala.pitch = PRESETS[PRESET_ATIVO].tom;
-      if (voz) fala.voice = voz;
 
       let recebeuMarcacao = false;
       // avança a cor por tempo, mas só até à última palavra desta frase
@@ -422,7 +415,7 @@ export function TextoNarrado({
         if (e.error === 'interrupted' || e.error === 'canceled') return;
         parar();
       };
-      window.speechSynthesis.speak(fala);
+      fala.falar();
     };
 
     // o Chrome corta a fala nova se ela vier logo depois de um cancel()

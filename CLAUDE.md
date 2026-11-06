@@ -106,6 +106,8 @@ npm run typecheck  # checagem de tipos
 npm run audio      # gera a narração das histórias com ElevenLabs (vozes em scripts/vozes.json; veja docs/NARRACAO-ELEVENLABS.md)
 ```
 
+Vozes de teste do narrador (Piper, grátis): `docs/NARRACAO-PIPER.md`. No servidor de testes o menu mostra o seletor de voz.
+
 ## Fluxo de trabalho (git)
 
 - Faça **todos os ajustes direto na `main`** e dê **push na `main`**. Não crie branches nem pull requests, a menos que o usuário peça.

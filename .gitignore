@@ -31,3 +31,9 @@ test-results
 
 # Imagens geradas pela skill split-image-objects
 split-output
+
+# Modelos de voz do Piper (grandes, baixados à parte)
+modelos-piper
+
+# Áudios gerados na hora pelo servidor de testes (cache das vozes do Piper)
+public/audio/*/*/t/

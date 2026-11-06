@@ -9,7 +9,7 @@
     "speed": 0.9
   },
   "vozes": {
-    "pt-PT": { "id": "", "nome": "" },
-    "pt-BR": { "id": "", "nome": "" }
+    "pt-PT": { "id": "", "nome": "", "pasta": "elevenlabs" },
+    "pt-BR": { "id": "", "nome": "", "pasta": "elevenlabs" }
   }
 }
