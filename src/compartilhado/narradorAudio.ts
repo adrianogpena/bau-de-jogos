@@ -36,6 +36,12 @@ export interface OpcoesAparelho {
   voz?: SpeechSynthesisVoice;
 }
 
+/**
+ * Velocidade do áudio do Piper. A voz do aparelho usava 0.95 (e 0.9 antes), mas o Piper a 1.0
+ * já fala mais depressa que ela; por isso fica mais baixo. Ajuste aqui (sem regerar os áudios).
+ */
+const VELOCIDADE_AUDIO = 0.85;
+
 // ---------- voz do narrador ----------
 
 /** Voz de áudio da variante (a primeira da lista), ou null para usar a voz do aparelho. */
@@ -163,6 +169,8 @@ class FalaAudio implements FalaNarrada {
       const texto = pecas[i];
       const url = `${import.meta.env.BASE_URL}audio/${this.idioma}/${this.voz.id}/t/${hashTexto(texto)}.mp3?t=${encodeURIComponent(texto)}`;
       const audio = new Audio(url);
+      audio.preservesPitch = true;
+      audio.playbackRate = VELOCIDADE_AUDIO;
       this.audio = audio;
       audio.onplaying = () => {
         if (comecou) return;
