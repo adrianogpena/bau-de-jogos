@@ -13,7 +13,7 @@
     "typecheck": "tsc --noEmit",
     "audio": "node scripts/gerar-audio.mjs",
     "audio:piper": "node scripts/gerar-audio-piper.mjs",
-    "test": "node --test scripts/audio.test.mjs",
+    "test": "node --test --test-reporter=spec scripts/audio.test.mjs",
     "prepare": "git config core.hooksPath .githooks || true"
   },
   "dependencies": {
