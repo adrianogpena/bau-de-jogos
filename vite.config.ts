@@ -14,7 +14,8 @@ export default defineConfig(({ command }) => ({
   plugins: [
     react(),
     // no servidor de testes, gera na hora o áudio das vozes do Piper (veja docs/NARRACAO-PIPER.md)
-    piperDev({ raiz: new URL('.', import.meta.url).pathname, hashTexto }),
+    // no Windows o pathname vem como "/C:/..."; tira a barra inicial antes da letra do disco
+    piperDev({ raiz: decodeURIComponent(new URL('.', import.meta.url).pathname).replace(/^[/](?=[A-Za-z]:)/, ''), hashTexto }),
     // o service worker só existe no build; no servidor de testes ele serviria arquivos antigos
     command === 'build' &&
     VitePWA({

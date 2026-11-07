@@ -11,12 +11,12 @@ const TEXTOS = {
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
   titulo: { 'pt-PT': 'Escolhe uma sala!', 'pt-BR': 'Escolha uma sala!' },
   instrucao: {
-    'pt-PT': 'Toca nos objetos, resolve os enigmas e descobre o código para escapar.',
-    'pt-BR': 'Toque nos objetos, resolva os enigmas e descubra o código para escapar.',
+    'pt-PT': 'Vê o cadeado da saída, descobre que objetos escondem os números e escapa. Cada vez que jogas, o código muda!',
+    'pt-BR': 'Veja o cadeado da saída, descubra quais objetos escondem os números e escape. Cada vez que você joga, o código muda!',
   },
 } satisfies Record<string, TextoPorIdioma>;
 
-/** Jogo de escape room: escolher a sala e jogar. As salas ficam em `salas/`. */
+/** Saída Secreta (jogo de fuga): escolher a sala e jogar. As salas ficam em `salas/`. */
 export function Escape({ idioma, aoVoltar }: PropsJogo) {
   const [sala, setSala] = useState<Sala | null>(null);
   const estrelas = lerEstrelas();

@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import { t } from '../../../compartilhado/idioma';
 import { somAcerto, somTentarDeNovo } from '../../../compartilhado/som';
 import type { EnigmaCodigo } from '../tipos';
 import { type PropsEnigma, TEXTOS_ENIGMA } from './tipos';
 
-/** Cadeado com teclado numérico grande. */
-export function Codigo({ enigma, idioma, aoAcertar }: PropsEnigma<EnigmaCodigo>) {
+/** Cadeado com teclado numérico grande. `rotulos`: um desenho por cima de cada número (o cadeado da saída). */
+export function Codigo({ enigma, idioma, aoAcertar, rotulos }: PropsEnigma<EnigmaCodigo> & { rotulos?: ReactNode[] }) {
   const [digitos, setDigitos] = useState('');
   const [errou, setErrou] = useState(false);
   const tamanho = enigma.resposta.length;
@@ -25,8 +25,9 @@ export function Codigo({ enigma, idioma, aoAcertar }: PropsEnigma<EnigmaCodigo>)
     <div className="enigma enigma-codigo">
       <div className="visor-codigo" aria-live="polite">
         {Array.from({ length: tamanho }, (_, i) => (
-          <span key={i} className="digito-codigo">
-            {digitos[i] ?? '·'}
+          <span key={i} className="casa-codigo">
+            {rotulos?.[i]}
+            <span className="digito-codigo">{digitos[i] ?? '·'}</span>
           </span>
         ))}
       </div>

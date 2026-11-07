@@ -232,3 +232,126 @@ Five separate objects on a pure white background (#FFFFFF), flat and uniform: no
 5. a red brick chimney on top of a small roof section, with a little smoke rising.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
+
+---
+
+## Saída Secreta: fundos das salas (6 imagens)
+
+Cada sala da Saída Secreta é **um único fundo 4:3** que já traz todos os objetos desenhados: as 9 fontes de número, os extras e a saída. Os objetos ficam sempre no mesmo lugar, e o jogo põe uma zona de toque invisível sobre cada um. Por isso cada objeto tem de ser **grande, inteiro, bem separado dos outros e fácil de reconhecer**. O desenho é o mesmo em pt-PT e pt-BR (sem texto).
+
+O prompt diz onde fica cada objeto (esquerda/centro/direita, cima/meio/baixo). O gerador não acerta as posições ao milímetro: depois de salvar a imagem, as zonas são acertadas em `src/jogos/escape/salas/<sala>.ts` (abra a sala com `?zonas` no endereço para vê-las marcadas). Ponha `fundo: 'imagens/saida-secreta/<sala>.png'` na sala.
+
+Temas e enigmas de cada sala: `docs/SAIDA-SECRETA.md`.
+
+### saida-secreta/sotao (4:3, salvar em `public/imagens/saida-secreta/sotao.png`)
+```
+Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
+A cozy grandmother's attic seen from the front, wide view, warm light from a round window, sloped wooden ceiling, wooden floorboards, no people. Eleven objects, each one large, whole, clearly separated from the others (none touching or overlapping), easy to recognize:
+1. far left, full height from floor to upper wall: a tall wooden grandfather pendulum clock with a round white face;
+2. upper left wall, right of the clock: a framed painting of a sunny meadow;
+3. middle left, below the painting: a small round table with a wooden music box on it, lid open, tiny ballerina on top;
+4. exact center of the back wall: a closed wooden attic door with iron hinges and a big padlock, the clear exit of the room;
+5. right of the door, middle: a tall wooden hat stand holding a black top hat and two straw hats;
+6. upper right of the back wall: a round attic window with a cross frame, blue sky outside;
+7. far right, full height: a tall wooden bookshelf full of colorful books;
+8. bottom left, on the floor: a wooden toy chest with a small keyhole lock, closed;
+9. bottom center-left, on the floor: a painted wooden rocking horse;
+10. bottom center-right, on the floor: an old brown leather suitcase with travel stickers and a small padlock;
+11. bottom right, on the floor: a wicker basket full of colorful balls of yarn.
+Keep the space between objects empty (plain wall and floor), no clutter, no extra objects, no cobwebs covering things. 4:3 landscape.
+```
+
+### saida-secreta/navio (4:3, salvar em `public/imagens/saida-secreta/navio.png`)
+```
+Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
+A friendly pirate captain's cabin inside a wooden ship, seen from the front, wide view, warm lantern light, curved wooden walls, wooden floor, no people. Twelve objects, each one large, whole, clearly separated from the others (none touching or overlapping), easy to recognize:
+1. far left, full height: a big wooden ship's steering wheel mounted on a post;
+2. upper left wall: a treasure map pinned to the wall, with a dotted path and a big X;
+3. middle left: a brass telescope (spyglass) on a wooden tripod;
+4. exact center of the back wall: a closed wooden cabin door with iron bands and a big padlock, the clear exit of the room;
+5. upper center-right: a round porthole window with the blue sea and a little fish outside;
+6. right of the door, middle: a hanging birdcage with a colorful parrot inside;
+7. far right, full height: a tall wooden shelf with a globe and a big compass on it;
+8. bottom left, on the floor: a closed wooden treasure chest with gold trim and a keyhole;
+9. bottom center-left, on the floor: a wooden barrel;
+10. bottom center, on the floor: a heavy iron anchor leaning on the wall;
+11. bottom center-right, on a small table: a glass bottle with a rolled message inside;
+12. bottom right, on the floor: a coil of rope next to a small wooden cannon.
+Keep the space between objects empty (plain wood), no clutter, no extra objects. 4:3 landscape.
+```
+
+### saida-secreta/nave (4:3, salvar em `public/imagens/saida-secreta/nave.png`)
+```
+Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
+The cozy control cabin of a cute rounded spaceship, seen from the front, wide view, soft blue and white walls with rounded panels, no people. Twelve objects, each one large, whole, clearly separated from the others (none touching or overlapping), easy to recognize:
+1. far left, full height: a tall white storage locker with a small card slot, closed;
+2. upper left wall: a big round window showing colorful planets and stars;
+3. middle left: a control panel with big round colorful buttons (red, yellow, green, blue);
+4. exact center of the back wall: a round closed airlock hatch with a big wheel handle and a glowing lock, the clear exit of the room;
+5. upper center-right: a round radar screen with green circles and dots;
+6. right of the hatch, middle: a friendly small robot helper standing, with a screen on its belly;
+7. far right, full height: a shelf with an astronaut helmet on top and space food packets below;
+8. bottom left, on the floor: a small glass greenhouse box with a little green plant;
+9. bottom center-left, on the floor: a white telescope on a stand pointing up;
+10. bottom center, on the floor: a round floor map of the stars (constellations drawn as dots and lines);
+11. bottom center-right, on the floor: a stack of three colorful cargo boxes;
+12. bottom right, on the floor: a cute little alien pet sleeping in a round bed.
+Keep the space between objects empty (plain panels), no clutter, no extra objects. 4:3 landscape.
+```
+
+### saida-secreta/laboratorio (4:3, salvar em `public/imagens/saida-secreta/laboratorio.png`)
+```
+Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
+A friendly inventor's laboratory, seen from the front, wide view, bright and tidy, light green walls, wooden floor, no people. Twelve objects, each one large, whole, clearly separated from the others (none touching or overlapping), easy to recognize:
+1. far left, full height: a tall glass cabinet with colorful bottles on its shelves;
+2. upper left wall: a dark green chalkboard with only simple drawings of circles, triangles and squares (no writing);
+3. middle left, on a table: a rack of five test tubes with colorful liquids;
+4. exact center of the back wall: a closed metal door covered with big brass gears and a lock, the clear exit of the room;
+5. upper center-right wall: three big interlocking brass gears mounted on the wall;
+6. right of the door, middle: a hanging model of the solar system with colorful planets;
+7. far right, full height: a tall shelf with a microscope and a pair of safety goggles;
+8. bottom left, on the floor: a small wooden desk with a locked drawer;
+9. bottom center-left, on the floor: a big red horseshoe magnet with paper clips stuck to it;
+10. bottom center, on the floor: a round fish tank with one orange fish;
+11. bottom center-right, on a stool: an old-fashioned two-pan balance scale;
+12. bottom right, on the floor: a small friendly robot made of tin cans, switched off.
+Keep the space between objects empty (plain wall and floor), no clutter, no extra objects. 4:3 landscape.
+```
+
+### saida-secreta/museu (4:3, salvar em `public/imagens/saida-secreta/museu.png`)
+```
+Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
+A dinosaur museum hall at night, seen from the front, wide view, soft moonlight and warm spotlights, beige stone walls, polished floor, no people. Twelve objects, each one large, whole, clearly separated from the others (none touching or overlapping), easy to recognize:
+1. far left, full height: a big friendly T-rex skeleton on a low platform;
+2. upper left wall: a big framed painting of long-neck dinosaurs by a lake;
+3. middle left, on a pedestal: a nest with three big speckled dinosaur eggs;
+4. exact center of the back wall: a tall closed museum double door with a big padlock, the clear exit of the room;
+5. upper center-right wall: a big fossil of a spiral seashell (ammonite) set in a stone slab;
+6. right of the door, middle: a glass display case with colorful crystals and stones;
+7. far right, full height: a tall model of an erupting volcano with red lava;
+8. bottom left, on the floor: a closed wooden crate with a keyhole and a drawn bone symbol;
+9. bottom center-left, on the floor: a row of big three-toed dinosaur footprints painted on the floor;
+10. bottom center, on a pedestal: a big hourglass with golden sand;
+11. bottom center-right, on the floor: a sandbox dig site with a half-buried dinosaur bone, a small brush and a shovel;
+12. bottom right, on the floor: a round world globe on a wooden stand.
+Keep the space between objects empty (plain wall and floor), no clutter, no extra objects. 4:3 landscape.
+```
+
+### saida-secreta/piramide (4:3, salvar em `public/imagens/saida-secreta/piramide.png`)
+```
+Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
+A friendly treasure chamber inside an ancient Egyptian pyramid, seen from the front, wide view, warm torchlight, sandstone walls, sandy floor, no people, nothing scary. Twelve objects, each one large, whole, clearly separated from the others (none touching or overlapping), easy to recognize:
+1. far left, full height: a tall burning wall torch on a stone column;
+2. upper left wall: a carved wall panel with simple picture symbols: an eye, a bird, a sun, a wavy line (no letters);
+3. middle left, on a pedestal: a black cat statue sitting tall with a gold collar;
+4. exact center of the back wall: a big closed stone door with a round sun carving and a stone lock, the clear exit of the room;
+5. upper center-right wall: a painted wall scene of a boat on a river with palm trees;
+6. right of the door, middle: a golden two-pan balance scale on a stone table;
+7. far right, full height: a tall painted golden sarcophagus standing upright, closed, with a scarab-shaped keyhole;
+8. bottom left, on the floor: a row of three clay pots of different sizes;
+9. bottom center-left, on the floor: a small golden scarab beetle on a stone block;
+10. bottom center, on the floor: a small model of three pyramids on a sand tray;
+11. bottom center-right, on the floor: a stone tablet with colorful dots in rows (no numbers);
+12. bottom right, on the floor: an open wooden chest with gold coins and jewels.
+Keep the space between objects empty (plain stone and sand), no clutter, no extra objects. 4:3 landscape.
+```

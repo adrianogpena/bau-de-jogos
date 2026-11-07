@@ -1,18 +1,24 @@
 import type { TextoPorIdioma } from '../../compartilhado/idioma';
 
 /**
- * Modelo de dados do motor de escape room.
- * Para criar uma sala nova, basta descrever uma `Sala` em `salas/` e listá-la em `salas/index.ts`.
+ * Modelo de dados da Saída Secreta (jogo de fuga).
+ *
+ * Cada sala é um fundo desenhado (4:3) que já traz todos os objetos. Cada objeto é uma `Zona` fixa do desenho:
+ * tocar nela abre o enigma do objeto. A sala tem 9 fontes de número, extras (ex.: o quadro que esconde a chave
+ * do baú) e uma saída. A cada rodada o jogo sorteia 3 ou 4 fontes e uma variante do enigma de cada uma; o
+ * cadeado da saída mostra o desenho dessas fontes, pela ordem do código. A história e a saída não mudam, mas o
+ * caminho até lá muda sempre.
+ *
+ * Para criar uma sala nova, descreva uma `Sala` em `salas/` e liste-a em `salas/index.ts`.
  * Todo texto é escrito por variante (pt-PT e pt-BR).
  */
 
-/** Algo que o jogador ganha ao resolver um enigma e guarda no inventário. */
-export interface Pista {
-  id: string;
-  emoji: string;
-  nome: TextoPorIdioma;
-  /** Valor curto mostrado junto ao emoji (ex.: um dígito do código final). */
-  valor?: string;
+/** Retângulo do objeto no fundo, em % da cena: centro (x, y), largura e altura. */
+export interface Zona {
+  x: number;
+  y: number;
+  largura: number;
+  altura: number;
 }
 
 interface EnigmaBase {
@@ -50,24 +56,46 @@ export interface EnigmaPares extends EnigmaBase {
 
 export type Enigma = EnigmaCodigo | EnigmaOrdem | EnigmaEscolha | EnigmaPares;
 
-/** Um objeto tocável na sala. Resolver o enigma dele dá uma pista. */
-export interface ObjetoSala {
-  id: string;
-  emoji: string;
-  nome: TextoPorIdioma;
-  /** Posição na cena, em percentagem (0 a 100). */
-  x: number;
-  y: number;
+/** Uma versão do enigma de um objeto. A cada rodada o jogo sorteia uma. */
+export interface Variante {
   enigma: Enigma;
-  recompensa: Pista;
-  /** Mensagem mostrada ao resolver. */
-  sucesso: TextoPorIdioma;
-  /** Dica gradual: lida quando a criança pede ajuda e este é o próximo objeto. */
+  /** Dica lida quando a criança pede ajuda e este objeto é o próximo. */
   dica: TextoPorIdioma;
-  /** Pista (id) que precisa estar no inventário para abrir este objeto. */
+}
+
+interface ObjetoBase {
+  id: string;
+  nome: TextoPorIdioma;
+  /** Emoji ou ícone `[[pasta/nome]]`, usado só enquanto a sala não tem imagem de fundo. */
+  emoji: string;
+  zona: Zona;
+  variantes: Variante[];
+  /** Pista (id de um extra) que precisa estar no inventário para abrir este objeto. */
   requer?: string;
   /** Mensagem quando falta a pista necessária. */
   bloqueado?: TextoPorIdioma;
+}
+
+/**
+ * Objeto que pode esconder um número do código. Se o enigma sorteado for um cadeado de um dígito, o número é a
+ * própria resposta; nos outros tipos, o jogo sorteia um número de 1 a 9.
+ */
+export interface FonteNumero extends ObjetoBase {
+  /** Mensagem ao resolver; `{n}` vira o número achado. */
+  sucesso: TextoPorIdioma;
+}
+
+/** Algo que o jogador ganha num extra e guarda no inventário (ex.: uma chave). */
+export interface Pista {
+  id: string;
+  emoji: string;
+  nome: TextoPorIdioma;
+}
+
+/** Objeto que não dá número, mas dá uma pista necessária para abrir outro objeto. */
+export interface Extra extends ObjetoBase {
+  recompensa: Pista;
+  sucesso: TextoPorIdioma;
 }
 
 export interface Sala {
@@ -79,11 +107,29 @@ export interface Sala {
   resumo: TextoPorIdioma;
   /** História de abertura. */
   intro: TextoPorIdioma;
-  /** Fundo da cena (CSS `background`). */
-  fundo: string;
-  objetos: ObjetoSala[];
+  /** Imagem de fundo (4:3) a partir de `public/`, com todos os objetos já desenhados. */
+  fundo?: string;
+  /** Fundo provisório em CSS, usado enquanto não há imagem (os objetos aparecem como emoji). */
+  fundoCss: string;
+  /** Quantos números pode ter o código (o jogo sorteia um destes valores a cada rodada). */
+  digitos: number[];
+  /** As fontes de número da sala (9). */
+  fontes: FonteNumero[];
+  extras: Extra[];
+  /** Mensagem ao tocar numa fonte que não faz parte do código desta rodada. */
+  semNumero: TextoPorIdioma;
   /** O cadeado final que abre a saída. */
-  saida: { emoji: string; nome: TextoPorIdioma; enigma: Enigma; dica: TextoPorIdioma };
+  saida: {
+    nome: TextoPorIdioma;
+    emoji: string;
+    zona: Zona;
+    /** Pergunta do cadeado (os desenhos dos objetos aparecem por cima dos números). */
+    pergunta: TextoPorIdioma;
+    /** Dica antes de a criança ver o cadeado. */
+    dicaVer: TextoPorIdioma;
+    /** Dica quando já tem todos os números. */
+    dica: TextoPorIdioma;
+  };
   /** História de fecho, mostrada ao escapar. */
   vitoria: TextoPorIdioma;
 }

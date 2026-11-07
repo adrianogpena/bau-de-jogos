@@ -76,9 +76,10 @@ src/
       mago/              história 2 (A Torre Encantada): tipos de mago, feitiços e energia mágica
     escrita/             jogo 1: completar a fábula escrevendo a palavra da imagem
     leitura/             jogo 2: ler a fábula e escolher a imagem da palavra em destaque
-    escape/              jogo 3: escape room (lógica). Motor reutilizável + salas
-      tipos.ts           modelo de dados: Sala, ObjetoSala, Enigma, Pista
-      MotorSala.tsx      a sala jogável: objetos tocáveis, inventário, dicas, estrelas
+    escape/              jogo 3: Saída Secreta (fuga, lógica). Motor reutilizável + salas (docs/SAIDA-SECRETA.md)
+      tipos.ts           modelo de dados: Sala (fundo com zonas fixas), FonteNumero, Extra, Variante, Enigma
+      rodada.ts          sorteia a cada rodada 3 ou 4 das 9 fontes, a ordem e a variante de cada enigma
+      MotorSala.tsx      a sala jogável: zonas tocáveis, cadeado da saída, inventário, dicas, estrelas
       enigmas/           tipos de enigma: Codigo, Ordem, Escolha, Pares (novos entram em EnigmaView.tsx)
       salas/             uma sala por arquivo (texto por variante); liste em salas/index.ts
     achar/               jogo 4: achar itens escondidos em cenas (fundo + itens soltos em camadas)
@@ -87,7 +88,7 @@ src/
 public/                  ícones do app
 ```
 
-Para criar uma sala nova de escape room: crie `src/jogos/escape/salas/<nome>.ts` com uma `Sala` e adicione em `salas/index.ts`.
+Para criar uma sala nova da Saída Secreta: siga `docs/SAIDA-SECRETA.md` (fundo com os objetos desenhados, 9 fontes de número com variantes, extras e saída; zonas acertadas com `?zonas`).
 
 Para criar uma cena nova de achar itens: crie `src/jogos/achar/cenas/<nome>.ts` com uma `Cena` e adicione em `cenas/index.ts`. Como gerar as imagens: `docs/GERAR-IMAGENS.md`.
 

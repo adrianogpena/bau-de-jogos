@@ -46,10 +46,10 @@ export const JOGOS: Jogo[] = [
   {
     id: 'escape',
     emoji: '[[menu/jogo-escape]]',
-    titulo: { 'pt-PT': 'Escape Room', 'pt-BR': 'Escape Room' },
+    titulo: { 'pt-PT': 'Saída Secreta', 'pt-BR': 'Saída Secreta' },
     descricao: {
-      'pt-PT': 'Encontra pistas, resolve enigmas e descobre o código para escapar da sala!',
-      'pt-BR': 'Encontre pistas, resolva enigmas e descubra o código para escapar da sala!',
+      'pt-PT': 'Descobre que objetos escondem os números do cadeado, resolve os enigmas e escapa!',
+      'pt-BR': 'Descubra quais objetos escondem os números do cadeado, resolva os enigmas e escape!',
     },
     etiqueta: { 'pt-PT': 'Lógica', 'pt-BR': 'Lógica' },
     cor: '#ffc94d',

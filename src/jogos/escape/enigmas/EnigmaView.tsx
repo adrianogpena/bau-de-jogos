@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { type Idioma, t } from '../../../compartilhado/idioma';
 import { TextoNarrado } from '../../../compartilhado/TextoNarrado';
 import type { Enigma } from '../tipos';
@@ -12,10 +13,13 @@ export function EnigmaView({
   enigma,
   idioma,
   aoAcertar,
+  rotulos,
 }: {
   enigma: Enigma;
   idioma: Idioma;
   aoAcertar: () => void;
+  /** Desenhos por cima dos números de um cadeado. */
+  rotulos?: ReactNode[];
 }) {
   return (
     <>
@@ -25,7 +29,7 @@ export function EnigmaView({
         </p>
       )}
       <TextoNarrado className="pergunta-enigma" idioma={idioma} texto={t(enigma.pergunta, idioma)} compacto />
-      {enigma.tipo === 'codigo' && <Codigo enigma={enigma} idioma={idioma} aoAcertar={aoAcertar} />}
+      {enigma.tipo === 'codigo' && <Codigo enigma={enigma} idioma={idioma} aoAcertar={aoAcertar} rotulos={rotulos} />}
       {enigma.tipo === 'ordem' && <Ordem enigma={enigma} idioma={idioma} aoAcertar={aoAcertar} />}
       {enigma.tipo === 'escolha' && <Escolha enigma={enigma} idioma={idioma} aoAcertar={aoAcertar} />}
       {enigma.tipo === 'pares' && <Pares enigma={enigma} idioma={idioma} aoAcertar={aoAcertar} />}

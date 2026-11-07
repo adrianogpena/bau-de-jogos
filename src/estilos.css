@@ -1254,55 +1254,144 @@ p {
   overflow: hidden;
 }
 
-.objeto-sala {
+/* cada objeto é uma zona fixa do desenho de fundo: invisível, brilha ao tocar */
+.zona-sala {
   position: absolute;
+  min-width: 64px;
+  min-height: 64px;
   transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  min-width: 80px;
-  min-height: 80px;
-  padding: 8px 12px;
-  border: 2px solid var(--borda);
-  border-radius: 20px;
-  background: rgba(13, 16, 36, 0.55);
+  padding: 0;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
   color: var(--texto);
   font: inherit;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: box-shadow 0.15s, background-color 0.15s;
 }
 
-.objeto-sala:active {
-  transform: translate(-50%, -50%) scale(0.95);
+.zona-sala:active,
+.zona-tocada {
+  background: rgba(255, 233, 160, 0.22);
+  box-shadow: 0 0 0 3px rgba(255, 233, 160, 0.85), 0 0 24px rgba(255, 233, 160, 0.6);
 }
 
-.objeto-emoji {
-  font-size: 2.6rem;
+/* sem imagem de fundo (provisório): o objeto aparece como emoji com contorno */
+.zona-provisoria {
+  display: grid;
+  place-items: center;
+  border: 2px dashed rgba(255, 255, 255, 0.35);
+  background: rgba(13, 16, 36, 0.35);
+}
+
+.zona-provisoria .objeto-emoji {
+  font-size: clamp(1.6rem, 4.5vw, 2.8rem);
   line-height: 1;
 }
 
-.objeto-nome {
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-
-.objeto-feito {
-  opacity: 0.6;
-  border-color: var(--sucesso);
-}
-
-.objeto-saida {
+.zona-saida.zona-provisoria {
   border-color: var(--ouro);
+}
+
+.zona-dica {
+  animation: pulsar-dica 0.9s ease-in-out infinite;
+}
+
+/* número já achado: um selo no canto do objeto */
+.selo-zona {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  display: grid;
+  place-items: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 6px;
+  border: 2px solid var(--ouro);
+  border-radius: 18px;
+  background: var(--painel);
+  color: var(--ouro);
+  font-family: var(--fonte-titulo);
+  font-size: 1.2rem;
+  pointer-events: none;
+}
+
+/* calibrar as zonas sobre a imagem: abra a sala com ?zonas no endereço */
+.zona-calibrar {
+  outline: 2px solid #ff3d7f;
+  background: rgba(255, 61, 127, 0.18);
+}
+
+.zona-calibrar::after {
+  content: attr(data-id);
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  font-size: 0.7rem;
+  color: #fff;
+  text-shadow: 0 0 3px #000;
 }
 
 .mensagem-sala {
   text-align: center;
 }
 
+/* painel: o cadeado (desenhos e números achados) e o inventário */
+.painel-sala {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cadeado-sala {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.casa-cadeado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 72px;
+  padding: 8px;
+  border: 2px solid var(--borda);
+  border-radius: 16px;
+  background: var(--painel);
+}
+
+.casa-cadeado b {
+  font-family: var(--fonte-titulo);
+  font-size: 1.6rem;
+  color: var(--ouro);
+}
+
+.casa-cadeado-achada {
+  border-color: var(--ouro);
+}
+
+.recorte {
+  display: block;
+  max-width: 120px;
+  border-radius: 10px;
+  background-repeat: no-repeat;
+}
+
+.recorte-emoji {
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+
 .inventario {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   min-height: 64px;
 }
@@ -1316,11 +1405,6 @@ p {
   border-radius: 16px;
   background: var(--painel);
   font-size: 1.6rem;
-}
-
-.pista b {
-  font-family: var(--fonte-titulo);
-  color: var(--ouro);
 }
 
 .pista small {
@@ -1383,6 +1467,13 @@ p {
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
+}
+
+.casa-codigo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
 
 .digito-codigo,
@@ -1577,7 +1668,7 @@ p {
   }
 
   .tela-sala > .mensagem-sala,
-  .tela-sala > .inventario,
+  .tela-sala > .painel-sala,
   .tela-achar > .lista-achar {
     grid-column: 2;
   }
