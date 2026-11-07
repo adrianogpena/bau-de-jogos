@@ -7,6 +7,7 @@ Ajustes para a fala ficar mais clara para crianças:
 - na voz pt-BR, o espeak gera fonemas que o modelo pronuncia mal: o "e" fraco de "espelho" some ("spew") e o "lh"
   (ʎ) não se ouve. `corrigir_fonemas` troca esses fonemas (testado ouvindo amostras)."""
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -44,6 +45,108 @@ TROCAS_PALAVRA_PT_BR.update(
         "mˈĩm": "mˈĩ",  # mim
         "bɾĩŋkˈaɾ": "bɾĩnkˈaɾ",  # brincar
         "ˈɔɾdeɪns": "ˈɔɾɾdẽĩs",  # ordens: com um só "ɾ" o modelo engole o "r" ("odens")
+    }
+)
+# Validação de 2026-11-07 (docs/VALIDACAO-FONEMAS.md): palavras parecidas com as de cima, ouvidas com a anterior e a
+# próxima palavra; ficaram as que soaram melhor com o mesmo ajuste.
+TROCAS_PALAVRA_PT_BR.update(
+    {
+        # final "ɐ" depois de vogal tônica vira "a" (como lua)
+        "dʒˈiʲɐ": "dʒˈiʲa",  # dia
+        "kˌõntʃinˈuɐ": "kˌõntʃinˈua",  # continua
+        "mˌaɾˈiʲɐ": "mˌaɾˈiʲa",  # maria
+        "mˌasˈiʲɐ": "mˌasˈiʲa",  # macia
+        "ˌeskoxˌeɡadʒˈiʲɐ": "ˌeskoxˌeɡadʒˈiʲa",  # escorregadia
+        "kˌeɾˈiʲɐ": "kˌeɾˈiʲa",  # queria
+        "pˌõntaɾˈiʲɐ": "pˌõntaɾˈiʲa",  # pontaria
+        "sˌabedoɾˈiʲɐ": "sˌabedoɾˈiʲa",  # sabedoria
+        "lˌavɐ̃ndeɾˈiʲɐ": "lˌavɐ̃ndeɾˈiʲa",  # lavanderia
+        "ˌaleɡɾˈiʲɐ": "ˌaleɡɾˈiʲa",  # alegria
+        "ˌapaɾesˈiʲɐ": "ˌapaɾesˈiʲa",  # aparecia
+        "kˌobɾˈiʲɐ": "kˌobɾˈiʲa",  # cobria
+        "kˌõnseɡˈiʲɐ": "kˌõnseɡˈiʲa",  # conseguia
+        "dˌebatʃˈiʲɐ": "dˌebatʃˈiʲa",  # debatia
+        "dˌoɾmˈiʲɐ": "dˌoɾmˈiʲa",  # dormia
+        "pˌedʒˈiʲɐ": "pˌedʒˈiʲa",  # pedia
+        "xˌespõndʒˈiʲɐ": "xˌespõndʒˈiʲa",  # respondia
+        "tɾˌazˈiʲɐ": "tɾˌazˈiʲa",  # trazia
+        "vˌazˈiʲɐ": "vˌazˈiʲa",  # vazia
+        "vˈiʲɐ": "vˈiʲa",  # via
+        "vˌivˈiʲɐ": "vˌivˈiʲa",  # vivia
+        # final "ɐ" depois de ɛ/ɔ/u tônico + consoante vira "a" (como meta)
+        "lˈunɐ": "lˈuna",  # luna
+        "flˌoɾˈɛstɐ": "flˌoɾˈɛsta",  # floresta
+        "kˌavˈɛɾnɐ": "kˌavˈɛɾna",  # caverna
+        "ˈɛlɐ": "ˈɛla",  # ela
+        "kˈuɾɐ": "kˈuɾa",  # cura
+        "ˌeskˈuɾɐ": "ˌeskˈuɾa",  # escura
+        "nˌeɲˈumɐ": "nˌeɲˈuma",  # nenhuma
+        "pˈulɐ": "pˈula",  # pula
+        "ˌaɾmadˈuɾɐ": "ˌaɾmadˈuɾa",  # armadura
+        "ʃˈuvɐ": "ʃˈuva",  # chuva
+        "xˌekupˈɛɾɐ": "xˌekupˈɛɾa",  # recupera
+        "pˌɐnˈɛlɐ": "pˌɐnˈɛla",  # panela
+        "pɾˌokˈuɾɐ": "pɾˌokˈuɾa",  # procura
+        "sˈɔpɾɐ": "sˈɔpɾa",  # sopra
+        "tˈɔkɐ": "tˈɔka",  # toca
+        "vˈɔwtɐ": "vˈɔwta",  # volta
+        "dˈɛlɐ": "dˈɛla",  # dela
+        "fˌeʃadˈuɾɐ": "fˌeʃadˈuɾa",  # fechadura
+        "fˈɔɾɐ": "fˈɔɾa",  # fora
+        "lˈutɐ": "lˈuta",  # luta
+        "ˌaɡˈɔɾɐ": "ˌaɡˈɔɾa",  # agora
+        "bˌisiklˈɛtɐ": "bˌisiklˈɛta",  # bicicleta
+        # final "ʊ" depois de o/ɔ tônico vira "o" (como topo)
+        "nˈovʊ": "nˈovo",  # novo
+        "xˌelˈɔʒjʊ": "xˌelˈɔʒjo",  # relógio
+        "tˈodʊ": "tˈodo",  # todo
+        "tʃˌiʒˈolʊ": "tʃˌiʒˈolo",  # tijolo
+        "bˈolʊ": "bˈolo",  # bolo
+        "ˌeskɾitˈɔɾjʊ": "ˌeskɾitˈɔɾjo",  # escritório
+        "pˈosʊ": "pˈoso",  # poço
+        "lˌaboɾatˈɔɾjʊ": "lˌaboɾatˈɔɾjo",  # laboratório
+        # final "ɾw" vira "ɾu" (como dentro)
+        "pɾˌimˈeɪɾw": "pɾˌimˈeɪɾu",  # primeiro
+        "kwˈatɾw": "kwˈatɾu",  # quatro
+        "tˌeɾsˈeɪɾw": "tˌeɾsˈeɪɾu",  # terceiro
+        # "ŋ" antes de k/g vira "n" (como brincar)
+        "bɾˌĩŋkˈedʊ": "bɾˌĩnkˈedʊ",  # brinquedo
+        "bɾˈɐ̃ŋkw": "bɾˈɐ̃nkw",  # branco
+        "bɾˌĩŋkˈedʊz": "bɾˌĩnkˈedʊz",  # brinquedos
+        "ˌẽŋkõntɾˈaɾɐ̃ʊ̃": "ˌẽnkõntɾˈaɾɐ̃ʊ̃",  # encontraram
+        "ˌẽŋkõntɾˈaɾeɪŋ": "ˌẽnkõntɾˈaɾeɪŋ",  # encontrarem
+        "ˌẽŋkˈõntɾɪ": "ˌẽnkˈõntɾɪ",  # encontre
+        "ˌẽŋkwˈɐ̃ntw": "ˌẽnkwˈɐ̃ntw",  # enquanto
+        "tɾˌɐ̃ŋkˈadʊ": "tɾˌɐ̃nkˈadʊ",  # trancado
+        # vogal nasal sem o "n" seguinte (como jeans)
+        "pˈõntʃɪ": "pˈõtʃɪ",  # ponte
+        "pɾˌĩnsˈezɐ": "pɾˌĩsˈezɐ",  # princesa
+        "kˈẽntʃɪ": "kˈẽtʃɪ",  # quente
+        "pˈɐ̃ntɐnʊ": "pˈɐ̃tɐnʊ",  # pântano
+        "kˌõnseɡˈiʊ": "kˌõseɡˈiʊ",  # conseguiu
+        "dˌeskˈɐ̃nsɐ": "dˌeskˈɐ̃sɐ",  # descansa
+        "lˈõnʒɪ": "lˈõʒɪ",  # longe
+        "mˌõntˈɐ̃ɲɐ": "mˌõtˈɐ̃ɲɐ",  # montanha
+        # "ɾ" no fim de sílaba vira "ɾɾ" (como ordens)
+        "pˈɛɾdʒj": "pˈɛɾɾdʒj",  # perde
+        "fˌoɾmˈiɡɐ": "fˌoɾɾmˈiɡɐ",  # formiga
+        "ˌistˈɔɾjɐ": "ˌistˈɔɾɾjɐ",  # história
+        "ˌakˈɔɾdɐ": "ˌakˈɔɾɾdɐ",  # acorda
+        "ˌenˈɔɾmɪ": "ˌenˈɔɾɾmɪ",  # enorme
+        "fˈɔɾtʃɪs": "fˈɔɾɾtʃɪs",  # fortes
+        "ɡwˌaɾdʒiʲˈɐ̃ʊ̃": "ɡwˌaɾɾdʒiʲˈɐ̃ʊ̃",  # guardião
+        "mˌoɾsˈeɡw": "mˌoɾɾsˈeɡw",  # morcego
+        "ˌabˈɛɾtw": "ˌabˈɛɾɾtw",  # aberto
+        "ˌakoɾdˈoʊ": "ˌakoɾɾdˈoʊ",  # acordou
+        "flˌoɾzˈiɲɐs": "flˌoɾɾzˈiɲɐs",  # florzinhas
+        "fˈɔɾmɐ̃ʊ̃": "fˈɔɾɾmɐ̃ʊ̃",  # formam
+        "foɾmˈaɾ": "foɾɾmˈaɾ",  # formar
+        "pˈɛɾnɐs": "pˈɛɾɾnɐs",  # pernas
+        "pˈɛɾtʊ": "pˈɛɾɾtʊ",  # perto
+        "ˌaseɾtˈaɾ": "ˌaseɾɾtˈaɾ",  # acertar
+        "ˈɔɾdeɪm": "ˈɔɾɾdeɪm",  # ordem
+        "pˈaɾtʃɪ": "pˈaɾɾtʃɪ",  # parte
+        "bˌoɾbolˈetɐ": "bˌoɾɾbolˈetɐ",  # borboleta
     }
 )
 # Só no meio da frase: no começo (ex.: o título "Chapeuzinho Vermelho") o fonema do espeak soa melhor, e este engole o "ch".
@@ -99,7 +202,25 @@ def corrigir_fonemas(fonemas, pt_br):
             saida.append(f)
             i += 1
         inicio_palavra = f == " "
-    return saida
+    return reforcar_r(saida)
+
+
+# O modelo engole o "r" (ɾ) curto; com "ɾɾ" ele aparece (validação de fonemas, rodadas 1 e 2: docs/VALIDACAO-FONEMAS.md).
+# Em grupo de consoantes (dentro, vidro, quatro) ajuda em qualquer posição. No fim de sílaba (porta, corda) ajuda no
+# meio da frase, mas na última palavra da frase o original soa igual ou melhor (o fim da frase já sai mais lento).
+R_GRUPO = re.compile(r"(?<=[pbtdkɡfv])ɾ(?!ɾ)")
+R_FIM_DE_SILABA = re.compile(r"(?<=[aeiouɛɔɐɪʊ])ɾ(?=[^aeiouɛɔɐɪʊ̃ˈˌʲɾː" + re.escape(PONTUACAO) + r"])")
+
+
+def reforcar_r(fonemas):
+    palavras = "".join(fonemas).split(" ")
+    ultima = max((i for i, p in enumerate(palavras) if p.strip(PONTUACAO)), default=-1)
+    for i, p in enumerate(palavras):
+        p = R_GRUPO.sub("ɾɾ", p)
+        if i != ultima:
+            p = R_FIM_DE_SILABA.sub("ɾɾ", p)
+        palavras[i] = p
+    return list(" ".join(palavras))
 
 
 def sem_nasal(fonemas):
@@ -122,10 +243,21 @@ AJUSTES_PT_BR = {
 }
 
 
+def ajuste_palavra_solta(texto):
+    """Texto de uma palavra só (rótulos, títulos, palavras dos jogos): pausa antes e, se tiver até 2 sílabas, ritmo lento.
+    Sem isso o modelo encurta a palavra e engole o "r" ou o começo (rodada 2: o atual nunca foi o preferido;
+    palavras curtas ficaram melhores lentas, as longas só com a pausa)."""
+    palavras = re.findall(r"[^\W\d_]+(?:-[^\W\d_]+)*", texto)
+    if len(palavras) != 1 or re.search(r"\d", texto):
+        return None
+    silabas = len(re.findall(r"[aeiouáàâãéêíóôõúü]+", palavras[0].lower()))
+    return (1.5 if silabas <= 2 else CONFIG.length_scale, True, False, None)
+
+
 def sintetizar(voz, texto, pt_br):
     pedacos = []
     silencio = np.zeros(int(voz.config.sample_rate * PAUSA_ENTRE_FRASES), dtype=np.int16)
-    ajuste = AJUSTES_PT_BR.get(texto.strip().lower()) if pt_br else None
+    ajuste = (AJUSTES_PT_BR.get(texto.strip().lower()) or ajuste_palavra_solta(texto)) if pt_br else None
     config = CONFIG
     for fonemas in voz.phonemize(texto):
         fonemas = corrigir_fonemas(fonemas, pt_br)

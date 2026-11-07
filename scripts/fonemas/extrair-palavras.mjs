@@ -21,6 +21,7 @@ for (const variante of ['pt-PT', 'pt-BR']) {
   }
   const lista = [...palavras].sort((a, b) => a.localeCompare(b, 'pt'));
   await writeFile(path.join(pasta, `palavras-${variante}.json`), JSON.stringify(lista, null, 0));
+  await writeFile(path.join(pasta, `frases-todas-${variante}.json`), JSON.stringify([...frases[variante].values()]));
   console.log(`${variante}: ${lista.length} palavras distintas`);
 }
 process.exit(0);

@@ -98,6 +98,78 @@ Não existe uma regra única para a "consoante nasal depois de vogal nasal": tir
 
 O BIPA sugeria `ˈmɛtɐ` e `ˈtopu`; ao ouvir, os dois soaram mal. O BIPA indica onde olhar, mas quem decide é o ouvido, em frase.
 
+## Outras palavras para os mesmos ajustes (página de validação)
+
+`node scripts/fonemas/extrair-palavras.mjs` e depois `$PIPER_PYTHON scripts/fonemas/gerar_validacao_ajustes.py` (`--max-por-regra N`, padrão 40) geram `referencias-fonemas/validacao-ajustes/index.html` (fora do git). Cada regra copia um ajuste acima (final `ɐ`→`a`, `ʊ`→`o`, `ɾw`→`ɾu`, `ĩm`→`ĩ`, `ŋ`→`n`, nasal sem `n`, `ɾ`→`ɾɾ`), acha as palavras do site com o mesmo padrão e gera dois áudios (atual e ajustado) de um trecho da frase real: a palavra anterior, a palavra e a próxima (com a pontuação final, se o trecho chega ao fim da frase). Se o espeak der outros fonemas à palavra no trecho, a página mostra os dois ("no trecho").
+
+Opções por palavra: *Ajustar*, *Manter* (o atual é melhor), *Manter, sem diferença* e *Nenhum dos dois* (com um campo para dizer o que incomoda).
+
+Para ouvir e marcar, rode `python scripts/fonemas/servir_validacao.py` (qualquer python 3) e abra <http://localhost:5198/> num navegador. Cada resposta é gravada na hora em `referencias-fonemas/validacao-ajustes/respostas.json` (com todas as palavras, votos e notas; é o arquivo para analisar), e a versão anterior fica em `respostas.anterior.json`. Aberta como arquivo (ou no explorador de arquivos do Kedalion, que bloqueia downloads e `localStorage`), a página trava as opções, porque nada seria gravado. Para mudar só o HTML sem regerar os áudios: `--so-html`.
+
+### Resultado da validação de 2026-11-07 (230 palavras)
+
+| Regra | Ajustar | Manter | Sem diferença | Nenhum |
+|---|---|---|---|---|
+| final `ɐ`→`a` após vogal tônica (lua) | 20 | 8 | 2 | 3 |
+| final `ɐ`→`a` após consoante (meta) | 20 | 5 | 2 | 13 |
+| final `ʊ`→`o` (topo) | 8 | 1 | 13 | 12 |
+| `ɾw`→`ɾu` (dentro) | 3 | 0 | 0 | 1 |
+| `ĩm`→`ĩ` (mim) | 0 | 0 | 0 | 1 |
+| `ŋ`→`n` (brincar) | 8 | 2 | 17 | 11 |
+| nasal sem `n` (jeans) | 8 | 14 | 9 | 9 |
+| `ɾ`→`ɾɾ` (ordens) | 18 | 1 | 8 | 13 |
+
+As 85 marcadas *Ajustar* e as 4 *Nenhum* com nota "ajustar está melhor" (pedia, pula, toca, parte) entraram em `TROCAS_PALAVRA_PT_BR` (89 chaves).
+
+**Por que o ajuste resolve em umas palavras e não em outras.** O que mais pesa não é o fonema, é a palavra estar sozinha:
+
+| Onde está a palavra testada | Respostas | *Nenhum dos dois* |
+|---|---|---|
+| sozinha (o texto é só ela: rótulo, título, palavra de jogo) | 59 | **32 (54%)** |
+| no começo do trecho | 26 | 6 (23%) |
+| no meio | 79 | 17 (22%) |
+| no fim | 66 | 8 (12%) |
+
+- **Palavra sozinha.** 396 dos 1507 textos pt-BR são uma palavra só, e saem no ritmo normal, sem pausa antes. O modelo encurta a palavra: come o "r" (porta, corda, forno, barco, corvo, força, tartaruga), soa fanho (lobo, fogo, ovo, loja, grande) ou engole o começo. O "r" em fim de sílaba some em 16 de 23 palavras sozinhas e em 10 de 46 com vizinhas. Por isso o `ɾɾ` que salvou "ordens" (numa frase) não salvou "porta" (sozinha); a mesma palavra mostra isso: "O Morcego apareceu!" melhorou com `ɾɾ`, "O Morcego" (título) não. É o mesmo problema que `AJUSTES_PT_BR` já resolve para os números com ritmo mais lento (1.5) e pausa antes. Trocar fonema não resolve; o próximo passo é testar esse tratamento em todas as palavras sozinhas.
+- **"r" em grupo de consoantes (`tɾ`, `dɾ`, `ɡɾ`), mesmo no meio da frase.** O modelo derruba o `ɾ` do grupo: dentro ("dentu"), vidro ("vidu"), tremendo ("temendo"), entrar, encontrou, encontrar, tronco, engrenagens. Nenhuma regra mexia no grupo; `ɾw`→`ɾu` só corrigiu o fim de primeiro, quatro e terceiro. Precisa de teste próprio (ex.: `tɾɾ`).
+- **"r" final de verbo** (encontrar, entrar, engordar, dançar): também some, nas duas versões.
+- **A troca depende do contexto.** A chave é o fonema que o espeak gera, e ele muda com a palavra seguinte e a pontuação: "dentro" é `dˈẽntɾw` antes de vogal e `dˈẽntɾʊ` antes de pausa, então a troca de dentro não pega em 8 frases do site, nem a de quatro em 11 (acordou 5, morcego 4, enorme 3...). Uma troca ouvida numa frase pode não valer na outra.
+- **Fala rápida que junta palavras.** Com uma palavra curta depois ("pula por", "toca no", "entra no", "como Teo", "parte da", "pedia para"), as duas saem como uma palavra só. Pode ser efeito do trecho cortado; confirmar na frase inteira.
+- **Padrões por regra** (fora das palavras sozinhas):
+  - final `ɐ`→`a`: melhora, menos em "-gia" (`ʒˈiʲɐ`: magia, energia, rugia, elogia ficaram como estão).
+  - `ʊ`→`o`: quase sempre sem diferença; ajuda em "-ório/-ógio" (relógio, escritório, laboratório).
+  - `ŋ`→`n`: inaudível (17 sem diferença). O ganho de "brincar" deve ter vindo de outra coisa.
+  - nasal sem `n`: depende da consoante seguinte. Ajuda antes de `s`/`ʒ`/`tʃ` (princesa, descansa, longe, conseguiu, ponte, quente, como jeans), piora antes de `k` (branca, cinco, nunca) e em "-enta" (quarenta, cinquenta...).
+  - `ɾ`→`ɾɾ`: ajuda no meio da frase (18 a 1), não na palavra sozinha.
+
+### Rodada 2 (testa os padrões acima)
+
+`$PIPER_PYTHON scripts/fonemas/gerar_rodada2.py` gera `referencias-fonemas/validacao-rodada2/`. Para ouvir: `python scripts/fonemas/servir_validacao.py validacao-rodada2` e abrir <http://localhost:5198/>. As respostas vão para `validacao-rodada2/respostas.json`. Cada item tem 2 a 4 versões (A–D); a pessoa marca a melhor, *Sem diferença* ou *Nenhum serve*, e pode deixar uma observação.
+
+| Grupo | O que testa | Versões |
+|---|---|---|
+| 1. Palavra sozinha (28) | é o ritmo ou o fonema? | atual · pausa antes · lento 1.5 + pausa · lento + pausa + `ɾɾ` |
+| 2. "r" em grupo (16 frases novas) | dentro, vidro, tremendo... no meio da frase | atual · `ɾɾ` · `ɾː` |
+| 3. "r" final de verbo (13 frases novas) | antes de consoante, de vogal e no fim | atual · `ɾɾ` · `x` |
+| 4. Mesma palavra em 5 posições (30 frases novas) | porta, corda, morcego, forno, dentro, quatro: sozinha, começo, meio (antes de vogal / de consoante), fim | atual · `ɾɾ` |
+| 5. Palavras que se juntam (8) | era o trecho curto ou acontece na frase? | trecho · frase inteira · frase lenta (1.3) |
+
+As frases novas dos grupos 2 a 4 são só para o teste e não entram no site.
+
+### Resultado da rodada 2 (2026-11-07, 94 respostas)
+
+| Grupo | Resultado | O que virou regra (`scripts/piper_falar.py`) |
+|---|---|---|
+| 1. Palavra sozinha | O atual **nunca** foi o preferido. Lento + pausa: 11 (corda, forno, barco, corvo, força, fogo, loja, bola, gorro, árvore, cachorro); só pausa: 6 (janela, lâmpada, floresta, bicicleta, borboleta, ponte); lento + pausa + `ɾɾ`: 2; nenhum: 8. Com o ritmo lento o "r" volta sem precisar de `ɾɾ`. | `ajuste_palavra_solta`: todo texto de uma palavra ganha pausa antes; até 2 sílabas, ritmo 1.5. |
+| 2. "r" em grupo | `ɾɾ` 12, sem diferença 4, atual 0, `ɾː` 0. | `R_GRUPO`: `ɾ` depois de p/b/t/d/k/g/f/v vira `ɾɾ`, em qualquer posição. |
+| 3. "r" final de verbo | atual 5, `ɾɾ` 5, sem diferença 3, `x` 0. Sem padrão. | Nada. |
+| 4. Mesma palavra em 5 posições | Na frase, `ɾɾ` ganhou 22 a 3 no começo e no meio. Na última palavra da frase: atual 2, sem diferença 1 (corda, forno, porta). Sozinhas sem ritmo lento: nenhum serve (porta, corda, morcego, forno). | `R_FIM_DE_SILABA`: `ɾ` no fim de sílaba vira `ɾɾ`, menos na última palavra da frase. |
+| 5. Palavras que se juntam | Frase inteira: 7 de 8. Era efeito do trecho curto. | Nada. |
+
+Conclusão: o "r" some quando a palavra sai rápida. Palavra sozinha precisa de ritmo; no meio da frase, `ɾɾ` dá ao "r" o tempo que falta; no fim da frase o modelo já desacelera e o `ɾɾ` sobra. Algumas trocas por palavra da rodada 1 (`ɾ`→`ɾɾ`) ficaram redundantes com as regras, mas não atrapalham.
+
+Ainda sem solução (ouvidos na rodada 2): lobo soa "logo", ovo soa "ouvo", porco (o "o" de "por"), panela soa "pânela", pedra soa "pédra" (o "e" aberto está certo no pt-BR, mas algo na pronúncia soa errado; "pédra" foi o jeito de descrever o que se ouve), formiga soa "forniga", tartaruga perde o primeiro "r", bruxa (o "x"), "pares" soa "pais" (r entre vogais), "gordo" soa "goudo", "caixa" no fim de frase soa "caix", "dormir" rápido demais.
+
 ## Limites
 
 - **Palavra sozinha não é palavra na frase.** O espeak-ng gera fonemas diferentes para a mesma palavra isolada e dentro da frase (meta e topo acima). `comparar_fonemas.py` fonemiza cada palavra sozinha, então pode acusar divergência que não existe na frase e perder uma que existe. Ao testar um ajuste, ouça sempre a palavra dentro de uma frase real do site.
