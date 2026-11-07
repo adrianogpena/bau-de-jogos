@@ -156,8 +156,19 @@ TROCAS_PALAVRA_PT_BR.update(
         "pˈaɾɪz": "pˈaɾiz",  # pares: com "ɪ" soava "pais"
     }
 )
+# Rodada 4 de validação.
+TROCAS_PALAVRA_PT_BR.update(
+    {
+        # colher (no site é sempre o utensílio): com "ê" fechado soava como o verbo; o "é" aberto resolveu
+        "koʎˈeɾ": "koljˈɛɾ",
+        "kˌoʎeɾzˈiɲɐs": "kˌuljɛɾzˈiɲɐs",  # colherzinhas
+        "tˌaɾtaɾˈuɡɐ": "tˌaɾttaɾˈuɡɐ",  # tartaruga: o segundo "t" virava "r" ("tarraruga"); com "tt" ficou o mais perto
+        "pˈɔɾtɐ": "pˈɔːɾɾtɐ",  # porta na frase: "ó" mais longo (o "ɾɾ" já vem da regra, mas o "ː" a impediria)
+    }
+)
 # Só quando o texto (a frase) é uma palavra sozinha; têm prioridade sobre TROCAS_PALAVRA_PT_BR.
 TROCAS_PALAVRA_SOLTA_PT_BR = {
+    "pˈɔɾtɐ": "pˈɔɾtɐ",  # porta sozinha fica como o espeak gera (o "ɔː" só foi ouvido na frase)
     "pˈoɾkʊ": "pˈoɾko",  # porco: o "o" de "por" soava estranho
     "bˈokɐ": "bˈoːkɐ",  # boca
     "pˌɐnˈɛlɐ": "panˈɛla",  # panela: soava "pânela"
@@ -223,33 +234,46 @@ def corrigir_fonemas(fonemas, pt_br):
     return reforcar_r(saida)
 
 
-# O modelo engole o "r" (ɾ) curto; com "ɾɾ" ele aparece (validação de fonemas, rodadas 1 a 3: docs/VALIDACAO-FONEMAS.md).
-# Em grupo de consoantes (dentro, vidro, quatro) ajuda em qualquer posição, menos depois de "é" tônico (pedra, lebre:
-# soava "pé-dra"). No fim de sílaba (porta, corda, gordo) ajuda em toda palavra da frase; só na palavra sozinha o
-# ritmo lento de `ajuste_palavra_solta` já basta e o "ɾɾ" sobra.
+# O modelo engole o "r" (ɾ) curto; com "ɾɾ" ele aparece (validação de fonemas, rodadas 1 a 4: docs/VALIDACAO-FONEMAS.md).
+# Em grupo de consoantes ajuda depois da tônica (dentro, vidro, quatro), no começo da palavra (tronco, prato) e depois de
+# consoante (encontrou, estragar). Não ajuda depois de "é" tônico (pedra, lebre: soava "pé-dra") nem entre vogais antes
+# da tônica ou nela (soprou, abriu, aprendiz: o "r" simples soou melhor). No fim de sílaba (porta, corda, gordo) ajuda
+# em toda palavra da frase; só na palavra sozinha o ritmo lento de `ajuste_palavra_solta` já basta e o "ɾɾ" sobra.
 R_GRUPO = re.compile(r"(?<=[pbtdkɡfv])(?<!ˈɛ[pbtdkɡfv])ɾ(?!ɾ)")
+VOGAL_ANTES = "aeiouɛɔɐɪʊ̃"  # inclui o til das vogais nasais (NFD)
 R_FIM_DE_SILABA = re.compile(r"(?<=[aeiouɛɔɐɪʊ])ɾ(?=[^aeiouɛɔɐɪʊ̃ˈˌʲɾː" + re.escape(PONTUACAO) + r"])")
 # Última palavra da frase terminada em "ɐ": com "a" pleno não some (caixa soava "caix"). Menos "-gia" (magia, energia).
 A_FINAL = re.compile(r"(?<!ʒˈiʲ)ɐ(?=[" + re.escape(PONTUACAO) + r"]*$)")
-# Palavra sozinha: consoante depois do "o" tônico fechado dobrada (lobo soava "logo", ovo "ouvo"; também osso, sopa)
-# e "a" pleno no "ɐ" átono antes de consoante nasal (janela, banana, caneta).
-O_CONSOANTE = re.compile(r"(?<=ˈo)([bvsp])(?!\1)")
+# Última palavra da frase terminada em vogal tônica + "r" (dormir, brincar, chorar, fugir): saía rápida demais; com a
+# vogal tônica longa ficou melhor (rodada 4).
+TONICA_R_FINAL = re.compile(r"ˈ([aeiouɛɔ])ɾ(?=[" + re.escape(PONTUACAO) + r"]*$)")
+# Palavra sozinha: consoante depois do "o" tônico fechado dobrada (lobo soava "logo", ovo "ouvo"; também osso, sopa),
+# menos antes de "o" pleno (poço, já com o final trocado, ficou pior), e "a" pleno no "ɐ" átono antes de consoante
+# nasal (janela, banana, caneta, caminhão, chaminé, camiseta).
+O_CONSOANTE = re.compile(r"(?<=ˈo)([bvsp])(?!\1)(?!o)")
 A_ATONO_NASAL = re.compile(r"ˌɐ(?=[nmɲ])")
+
+
+def dobrar_grupo(m):
+    antes, depois = m.string[: m.start()], m.string[m.end() :]
+    if len(antes) >= 2 and antes[-2] in VOGAL_ANTES and "ˈ" in depois:
+        return "ɾ"  # entre vogais, antes da tônica ou nela: soprou, abriu, aprendiz
+    return "ɾɾ"
 
 
 def reforcar_r(fonemas):
     palavras = "".join(fonemas).split(" ")
     reais = [i for i, p in enumerate(palavras) if p.strip(PONTUACAO)]
     if len(reais) == 1:
-        p = R_GRUPO.sub("ɾɾ", palavras[reais[0]])
+        p = R_GRUPO.sub(dobrar_grupo, palavras[reais[0]])
         p = O_CONSOANTE.sub(r"\1\1", p)
         palavras[reais[0]] = A_ATONO_NASAL.sub("ˌa", p)
         return list(" ".join(palavras))
     ultima = reais[-1] if reais else -1
     for i, p in enumerate(palavras):
-        p = R_FIM_DE_SILABA.sub("ɾɾ", R_GRUPO.sub("ɾɾ", p))
+        p = R_FIM_DE_SILABA.sub("ɾɾ", R_GRUPO.sub(dobrar_grupo, p))
         if i == ultima:
-            p = A_FINAL.sub("a", p)
+            p = TONICA_R_FINAL.sub(r"ˈ\1ːɾ", A_FINAL.sub("a", p))
         palavras[i] = p
     return list(" ".join(palavras))
 

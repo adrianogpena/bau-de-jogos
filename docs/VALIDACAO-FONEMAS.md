@@ -72,7 +72,7 @@ Ainda não foram ouvidas; a tabela é só a leitura dos fonemas. As 2 de "prová
 
 ## Ajustes feitos a partir da comparação (ouvidos em frases)
 
-Os ajustes por palavra ficam em `TROCAS_PALAVRA_PT_BR` (`scripts/piper_falar.py`): chave = fonemas do espeak, valor = fonemas usados. As que só valem para a palavra sozinha ficam em `TROCAS_PALAVRA_SOLTA_PT_BR` (rodada 3). Depois de mudar, regerar com `npm run audio:piper -- --voz faber --refazer-palavras palavra1,palavra2` (refaz todo texto que contém a palavra).
+Os ajustes por palavra ficam em `TROCAS_PALAVRA_PT_BR` (`scripts/piper_falar.py`): chave = fonemas do espeak, valor = fonemas usados. As que só valem para a palavra sozinha ficam em `TROCAS_PALAVRA_SOLTA_PT_BR` (rodada 3); uma troca da palavra para ela mesma ali (porta, rodada 4) deixa a palavra sozinha fora de `TROCAS_PALAVRA_PT_BR`. Depois de mudar, regerar com `npm run audio:piper -- --voz faber --refazer-palavras palavra1,palavra2` (refaz todo texto que contém a palavra).
 
 | Palavra | Espeak (sozinha / na frase) | Usado | Motivo |
 |---|---|---|---|
@@ -214,6 +214,50 @@ Por que um ajuste vale para umas palavras e não para outras:
 Combinações que as regras geram sem terem sido ouvidas juntas: última palavra com "r" de fim de sílaba e `ɐ` final (corda → `kˈɔɾɾda`), e palavras sozinhas que entram em `O_CONSOANTE` ou `A_ATONO_NASAL` sem terem sido testadas (poço, caminhão, chaminé, camiseta).
 
 Ainda sem solução (rodada 3): **colher** sozinha soa como o verbo (o espeak dá `koʎˈeɾ`; o utensílio é `kuˈʎɛɾ` no BIPA; ouvir `kuljˈɛɾ` e `koljˈɛɾ`), **tartaruga** ("tarraruga"), **dormir** no fim da frase rápido demais, **porta** ainda estranha na frase ("...bloqueia a porta e grita..."), "Soprou" preferiu `pɾ` simples (um voto só), "brincar" (r final de verbo) e frases inteiras rápidas ("O brinquedo caro quebrou.").
+
+### Rodada 4 (confere as regras da rodada 3 e testa o que ficou sem solução)
+
+`$PIPER_PYTHON scripts/fonemas/gerar_rodada4.py` gera `referencias-fonemas/validacao-rodada4/`. Para ouvir: `python scripts/fonemas/servir_validacao.py validacao-rodada4` e abrir <http://localhost:5198/> numa aba do navegador (não no explorador de arquivos do Kedalion). As respostas vão para `validacao-rodada4/respostas.json`.
+
+Diferenças da rodada 3: no grupo 0 a versão A roda o `scripts/piper_falar.py` do commit `5bbda3a` (antes da rodada 3), e a coluna da esquerda mostra as palavras que mudaram (antes → hoje); a mudança vale para todas as ocorrências da palavra no texto ("Soprou, soprou"); até 6 versões por item; o espaço que o espeak deixa no fim de algumas frases ("pedra: ") não desalinha mais as palavras.
+
+| Grupo | O que testa | Versões |
+|---|---|---|
+| 0. Regras da rodada 3 (28 textos reais do site, sorteio fixo) | `A_FINAL`, `R_FIM_DE_SILABA` na última palavra, exceção do `R_GRUPO` depois de "é", `O_CONSOANTE`, `A_ATONO_NASAL` e as combinações (4 com "r" de fim de sílaba e `ɐ` final na última palavra: certa, surpresa, dorminhoca, Gárgula); poço, caminhão, chaminé, camiseta de propósito | antes da rodada 3 · atual |
+| 1. colher (5) | sozinha, "colher de pau!", "colherzinhas" (site) e 2 frases novas | atual · `kuljˈɛɾ` · `koljˈɛɾ` · `kuljˈeɾ` |
+| 2. tartaruga (3) | sozinha e 2 frases do site | atual · `tt` · `ɾ` simples ou `ɾɾ` (o contrário do atual) · sem acento secundário · secundário no segundo "ta" |
+| 3. Verbo no fim da frase (9) | "Hora de dormir.", "Ele agora quer brincar." (novas) e 7 frases do site (dormir, brincar, chorar, fugir, comer, entrar, tremer) | atual · tônica longa (`iː`, `aː`, `eː`) · vírgula antes do verbo · os dois |
+| 4. porta na frase (4 do site) | Golem, "O lobo bateu na porta...", "Na porta há...", "encosta o ombro na porta" | atual (`ɾɾ`) · `ɾ` simples · `ɔː` · `a` final |
+| 5. `ɾɾ` em grupo (11 do site) | 3 com o grupo na sílaba tônica (soprou, soprar, abriu) e 8 sorteados com o grupo antes da tônica (aprendiz, primeiro, tremeu, trancou...) | atual · `ɾ` simples |
+| 6. Frase curta (8) | 7 frases do site com 3 a 5 palavras e "O brinquedo caro quebrou." | ritmo 1.15 (atual) · 1.25 · 1.35 |
+
+Observações ao montar: o espeak já dá "é" aberto em "colher" depois de artigo (`a colher` → `koljˈɛɾ`), mas não sozinha nem em "colher de pau" (`koljˈeɾ`). "Soprou" (so-PROU) tem o grupo na sílaba tônica, não antes dela; por isso o grupo 5 separa os dois casos. A versão "`ɾɾ` no dor" do grupo 3 não aparece: desde a rodada 3 ela já é a atual.
+
+### Resultado da rodada 4 (2026-11-07, 68 respostas)
+
+| Grupo | Resultado | O que mudou (`scripts/piper_falar.py`) |
+|---|---|---|
+| 0. `A_FINAL` | Atual 5 de 6 (ilha, estranha, matemática, praça, fenda); "chave de fenda!" nenhum (B melhor, mas "tchave"). | Nada. |
+| 0. `R_FIM_DE_SILABA` na última | Sozinha: sem diferença 3 (forças, irmãos, irmão), antes 1 ("— disse aos irmãos."). Com `A_FINAL`: atual 4 de 4 (dorminhoca, certa, surpresa, Gárgula). | Nada. Na rodada 3 ganhou 7 de 7 com o "r" na sílaba tônica (gor-do); aqui, com o "r" antes da tônica (ir-mãos), não ajudou. Poucos dados para separar. |
+| 0. Exceção do `R_GRUPO` depois de "é" | Atual 4, sem diferença 2. "A Lebre e a Tartaruga": nenhum ("la tataruga"). | Nada. |
+| 0. `O_CONSOANTE`, `A_ATONO_NASAL` | Atual em sopa, ovo, janela, banana, caminhão (um pouco rápida), chaminé, camiseta. **poço: antes** (`pˈoso` ganhou de `pˈosso`). | `O_CONSOANTE` não dobra antes de "o" pleno. |
+| 1. colher | O "é" aberto ganhou em todos: `koljˈɛɾ` sozinha, em "colher de pau!" e no fim da frase; `kuljˈɛɾ` em "colherzinhas" e no começo da frase. "u" ou "o" no "co" não fez padrão. | colher → `koljˈɛɾ`, colherzinhas → `kˌuljɛɾzˈiɲɐs` (`TROCAS_PALAVRA_PT_BR`). |
+| 2. tartaruga | `tt` ganhou nos 3 ("o mais perto que já chegamos, mas não totalmente certo"). | tartaruga → `tˌaɾttaɾˈuɡɐ`. |
+| 3. Verbo no fim | Tônica longa ganhou 7 de 9; comer sem diferença (leve preferência pela longa); "Hora de dormir." nenhum. A pausa antes nunca ganhou. | `TONICA_R_FINAL`: na última palavra da frase, vogal tônica + "r" final ganha `ː`. |
+| 4. porta na frase | `ɔː` ganhou 3 de 4; na frase do Golem nenhum ("pôta": o "r" quase não se ouve). | porta → `pˈɔːɾɾtɐ` na frase; sozinha fica como está (`TROCAS_PALAVRA_SOLTA_PT_BR`). |
+| 5. `ɾɾ` em grupo | Grupo na tônica: `ɾ` simples 3 de 3 (soprou, soprar, abriu). Antes da tônica: `ɾ` simples 3 (aprendiz, primeiro, tremeu), atual 2 (trabalhou, estragar), sem diferença 2, nenhum 1 (esfregou: "esfegou"). | `R_GRUPO` não dobra entre vogais antes da tônica ou nela (veja abaixo). |
+| 6. Frase curta | Sem diferença 6 de 8; 1.25 ganhou 1 (lista "relógio, estante e baú."). "O brinquedo caro quebrou." nenhum ("caro" junta com "quebrou"). | Nada (a frase não é do site). |
+
+Por que um ajuste vale para umas palavras e não para outras:
+
+- **`ɾɾ` em grupo depende do que vem antes e de onde está a tônica.** Somando as rodadas 2 a 4: depois da tônica (dentro, vidro, livro, quatro, outro) o `ɾɾ` ganhou 5 de 5; no começo da palavra ou depois de consoante (tronco, prato, trinta, encontrou, engrenagens, estragar) ganhou ou empatou quase sempre. Entre vogais antes da tônica ou nela (so-prou, a-briu, a-pren-diz) o `ɾ` simples ganhou 5 de 5 votos (contando o "Soprou" da rodada 3). Começo de palavra antes da tônica (primeiro, tremeu, trabalhou, trancou, preferido) ficou dividido e continua com `ɾɾ`.
+- **colher:** o que separa o utensílio do verbo é o "é" aberto; a vogal do "co" não importou.
+- **tartaruga e porta:** nas duas o "r" de fim de sílaba fica fraco antes do "t" (o "t" vira "r" em tartaruga; porta soa "pôta" no Golem). Reforçar o "t" melhorou tartaruga; ainda não foi testado em porta.
+- **Verbo no fim:** o ritmo da frase toda não muda nada (grupo 6), a pausa antes também não; o que ajuda é alongar só a vogal tônica.
+
+`TONICA_R_FINAL` vale pelo fonema, então também pega substantivos no fim da frase (flor, mar, lugar), que não foram ouvidos.
+
+Ainda sem solução (rodada 4): **Goblin** (`ɡoblˈĩm`: o "go" devia ser mais fechado, mais perto do inglês, com a tônica no começo), **porta** na frase do Golem ("pôta"; testar `tt` como em tartaruga), **tartaruga** ainda não totalmente certa ("A Lebre e a Tartaruga": falta força no primeiro "ta"), **"Hora de dormir."** (nenhuma versão), **esfregou** ("esfegou") e **estragar** ("estagar"), "chave" soando "tchave" em "chave de fenda!", "De repente" com o "de" fraco, o "r" de "ordem" fraco em "Pense bem na ordem certa!", **caminhão** sozinha um pouco rápida (3 sílabas, ritmo 1.15), e substantivos com `TONICA_R_FINAL` (flor, mar, lugar).
 
 ## Limites
 
