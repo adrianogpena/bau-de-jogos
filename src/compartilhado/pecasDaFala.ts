@@ -4,7 +4,7 @@ import { NUMERO_MAXIMO_NARRADO, numeroPorExtenso } from './numeros';
 /**
  * Divide uma frase nos pedaços que o narrador toca em sequência, cada um com o seu arquivo de áudio.
  * Todo número de 0 a 100 vira um pedaço próprio (por extenso, ex.: "quinze"), e o resto do texto fica nos pedaços
- * entre eles. Assim "Tiraste 15 contra CA 12!" usa os áudios "Tiraste", "quinze", "contra CA", "doze".
+ * entre eles. Assim "Tiraste 15 contra a defesa 12!" usa os áudios "Tiraste", "quinze", "contra a defesa", "doze".
  * Sem número, a frase inteira é um pedaço só. Os espaços são normalizados e pedaços sem letras (ex.: "+", "=") somem.
  *
  * Usado pelo app (narradorAudio.ts) e pelo gerador/teste de áudios (scripts/frases-narradas.mjs): é a única

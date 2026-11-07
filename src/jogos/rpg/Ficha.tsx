@@ -17,6 +17,7 @@ import {
 import { Icone, comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
+  defesa: { 'pt-PT': 'Defesa', 'pt-BR': 'Defesa' },
   titulo: { 'pt-PT': 'Cria o teu herói', 'pt-BR': 'Crie seu herói' },
   pontos: {
     'pt-PT': 'Pontos para distribuir: {n}',
@@ -154,7 +155,7 @@ export function ResumoFicha({ ficha, idioma }: { ficha: FichaPersonagem; idioma:
       <span>
         <Icone id="interface/coracao" /> {ficha.pontosDeVida}/{ficha.pontosDeVidaMaximos}
       </span>
-      <span><Icone id="interface/escudo" /> CA {estatisticas(ficha).ca}</span>
+      <span><Icone id="interface/escudo" /> {t(TEXTOS.defesa, idioma)} {estatisticas(ficha).ca}</span>
       <span><Icone id="interface/pocao" /> {totalPocoes(ficha)}</span>
       <Moedas pratas={ficha.prata} />
       {ATRIBUTOS.map((atr) => (

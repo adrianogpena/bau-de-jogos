@@ -8,7 +8,7 @@ Ambas são vozes de qualidade média, treinadas com dados CC0 (domínio público
 
 Cada frase lida vira um arquivo `public/audio/<variante>/<voz>/t/<código do texto>.mp3`.
 
-- **App publicado:** só toca as frases já geradas e guardadas no projeto: as histórias dos jogos de escrita e leitura e todos os textos fixos do site (os pares `'pt-PT'`/`'pt-BR'` do código, com o gênero do herói/mago expandido). Números de 0 a 100 têm áudio próprio (por extenso, por variante) e a frase é tocada em pedaços (`src/compartilhado/pecasDaFala.ts`): "Tiraste 15 contra CA 12" usa os áudios "Tiraste", "quinze", "contra CA", "doze". Nomes de inimigos, itens, feitiços etc. são gerados em todas as combinações. Números acima de 100 ficam com a voz do aparelho.
+- **App publicado:** só toca as frases já geradas e guardadas no projeto: as histórias dos jogos de escrita e leitura e todos os textos fixos do site (os pares `'pt-PT'`/`'pt-BR'` do código, com o gênero do herói/mago expandido). Números de 0 a 100 têm áudio próprio (por extenso, por variante) e a frase é tocada em pedaços (`src/compartilhado/pecasDaFala.ts`): "Tiraste 15 contra a defesa 12" usa os áudios "Tiraste", "quinze", "contra a defesa", "doze". Nomes de inimigos, itens, feitiços etc. são gerados em todas as combinações. Números acima de 100 ficam com a voz do aparelho.
 - **Servidor de testes (`npm run servidor`):** uma frase sem áudio é gerada na hora (1 a 2 segundos) e fica guardada em `public/audio/`. Assim dá para ouvir o RPG e o escape room com a voz do Piper.
 - **Gerar todas as histórias de uma vez:** `npm run audio:piper` (com `-- --simular` só conta as frases). Se uma história mudar, rode de novo: só as frases novas são geradas.
 

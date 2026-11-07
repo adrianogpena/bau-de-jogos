@@ -20,14 +20,14 @@ export interface Item {
   bonusDano?: number;
   /** Arma: somado ao d20 para acertar. */
   bonusAtaque?: number;
-  /** Armadura: somado à CA (classe de armadura). */
+  /** Armadura: somado à defesa. */
   bonusCA?: number;
   efeito?: EfeitoPocao;
   /** Poção: quanto cura (somado ao d6) ou quanto aumenta. */
   valor?: number;
 }
 
-/** Quanto o escudo soma à CA no próximo ataque do inimigo (ação bônus). */
+/** Quanto o escudo soma à defesa no próximo ataque do inimigo (ação bônus). */
 export const BONUS_ESCUDO = 3;
 
 export const ITENS: Record<string, Item> = {
@@ -70,7 +70,7 @@ export const ITENS: Record<string, Item> = {
     tipo: 'armadura',
     emoji: '🧥',
     nome: { 'pt-PT': 'Roupa de couro', 'pt-BR': 'Roupa de couro' },
-    descricao: { 'pt-PT': '+1 de CA (armadura).', 'pt-BR': '+1 de CA (armadura).' },
+    descricao: { 'pt-PT': '+1 de defesa (armadura).', 'pt-BR': '+1 de defesa (armadura).' },
     preco: 30,
     bonusCA: 1,
   },
@@ -79,7 +79,7 @@ export const ITENS: Record<string, Item> = {
     tipo: 'armadura',
     emoji: '⛓️',
     nome: { 'pt-PT': 'Cota de malha', 'pt-BR': 'Cota de malha' },
-    descricao: { 'pt-PT': '+2 de CA (armadura).', 'pt-BR': '+2 de CA (armadura).' },
+    descricao: { 'pt-PT': '+2 de defesa (armadura).', 'pt-BR': '+2 de defesa (armadura).' },
     preco: 60,
     bonusCA: 2,
   },
@@ -88,7 +88,7 @@ export const ITENS: Record<string, Item> = {
     tipo: 'armadura',
     emoji: '🪖',
     nome: { 'pt-PT': 'Armadura de placas', 'pt-BR': 'Armadura de placas' },
-    descricao: { 'pt-PT': '+3 de CA (armadura).', 'pt-BR': '+3 de CA (armadura).' },
+    descricao: { 'pt-PT': '+3 de defesa (armadura).', 'pt-BR': '+3 de defesa (armadura).' },
     preco: 100,
     bonusCA: 3,
   },
@@ -98,8 +98,8 @@ export const ITENS: Record<string, Item> = {
     emoji: '[[interface/escudo]]',
     nome: { 'pt-PT': 'Escudo', 'pt-BR': 'Escudo' },
     descricao: {
-      'pt-PT': `Como ação bónus, levanta o escudo: ganhas +${BONUS_ESCUDO} de CA no próximo ataque do inimigo.`,
-      'pt-BR': `Como ação bônus, levante o escudo: você ganha +${BONUS_ESCUDO} de CA no próximo ataque do inimigo.`,
+      'pt-PT': `Como ação bónus, levanta o escudo: ganhas +${BONUS_ESCUDO} de defesa no próximo ataque do inimigo.`,
+      'pt-BR': `Como ação bônus, levante o escudo: você ganha +${BONUS_ESCUDO} de defesa no próximo ataque do inimigo.`,
     },
     preco: 40,
   },

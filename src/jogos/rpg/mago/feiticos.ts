@@ -98,8 +98,8 @@ export const FEITICOS: Record<string, Feitico> = {
     emoji: '[[feiticos/capa-de-brasas]]',
     nome: { 'pt-PT': 'Capa de Brasas', 'pt-BR': 'Capa de Brasas' },
     descricao: {
-      'pt-PT': 'Sobe +3 de CA no próximo ataque do inimigo.',
-      'pt-BR': 'Sobe +3 de CA no próximo ataque do inimigo.',
+      'pt-PT': 'Sobe +3 de defesa no próximo ataque do inimigo.',
+      'pt-BR': 'Sobe +3 de defesa no próximo ataque do inimigo.',
     },
     custo: 2,
     tipo: 'protecao',
@@ -141,8 +141,8 @@ export const FEITICOS: Record<string, Feitico> = {
     emoji: '[[feiticos/armadura-de-gelo]]',
     nome: { 'pt-PT': 'Armadura de Gelo', 'pt-BR': 'Armadura de Gelo' },
     descricao: {
-      'pt-PT': 'Sobe +4 de CA no próximo ataque do inimigo.',
-      'pt-BR': 'Sobe +4 de CA no próximo ataque do inimigo.',
+      'pt-PT': 'Sobe +4 de defesa no próximo ataque do inimigo.',
+      'pt-BR': 'Sobe +4 de defesa no próximo ataque do inimigo.',
     },
     custo: 2,
     tipo: 'protecao',

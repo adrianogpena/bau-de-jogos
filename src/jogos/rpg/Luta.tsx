@@ -10,6 +10,7 @@ import { BONUS_ESCUDO, ITENS, estatisticas } from './itens';
 import { Icone, comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
+  defesa: { 'pt-PT': 'Defesa', 'pt-BR': 'Defesa' },
   apareceu: { 'pt-PT': '{inimigo} apareceu!', 'pt-BR': '{inimigo} apareceu!' },
   proximaAcao: { 'pt-PT': 'O que vais fazer agora?', 'pt-BR': 'O que você vai fazer agora?' },
   golpear: { 'pt-PT': '⚔️ Golpear', 'pt-BR': '⚔️ Golpear' },
@@ -21,28 +22,28 @@ const TEXTOS = {
   voltarMenu: { 'pt-PT': '← Voltar', 'pt-BR': '← Voltar' },
   vezInimigo: { 'pt-PT': 'Vez de {inimigo}', 'pt-BR': 'Vez de {inimigo}' },
   acertou: {
-    'pt-PT': 'Tiraste {total} contra CA {ca} e acertaste! Causaste {dano} de dano.',
-    'pt-BR': 'Você tirou {total} contra CA {ca} e acertou! Causou {dano} de dano.',
+    'pt-PT': 'Tiraste {total} contra a defesa {ca} e acertaste! Causaste {dano} de dano.',
+    'pt-BR': 'Você tirou {total} contra a defesa {ca} e acertou! Causou {dano} de dano.',
   },
   critico: {
     'pt-PT': '⭐ Golpe crítico! Tiraste 20 e o dano é a dobrar: {dano}!',
     'pt-BR': '⭐ Golpe crítico! Você tirou 20 e o dano é em dobro: {dano}!',
   },
   errou: {
-    'pt-PT': 'Tiraste {total} contra CA {ca} e falhaste o golpe.',
-    'pt-BR': 'Você tirou {total} contra CA {ca} e errou o golpe.',
+    'pt-PT': 'Tiraste {total} contra a defesa {ca} e falhaste o golpe.',
+    'pt-BR': 'Você tirou {total} contra a defesa {ca} e errou o golpe.',
   },
   inimigoAcertou: {
-    'pt-PT': '{inimigo} tirou {total} contra a tua CA {ca} e acertou-te! Perdeste {dano} de vida.',
-    'pt-BR': '{inimigo} tirou {total} contra sua CA {ca} e acertou você! Você perdeu {dano} de vida.',
+    'pt-PT': '{inimigo} tirou {total} contra a tua defesa {ca} e acertou-te! Perdeste {dano} de vida.',
+    'pt-BR': '{inimigo} tirou {total} contra sua defesa {ca} e acertou você! Você perdeu {dano} de vida.',
   },
   inimigoCritico: {
     'pt-PT': '💥 {inimigo} tirou 20: golpe crítico! Acertou-te sempre e perdeste {dano} de vida.',
     'pt-BR': '💥 {inimigo} tirou 20: golpe crítico! Acertou você sempre e você perdeu {dano} de vida.',
   },
   inimigoErrou: {
-    'pt-PT': '{inimigo} tirou {total} contra a tua CA {ca} e falhou o golpe! 🍀',
-    'pt-BR': '{inimigo} tirou {total} contra sua CA {ca} e errou o golpe! 🍀',
+    'pt-PT': '{inimigo} tirou {total} contra a tua defesa {ca} e falhou o golpe! 🍀',
+    'pt-BR': '{inimigo} tirou {total} contra sua defesa {ca} e errou o golpe! 🍀',
   },
   curou: {
     'pt-PT': 'Bebeste a poção e recuperaste {cura} de vida! 💖',
@@ -57,8 +58,8 @@ const TEXTOS = {
     'pt-BR': 'Você bebeu a poção! Agora bate mais forte: +{valor} de dano até o fim da luta. 💥',
   },
   escudoSubiu: {
-    'pt-PT': 'Levantaste o escudo! A tua CA sobe +{valor} no próximo ataque. Ainda podes agir.',
-    'pt-BR': 'Você levantou o escudo! Sua CA sobe +{valor} no próximo ataque. Você ainda pode agir.',
+    'pt-PT': 'Levantaste o escudo! A tua defesa sobe +{valor} no próximo ataque. Ainda podes agir.',
+    'pt-BR': 'Você levantou o escudo! Sua defesa sobe +{valor} no próximo ataque. Você ainda pode agir.',
   },
   venceu: { 'pt-PT': 'Venceste a luta! 🎉', 'pt-BR': 'Você venceu a luta! 🎉' },
   perdeu: {
@@ -117,7 +118,7 @@ function DadosDoCombatente({ idioma, ataque, dano }: { idioma: Idioma; ataque: s
   );
 }
 
-/** Luta por turnos: cada ataque é um d20 (+ bônus) contra a CA (classe de armadura) do outro. */
+/** Luta por turnos: cada ataque é um d20 (+ bônus) contra a defesa do outro. */
 export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
   const dado = usarDado();
   const est = estatisticas(ficha);
@@ -133,7 +134,8 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
   const [acaoBonusUsada, setAcaoBonusUsada] = useState(false);
   const [bonusAtaquePocao, setBonusAtaquePocao] = useState(0);
   const [bonusDanoPocao, setBonusDanoPocao] = useState(0);
-  const [mensagem, setMensagem] = useState(preencher(t(TEXTOS.apareceu, idioma), { inimigo: nomeInimigo }));
+  const mensagemInicial = preencher(t(TEXTOS.apareceu, idioma), { inimigo: nomeInimigo });
+  const [mensagem, setMensagem] = useState(mensagemInicial);
 
   const caHeroi = est.ca + (escudoAtivo ? BONUS_ESCUDO : 0);
   const ataqueHeroi = est.bonusAtaque + bonusAtaquePocao;
@@ -247,7 +249,7 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
     setAcaoBonusUsada(false);
     setBonusAtaquePocao(0);
     setBonusDanoPocao(0);
-    setMensagem(preencher(t(TEXTOS.apareceu, idioma), { inimigo: nomeInimigo }));
+    setMensagem(mensagemInicial);
   }
 
   return (
@@ -260,7 +262,7 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
           <strong>{personagemPorId('heroi', ficha.personagem).nome}</strong>
           <Barra vida={vidaHeroi} maxima={ficha.pontosDeVidaMaximos} />
           <small>
-            <Icone id="interface/escudo" /> CA {caHeroi}
+            <Icone id="interface/escudo" /> {t(TEXTOS.defesa, idioma)} {caHeroi}
             {escudoAtivo ? ` (+${BONUS_ESCUDO})` : ''}
           </small>
           <DadosDoCombatente idioma={idioma} ataque={`d20+${ataqueHeroi}`} dano={`d6+${danoHeroi}`} />
@@ -274,7 +276,7 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
           </span>
           <strong>{nomeInimigo}</strong>
           <Barra vida={vidaInimigo} maxima={inimigo.pontosDeVida} />
-          <small><Icone id="interface/escudo" /> CA {inimigo.defesa}</small>
+          <small><Icone id="interface/escudo" /> {t(TEXTOS.defesa, idioma)} {inimigo.defesa}</small>
           <DadosDoCombatente
             idioma={idioma}
             ataque={`d20+${inimigo.bonusAtaque}`}
@@ -283,7 +285,12 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
         </div>
       </div>
 
-      <TextoNarrado className="mensagem mensagem-luta" idioma={idioma} texto={mensagem} />
+      <TextoNarrado
+        className="mensagem mensagem-luta"
+        idioma={idioma}
+        texto={mensagem}
+        lerAoAbrir={mensagem !== mensagemInicial}
+      />
 
       {estado === 'jogador' && menu === 'principal' && (
         <>

@@ -10,10 +10,11 @@ import type { FichaMago, Feitico, InimigoMago } from './tipos';
 import { ENERGIA_CONTA_CERTA, ENERGIA_CONTA_ERRADA, FEITICOS } from './feiticos';
 import { Icone, comIcones } from '../../../compartilhado/icones';
 
-/** CA do mago: roupas leves de mago não protegem muito. */
+/** Defesa do mago: roupas leves de mago não protegem muito. */
 export const CA_MAGO = 11;
 
 const TEXTOS = {
+  defesa: { 'pt-PT': 'Defesa', 'pt-BR': 'Defesa' },
   apareceu: { 'pt-PT': '{inimigo} apareceu!', 'pt-BR': '{inimigo} apareceu!' },
   proximaAcao: { 'pt-PT': 'O que vais fazer agora?', 'pt-BR': 'O que você vai fazer agora?' },
   lancar: { 'pt-PT': '🔮 Lançar um feitiço', 'pt-BR': '🔮 Lançar um feitiço' },
@@ -36,16 +37,16 @@ const TEXTOS = {
   gratis: { 'pt-PT': 'grátis', 'pt-BR': 'grátis' },
   vezInimigo: { 'pt-PT': 'Vez de {inimigo}', 'pt-BR': 'Vez de {inimigo}' },
   acertou: {
-    'pt-PT': '{feitico}! Tiraste {total} contra CA {ca} e acertaste! Causaste {dano} de dano.',
-    'pt-BR': '{feitico}! Você tirou {total} contra CA {ca} e acertou! Causou {dano} de dano.',
+    'pt-PT': '{feitico}! Tiraste {total} contra a defesa {ca} e acertaste! Causaste {dano} de dano.',
+    'pt-BR': '{feitico}! Você tirou {total} contra a defesa {ca} e acertou! Causou {dano} de dano.',
   },
   critico: {
     'pt-PT': '⭐ {feitico}! Tiraste 20: golpe crítico! O dano é a dobrar: {dano}!',
     'pt-BR': '⭐ {feitico}! Você tirou 20: golpe crítico! O dano é em dobro: {dano}!',
   },
   errou: {
-    'pt-PT': '{feitico}! Tiraste {total} contra CA {ca} e a magia falhou o alvo.',
-    'pt-BR': '{feitico}! Você tirou {total} contra CA {ca} e a magia errou o alvo.',
+    'pt-PT': '{feitico}! Tiraste {total} contra a defesa {ca} e a magia falhou o alvo.',
+    'pt-BR': '{feitico}! Você tirou {total} contra a defesa {ca} e a magia errou o alvo.',
   },
   certeiro: {
     'pt-PT': '{feitico}! A magia nunca falha e causa {dano} de dano.',
@@ -56,8 +57,8 @@ const TEXTOS = {
     'pt-BR': '{feitico}! Causa {dano} de dano e {inimigo} não consegue se mexer: perde a vez!',
   },
   protegido: {
-    'pt-PT': '{feitico}! A tua CA sobe +{valor} no próximo ataque.',
-    'pt-BR': '{feitico}! Sua CA sobe +{valor} no próximo ataque.',
+    'pt-PT': '{feitico}! A tua defesa sobe +{valor} no próximo ataque.',
+    'pt-BR': '{feitico}! Sua defesa sobe +{valor} no próximo ataque.',
   },
   curou: {
     'pt-PT': '{feitico}! Recuperaste {cura} de vida! 💖',
@@ -76,16 +77,16 @@ const TEXTOS = {
     'pt-BR': '{inimigo} continua preso pela magia e perde a vez!',
   },
   inimigoAcertou: {
-    'pt-PT': '{inimigo} tirou {total} contra a tua CA {ca} e acertou-te! Perdeste {dano} de vida.',
-    'pt-BR': '{inimigo} tirou {total} contra sua CA {ca} e acertou você! Você perdeu {dano} de vida.',
+    'pt-PT': '{inimigo} tirou {total} contra a tua defesa {ca} e acertou-te! Perdeste {dano} de vida.',
+    'pt-BR': '{inimigo} tirou {total} contra sua defesa {ca} e acertou você! Você perdeu {dano} de vida.',
   },
   inimigoCritico: {
     'pt-PT': '💥 {inimigo} tirou 20: golpe crítico! Acertou-te sempre e perdeste {dano} de vida.',
     'pt-BR': '💥 {inimigo} tirou 20: golpe crítico! Acertou você sempre e você perdeu {dano} de vida.',
   },
   inimigoErrou: {
-    'pt-PT': '{inimigo} tirou {total} contra a tua CA {ca} e falhou o golpe! 🍀',
-    'pt-BR': '{inimigo} tirou {total} contra sua CA {ca} e errou o golpe! 🍀',
+    'pt-PT': '{inimigo} tirou {total} contra a tua defesa {ca} e falhou o golpe! 🍀',
+    'pt-BR': '{inimigo} tirou {total} contra sua defesa {ca} e errou o golpe! 🍀',
   },
   venceu: { 'pt-PT': 'Venceste a luta! 🎉', 'pt-BR': 'Você venceu a luta! 🎉' },
   perdeu: {
@@ -129,7 +130,8 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
   const [ocupado, setOcupado] = useState(false);
   const [bonusCA, setBonusCA] = useState(0);
   const [inimigoPreso, setInimigoPreso] = useState(false);
-  const [mensagem, setMensagem] = useState(preencher(t(TEXTOS.apareceu, idioma), { inimigo: nomeInimigo }));
+  const mensagemInicial = preencher(t(TEXTOS.apareceu, idioma), { inimigo: nomeInimigo });
+  const [mensagem, setMensagem] = useState(mensagemInicial);
 
   const caHeroi = CA_MAGO + bonusCA;
   const feiticos = ficha.feiticos.map((id) => FEITICOS[id]);
@@ -270,7 +272,7 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
     setConta(null);
     setBonusCA(0);
     setInimigoPreso(false);
-    setMensagem(preencher(t(TEXTOS.apareceu, idioma), { inimigo: nomeInimigo }));
+    setMensagem(mensagemInicial);
   }
 
   return (
@@ -284,7 +286,7 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
           <Barra vida={vidaHeroi} maxima={ficha.pontosDeVidaMaximos} />
           <Barra vida={energia} maxima={ficha.energiaMaxima} emoji="🔮" classe="barra-energia" />
           <small>
-            <Icone id="interface/escudo" /> CA {caHeroi}
+            <Icone id="interface/escudo" /> {t(TEXTOS.defesa, idioma)} {caHeroi}
             {bonusCA > 0 ? ` (+${bonusCA})` : ''}
           </small>
         </div>
@@ -298,13 +300,18 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
           <strong>{nomeInimigo}</strong>
           <Barra vida={vidaInimigo} maxima={inimigo.pontosDeVida} />
           <small>
-            <Icone id="interface/escudo" /> CA {inimigo.defesa}
+            <Icone id="interface/escudo" /> {t(TEXTOS.defesa, idioma)} {inimigo.defesa}
             {inimigoPreso ? <> <Icone id="feiticos/estilhaco-de-gelo" /></> : ''}
           </small>
         </div>
       </div>
 
-      <TextoNarrado className="mensagem mensagem-luta" idioma={idioma} texto={mensagem} />
+      <TextoNarrado
+        className="mensagem mensagem-luta"
+        idioma={idioma}
+        texto={mensagem}
+        lerAoAbrir={mensagem !== mensagemInicial}
+      />
 
       {estado === 'jogador' && !menuFeiticos && !conta && (
         <>

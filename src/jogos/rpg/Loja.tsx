@@ -24,8 +24,8 @@ const TEXTOS = {
   quantidade: { 'pt-PT': 'Tens: {n}', 'pt-BR': 'Você tem: {n}' },
   terminar: { 'pt-PT': 'Começar a aventura!', 'pt-BR': 'Começar a aventura!' },
   resumo: {
-    'pt-PT': 'CA {ca} · Para acertar: d20+{ataque} · Dano: d6+{dano}',
-    'pt-BR': 'CA {ca} · Para acertar: d20+{ataque} · Dano: d6+{dano}',
+    'pt-PT': 'Defesa {ca} · Para acertar: d20+{ataque} · Dano: d6+{dano}',
+    'pt-BR': 'Defesa {ca} · Para acertar: d20+{ataque} · Dano: d6+{dano}',
   },
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
 } satisfies Record<string, TextoPorIdioma>;

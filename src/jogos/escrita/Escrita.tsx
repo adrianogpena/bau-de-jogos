@@ -146,14 +146,13 @@ function EscritaFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
       </h2>
 
       {acertou && rodada.ultima ? (
-        // depois de acertar, o parágrafo completo é lido em voz alta
+        // depois de acertar, o parágrafo completo aparece; a criança toca nele para ouvir
         <TextoNarrado
           key={indice}
           className="texto-historia"
           idioma={idioma}
           texto={paragrafoCompleto(paragrafo, idioma)}
           destacar={certa}
-          lerAoAbrir
         />
       ) : (
         // sem leitura até a criança acertar a palavra; depois pode ouvir quantas vezes quiser
