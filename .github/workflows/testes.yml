@@ -1,0 +1,18 @@
+name: Testes
+
+# Garante que todo texto das histórias tem áudio gerado (texto novo ou alterado exige "npm run audio:piper").
+on:
+  push:
+  pull_request:
+
+jobs:
+  audio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test

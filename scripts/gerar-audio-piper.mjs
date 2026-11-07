@@ -7,54 +7,23 @@
  *   npm run audio:piper -- --simular     # só conta frases e caracteres
  *   npm run audio:piper                  # gera o que falta (não refaz o que já existe)
  *   npm run audio:piper -- --voz faber
+ *   npm run audio:piper -- --podar       # apaga os áudios de textos que não existem mais
  */
 import { spawn } from 'node:child_process';
-import { existsSync } from 'node:fs';
-import { readFile, rm, writeFile } from 'node:fs/promises';
+import { existsSync, readdirSync } from 'node:fs';
+import { rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { createServer } from 'vite';
+import { arquivoAudio, frasesDasHistorias, lerVozes, pastaAudio } from './frases-narradas.mjs';
 import { raiz } from './textos.mjs';
 
-const args = { simular: false, voz: null };
+const args = { simular: false, podar: false, voz: null };
 const lista = process.argv.slice(2);
 for (let i = 0; i < lista.length; i++) {
   if (lista[i] === '--simular') args.simular = true;
+  else if (lista[i] === '--podar') args.podar = true;
   else if (lista[i] === '--voz') args.voz = lista[++i];
   else throw new Error(`Argumento desconhecido: ${lista[i]}`);
-}
-
-/** Frases de cada variante, como o narrador as diz: parágrafos, história inteira e título. */
-async function frasesDasHistorias() {
-  const servidor = await createServer({
-    root: raiz,
-    configFile: false,
-    logLevel: 'error',
-    server: { middlewareMode: true, hmr: false, watch: null },
-    appType: 'custom',
-    optimizeDeps: { noDiscovery: true, include: [] },
-  });
-  try {
-    const { COLECOES, paragrafoCompleto } = await servidor.ssrLoadModule('/src/compartilhado/historias/index.ts');
-    const { frasesFaladas, semSimbolos } = await servidor.ssrLoadModule('/src/compartilhado/TextoNarrado.tsx');
-    const { hashTexto } = await servidor.ssrLoadModule('/src/compartilhado/hashTexto.ts');
-    const porVariante = { 'pt-PT': new Map(), 'pt-BR': new Map() };
-    for (const variante of Object.keys(porVariante)) {
-      const mapa = porVariante[variante];
-      const juntar = (texto) => {
-        if (/\p{L}/u.test(texto)) mapa.set(hashTexto(texto), texto);
-      };
-      for (const historia of COLECOES.flatMap((c) => c.historias)) {
-        for (const p of historia.paragrafos) frasesFaladas(paragrafoCompleto(p, variante)).forEach(juntar);
-        frasesFaladas(historia.titulo[variante]).forEach(juntar);
-        // o título tocado na tela de escolha: sem ícones, como o narrador o lê
-        juntar(semSimbolos(historia.titulo[variante]).trim());
-      }
-    }
-    return porVariante;
-  } finally {
-    await servidor.close();
-  }
 }
 
 function rodar(comando, argumentos) {
@@ -66,18 +35,25 @@ function rodar(comando, argumentos) {
 }
 
 async function principal() {
-  const config = JSON.parse(await readFile(path.join(raiz, 'src', 'compartilhado', 'vozes-narrador.json'), 'utf8'));
+  const vozes = await lerVozes();
   const python = process.env.PIPER_PYTHON || 'python3';
   const pastaModelos = path.resolve(raiz, process.env.PIPER_MODELOS || 'modelos-piper');
   const frases = await frasesDasHistorias();
 
-  for (const voz of config.vozes.filter((v) => !args.voz || v.id === args.voz)) {
+  for (const voz of vozes.filter((v) => !args.voz || v.id === args.voz)) {
     const todas = [...frases[voz.variante]];
     const faltam = todas
-      .map(([hash, texto]) => ({ texto, saida: path.join(raiz, 'public', 'audio', voz.variante, voz.id, 't', `${hash}.mp3`) }))
+      .map(([hash, texto]) => ({ texto, saida: arquivoAudio(voz, hash) }))
       .filter((f) => !existsSync(f.saida));
     const caracteres = faltam.reduce((s, f) => s + f.texto.length, 0);
     console.log(`${voz.variante}/${voz.id}: ${todas.length} frases, ${faltam.length} a gerar (${caracteres} caracteres)`);
+    if (args.podar) {
+      const sobras = existsSync(pastaAudio(voz))
+        ? readdirSync(pastaAudio(voz)).filter((f) => f.endsWith('.mp3') && !frases[voz.variante].has(f.slice(0, -4)))
+        : [];
+      console.log(`  ${sobras.length} áudio(s) de textos antigos${args.simular ? '' : ' apagados'}`);
+      if (!args.simular) for (const f of sobras) await rm(path.join(pastaAudio(voz), f));
+    }
     if (args.simular || faltam.length === 0) continue;
 
     const modelo = path.join(pastaModelos, voz.modelo);

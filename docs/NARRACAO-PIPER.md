@@ -12,6 +12,17 @@ Cada frase lida vira um arquivo `public/audio/<variante>/<voz>/t/<código do tex
 - **Servidor de testes (`npm run servidor`):** uma frase sem áudio é gerada na hora (1 a 2 segundos) e fica guardada em `public/audio/`. Assim dá para ouvir o RPG e o escape room com a voz do Piper.
 - **Gerar todas as histórias de uma vez:** `npm run audio:piper` (com `-- --simular` só conta as frases). Se uma história mudar, rode de novo: só as frases novas são geradas.
 
+## Conferir os áudios (teste)
+
+```bash
+npm test                          # falha se alguma frase das histórias estiver sem áudio
+npm run audio:piper -- --podar    # apaga os áudios de textos que não existem mais
+```
+
+O teste (`scripts/audio.test.mjs`) calcula todas as frases das histórias nas duas variantes e confere se o `.mp3` de cada uma existe e não está vazio. Como o nome do arquivo é o hash do texto, **qualquer texto alterado ou acrescentado fica sem áudio** e o teste falha.
+
+Fluxo ao mexer em uma história: edite o texto, rode `npm run audio:piper` (gera só o que falta), ouça as frases novas e inclua `public/audio/` no commit. O teste roda sozinho no `git push` (hook em `.githooks/pre-push`, ativado por `npm install`) e no GitHub (Testes e Publicar).
+
 ## Preparar (uma vez)
 
 1. `python3 -m pip install piper-tts` (de preferência em um ambiente virtual) e ter o `ffmpeg` instalado.

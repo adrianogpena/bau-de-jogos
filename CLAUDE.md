@@ -103,6 +103,7 @@ npm run dev        # servidor de desenvolvimento (acessível na rede local para 
 npm run servidor   # servidor local de testes, sempre na porta 5199 (http://localhost:5199/bau-de-jogos/)
 npm run build      # build de produção
 npm run typecheck  # checagem de tipos
+npm test          # confere que toda frase das histórias tem áudio (roda sozinho no push)
 npm run audio      # gera a narração das histórias com ElevenLabs (vozes em scripts/vozes.json; veja docs/NARRACAO-ELEVENLABS.md)
 ```
 
@@ -111,7 +112,8 @@ Narrador: voz Piper (Tugão em pt-PT, Faber em pt-BR) com a voz do aparelho como
 ## Fluxo de trabalho (git)
 
 - Faça **todos os ajustes direto na `main`** e dê **push na `main`**. Não crie branches nem pull requests, a menos que o usuário peça.
-- Antes de começar, atualize a `main` (`git pull origin main`). Rode `npm run typecheck` e `npm run build` antes de enviar.
+- Antes de começar, atualize a `main` (`git pull origin main`). Rode `npm run typecheck`, `npm run build` e `npm test` antes de enviar.
+- **Texto de história novo ou alterado exige áudio novo:** rode `npm run audio:piper` e inclua `public/audio/` no commit antes do push. O `npm test` (e o hook de pre-push) falha se faltar áudio.
 
 ## Convenções
 
