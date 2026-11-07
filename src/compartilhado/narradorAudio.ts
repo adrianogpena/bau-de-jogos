@@ -37,10 +37,10 @@ export interface OpcoesAparelho {
 }
 
 /**
- * Velocidade do áudio do Piper. A voz do aparelho usava 0.95 (e 0.9 antes), mas o Piper a 1.0
- * já fala mais depressa que ela; por isso fica mais baixo. Ajuste aqui (sem regerar os áudios).
+ * Velocidade de reprodução do áudio do Piper. O ritmo já vem mais lento da geração (length_scale em
+ * scripts/piper_falar.py); aqui só dá para ajustar sem regerar os áudios (ex.: 0.9 para mais devagar).
  */
-const VELOCIDADE_AUDIO = 0.85;
+const VELOCIDADE_AUDIO = 1;
 
 // ---------- voz do narrador ----------
 
