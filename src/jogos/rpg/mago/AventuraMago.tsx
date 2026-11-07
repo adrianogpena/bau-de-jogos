@@ -1,4 +1,4 @@
-import { tituloPersonagem, valoresPersonagem } from '../personagem';
+import { avatarPersonagem, tituloPersonagem, valoresPersonagem } from '../personagem';
 import { useState } from 'react';
 import { type Idioma, type TextoPorIdioma, preencher, t } from '../../../compartilhado/idioma';
 import { TextoNarrado } from '../../../compartilhado/TextoNarrado';
@@ -65,7 +65,7 @@ function ResumoMago({ ficha, idioma }: { ficha: FichaMago; idioma: Idioma }) {
   return (
     <div className="resumo-ficha">
       <span className="resumo-avatar" aria-hidden="true">
-        {comIcones(ficha.avatar)}
+        {comIcones(avatarPersonagem('mago', ficha.genero))}
       </span>
       <strong>{tituloPersonagem('mago', ficha.genero)}</strong>
       <span>

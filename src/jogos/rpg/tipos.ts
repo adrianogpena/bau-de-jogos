@@ -9,8 +9,6 @@ export type Atributos = Record<NomeAtributo, number>;
 /** Ficha do personagem controlado pela criança. */
 export interface FichaPersonagem {
   genero: Genero;
-  /** Emoji do avatar escolhido. */
-  avatar: string;
   pontosDeVida: number;
   pontosDeVidaMaximos: number;
   atributos: Atributos;

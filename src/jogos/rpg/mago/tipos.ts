@@ -52,7 +52,6 @@ export interface Escola {
 /** Ficha do mago controlado pela criança. */
 export interface FichaMago {
   genero: Genero;
-  avatar: string;
   escola: EscolaId;
   habilidades: Habilidades;
   pontosDeVida: number;

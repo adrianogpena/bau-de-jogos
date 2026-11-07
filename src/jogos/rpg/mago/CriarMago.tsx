@@ -4,8 +4,6 @@ import { type Genero, type Idioma, type TextoPorIdioma, preencher, t } from '../
 import { EscolherGenero } from '../EscolherGenero';
 import type { EscolaId, FichaMago, Habilidades, NomeHabilidade } from './tipos';
 import {
-  AVATARES_MAGO,
-  AVATAR_MAGA,
   ESCOLAS,
   FEITICOS,
   HABILIDADES,
@@ -25,7 +23,6 @@ const TEXTOS = {
     'pt-PT': 'Escolhe rapaz ou rapariga para começar!',
     'pt-BR': 'Escolha menino ou menina para começar!',
   },
-  avatar: { 'pt-PT': 'Escolhe o teu amigo', 'pt-BR': 'Escolha seu amigo' },
   tipo: {
     'pt-PT': 'Que tipo de mago queres ser?',
     'pt-BR': 'Que tipo de mago você quer ser?',
@@ -48,13 +45,9 @@ interface Props {
   aoComecar: (ficha: FichaMago) => void;
 }
 
-/** Criação do mago: rapaz ou rapariga, amigo, tipo de mago (escola de magia) e habilidades. */
+/** Criação do mago: rapaz ou rapariga, tipo de mago (escola de magia) e habilidades. */
 export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
   const [genero, setGenero] = useState<Genero | null>(null);
-  const [indiceAvatar, setIndiceAvatar] = useState(0);
-  // o primeiro avatar é o mago ou a maga, conforme o gênero
-  const avatares = AVATARES_MAGO.map((a, i) => (i === 0 && genero === 'f' ? AVATAR_MAGA : a));
-  const avatar = avatares[indiceAvatar];
   const [escolaId, setEscolaId] = useState<EscolaId>('fogo');
   const [habilidades, setHabilidades] = useState<Habilidades>(HABILIDADES_INICIAIS);
 
@@ -74,7 +67,6 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
     const energia = energiaMaxima(habilidades.energia);
     aoComecar({
       genero,
-      avatar,
       escola: escolaId,
       habilidades,
       pontosDeVida: VIDA_MAGO,
@@ -97,20 +89,6 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
 
       <div className="ficha-papel">
         <EscolherGenero idioma={idioma} genero={genero} aoEscolher={setGenero} />
-
-        <div className="ficha-rotulo">{t(TEXTOS.avatar, idioma)}</div>
-        <div className="avatares" role="group">
-          {avatares.map((a, i) => (
-            <button
-              key={i}
-              className={`avatar ${a === avatar ? 'avatar-escolhido' : ''}`}
-              onClick={() => setIndiceAvatar(i)}
-              aria-pressed={a === avatar}
-            >
-              {comIcones(a)}
-            </button>
-          ))}
-        </div>
 
         <div className="ficha-rotulo">{t(TEXTOS.tipo, idioma)}</div>
         <div className="escolas" role="group">

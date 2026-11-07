@@ -1,8 +1,6 @@
 import type { TextoPorIdioma } from '../../compartilhado/idioma';
 import type { Cena, Inimigo, NomeAtributo } from './tipos';
 
-export const AVATARES = ['[[menu/categoria-fabulas]]', '[[extras/ursinho]]', '[[historias/leao-rato]]', '[[cenas/coelho]]'];
-
 export const PONTOS_PARA_DISTRIBUIR = 6;
 export const ATRIBUTO_MINIMO = 1;
 export const ATRIBUTO_MAXIMO = 4;

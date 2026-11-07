@@ -4,13 +4,12 @@ import { type Genero, type Idioma, type TextoPorIdioma, preencher, t } from '../
 import { MOEDAS_INICIAIS, estatisticas, totalPocoes } from './itens';
 import { EscolherGenero } from './EscolherGenero';
 import { Moedas } from './Moedas';
-import { tituloPersonagem } from './personagem';
+import { avatarPersonagem, tituloPersonagem } from './personagem';
 import type { Atributos, FichaPersonagem, NomeAtributo } from './tipos';
 import {
   ATRIBUTOS,
   ATRIBUTO_MAXIMO,
   ATRIBUTO_MINIMO,
-  AVATARES,
   PONTOS_PARA_DISTRIBUIR,
   vidaMaxima,
 } from './historia';
@@ -18,7 +17,6 @@ import { Icone, comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
   titulo: { 'pt-PT': 'Cria o teu herói', 'pt-BR': 'Crie seu herói' },
-  amigo: { 'pt-PT': 'Escolhe o teu amigo', 'pt-BR': 'Escolha seu amigo' },
   pontos: {
     'pt-PT': 'Pontos para distribuir: {n}',
     'pt-BR': 'Pontos para distribuir: {n}',
@@ -47,7 +45,6 @@ interface Props {
 /** Tela de criação da ficha de personagem. */
 export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
   const [genero, setGenero] = useState<Genero | null>(null);
-  const [avatar, setAvatar] = useState(AVATARES[0]);
   const [atributos, setAtributos] = useState<Atributos>({
     forca: ATRIBUTO_MINIMO,
     agilidade: ATRIBUTO_MINIMO,
@@ -70,7 +67,6 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
     const vida = vidaMaxima(atributos.coragem);
     aoComecar({
       genero,
-      avatar,
       atributos,
       pontosDeVida: vida,
       pontosDeVidaMaximos: vida,
@@ -94,20 +90,6 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
 
       <div className="ficha-papel">
         <EscolherGenero idioma={idioma} genero={genero} aoEscolher={setGenero} />
-
-        <div className="ficha-rotulo">{t(TEXTOS.amigo, idioma)}</div>
-        <div className="avatares" role="group">
-          {AVATARES.map((a) => (
-            <button
-              key={a}
-              className={`avatar ${a === avatar ? 'avatar-escolhido' : ''}`}
-              onClick={() => setAvatar(a)}
-              aria-pressed={a === avatar}
-            >
-              {comIcones(a)}
-            </button>
-          ))}
-        </div>
 
         <TextoNarrado
           className="texto-grande"
@@ -165,7 +147,7 @@ export function ResumoFicha({ ficha, idioma }: { ficha: FichaPersonagem; idioma:
   return (
     <div className="resumo-ficha">
       <span className="resumo-avatar" aria-hidden="true">
-        {comIcones(ficha.avatar)}
+        {comIcones(avatarPersonagem('heroi', ficha.genero))}
       </span>
       <strong>{tituloPersonagem('heroi', ficha.genero)}</strong>
       <span>

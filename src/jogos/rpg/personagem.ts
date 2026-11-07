@@ -28,3 +28,9 @@ export function valoresPersonagem(tipo: TipoPersonagem, genero: Genero): Record<
     aoNome: `${feminino ? 'à' : 'ao'} ${nome}`,
   };
 }
+
+/** Figura do personagem na tela: a própria criança como herói, heroína, mago ou maga. */
+export function avatarPersonagem(tipo: TipoPersonagem, genero: Genero): string {
+  const figura = tipo === 'heroi' ? '🦸' : '🧙';
+  return `${figura}\u200d${genero === 'f' ? '♀' : '♂'}\ufe0f`;
+}
