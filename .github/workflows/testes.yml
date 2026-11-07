@@ -1,6 +1,6 @@
 name: Testes
 
-# Garante que todo texto das histórias tem áudio gerado (texto novo ou alterado exige "npm run audio:piper").
+# Garante que todo texto fixo do site tem áudio gerado (texto novo ou alterado exige "npm run audio:piper").
 on:
   push:
   pull_request:

@@ -12,6 +12,7 @@ export const TEXTOS_ENIGMA = {
   abrir: { 'pt-PT': 'Abrir', 'pt-BR': 'Abrir' },
   apagar: { 'pt-PT': 'Apagar', 'pt-BR': 'Apagar' },
   verificar: { 'pt-PT': 'Verificar', 'pt-BR': 'Verificar' },
+  ordem: { 'pt-PT': 'Ordem', 'pt-BR': 'Ordem' },
 } as const;
 
 /** Embaralha sem alterar a lista original. */

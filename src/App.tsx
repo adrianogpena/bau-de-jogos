@@ -5,6 +5,7 @@ import { Creditos } from './Creditos';
 import { comIcones } from './compartilhado/icones';
 
 const TITULO = { 'pt-PT': 'Baú de Jogos', 'pt-BR': 'Baú de Jogos' };
+const ROTULO_IDIOMA = { 'pt-PT': 'Idioma', 'pt-BR': 'Idioma' };
 const CREDITOS = { 'pt-PT': 'Créditos', 'pt-BR': 'Créditos' };
 const ESCOLHA_JOGO = {
   'pt-PT': 'O que vamos jogar hoje?',
@@ -46,7 +47,7 @@ export function App() {
           <img className="marca-icone" src={`${import.meta.env.BASE_URL}icone-192.png`} alt="" draggable={false} />
           <h1>{t(TITULO, idioma)}</h1>
         </div>
-        <div className="seletor-idioma" role="group" aria-label="Idioma">
+        <div className="seletor-idioma" role="group" aria-label={t(ROTULO_IDIOMA, idioma)}>
           {IDIOMAS.map(({ codigo, rotulo }) => (
             <button
               key={codigo}

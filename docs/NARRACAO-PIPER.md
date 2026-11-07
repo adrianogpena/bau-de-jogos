@@ -8,7 +8,7 @@ Ambas são vozes de qualidade média, treinadas com dados CC0 (domínio público
 
 Cada frase lida vira um arquivo `public/audio/<variante>/<voz>/t/<código do texto>.mp3`.
 
-- **App publicado:** só toca as frases já geradas e guardadas no projeto: as histórias dos jogos de escrita e leitura. O resto fica com a voz do aparelho.
+- **App publicado:** só toca as frases já geradas e guardadas no projeto: as histórias dos jogos de escrita e leitura e todos os textos fixos do site (os pares `'pt-PT'`/`'pt-BR'` do código, com o gênero do herói/mago expandido). Números de 0 a 100 têm áudio próprio (por extenso, por variante) e a frase é tocada em pedaços (`src/compartilhado/pecasDaFala.ts`): "Tiraste 15 contra CA 12" usa os áudios "Tiraste", "quinze", "contra CA", "doze". Nomes de inimigos, itens, feitiços etc. são gerados em todas as combinações. Números acima de 100 ficam com a voz do aparelho.
 - **Servidor de testes (`npm run servidor`):** uma frase sem áudio é gerada na hora (1 a 2 segundos) e fica guardada em `public/audio/`. Assim dá para ouvir o RPG e o escape room com a voz do Piper.
 - **Gerar todas as histórias de uma vez:** `npm run audio:piper` (com `-- --simular` só conta as frases). Se uma história mudar, rode de novo: só as frases novas são geradas.
 
@@ -19,7 +19,7 @@ npm test                          # falha se alguma frase das histórias estiver
 npm run audio:piper -- --podar    # apaga os áudios de textos que não existem mais
 ```
 
-O teste (`scripts/audio.test.mjs`) calcula todas as frases das histórias nas duas variantes e confere se o `.mp3` de cada uma existe e não está vazio. Como o nome do arquivo é o hash do texto, **qualquer texto alterado ou acrescentado fica sem áudio** e o teste falha.
+O teste de rótulos (`scripts/rotulos.test.mjs`) falha se houver texto escrito direto no JSX, fora de um par `'pt-PT'`/`'pt-BR'`. O teste (`scripts/audio.test.mjs`) calcula todas as frases fixas do site (`frasesDoSite()` em `scripts/frases-narradas.mjs`) nas duas variantes e confere se o `.mp3` de cada uma existe e não está vazio. Como o nome do arquivo é o hash do texto, **qualquer texto fixo alterado ou acrescentado fica sem áudio** e o teste falha.
 
 Fluxo ao mexer em uma história: edite o texto, rode `npm run audio:piper` (gera só o que falta), ouça as frases novas e inclua `public/audio/` no commit. O teste roda sozinho no `git push` (hook em `.githooks/pre-push`, ativado por `npm install`) e no GitHub (Testes e Publicar).
 

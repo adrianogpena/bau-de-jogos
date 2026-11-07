@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Gera com o Piper o áudio de todas as frases das histórias (jogos de escrita e leitura), para as vozes
+ * Gera com o Piper o áudio de todas as frases fixas do site (histórias dos jogos de escrita e leitura e textos do RPG, escape etc.), para as vozes
  * de src/compartilhado/vozes-narrador.json. Os arquivos ficam em public/audio/<variante>/<voz>/t/<hash>.mp3,
  * o mesmo lugar onde o app os procura. Guia: docs/NARRACAO-PIPER.md
  *
@@ -14,7 +14,7 @@ import { existsSync, readdirSync } from 'node:fs';
 import { rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { arquivoAudio, frasesDasHistorias, lerVozes, pastaAudio } from './frases-narradas.mjs';
+import { arquivoAudio, frasesDoSite, lerVozes, pastaAudio } from './frases-narradas.mjs';
 import { raiz } from './textos.mjs';
 
 const args = { simular: false, podar: false, voz: null };
@@ -38,7 +38,8 @@ async function principal() {
   const vozes = await lerVozes();
   const python = process.env.PIPER_PYTHON || 'python3';
   const pastaModelos = path.resolve(raiz, process.env.PIPER_MODELOS || 'modelos-piper');
-  const frases = await frasesDasHistorias();
+  const { frases, dinamicos } = await frasesDoSite();
+  if (dinamicos.length > 0) console.log(`(${dinamicos.length} textos com partes calculadas, como números e nomes de inimigos, ficam de fora)`);
 
   for (const voz of vozes.filter((v) => !args.voz || v.id === args.voz)) {
     const todas = [...frases[voz.variante]];

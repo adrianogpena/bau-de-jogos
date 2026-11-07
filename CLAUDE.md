@@ -112,8 +112,7 @@ npm run dev        # servidor de desenvolvimento (acessível na rede local para 
 npm run servidor   # servidor local de testes, sempre na porta 5199 (http://localhost:5199/bau-de-jogos/)
 npm run build      # build de produção
 npm run typecheck  # checagem de tipos
-npm test          # confere que toda frase das histórias tem áudio (roda sozinho no push)
-npm run audio      # gera a narração das histórias com ElevenLabs (vozes em scripts/vozes.json; veja docs/NARRACAO-ELEVENLABS.md)
+npm test          # confere que todo texto fixo do site tem áudio (roda sozinho no push)
 ```
 
 Narrador: voz Piper (Tugão em pt-PT, Faber em pt-BR) com a voz do aparelho como reserva. Áudios das histórias: `npm run audio:piper`; veja `docs/NARRACAO-PIPER.md`.

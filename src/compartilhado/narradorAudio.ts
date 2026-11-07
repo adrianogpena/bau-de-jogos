@@ -1,5 +1,6 @@
 import type { Idioma } from './idioma';
 import { hashTexto } from './hashTexto';
+import { pecasDaFala } from './pecasDaFala';
 import config from './vozes-narrador.json';
 
 /**
@@ -8,7 +9,7 @@ import config from './vozes-narrador.json';
  * Cada fala tem um arquivo `audio/<variante>/<voz>/t/<hash do texto>.mp3`. No servidor de testes
  * (`npm run servidor`), se o arquivo ainda não existe, ele é gerado na hora com o Piper e fica guardado
  * em `public/audio/`. Se o áudio não puder ser tocado, a fala cai na voz do aparelho.
- * No app publicado só existem os áudios já gerados (as histórias de escrita e leitura); o resto fica com a voz do aparelho.
+ * No app publicado só existem os áudios já gerados (textos fixos do site; números de 0 a 100 e nomes têm áudio próprio, ver pecasDaFala.ts); o resto fica com a voz do aparelho.
  */
 
 export interface VozNarrador {
@@ -99,25 +100,33 @@ class FalaAudio implements FalaNarrada {
   ) {}
 
   falar() {
-    const url = `${import.meta.env.BASE_URL}audio/${this.idioma}/${this.voz.id}/t/${hashTexto(this.texto)}.mp3?t=${encodeURIComponent(this.texto)}`;
-    const audio = new Audio(url);
-    this.audio = audio;
     falaAtual = this;
+    // pedaços tocados em sequência: os números têm áudio próprio (ver pecasDaFala)
+    const pecas = pecasDaFala(this.texto, this.idioma);
+    if (pecas.length === 0) {
+      this.onend?.();
+      return;
+    }
+    const pesos = pecas.map((p) => p.length + 2);
+    const pesoTotal = pesos.reduce((s, p) => s + p, 0);
 
-    // palavras e o momento aproximado em que cada uma começa (proporcional ao tamanho)
+    // palavras do texto e o momento aproximado em que cada uma começa (proporcional ao tamanho)
     const palavras = [...this.texto.matchAll(/\S+/g)].map((m) => ({ inicio: m.index ?? 0, peso: m[0].length + 2 }));
-    const total = palavras.reduce((s, p) => s + p.peso, 0);
+    const totalPalavras = palavras.reduce((s, p) => s + p.peso, 0);
     let ultima = -1;
+    let indicePeca = 0;
+    let pesoAntes = 0;
     const acompanhar = () => {
-      if (this.parada || !this.audio || !Number.isFinite(audio.duration) || audio.duration <= 0) {
+      const audio = this.audio;
+      if (this.parada || !audio || !Number.isFinite(audio.duration) || audio.duration <= 0) {
         this.quadro = requestAnimationFrame(acompanhar);
         return;
       }
-      const fracao = audio.currentTime / audio.duration;
+      const fracao = (pesoAntes + (audio.currentTime / audio.duration) * pesos[indicePeca]) / pesoTotal;
       let acumulado = 0;
       let indice = 0;
       for (let i = 0; i < palavras.length; i++) {
-        if (fracao * total >= acumulado) indice = i;
+        if (fracao * totalPalavras >= acumulado) indice = i;
         acumulado += palavras[i].peso;
       }
       if (indice !== ultima) {
@@ -129,36 +138,52 @@ class FalaAudio implements FalaNarrada {
 
     let comecou = false;
     let caiu = false;
-    const cair = () => {
-      // sem áudio (arquivo ausente, Piper indisponível...): usa a voz do aparelho
-      if (this.parada || comecou || caiu) return;
+    const cair = (i: number) => {
+      // sem áudio (arquivo ausente, Piper indisponível...): o que falta é dito pela voz do aparelho
+      if (this.parada || caiu) return;
       caiu = true;
       this.parar();
       this.parada = false;
+      cancelAnimationFrame(this.quadro);
       if (!('speechSynthesis' in window)) {
         this.onerror?.({ error: 'audio-indisponivel' });
         return;
       }
-      const reserva = new FalaAparelho(this.texto, this.idioma, this.opcoes);
-      reserva.onstart = this.onstart;
-      reserva.onboundary = this.onboundary;
+      const resto = i === 0 ? this.texto : pecas.slice(i).join(' ');
+      const reserva = new FalaAparelho(resto, this.idioma, this.opcoes);
+      reserva.onstart = comecou ? null : this.onstart;
+      reserva.onboundary = i === 0 ? this.onboundary : null;
       reserva.onend = this.onend;
       reserva.onerror = this.onerror;
       reserva.falar();
     };
 
-    audio.onplaying = () => {
-      if (comecou) return;
-      comecou = true;
-      this.onstart?.();
-      this.quadro = requestAnimationFrame(acompanhar);
+    const tocar = (i: number) => {
+      indicePeca = i;
+      const texto = pecas[i];
+      const url = `${import.meta.env.BASE_URL}audio/${this.idioma}/${this.voz.id}/t/${hashTexto(texto)}.mp3?t=${encodeURIComponent(texto)}`;
+      const audio = new Audio(url);
+      this.audio = audio;
+      audio.onplaying = () => {
+        if (comecou) return;
+        comecou = true;
+        this.onstart?.();
+        this.quadro = requestAnimationFrame(acompanhar);
+      };
+      audio.onended = () => {
+        if (this.parada) return;
+        pesoAntes += pesos[i];
+        if (i + 1 < pecas.length) {
+          tocar(i + 1);
+        } else {
+          cancelAnimationFrame(this.quadro);
+          this.onend?.();
+        }
+      };
+      audio.onerror = () => cair(i);
+      audio.play().catch(() => cair(i));
     };
-    audio.onended = () => {
-      cancelAnimationFrame(this.quadro);
-      if (!this.parada) this.onend?.();
-    };
-    audio.onerror = cair;
-    audio.play().catch(cair);
+    tocar(0);
   }
 
   parar() {

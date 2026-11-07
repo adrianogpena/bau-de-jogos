@@ -35,7 +35,7 @@ export function Ordem({ enigma, idioma, aoAcertar }: PropsEnigma<EnigmaOrdem>) {
 
   return (
     <div className="enigma">
-      <div className="fila-ordem" aria-label="ordem">
+      <div className="fila-ordem" aria-label={t(TEXTOS_ENIGMA.ordem, idioma)}>
         {enigma.itens.map((_, posicao) => (
           <span key={posicao} className={`casa-ordem ${errou ? 'casa-erro' : ''}`}>
             {escolhidos[posicao] !== undefined ? comIcones(enigma.itens[escolhidos[posicao]]) : posicao + 1}

@@ -1,5 +1,7 @@
 /**
- * Confere que toda frase das histórias tem o áudio gerado com a voz de cada variante.
+ * Confere que toda frase fixa do site tem o áudio gerado com a voz de cada variante: as histórias dos jogos de
+ * escrita e leitura e todos os textos 'pt-PT'/'pt-BR' do código (RPG, escape room, achar itens, menus...).
+ * Textos com partes calculadas (números, nome do inimigo) não entram.
  *
  * Se um texto foi alterado ou acrescentado, o nome do arquivo (hash do texto) muda e o áudio novo não existe:
  * o teste falha e diz o que fazer (`npm run audio:piper`). Áudios que sobraram de textos antigos são avisados.
@@ -9,14 +11,15 @@
 import assert from 'node:assert/strict';
 import { existsSync, readdirSync, statSync } from 'node:fs';
 import { before, describe, test } from 'node:test';
-import { arquivoAudio, frasesDasHistorias, lerVozes, pastaAudio } from './frases-narradas.mjs';
+import { arquivoAudio, frasesDoSite, lerVozes, pastaAudio } from './frases-narradas.mjs';
 
 let vozes;
 let frases;
+let dinamicos;
 
 before(async () => {
   vozes = await lerVozes();
-  frases = await frasesDasHistorias();
+  ({ frases, dinamicos } = await frasesDoSite());
 });
 
 describe('áudio do narrador', () => {
@@ -55,6 +58,10 @@ describe('áudio do narrador', () => {
       }
     }
     assert.deepEqual(vazios, [], 'áudios vazios ou corrompidos: apague-os e rode "npm run audio:piper"');
+  });
+
+  test('textos com partes calculadas, sem áudio (aviso)', (t) => {
+    if (dinamicos.length > 0) t.diagnostic(`${dinamicos.length} textos com partes calculadas não são conferidos (mensagens de luta, contas...)`);
   });
 
   test('áudios de textos que não existem mais (aviso)', (t) => {
