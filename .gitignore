@@ -38,3 +38,4 @@ modelos-piper
 
 # Bancos de fonemas baixados para comparar pronúncias (docs/VALIDACAO-FONEMAS.md)
 referencias-fonemas
+.venv-piper

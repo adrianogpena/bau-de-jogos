@@ -2,7 +2,7 @@
 
 Objetivo: conferir se o Piper pronuncia direito as palavras do site (as de hoje e as que entrarem), comparando os fonemas que ele usa com um banco de pronúncias de referência. Quando uma palavra divergir, decide-se se ela precisa de ajuste (veja "O que fazer com uma divergência").
 
-Estado: **só pt-BR** está implementado (banco BIPA). pt-PT está pendente (veja "Pt-PT").
+Estado: **só pt-BR** está implementado (bancos BIPA e MFA). pt-PT está pendente (veja "Pt-PT").
 
 ## Como o Piper pronuncia
 
@@ -18,17 +18,19 @@ O Piper não lê letras. Ele converte o texto em fonemas com o **espeak-ng** e o
 | pt-BR | [Aeiouadô](https://sites.google.com/view/nilc-usp/aeiouad%C3%B4) | próprio | não confirmada | Candidato (falar de São Paulo). |
 | pt-PT | [pt-lex](https://github.com/msamribeiro/pt-lex) | próprio (`phoneset.yaml`) | MIT | Candidato. Só ~1000 verbetes revisados à mão (`lex.man`); o resto é gerado automaticamente (`lex.auto`). |
 | pt-PT | [LUPo](https://celga-iltec.uc.pt/lupo/) | não confirmada | não confirmada | Candidato. Confirmar licença e formato. |
-| ambas | [MFA Portuguese dictionary v2.0.0](https://mfa-models.readthedocs.io/en/latest/dictionary/Portuguese/Portuguese%20MFA%20dictionary%20v2_0_0.html) | conjunto do MFA | não confirmada | Candidato. Feito para alinhamento de fala, segue a variante de prestígio. |
+| pt-BR | [MFA Portuguese (Brazil) dictionary v2.0.0a](https://mfa-models.readthedocs.io/en/latest/dictionary/Portuguese/Portuguese%20%28Brazil%29%20MFA%20dictionary%20v2_0_0a.html) | conjunto do MFA | CC BY 4.0 | **Em uso como segundo voto** (`--banco mfa`). 33 mil palavras, sem acento tônico, gerado por G2P (tem erros: org, lindas). |
+| pt-PT | [MFA Portuguese (Portugal) dictionary](https://mfa-models.readthedocs.io/en/latest/dictionary/Portuguese/Portuguese%20%28Portugal%29%20MFA%20dictionary%20v2_0_0.html) | conjunto do MFA | CC BY 4.0 | Candidato para pt-PT (ainda não rodado). |
 
 Cuidados com a referência:
 
 - O BIPA sai do Wiktionary e parte dos fonemas dele vem do próprio eSpeak, então concordar com ele não prova que a pronúncia está certa. Divergir é o sinal útil.
-- O BIPA é só de palavras isoladas e tem muitas formas flexionadas faltando (veja "Limites").
+- O MFA é gerado por G2P, não revisado à mão: tem erros (org, lindas), não marca o acento tônico e não escreve a consoante nasal depois da vogal nasal. Serve de segundo voto: se BIPA e MFA concordam contra o espeak-ng, ouvir a palavra primeiro; se só o MFA diverge, quase sempre é notação.
+- O BIPA é só de palavras isoladas e tem muitas formas flexionadas faltando (veja "Limites"). O MFA cobre mais flexões (270 palavras do site só têm entrada nele).
 - Licença CC BY-SA 4.0: o arquivo baixado fica fora do git (`referencias-fonemas/`). Se algum dado derivado for publicado no repositório, cite a fonte.
 
 ## Como rodar (pt-BR)
 
-Pré-requisitos: o ambiente do Piper (`pip install piper-tts`, o mesmo de `docs/NARRACAO-PIPER.md`) e o modelo `modelos-piper/pt_BR-faber-medium.onnx`.
+Pré-requisitos: o Python do projeto com o Piper (`.venv-piper/`, na raiz, fora do git; nada a instalar) e o modelo `modelos-piper/pt_BR-faber-medium.onnx` (veja `docs/NARRACAO-PIPER.md`). Nos comandos abaixo, `$PIPER_PYTHON` é `.venv-piper/Scripts/python`. Se a pasta não existir (outra máquina): `python -m venv .venv-piper` e `.venv-piper/Scripts/python -m pip install piper-tts`.
 
 ```bash
 # 1. baixar o banco (uma vez; vai para referencias-fonemas/, fora do git)
@@ -39,15 +41,20 @@ curl -L -o referencias-fonemas/bipa.tsv \
 # 2. listar as palavras distintas das frases narradas (pt-PT e pt-BR)
 node scripts/fonemas/extrair-palavras.mjs
 
-# 3. comparar (use o python que tem o Piper, como PIPER_PYTHON)
+# 3. comparar com o BIPA
 $PIPER_PYTHON scripts/fonemas/comparar_fonemas.py pt-BR            # --limite N muda quantas divergências aparecem
+
+# 4. baixar o MFA (uma vez; fora do git) e comparar com ele
+mkdir -p referencias-fonemas/mfa
+curl -L -o referencias-fonemas/mfa/br.dict   https://github.com/MontrealCorpusTools/mfa-models/releases/download/dictionary-portuguese_brazil_mfa-v2.0.0a/portuguese_brazil_mfa.dict
+$PIPER_PYTHON scripts/fonemas/comparar_fonemas.py pt-BR --banco mfa   # gera relatorio-pt-BR-mfa.tsv; no Windows, use PYTHONIOENCODING=utf-8
 ```
 
-Saída: resumo no terminal e `referencias-fonemas/relatorio-pt-BR.tsv` (palavra, distância, fonemas do Piper, melhor transcrição da referência, e a lista das palavras sem entrada no banco). Rode de novo ao acrescentar textos.
+Saída: resumo no terminal e `referencias-fonemas/relatorio-pt-BR.tsv` (BIPA) ou `relatorio-pt-BR-mfa.tsv` (MFA): palavra, distância, fonemas do Piper, melhor transcrição da referência, e a lista das palavras sem entrada no banco. Rode de novo ao acrescentar textos.
 
 ### Como a comparação funciona
 
-- Para cada palavra, pega os fonemas do espeak-ng pelo Piper e todas as transcrições do BIPA dos dialetos Brasil, Rio de Janeiro, São Paulo e Sul. Fica com a mais próxima (distância de edição) e relata essa distância. Distância 0 = igual.
+- Para cada palavra, pega os fonemas do espeak-ng pelo Piper e todas as transcrições do BIPA dos dialetos Brasil, Rio de Janeiro, São Paulo e Sul (ou, com `--banco mfa`, as do dicionário do MFA, que não tem dialetos). Fica com a mais próxima (distância de edição) e relata essa distância. Distância 0 = igual.
 - Antes de comparar, os dois lados passam por `normalizar()`, que apaga diferenças de notação que não mudam a palavra: acento tônico e sílabas, r em todas as formas (ɾ, ʁ, x, h...), vogais reduzidas (ɪ/i, ʊ/u, ɐ/a), semivogais de ditongo, r final, segmentos opcionais `(ʁ)`, `(j)`, nasal final e vogal nasalizada antes de m/n/nh.
 - Continuam contando: vogal aberta contra fechada (e/ɛ, o/ɔ), chiado (ti/di contra tʃi/dʒi), lh, nh, vogal nasal contra oral, consoante a mais ou a menos.
 
@@ -69,6 +76,24 @@ Saída: resumo no terminal e `referencias-fonemas/relatorio-pt-BR.tsv` (palavra,
 | chapeuzinho, ordens, debaixo, leia, jeans, hall, app, toc, ops, skate | vários | vários | Estrangeirismos, plural e ditongos com notação diferente. Ouvir só se algum tocar em texto de criança. |
 
 Ainda não foram ouvidas; a tabela é só a leitura dos fonemas. As 2 de "provável erro" (meta, topo) merecem uma amostra de áudio antes de qualquer ajuste.
+
+### Resultado com o MFA (2026-11-07, pt-BR, voz Faber)
+
+1634 palavras; 1327 têm entrada no MFA (1239 no BIPA); **1044 iguais**, 283 diferentes (229 com distância 1, 44 com 2, 10 com 3 ou mais). 1057 palavras estão nos dois bancos; 270 só no MFA, 182 só no BIPA.
+
+- **Nos dois bancos, as mesmas 16 divergem do Piper:** chapeuzinho, velhinho, um, num, debaixo, aladim, assim, fim, mim, jardim, jeans, hall, névoa, ordens, skate, topo. É a lista da tabela acima: o MFA não acrescenta palavra nova. meta não aparece: o MFA lista `metɐ` e `mɛtɐ`.
+- **185 só divergem no MFA** (o BIPA concorda com o Piper), quase todas notação: `i`/`u` no lugar de `e`/`o` átonos (esconde `iskõde`, descubra `dʒiskubɾɐ`), `x` no "r" de fim de sílaba, acento tônico ausente. 5 só divergem no BIPA.
+- **Formas que o BIPA não tem** (acertou, desenhos, escorregou, encontrou...) agora têm referência; as divergências delas são do mesmo tipo (nasal, "e" inicial reduzido), nenhuma indica erro claro.
+- **O que o MFA diz sobre os ajustes acima:**
+
+| Ajuste | MFA |
+|---|---|
+| nasal sem `n`/`m` (mim, jeans, aladim, ordens) | Concorda: nunca escreve a consoante depois da vogal nasal (146 de 32.992 palavras). Mas também tira o `n` onde o ouvido preferiu mantê-lo (dentro `dẽtɾu`, aventura `avẽtuɾɐ`). |
+| final `ɐ`→`a` (meta, lua, aventura) | **Não confirma:** `ɐ` final em 5615 palavras, `a` em 1846 (`mɛtɐ`, `luɐ`). O `a` é correção do modelo Faber, não de dicionário. |
+| final `ʊ`→`o` (topo) | Não confirma: `topu`, como o BIPA. |
+| `ɾw`→`ɾu` (dentro) | Concorda: `dẽtɾu`, `kwatɾu`, `vidɾu`. |
+| `ɾɾ` em grupo e em fim de sílaba | Não mede: só tem `ɾ` e `x`. |
+| colher `koljˈɛɾ` | Dividido: `koʎex`, `koʎɛx`, `kuʎex`. |
 
 ## Ajustes feitos a partir da comparação (ouvidos em frases)
 
@@ -264,7 +289,7 @@ Ainda sem solução (rodada 4): **Goblin** (`ɡoblˈĩm`: o "go" devia ser mais 
 - **Palavra sozinha não é palavra na frase.** O espeak-ng gera fonemas diferentes para a mesma palavra isolada e dentro da frase (meta e topo acima). `comparar_fonemas.py` fonemiza cada palavra sozinha, então pode acusar divergência que não existe na frase e perder uma que existe. Ao testar um ajuste, ouça sempre a palavra dentro de uma frase real do site.
 - Os números e palavras soltas (`AJUSTES_PT_BR`) são o único caso em que a palavra é falada sozinha pelo app.
 
-- **395 palavras sem entrada no BIPA.** Quase todas são formas flexionadas ou com hífen (`acertou`, `aplaudiram`, `abre-te`, `acalmá-lo`, `comê-lo`), mais siglas e nomes (`app`, `arasaac`, `bremen`). A lista completa fica na última linha do relatório. Para essas não há validação automática ainda. Ideia futura: validar a flexão pela raiz, ou usar um segundo banco (Aeiouadô, MFA).
+- **395 palavras sem entrada no BIPA** (o MFA cobre parte delas: 307 ficam sem entrada nele; as 270 só do MFA são as formas flexionadas). Quase todas são formas flexionadas ou com hífen (`acertou`, `aplaudiram`, `abre-te`, `acalmá-lo`, `comê-lo`), mais siglas e nomes (`app`, `arasaac`, `bremen`). A lista completa fica na última linha do relatório. Para essas não há validação automática ainda. Ideia futura: validar a flexão pela raiz, ou usar mais um banco (Aeiouadô).
 - **Possível vazamento de variante no pt-BR:** formas como `abre-te` aparecem na lista de palavras da variante pt-BR. Conferir de onde vêm esses textos (o CLAUDE.md pede uma variante por texto).
 - A palavra é fonemizada **sozinha**; no meio da frase o espeak-ng pode pôr o acento ou ligar palavras de outro jeito. Isso não é medido.
 - A referência concorda com o espeak-ng em parte dos casos por origem comum (veja "Cuidados com a referência").
@@ -293,6 +318,7 @@ Pendente. Passos propostos:
 - pt-lex (léxico de português europeu, MIT): <https://github.com/msamribeiro/pt-lex>
 - LUPo (Portuguese Unisyn Lexicon): <https://celga-iltec.uc.pt/lupo/>
 - Aeiouadô (dicionário de pronúncia, falar de São Paulo; Mendonça e Aluísio, Interspeech 2014): <https://sites.google.com/view/nilc-usp/aeiouad%C3%B4>
+- Montreal Forced Aligner, dicionário Portuguese (Brazil) v2.0.0a (CC BY 4.0, usado em `--banco mfa`): <https://mfa-models.readthedocs.io/en/latest/dictionary/Portuguese/Portuguese%20%28Brazil%29%20MFA%20dictionary%20v2_0_0a.html>
 - Montreal Forced Aligner, dicionário Portuguese v2.0.0: <https://mfa-models.readthedocs.io/en/latest/dictionary/Portuguese/Portuguese%20MFA%20dictionary%20v2_0_0.html>
 - Dicionário de regras do espeak-ng para português (espelho Chromium; conferir a versão atual no repositório oficial do espeak-ng): <https://chromium.googlesource.com/chromiumos/third_party/espeak-ng/+/cd20ac3b30963450080f20b0dbd1cc8767fa6a1d/dictsource/pt_list>
 - Vozes do Piper: <https://huggingface.co/rhasspy/piper-voices>

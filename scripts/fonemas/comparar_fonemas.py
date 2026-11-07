@@ -3,9 +3,10 @@ Guia: docs/VALIDACAO-FONEMAS.md
 
   python comparar_fonemas.py pt-BR            # usa referencias-fonemas/palavras-pt-BR.json e bipa.tsv
   python comparar_fonemas.py pt-BR --limite 40
+  python comparar_fonemas.py pt-BR --banco mfa    # dicionário do Montreal Forced Aligner (referencias-fonemas/mfa/br.dict)
 
-Saída: referencias-fonemas/relatorio-<variante>.tsv (palavra, distância, fonemas do Piper, melhor da referência).
-Só pt-BR por enquanto (banco BIPA)."""
+Saída: referencias-fonemas/relatorio-<variante>.tsv (palavra, distância, fonemas do Piper, melhor da referência);
+com --banco mfa, relatorio-<variante>-mfa.tsv. Só pt-BR por enquanto (bancos BIPA e MFA)."""
 import csv
 import json
 import re
@@ -85,12 +86,25 @@ def carregar_referencia():
     return banco
 
 
+def carregar_mfa():
+    banco = {}
+    with open(PASTA / "mfa" / "br.dict", encoding="utf-8") as f:
+        for linha in f:
+            campos = linha.rstrip("\n").split("\t")
+            if len(campos) < 6 or campos[0] in ("<eps>", "<unk>"):
+                continue
+            ipa = campos[5].replace(" ", "")
+            banco.setdefault(campos[0].lower(), {}).setdefault(normalizar(ipa), ipa)
+    return banco
+
+
 def main():
     variante = sys.argv[1]
+    mfa = "--banco" in sys.argv and sys.argv[sys.argv.index("--banco") + 1] == "mfa"
     limite = int(sys.argv[sys.argv.index("--limite") + 1]) if "--limite" in sys.argv else 40
     palavras = json.loads((PASTA / f"palavras-{variante}.json").read_text(encoding="utf-8"))
     voz = PiperVoice.load(str(RAIZ / "modelos-piper" / MODELOS[variante]))
-    banco = carregar_referencia()
+    banco = carregar_mfa() if mfa else carregar_referencia()
 
     linhas, sem_banco = [], []
     for palavra in palavras:
@@ -104,7 +118,7 @@ def main():
         linhas.append((palavra, d, piper, melhor[1], len(banco[palavra])))
 
     linhas.sort(key=lambda l: (-l[1], l[0]))
-    saida = PASTA / f"relatorio-{variante}.tsv"
+    saida = PASTA / f"relatorio-{variante}{'-mfa' if mfa else ''}.tsv"
     with open(saida, "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f, delimiter="\t")
         w.writerow(["palavra", "distancia", "piper", "melhor_referencia", "variantes_na_referencia"])
