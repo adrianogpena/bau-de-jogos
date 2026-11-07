@@ -21,9 +21,68 @@ CONFIG = SynthesisConfig(length_scale=1.15, noise_scale=0.4, noise_w_scale=0.5)
 PAUSA_ENTRE_FRASES = 0.25  # segundos
 
 
+# Palavras da voz pt-BR que o espeak escreve de um jeito que soa mal na frase (testado ouvindo frases inteiras).
+# Chave: fonemas da palavra como o espeak os gera (na frase e sozinha); valor: fonemas usados no lugar.
+TROCAS_PALAVRA_PT_BR = {
+    "mˈɛtɐ": "mˈɛta",  # meta: o "a" final reduzido some
+    "mˈetɐ": "mˈɛta",  # meta sozinha: o espeak abre o "e" só na frase
+    "tˈopʊ": "tˈopo",  # topo: o "ʊ" final soa como "r"
+    "tˈɔpʊ": "tˈopo",  # topo sozinha: o espeak abre o "o" só na frase
+}
+TROCAS_PALAVRA_PT_BR.update(
+    {
+        "lˈuɐ": "lˈua",  # lua
+        "ˌaɡɾadesˈew": "aɡɾˌadesˈew",  # agradeceu: acento secundário no "gra"
+        "vˌeʎˈiɲʊ": "vˌɛljˈiɲʊ",  # velhinho
+        "vˌeʎˈiɲɐ": "vˌɛljˈiɲɐ",  # velhinha
+        # vogal nasal + consoante nasal: o espeak acrescenta um "n"/"ŋ" que soa estranho; o BIPA só marca a vogal
+        "ˌeskõndʒˈidɐz": "ˈeːskõdʒˈidɐz",  # escondidas (já com o "e" longo, como em espelho)
+        "dʒˈins": "dʒˈĩs",  # jeans
+        "ɡɾˌatˈuɪtʊ": "ɡɾatuˈitu",  # gratuito
+        "dˈẽntɾw": "dˈẽntɾu",  # dentro
+        "ˌavẽntˈuɾɐ": "avẽntˈuɾa",  # aventura
+        "mˈĩm": "mˈĩ",  # mim
+        "bɾĩŋkˈaɾ": "bɾĩnkˈaɾ",  # brincar
+        "ˈɔɾdeɪns": "ˈɔɾɾdẽĩs",  # ordens: com um só "ɾ" o modelo engole o "r" ("odens")
+    }
+)
+# Só no meio da frase: no começo (ex.: o título "Chapeuzinho Vermelho") o fonema do espeak soa melhor, e este engole o "ch".
+TROCAS_PALAVRA_NO_MEIO_PT_BR = {
+    "ʃˌapeʊzˈiɲʊ": "ʃapˌɛʊzˈiɲʊ",  # chapeuzinho
+}
+PONTUACAO = ",.!?:;"
+# O espeak devolve as vogais nasais decompostas (vogal + til); as chaves são comparadas nessa forma.
+TROCAS_PALAVRA_PT_BR = {unicodedata.normalize("NFD", k): v for k, v in TROCAS_PALAVRA_PT_BR.items()}
+TROCAS_PALAVRA_NO_MEIO_PT_BR = {unicodedata.normalize("NFD", k): v for k, v in TROCAS_PALAVRA_NO_MEIO_PT_BR.items()}
+
+
+def trocar_palavras(fonemas):
+    palavras, atual = [], []
+    for f in fonemas:
+        if f == " ":
+            palavras.append(atual)
+            atual = []
+        else:
+            atual.append(f)
+    palavras.append(atual)
+    saida = []
+    for palavra in palavras:
+        cauda = []
+        while palavra and palavra[-1] in PONTUACAO:
+            cauda.insert(0, palavra.pop())
+        troca = TROCAS_PALAVRA_PT_BR.get("".join(palavra))
+        if troca is None and saida:
+            troca = TROCAS_PALAVRA_NO_MEIO_PT_BR.get("".join(palavra))
+        if saida:
+            saida.append(" ")
+        saida += (list(unicodedata.normalize("NFD", troca)) if troca else palavra) + cauda
+    return saida
+
+
 def corrigir_fonemas(fonemas, pt_br):
     if not pt_br:
         return fonemas
+    fonemas = trocar_palavras(fonemas)
     saida = []
     inicio_palavra = True
     i = 0

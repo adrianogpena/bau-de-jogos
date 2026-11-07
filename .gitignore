@@ -35,3 +35,6 @@ split-output
 # Modelos de voz do Piper (grandes, baixados à parte)
 modelos-piper
 
+
+# Bancos de fonemas baixados para comparar pronúncias (docs/VALIDACAO-FONEMAS.md)
+referencias-fonemas

@@ -49,6 +49,10 @@ npm run servidor     # http://localhost:5199/bau-de-jogos/
 
 Edite `src/compartilhado/vozes-narrador.json` (id, nome, variante e arquivo do modelo), coloque o `.onnx` em `modelos-piper/` e rode `npm run audio:piper`. O app usa a primeira voz de cada variante. Outras vozes: <https://huggingface.co/rhasspy/piper-voices>.
 
+## Conferir a pronúncia
+
+Para comparar os fonemas do Piper com um banco de pronúncias (palavras de hoje e novas): `docs/VALIDACAO-FONEMAS.md`.
+
 ## Limites
 
 - Os áudios do app publicado não ficam guardados para uso offline; sem internet, a leitura usa a voz do aparelho.

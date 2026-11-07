@@ -10,6 +10,7 @@
  *   npm run audio:piper -- --podar       # apaga os áudios de textos que não existem mais
  *   npm run audio:piper -- --refazer     # gera de novo todos, mesmo os que já existem
  *   npm run audio:piper -- --refazer-textos zero,cem   # gera de novo só esses textos (separados por vírgula)
+ *   npm run audio:piper -- --voz faber --refazer-palavras meta,topo   # gera de novo todo texto que contém essas palavras
  */
 import { spawn } from 'node:child_process';
 import { existsSync, readdirSync } from 'node:fs';
@@ -19,13 +20,14 @@ import path from 'node:path';
 import { arquivoAudio, frasesDoSite, lerVozes, pastaAudio } from './frases-narradas.mjs';
 import { raiz } from './textos.mjs';
 
-const args = { simular: false, podar: false, refazer: false, refazerTextos: null, voz: null };
+const args = { simular: false, podar: false, refazer: false, refazerTextos: null, refazerPalavras: null, voz: null };
 const lista = process.argv.slice(2);
 for (let i = 0; i < lista.length; i++) {
   if (lista[i] === '--simular') args.simular = true;
   else if (lista[i] === '--podar') args.podar = true;
   else if (lista[i] === '--refazer') args.refazer = true;
   else if (lista[i] === '--refazer-textos') args.refazerTextos = new Set(lista[++i].split(','));
+  else if (lista[i] === '--refazer-palavras') args.refazerPalavras = lista[++i].split(',').map((p) => p.toLowerCase());
   else if (lista[i] === '--voz') args.voz = lista[++i];
   else throw new Error(`Argumento desconhecido: ${lista[i]}`);
 }
@@ -49,7 +51,13 @@ async function principal() {
     const todas = [...frases[voz.variante]];
     const faltam = todas
       .map(([hash, texto]) => ({ texto, saida: arquivoAudio(voz, hash) }))
-      .filter((f) => args.refazer || args.refazerTextos?.has(f.texto) || !existsSync(f.saida));
+      .filter(
+        (f) =>
+          args.refazer ||
+          args.refazerTextos?.has(f.texto) ||
+          args.refazerPalavras?.some((p) => new RegExp(`(?<![\\p{L}])${p}(?![\\p{L}])`, 'iu').test(f.texto)) ||
+          !existsSync(f.saida),
+      );
     const caracteres = faltam.reduce((s, f) => s + f.texto.length, 0);
     console.log(`${voz.variante}/${voz.id}: ${todas.length} frases, ${faltam.length} a gerar (${caracteres} caracteres)`);
     if (args.podar) {
