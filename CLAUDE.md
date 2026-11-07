@@ -78,7 +78,8 @@ src/
     leitura/             jogo 2: ler a fábula e escolher a imagem da palavra em destaque
     escape/              jogo 3: Saída Secreta (fuga, lógica). Motor reutilizável + salas (docs/SAIDA-SECRETA.md)
       tipos.ts           modelo de dados: Sala (fundo com zonas fixas), FonteNumero, Extra, Variante, Enigma
-      rodada.ts          sorteia a cada rodada 3 ou 4 das 9 fontes, a ordem e a variante de cada enigma
+      rodada.ts          sorteia a cada rodada 3 ou 4 das 9 fontes, a ordem e a variante de cada enigma, no nível escolhido
+                         (fácil, médio, difícil: cada fonte tem variantes por nível)
       MotorSala.tsx      a sala jogável: zonas tocáveis, cadeado da saída, inventário, dicas, estrelas
       enigmas/           tipos de enigma: Codigo, Ordem, Escolha, Pares (novos entram em EnigmaView.tsx)
       salas/             uma sala por arquivo (texto por variante); liste em salas/index.ts

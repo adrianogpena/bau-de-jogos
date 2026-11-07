@@ -1,5 +1,5 @@
 import { embaralhar } from './enigmas/tipos';
-import type { Extra, FonteNumero, Sala, Variante } from './tipos';
+import type { Extra, FonteNumero, Nivel, Sala, Variante } from './tipos';
 
 /** Uma fonte sorteada para o código desta rodada. */
 export interface FonteSorteada {
@@ -26,17 +26,17 @@ function numeroDa(variante: Variante): number {
   return 1 + Math.floor(Math.random() * 9);
 }
 
-/** Sorteia o código (quais fontes, por que ordem, com que variante) e as variantes dos extras. */
-export function sortearRodada(sala: Sala): Rodada {
-  const tamanho = sortear(sala.digitos);
+/** Sorteia o código (quais fontes, por que ordem, com que variante do nível) e as variantes dos extras. */
+export function sortearRodada(sala: Sala, nivel: Nivel): Rodada {
+  const tamanho = sortear(sala.digitos[nivel]);
   if (tamanho > sala.fontes.length) throw new Error(`Sala ${sala.id}: código de ${tamanho} com ${sala.fontes.length} fontes`);
   const codigo = embaralhar(sala.fontes)
     .slice(0, tamanho)
     .map((fonte) => {
-      const variante = sortear(fonte.variantes);
+      const variante = sortear(fonte.variantes[nivel]);
       return { fonte, variante, numero: numeroDa(variante) };
     });
-  const extras = Object.fromEntries(sala.extras.map((e) => [e.id, sortear(e.variantes)]));
+  const extras = Object.fromEntries(sala.extras.map((e) => [e.id, sortear(e.variantes[nivel])]));
   return { codigo, extras };
 }
 

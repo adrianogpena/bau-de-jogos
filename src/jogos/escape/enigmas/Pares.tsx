@@ -6,7 +6,10 @@ import { comIcones } from '../../../compartilhado/icones';
 
 /** Jogo da memória: virar duas cartas de cada vez até achar todos os pares. */
 export function Pares({ enigma, aoAcertar }: PropsEnigma<EnigmaPares>) {
-  const [cartas] = useState(() => embaralhar([...enigma.emojis, ...enigma.emojis]));
+  // cada carta guarda o índice do seu par: iguais ('🧸', '🧸') ou associadas ('⚽', '🥅')
+  const [cartas] = useState(() =>
+    embaralhar(enigma.emojis.flatMap((e, par) => (typeof e === 'string' ? [e, e] : e).map((emoji) => ({ emoji, par })))),
+  );
   const [viradas, setViradas] = useState<number[]>([]);
   const [achadas, setAchadas] = useState<number[]>([]);
   const temporizador = useRef<number | undefined>(undefined);
@@ -19,7 +22,7 @@ export function Pares({ enigma, aoAcertar }: PropsEnigma<EnigmaPares>) {
     setViradas(novas);
     if (novas.length < 2) return;
     const [a, b] = novas;
-    if (cartas[a] === cartas[b]) {
+    if (cartas[a].par === cartas[b].par) {
       somAcerto();
       const todas = [...achadas, a, b];
       setAchadas(todas);
@@ -34,7 +37,7 @@ export function Pares({ enigma, aoAcertar }: PropsEnigma<EnigmaPares>) {
   return (
     <div className="enigma">
       <div className="grade-memoria">
-        {cartas.map((emoji, i) => {
+        {cartas.map(({ emoji }, i) => {
           const aberta = viradas.includes(i) || achadas.includes(i);
           return (
             <button

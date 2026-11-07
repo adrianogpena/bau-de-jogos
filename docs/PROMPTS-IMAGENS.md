@@ -235,33 +235,15 @@ Similar size for all objects, no shadows on the floor, no other objects. 4:3 lan
 
 ---
 
-## Saída Secreta: fundos das salas (6 imagens)
+## Saída Secreta: fundos das salas (5 imagens)
 
 Cada sala da Saída Secreta é **um único fundo 4:3** que já traz todos os objetos desenhados: as 9 fontes de número, os extras e a saída. Os objetos ficam sempre no mesmo lugar, e o jogo põe uma zona de toque invisível sobre cada um. Por isso cada objeto tem de ser **grande, inteiro, bem separado dos outros e fácil de reconhecer**. O desenho é o mesmo em pt-PT e pt-BR (sem texto).
 
-O prompt diz onde fica cada objeto (esquerda/centro/direita, cima/meio/baixo). O gerador não acerta as posições ao milímetro: depois de salvar a imagem, as zonas são acertadas em `src/jogos/escape/salas/<sala>.ts` (abra a sala com `?zonas` no endereço para vê-las marcadas). Ponha `fundo: 'imagens/saida-secreta/<sala>.png'` na sala.
+O prompt diz onde fica cada objeto (esquerda/centro/direita, cima/meio/baixo). O gerador não acerta as posições ao milímetro: depois de salvar a imagem, as zonas são acertadas em `src/jogos/escape/salas/<sala>.ts` (abra a sala com `?zonas` no endereço para vê-las marcadas). Converta para JPEG 1600×1200 (`public/imagens/saida-secreta/<sala>.jpg`, como o sótão) e ponha `fundo: 'imagens/saida-secreta/<sala>.jpg'` na sala.
 
 Temas e enigmas de cada sala: `docs/SAIDA-SECRETA.md`.
 
-### saida-secreta/sotao (4:3, salvar em `public/imagens/saida-secreta/sotao.png`)
-```
-Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
-A cozy grandmother's attic seen from the front, wide view, warm light from a round window, sloped wooden ceiling, wooden floorboards, no people. Eleven objects, each one large, whole, clearly separated from the others (none touching or overlapping), easy to recognize:
-1. far left, full height from floor to upper wall: a tall wooden grandfather pendulum clock with a round white face;
-2. upper left wall, right of the clock: a framed painting of a sunny meadow;
-3. middle left, below the painting: a small round table with a wooden music box on it, lid open, tiny ballerina on top;
-4. exact center of the back wall: a closed wooden attic door with iron hinges and a big padlock, the clear exit of the room;
-5. right of the door, middle: a tall wooden hat stand holding a black top hat and two straw hats;
-6. upper right of the back wall: a round attic window with a cross frame, blue sky outside;
-7. far right, full height: a tall wooden bookshelf full of colorful books;
-8. bottom left, on the floor: a wooden toy chest with a small keyhole lock, closed;
-9. bottom center-left, on the floor: a painted wooden rocking horse;
-10. bottom center-right, on the floor: an old brown leather suitcase with travel stickers and a small padlock;
-11. bottom right, on the floor: a wicker basket full of colorful balls of yarn.
-Keep the space between objects empty (plain wall and floor), no clutter, no extra objects, no cobwebs covering things. 4:3 landscape.
-```
-
-### saida-secreta/navio (4:3, salvar em `public/imagens/saida-secreta/navio.png`)
+### saida-secreta/navio (4:3, salvar como `public/imagens/saida-secreta/navio.jpg`)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 A friendly pirate captain's cabin inside a wooden ship, seen from the front, wide view, warm lantern light, curved wooden walls, wooden floor, no people. Twelve objects, each one large, whole, clearly separated from the others (none touching or overlapping), easy to recognize:
@@ -280,7 +262,7 @@ A friendly pirate captain's cabin inside a wooden ship, seen from the front, wid
 Keep the space between objects empty (plain wood), no clutter, no extra objects. 4:3 landscape.
 ```
 
-### saida-secreta/nave (4:3, salvar em `public/imagens/saida-secreta/nave.png`)
+### saida-secreta/nave (4:3, salvar como `public/imagens/saida-secreta/nave.jpg`)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 The cozy control cabin of a cute rounded spaceship, seen from the front, wide view, soft blue and white walls with rounded panels, no people. Twelve objects, each one large, whole, clearly separated from the others (none touching or overlapping), easy to recognize:
@@ -299,7 +281,7 @@ The cozy control cabin of a cute rounded spaceship, seen from the front, wide vi
 Keep the space between objects empty (plain panels), no clutter, no extra objects. 4:3 landscape.
 ```
 
-### saida-secreta/laboratorio (4:3, salvar em `public/imagens/saida-secreta/laboratorio.png`)
+### saida-secreta/laboratorio (4:3, salvar como `public/imagens/saida-secreta/laboratorio.jpg`)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 A friendly inventor's laboratory, seen from the front, wide view, bright and tidy, light green walls, wooden floor, no people. Twelve objects, each one large, whole, clearly separated from the others (none touching or overlapping), easy to recognize:
@@ -318,7 +300,7 @@ A friendly inventor's laboratory, seen from the front, wide view, bright and tid
 Keep the space between objects empty (plain wall and floor), no clutter, no extra objects. 4:3 landscape.
 ```
 
-### saida-secreta/museu (4:3, salvar em `public/imagens/saida-secreta/museu.png`)
+### saida-secreta/museu (4:3, salvar como `public/imagens/saida-secreta/museu.jpg`)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 A dinosaur museum hall at night, seen from the front, wide view, soft moonlight and warm spotlights, beige stone walls, polished floor, no people. Twelve objects, each one large, whole, clearly separated from the others (none touching or overlapping), easy to recognize:
@@ -337,7 +319,7 @@ A dinosaur museum hall at night, seen from the front, wide view, soft moonlight 
 Keep the space between objects empty (plain wall and floor), no clutter, no extra objects. 4:3 landscape.
 ```
 
-### saida-secreta/piramide (4:3, salvar em `public/imagens/saida-secreta/piramide.png`)
+### saida-secreta/piramide (4:3, salvar como `public/imagens/saida-secreta/piramide.jpg`)
 ```
 Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
 A friendly treasure chamber inside an ancient Egyptian pyramid, seen from the front, wide view, warm torchlight, sandstone walls, sandy floor, no people, nothing scary. Twelve objects, each one large, whole, clearly separated from the others (none touching or overlapping), easy to recognize:

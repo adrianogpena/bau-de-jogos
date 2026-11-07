@@ -1,4 +1,6 @@
-/** Estrelas por sala, guardadas no aparelho (localStorage). Sem dados pessoais. */
+import type { Nivel } from './tipos';
+
+/** Estrelas por sala e nível (chave `sala:nivel`), guardadas no aparelho (localStorage). Sem dados pessoais. */
 const CHAVE = 'bau-de-jogos:escape';
 
 export function lerEstrelas(): Record<string, number> {
@@ -10,11 +12,14 @@ export function lerEstrelas(): Record<string, number> {
   }
 }
 
-/** Guarda a melhor pontuação da sala (1 a 3 estrelas). */
-export function salvarEstrelas(salaId: string, estrelas: number): void {
+export const chaveEstrelas = (salaId: string, nivel: Nivel) => `${salaId}:${nivel}`;
+
+/** Guarda a melhor pontuação da sala neste nível (1 a 3 estrelas). */
+export function salvarEstrelas(salaId: string, nivel: Nivel, estrelas: number): void {
   try {
     const atual = lerEstrelas();
-    atual[salaId] = Math.max(atual[salaId] ?? 0, estrelas);
+    const chave = chaveEstrelas(salaId, nivel);
+    atual[chave] = Math.max(atual[chave] ?? 0, estrelas);
     localStorage.setItem(CHAVE, JSON.stringify(atual));
   } catch {
     // sem armazenamento: o progresso vale só nesta sessão

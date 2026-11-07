@@ -3,15 +3,16 @@ import { type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilh
 import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { comIcones } from '../../compartilhado/icones';
 import { EnigmaView } from './enigmas/EnigmaView';
-import { estrelasPorDicas, salvarEstrelas } from './progresso';
+import { chaveEstrelas, estrelasPorDicas, lerEstrelas, salvarEstrelas } from './progresso';
 import { Recorte } from './Recorte';
 import { extraQueDa, sortearRodada } from './rodada';
-import type { Enigma, Sala, Zona } from './tipos';
+import { type Enigma, NIVEIS, type Nivel, type Sala, type Zona } from './tipos';
 
 const TEXTOS = {
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
   dica: { 'pt-PT': '💡 Dica', 'pt-BR': '💡 Dica' },
-  comecar: { 'pt-PT': 'Começar!', 'pt-BR': 'Começar!' },
+  escolherNivel: { 'pt-PT': 'Escolhe o nível:', 'pt-BR': 'Escolha o nível:' },
+  mudarNivel: { 'pt-PT': 'Mudar de nível', 'pt-BR': 'Mudar de nível' },
   fechar: { 'pt-PT': 'Fechar', 'pt-BR': 'Fechar' },
   cadeado: { 'pt-PT': 'Cadeado da saída:', 'pt-BR': 'Cadeado da saída:' },
   verCadeado: {
@@ -30,6 +31,13 @@ const TEXTOS = {
   dicasUsadas: { 'pt-PT': 'Dicas usadas: {n}', 'pt-BR': 'Dicas usadas: {n}' },
 } satisfies Record<string, TextoPorIdioma>;
 
+/** Nome e idade de cada nível (também usados no cartão da sala). */
+export const TEXTOS_NIVEL: Record<Nivel, { nome: TextoPorIdioma; idade: TextoPorIdioma }> = {
+  facil: { nome: { 'pt-PT': 'Fácil', 'pt-BR': 'Fácil' }, idade: { 'pt-PT': '4 a 5 anos', 'pt-BR': '4 a 5 anos' } },
+  medio: { nome: { 'pt-PT': 'Médio', 'pt-BR': 'Médio' }, idade: { 'pt-PT': '6 a 7 anos', 'pt-BR': '6 a 7 anos' } },
+  dificil: { nome: { 'pt-PT': 'Difícil', 'pt-BR': 'Difícil' }, idade: { 'pt-PT': '8 anos ou mais', 'pt-BR': '8 anos ou mais' } },
+};
+
 type Aberto = { tipo: 'objeto'; id: string } | { tipo: 'saida' } | null;
 
 const caminho = (arquivo: string) => `${import.meta.env.BASE_URL}${arquivo}`;
@@ -46,8 +54,8 @@ const estiloZona = (z: Zona): CSSProperties => ({
 
 /** Uma sala da Saída Secreta jogável. Funciona com qualquer `Sala` descrita em `salas/`. */
 export function MotorSala({ sala, idioma, aoSair }: { sala: Sala; idioma: Idioma; aoSair: () => void }) {
-  const [comecou, setComecou] = useState(false);
-  const [rodada, setRodada] = useState(() => sortearRodada(sala));
+  const [nivel, setNivel] = useState<Nivel | null>(null);
+  const [rodada, setRodada] = useState(() => sortearRodada(sala, 'facil'));
   const [resolvidos, setResolvidos] = useState<string[]>([]);
   const [aberto, setAberto] = useState<Aberto>(null);
   const [aviso, setAviso] = useState<string | null>(null);
@@ -61,8 +69,10 @@ export function MotorSala({ sala, idioma, aoSair }: { sala: Sala; idioma: Idioma
   const pistas = sala.extras.filter((e) => resolvidos.includes(e.id)).map((e) => e.recompensa);
   const temPista = (id: string) => pistas.some((p) => p.id === id);
 
-  function reiniciar() {
-    setRodada(sortearRodada(sala));
+  /** Começa uma rodada nova no nível escolhido (o código e as variantes mudam). */
+  function reiniciar(novo: Nivel) {
+    setNivel(novo);
+    setRodada(sortearRodada(sala, novo));
     setResolvidos([]);
     setAberto(null);
     setAviso(null);
@@ -105,7 +115,7 @@ export function MotorSala({ sala, idioma, aoSair }: { sala: Sala; idioma: Idioma
   }
 
   function acertouSaida() {
-    salvarEstrelas(sala.id, estrelasPorDicas(dicas));
+    if (nivel) salvarEstrelas(sala.id, nivel, estrelasPorDicas(dicas));
     setAberto(null);
     setEscapou(true);
   }
@@ -138,7 +148,8 @@ export function MotorSala({ sala, idioma, aoSair }: { sala: Sala; idioma: Idioma
     <Recorte fundo={sala.fundo} zona={zona} emoji={emoji} altura={altura} />
   );
 
-  if (!comecou) {
+  if (!nivel) {
+    const estrelas = lerEstrelas();
     return (
       <main className="tela tela-centro">
         <header className="barra-jogo">
@@ -151,9 +162,19 @@ export function MotorSala({ sala, idioma, aoSair }: { sala: Sala; idioma: Idioma
         </p>
         <h1>{t(sala.titulo, idioma)}</h1>
         <TextoNarrado className="folha" idioma={idioma} texto={t(sala.intro, idioma)} />
-        <button className="botao" onClick={() => setComecou(true)}>
-          {t(TEXTOS.comecar, idioma)} ▶
-        </button>
+        <strong>{t(TEXTOS.escolherNivel, idioma)}</strong>
+        <div className="acoes niveis-sala">
+          {NIVEIS.map((n) => {
+            const feitas = estrelas[chaveEstrelas(sala.id, n)] ?? 0;
+            return (
+              <button key={n} className="botao botao-nivel" onClick={() => reiniciar(n)}>
+                {t(TEXTOS_NIVEL[n].nome, idioma)}
+                <small>{t(TEXTOS_NIVEL[n].idade, idioma)}</small>
+                {feitas > 0 && <small aria-label={`${feitas}/3`}>{comIcones('⭐'.repeat(feitas))}</small>}
+              </button>
+            );
+          })}
+        </div>
       </main>
     );
   }
@@ -169,8 +190,11 @@ export function MotorSala({ sala, idioma, aoSair }: { sala: Sala; idioma: Idioma
         <TextoNarrado className="folha" idioma={idioma} texto={t(sala.vitoria, idioma)} lerAoAbrir />
         <p className="progresso">{preencher(t(TEXTOS.dicasUsadas, idioma), { n: dicas })}</p>
         <div className="acoes">
-          <button className="botao" onClick={reiniciar}>
+          <button className="botao" onClick={() => reiniciar(nivel)}>
             {t(TEXTOS.jogarDeNovo, idioma)}
+          </button>
+          <button className="botao botao-secundario" onClick={() => setNivel(null)}>
+            {t(TEXTOS.mudarNivel, idioma)}
           </button>
           <button className="botao botao-secundario" onClick={aoSair}>
             {t(TEXTOS.outraSala, idioma)}
@@ -189,7 +213,7 @@ export function MotorSala({ sala, idioma, aoSair }: { sala: Sala; idioma: Idioma
     enigmaAberto = {
       enigma: { tipo: 'codigo', pergunta: sala.saida.pergunta, resposta: rodada.codigo.map((f) => f.numero).join('') },
       aoAcertar: acertouSaida,
-      rotulos: rodada.codigo.map((f) => <span key={f.fonte.id}>{recorte(f.fonte.zona, f.fonte.emoji, 48)}</span>),
+      rotulos: rodada.codigo.map((f) => <span key={f.fonte.id}>{recorte(f.fonte.zona, f.fonte.emoji, 64)}</span>),
     };
   }
 

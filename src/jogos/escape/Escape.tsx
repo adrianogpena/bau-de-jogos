@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import type { PropsJogo } from '../tipos';
 import { type TextoPorIdioma, t } from '../../compartilhado/idioma';
-import { MotorSala } from './MotorSala';
-import { lerEstrelas } from './progresso';
+import { MotorSala, TEXTOS_NIVEL } from './MotorSala';
+import { chaveEstrelas, lerEstrelas } from './progresso';
 import { SALAS } from './salas';
-import type { Sala } from './tipos';
+import { NIVEIS, type Sala } from './tipos';
 import { Icone, comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
@@ -40,7 +40,11 @@ export function Escape({ idioma, aoVoltar }: PropsJogo) {
             </span>
             <strong>{t(s.titulo, idioma)}</strong>
             <small>{t(s.resumo, idioma)}</small>
-            {estrelas[s.id] ? <span className="estrelas">{comIcones('⭐'.repeat(estrelas[s.id]))}</span> : null}
+            {NIVEIS.filter((n) => estrelas[chaveEstrelas(s.id, n)]).map((n) => (
+              <small key={n}>
+                {t(TEXTOS_NIVEL[n].nome, idioma)} {comIcones('⭐'.repeat(estrelas[chaveEstrelas(s.id, n)]))}
+              </small>
+            ))}
           </button>
         ))}
       </div>

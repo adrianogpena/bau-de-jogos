@@ -5,13 +5,22 @@ import type { TextoPorIdioma } from '../../compartilhado/idioma';
  *
  * Cada sala é um fundo desenhado (4:3) que já traz todos os objetos. Cada objeto é uma `Zona` fixa do desenho:
  * tocar nela abre o enigma do objeto. A sala tem 9 fontes de número, extras (ex.: o quadro que esconde a chave
- * do baú) e uma saída. A cada rodada o jogo sorteia 3 ou 4 fontes e uma variante do enigma de cada uma; o
+ * do baú) e uma saída. A criança escolhe o nível (fácil, médio ou difícil); a cada rodada o jogo sorteia 3 ou 4
+ * fontes e uma variante do enigma de cada uma, desse nível; o
  * cadeado da saída mostra o desenho dessas fontes, pela ordem do código. A história e a saída não mudam, mas o
  * caminho até lá muda sempre.
  *
  * Para criar uma sala nova, descreva uma `Sala` em `salas/` e liste-a em `salas/index.ts`.
  * Todo texto é escrito por variante (pt-PT e pt-BR).
  */
+
+/** Nível de dificuldade: fácil (4 a 5 anos), médio (6 a 7 anos), difícil (8 anos ou mais). */
+export type Nivel = 'facil' | 'medio' | 'dificil';
+
+export const NIVEIS: Nivel[] = ['facil', 'medio', 'dificil'];
+
+/** Uma lista para cada nível. */
+export type PorNivel<T> = Record<Nivel, T>;
 
 /** Retângulo do objeto no fundo, em % da cena: centro (x, y), largura e altura. */
 export interface Zona {
@@ -48,10 +57,13 @@ export interface EnigmaEscolha extends EnigmaBase {
   certa: number;
 }
 
-/** Jogo da memória: achar todos os pares (cada emoji aparece uma vez aqui e o jogo duplica). */
+/**
+ * Jogo da memória: achar todos os pares. Um emoji sozinho vira duas cartas iguais; um par `['⚽', '🥅']` vira
+ * duas cartas diferentes que combinam (pares associados, mais difíceis).
+ */
 export interface EnigmaPares extends EnigmaBase {
   tipo: 'pares';
-  emojis: string[];
+  emojis: (string | [string, string])[];
 }
 
 export type Enigma = EnigmaCodigo | EnigmaOrdem | EnigmaEscolha | EnigmaPares;
@@ -69,7 +81,8 @@ interface ObjetoBase {
   /** Emoji ou ícone `[[pasta/nome]]`, usado só enquanto a sala não tem imagem de fundo. */
   emoji: string;
   zona: Zona;
-  variantes: Variante[];
+  /** Versões do enigma de cada nível (pelo menos 3 por nível). */
+  variantes: PorNivel<Variante[]>;
   /** Pista (id de um extra) que precisa estar no inventário para abrir este objeto. */
   requer?: string;
   /** Mensagem quando falta a pista necessária. */
@@ -111,8 +124,8 @@ export interface Sala {
   fundo?: string;
   /** Fundo provisório em CSS, usado enquanto não há imagem (os objetos aparecem como emoji). */
   fundoCss: string;
-  /** Quantos números pode ter o código (o jogo sorteia um destes valores a cada rodada). */
-  digitos: number[];
+  /** Quantos números pode ter o código em cada nível (o jogo sorteia um destes valores a cada rodada). */
+  digitos: PorNivel<number[]>;
   /** As fontes de número da sala (9). */
   fontes: FonteNumero[];
   extras: Extra[];
