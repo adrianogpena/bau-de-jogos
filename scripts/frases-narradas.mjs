@@ -147,7 +147,7 @@ function chavesDinamicas(texto) {
 
 /**
  * Frases de cada variante: as histórias e todos os textos fixos do site (os pares 'pt-PT'/'pt-BR' do código: RPG,
- * escape room, achar itens, menus, mensagens...), com o gênero do personagem expandido (herói/heroína, mago/maga).
+ * escape room, achar itens, menus, mensagens...), com o nome de cada personagem expandido (os 4 heróis e os 4 magos).
  * Números (0 a 100) e nomes (inimigo, feitiço, item...) são expandidos em todos os valores possíveis; só textos com
  * outras partes calculadas ficam em `dinamicos`.
  * Devolve { frases: { variante → Map hash → texto }, dinamicos: [{ arquivo, linha, texto }] }.
@@ -166,7 +166,7 @@ export async function frasesDoSite() {
   try {
     const { frasesFaladas } = await servidor.ssrLoadModule('/src/compartilhado/TextoNarrado.tsx');
     const { preencher } = await servidor.ssrLoadModule('/src/compartilhado/idioma.ts');
-    const { valoresPersonagem } = await servidor.ssrLoadModule('/src/jogos/rpg/personagem.ts');
+    const { valoresPersonagem, PERSONAGENS } = await servidor.ssrLoadModule('/src/jogos/rpg/personagem.ts');
     const { hashTexto } = await servidor.ssrLoadModule('/src/compartilhado/hashTexto.ts');
     const { pecasDaFala } = await servidor.ssrLoadModule('/src/compartilhado/pecasDaFala.ts');
     const { numeroPorExtenso, NUMERO_MAXIMO_NARRADO } = await servidor.ssrLoadModule('/src/compartilhado/numeros.ts');
@@ -201,8 +201,8 @@ export async function frasesDoSite() {
             [{}],
           );
           for (const valores of combinacoes) {
-            for (const genero of ['m', 'f']) {
-              const texto = preencher(bruto, { ...valoresPersonagem(tipo, genero), ...valores });
+            for (const personagem of PERSONAGENS[tipo]) {
+              const texto = preencher(bruto, { ...valoresPersonagem(personagem), ...valores });
               for (const frase of frasesFaladas(texto)) juntar(variante, frase);
             }
           }

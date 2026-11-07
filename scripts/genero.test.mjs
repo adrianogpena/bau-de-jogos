@@ -1,10 +1,12 @@
 /**
- * Confere a concordância de gênero nos textos do RPG: o herói e o mago não têm nome digitado,
- * são "o herói / a heroína" e "o mago / a maga", e todo texto da história tem de funcionar nos dois gêneros.
+ * Confere os personagens do RPG (4 heróis e 4 magos, 2 masculinos e 2 femininos, cada um com nome)
+ * e a concordância dos textos da história com o nome e o gênero de cada um.
  *
  *   npm test
  */
 import assert from 'node:assert/strict';
+import { existsSync } from 'node:fs';
+import path from 'node:path';
 import { after, before, describe, test } from 'node:test';
 import { createServer } from 'vite';
 import { raiz } from './textos.mjs';
@@ -12,6 +14,7 @@ import { raiz } from './textos.mjs';
 let servidor;
 let preencher;
 let valoresPersonagem;
+let PERSONAGENS;
 let textos = [];
 
 before(async () => {
@@ -24,7 +27,7 @@ before(async () => {
     optimizeDeps: { noDiscovery: true, include: [] },
   });
   ({ preencher } = await servidor.ssrLoadModule('/src/compartilhado/idioma.ts'));
-  ({ valoresPersonagem } = await servidor.ssrLoadModule('/src/jogos/rpg/personagem.ts'));
+  ({ valoresPersonagem, PERSONAGENS } = await servidor.ssrLoadModule('/src/jogos/rpg/personagem.ts'));
   const { CENAS } = await servidor.ssrLoadModule('/src/jogos/rpg/historia.ts');
   const { CENAS_MAGO } = await servidor.ssrLoadModule('/src/jogos/rpg/mago/historia.ts');
   const coletar = (tipo, cenas) => {
@@ -40,19 +43,32 @@ before(async () => {
 
 after(() => servidor?.close());
 
-describe('gênero do herói e do mago', () => {
-  test('os valores do personagem concordam em cada gênero', () => {
-    assert.deepEqual(valoresPersonagem('heroi', 'm'), { genero: 'm', nome: 'o herói', doNome: 'do herói', aoNome: 'ao herói' });
-    assert.deepEqual(valoresPersonagem('heroi', 'f'), { genero: 'f', nome: 'a heroína', doNome: 'da heroína', aoNome: 'à heroína' });
-    assert.equal(valoresPersonagem('mago', 'f').nome, 'a maga');
+describe('personagens do herói e do mago', () => {
+  test('cada história tem 4 personagens: 2 masculinos e 2 femininos, com nomes diferentes e imagem', () => {
+    const todos = Object.values(PERSONAGENS).flat();
+    assert.equal(new Set(todos.map((p) => p.nome)).size, 8);
+    for (const [tipo, lista] of Object.entries(PERSONAGENS)) {
+      assert.equal(lista.length, 4);
+      assert.equal(lista.filter((p) => p.genero === 'm').length, 2);
+      assert.equal(lista.filter((p) => p.genero === 'f').length, 2);
+      for (const p of lista) {
+        const pasta = tipo === 'heroi' ? 'herois' : 'magos';
+        assert.ok(existsSync(path.join(raiz, 'public', 'imagens', 'rpg', pasta, `${p.id}.png`)), `falta a imagem de ${p.id}`);
+      }
+    }
   });
 
-  test('preencher escolhe o gênero e põe maiúscula no início da frase', () => {
-    const f = valoresPersonagem('mago', 'f');
-    const m = valoresPersonagem('mago', 'm');
-    assert.equal(preencher('{Nome} está {pronto|pronta}.', f), 'A maga está pronta.');
-    assert.equal(preencher('{Nome} está {pronto|pronta}.', m), 'O mago está pronto.');
-    assert.equal(preencher('Perto {doNome}.', f), 'Perto da maga.');
+  test('os valores do personagem usam o nome', () => {
+    const clara = PERSONAGENS.heroi.find((p) => p.nome === 'Clara');
+    assert.deepEqual(valoresPersonagem(clara), { genero: 'f', nome: 'Clara', doNome: 'de Clara', aoNome: 'a Clara' });
+  });
+
+  test('preencher usa o nome, escolhe o gênero e põe maiúscula no início da frase', () => {
+    const luna = valoresPersonagem(PERSONAGENS.mago.find((p) => p.nome === 'Luna'));
+    const teo = valoresPersonagem(PERSONAGENS.mago.find((p) => p.nome === 'Teo'));
+    assert.equal(preencher('{Nome} está {pronto|pronta}.', luna), 'Luna está pronta.');
+    assert.equal(preencher('{Nome} está {pronto|pronta}.', teo), 'Teo está pronto.');
+    assert.equal(preencher('Perto {doNome}.', luna), 'Perto de Luna.');
     assert.equal(preencher('{o|a} {mago|maga}', { genero: 'f' }), 'a maga');
     assert.equal(preencher('{o|a} {mago|maga}', {}), 'o mago');
   });
@@ -61,30 +77,21 @@ describe('gênero do herói e do mago', () => {
     assert.ok(textos.length > 50);
   });
 
-  for (const genero of ['m', 'f']) {
-    for (const variante of ['pt-PT', 'pt-BR']) {
-      test(`nenhum texto do RPG sobra com chave solta (${genero}, ${variante})`, () => {
-        const problemas = [];
-        for (const { tipo, id, campo } of textos) {
-          const bruto = campo[variante];
-          const pronto = preencher(bruto, { ...valoresPersonagem(tipo, genero), escola: 'Fogo' });
-          if (/[{}|]/.test(pronto) || /\s{2,}/.test(pronto.replace(/\n/g, ' ')) || /\bde (o|a) (herói|heroína|mago|maga)\b/.test(pronto)) {
-            problemas.push(`${tipo}/${id}: ${pronto.slice(0, 80)}`);
+  for (const variante of ['pt-PT', 'pt-BR']) {
+    test(`nenhum texto do RPG sobra com chave solta nem fica no masculino fixo (${variante})`, () => {
+      const problemas = [];
+      for (const { tipo, id, campo } of textos) {
+        for (const personagem of PERSONAGENS[tipo]) {
+          const pronto = preencher(campo[variante], { ...valoresPersonagem(personagem), escola: 'Fogo' });
+          if (/[{}|]/.test(pronto) || /\s{2,}/.test(pronto.replace(/\n/g, ' ')) || /undefined/.test(pronto)) {
+            problemas.push(`${tipo}/${id}/${personagem.nome}: ${pronto.slice(0, 80)}`);
           }
-          // o nome digitado saiu: ninguém deve usar {nome} sem ser o personagem
-          assert.ok(!/undefined/.test(pronto), `${tipo}/${id} tem "undefined"`);
+          if (personagem.genero === 'f' && /\b(o|ao|do) (herói|mago)\b/i.test(pronto.replace(/Mestre dos Magos/g, ''))) {
+            problemas.push(`${tipo}/${id}/${personagem.nome} ficou no masculino: ${pronto.slice(0, 90)}`);
+          }
         }
-        assert.deepEqual(problemas, []);
-      });
-    }
-  }
-
-  test('cada frase tem a concordância certa no feminino', () => {
-    for (const { tipo, id, campo } of textos) {
-      for (const variante of ['pt-PT', 'pt-BR']) {
-        const pronto = preencher(campo[variante], { ...valoresPersonagem(tipo, 'f'), escola: 'Fogo' });
-        assert.ok(!/\b(o|ao|do) (herói|mago)\b/i.test(pronto.replace(/Mestre dos Magos/g, '')), `${tipo}/${id} (${variante}) ficou no masculino: ${pronto.slice(0, 90)}`);
       }
-    }
-  });
+      assert.deepEqual(problemas, []);
+    });
+  }
 });

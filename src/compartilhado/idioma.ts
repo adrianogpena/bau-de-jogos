@@ -38,14 +38,8 @@ export function t(texto: TextoPorIdioma, idioma: Idioma): string {
   return texto[idioma];
 }
 
-/** Gênero do personagem escolhido pela criança: masculino ou feminino. */
+/** Gênero do personagem escolhido pela criança (masculino ou feminino), para concordar os textos. */
 export type Genero = 'm' | 'f';
-
-/** Rótulos da escolha de gênero, por variante (pt-PT: rapaz/rapariga; pt-BR: menino/menina). */
-export const ROTULO_GENERO: Record<Idioma, Record<Genero, string>> = {
-  'pt-PT': { m: 'Rapaz', f: 'Rapariga' },
-  'pt-BR': { m: 'Menino', f: 'Menina' },
-};
 
 /**
  * Troca `{chave}` pelos valores dados (ex.: "{nome} venceu!") e escolhe o gênero.

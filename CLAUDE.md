@@ -14,14 +14,15 @@ Todo o projeto é em **português**: textos da interface, histórias, nomes de v
 - Em jogos de **escrita e leitura**, a palavra "certa" depende da variante. Ex.: a lista de palavras e a correção da resposta têm de usar a variante escolhida.
 - Em dúvida sobre uma palavra ou grafia, **pergunte ao usuário** em vez de adivinhar.
 
-### Gênero do personagem (RPG)
+### Personagem do RPG (nome e gênero)
 
-O herói e o mago **não têm nome digitado**: a criança escolhe rapaz/rapariga (pt-PT) ou menino/menina (pt-BR), e o personagem é "o herói / a heroína" ou "o mago / a maga". Os textos das histórias concordam com a escolha, por `preencher()` (`src/compartilhado/idioma.ts`) e `valoresPersonagem()` (`src/jogos/rpg/personagem.ts`):
+Cada história mostra **4 personagens** (2 masculinos e 2 femininos), cada um com **nome próprio** (`PERSONAGENS` em `src/jogos/rpg/personagem.ts`; imagens em `public/imagens/rpg/herois|magos/`). A criança escolhe um deles (nome embaixo da imagem), e o gênero vem do personagem. Os textos usam o nome e concordam com o gênero, por `preencher()` (`src/compartilhado/idioma.ts`) e `valoresPersonagem()`:
 
-- `{nome}` → "o herói" / "a heroína"; `{Nome}` (maiúscula) abre a frase; `{doNome}` → "do herói" / "da heroína"; `{aoNome}` → "ao herói" / "à heroína".
+- `{nome}` → "Clara"; `{Nome}` (maiúscula) abre a frase; `{doNome}` → "de Clara"; `{aoNome}` → "a Clara".
 - `{masculino|feminino}` para artigos e adjetivos: `{pronto|pronta}`, `{o|a}`.
 - Não escreva "o herói" fixo num texto narrado ao personagem: use `{nome}`.
-- `npm test` confere que nenhum texto do RPG sobra com chave solta nem fica no masculino quando o personagem é feminino.
+- Personagem novo ou nome novo: acrescente em `PERSONAGENS` e rode `npm run audio:piper` (o áudio é gerado com o nome de cada personagem).
+- `npm test` confere os 8 personagens e que nenhum texto do RPG sobra com chave solta nem fica no masculino para personagem feminino.
 
 ### Diferenças comuns para vigiar
 

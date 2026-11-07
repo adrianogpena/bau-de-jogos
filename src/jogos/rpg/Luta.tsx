@@ -1,4 +1,5 @@
-import { avatarPersonagem, tituloPersonagem } from './personagem';
+import { FiguraPersonagem } from './FiguraPersonagem';
+import { personagemPorId } from './personagem';
 import { useState } from 'react';
 import { type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
 import { TextoNarrado } from '../../compartilhado/TextoNarrado';
@@ -254,9 +255,9 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
       <div className="combatentes">
         <div className="combatente">
           <span className="combatente-emoji" aria-hidden="true">
-            {comIcones(avatarPersonagem('heroi', ficha.genero))}
+            <FiguraPersonagem personagem={personagemPorId('heroi', ficha.personagem)} classe="combatente-imagem" />
           </span>
-          <strong>{tituloPersonagem('heroi', ficha.genero)}</strong>
+          <strong>{personagemPorId('heroi', ficha.personagem).nome}</strong>
           <Barra vida={vidaHeroi} maxima={ficha.pontosDeVidaMaximos} />
           <small>
             <Icone id="interface/escudo" /> CA {caHeroi}

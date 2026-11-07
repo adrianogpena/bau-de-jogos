@@ -742,28 +742,6 @@ p {
   font-weight: 700;
 }
 
-.avatares {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.avatar {
-  min-width: 72px;
-  min-height: 72px;
-  border: 3px solid var(--borda);
-  border-radius: var(--raio);
-  background: rgba(255, 255, 255, 0.05);
-  font-size: 2.4rem;
-  cursor: pointer;
-}
-
-.avatar-escolhido {
-  border-color: var(--destaque);
-  background: rgba(124, 92, 255, 0.22);
-  box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.2);
-}
-
 .linha-atributo {
   display: flex;
   align-items: center;
@@ -813,7 +791,54 @@ p {
 }
 
 .resumo-avatar {
-  font-size: 2rem;
+  display: inline-flex;
+}
+
+.resumo-imagem {
+  height: 56px;
+  width: auto;
+}
+
+.personagens {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 12px;
+}
+
+.personagem-opcao {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  min-height: 64px;
+  border: 3px solid var(--borda);
+  border-radius: var(--raio);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--texto);
+  font-family: inherit;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.personagem-escolhido {
+  border-color: var(--destaque);
+  background: rgba(124, 92, 255, 0.22);
+  box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.2);
+}
+
+.personagem-imagem {
+  width: 100%;
+  max-height: min(34vh, 220px);
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.combatente-imagem {
+  height: 120px;
+  width: auto;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
 }
 
 .teste {
@@ -1575,11 +1600,3 @@ p {
   -webkit-user-drag: none;
 }
 
-/* botão de escolha só com texto (ex.: rapaz / rapariga) */
-.avatar-texto {
-  padding: 0 24px;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--texto);
-  font-family: inherit;
-}

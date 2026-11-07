@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TextoNarrado } from '../../../compartilhado/TextoNarrado';
-import { type Genero, type Idioma, type TextoPorIdioma, preencher, t } from '../../../compartilhado/idioma';
-import { EscolherGenero } from '../EscolherGenero';
+import { type Idioma, type TextoPorIdioma, preencher, t } from '../../../compartilhado/idioma';
+import { EscolherPersonagem } from '../EscolherPersonagem';
 import type { EscolaId, FichaMago, Habilidades, NomeHabilidade } from './tipos';
 import {
   ESCOLAS,
@@ -20,8 +20,8 @@ import { Icone, comIcones } from '../../../compartilhado/icones';
 const TEXTOS = {
   titulo: { 'pt-PT': 'Cria o teu mago', 'pt-BR': 'Crie seu mago' },
   falta: {
-    'pt-PT': 'Escolhe rapaz ou rapariga para começar!',
-    'pt-BR': 'Escolha menino ou menina para começar!',
+    'pt-PT': 'Escolhe o teu mago para começar!',
+    'pt-BR': 'Escolha seu mago para começar!',
   },
   tipo: {
     'pt-PT': 'Que tipo de mago queres ser?',
@@ -45,9 +45,9 @@ interface Props {
   aoComecar: (ficha: FichaMago) => void;
 }
 
-/** Criação do mago: rapaz ou rapariga, tipo de mago (escola de magia) e habilidades. */
+/** Criação do mago: personagem, tipo de mago (escola de magia) e habilidades. */
 export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
-  const [genero, setGenero] = useState<Genero | null>(null);
+  const [personagem, setPersonagem] = useState<string | null>(null);
   const [escolaId, setEscolaId] = useState<EscolaId>('fogo');
   const [habilidades, setHabilidades] = useState<Habilidades>(HABILIDADES_INICIAIS);
 
@@ -63,10 +63,10 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
   }
 
   function comecar() {
-    if (!genero) return;
+    if (!personagem) return;
     const energia = energiaMaxima(habilidades.energia);
     aoComecar({
-      genero,
+      personagem,
       escola: escolaId,
       habilidades,
       pontosDeVida: VIDA_MAGO,
@@ -88,7 +88,7 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
       <h1><Icone id="interface/chapeu-de-mago" /> {t(TEXTOS.titulo, idioma)}</h1>
 
       <div className="ficha-papel">
-        <EscolherGenero idioma={idioma} genero={genero} aoEscolher={setGenero} />
+        <EscolherPersonagem idioma={idioma} tipo="mago" escolhido={personagem} aoEscolher={setPersonagem} />
 
         <div className="ficha-rotulo">{t(TEXTOS.tipo, idioma)}</div>
         <div className="escolas" role="group">
@@ -174,8 +174,8 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
         </p>
       </div>
 
-      <p className="mensagem">{!genero ? t(TEXTOS.falta, idioma) : sobram > 0 ? t(TEXTOS.gasta, idioma) : ''}</p>
-      <button className="botao" onClick={comecar} disabled={sobram > 0 || !genero}>
+      <p className="mensagem">{!personagem ? t(TEXTOS.falta, idioma) : sobram > 0 ? t(TEXTOS.gasta, idioma) : ''}</p>
+      <button className="botao" onClick={comecar} disabled={sobram > 0 || !personagem}>
         {t(TEXTOS.comecar, idioma)}
       </button>
     </main>

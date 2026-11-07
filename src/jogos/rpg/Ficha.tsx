@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { TextoNarrado } from '../../compartilhado/TextoNarrado';
-import { type Genero, type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
+import { type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
 import { MOEDAS_INICIAIS, estatisticas, totalPocoes } from './itens';
-import { EscolherGenero } from './EscolherGenero';
+import { EscolherPersonagem } from './EscolherPersonagem';
+import { FiguraPersonagem } from './FiguraPersonagem';
 import { Moedas } from './Moedas';
-import { avatarPersonagem, tituloPersonagem } from './personagem';
+import { personagemPorId } from './personagem';
 import type { Atributos, FichaPersonagem, NomeAtributo } from './tipos';
 import {
   ATRIBUTOS,
@@ -26,8 +27,8 @@ const TEXTOS = {
     'pt-BR': 'Use todos os pontos para começar!',
   },
   falta: {
-    'pt-PT': 'Escolhe rapaz ou rapariga para começar!',
-    'pt-BR': 'Escolha menino ou menina para começar!',
+    'pt-PT': 'Escolhe o teu herói para começar!',
+    'pt-BR': 'Escolha seu herói para começar!',
   },
   vida: { 'pt-PT': 'Vida', 'pt-BR': 'Vida' },
   comecar: { 'pt-PT': 'Começar a aventura!', 'pt-BR': 'Começar a aventura!' },
@@ -44,7 +45,7 @@ interface Props {
 
 /** Tela de criação da ficha de personagem. */
 export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
-  const [genero, setGenero] = useState<Genero | null>(null);
+  const [personagem, setPersonagem] = useState<string | null>(null);
   const [atributos, setAtributos] = useState<Atributos>({
     forca: ATRIBUTO_MINIMO,
     agilidade: ATRIBUTO_MINIMO,
@@ -63,10 +64,10 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
   }
 
   function comecar() {
-    if (!genero) return;
+    if (!personagem) return;
     const vida = vidaMaxima(atributos.coragem);
     aoComecar({
-      genero,
+      personagem,
       atributos,
       pontosDeVida: vida,
       pontosDeVidaMaximos: vida,
@@ -89,7 +90,7 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
       <h1><Icone id="interface/pergaminho" /> {t(TEXTOS.titulo, idioma)}</h1>
 
       <div className="ficha-papel">
-        <EscolherGenero idioma={idioma} genero={genero} aoEscolher={setGenero} />
+        <EscolherPersonagem idioma={idioma} tipo="heroi" escolhido={personagem} aoEscolher={setPersonagem} />
 
         <TextoNarrado
           className="texto-grande"
@@ -134,8 +135,8 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
         </p>
       </div>
 
-      <p className="mensagem">{!genero ? t(TEXTOS.falta, idioma) : sobram > 0 ? t(TEXTOS.gasta, idioma) : ''}</p>
-      <button className="botao" onClick={comecar} disabled={sobram > 0 || !genero}>
+      <p className="mensagem">{!personagem ? t(TEXTOS.falta, idioma) : sobram > 0 ? t(TEXTOS.gasta, idioma) : ''}</p>
+      <button className="botao" onClick={comecar} disabled={sobram > 0 || !personagem}>
         {t(TEXTOS.comecar, idioma)}
       </button>
     </main>
@@ -147,9 +148,9 @@ export function ResumoFicha({ ficha, idioma }: { ficha: FichaPersonagem; idioma:
   return (
     <div className="resumo-ficha">
       <span className="resumo-avatar" aria-hidden="true">
-        {comIcones(avatarPersonagem('heroi', ficha.genero))}
+        <FiguraPersonagem personagem={personagemPorId('heroi', ficha.personagem)} classe="resumo-imagem" />
       </span>
-      <strong>{tituloPersonagem('heroi', ficha.genero)}</strong>
+      <strong>{personagemPorId('heroi', ficha.personagem).nome}</strong>
       <span>
         <Icone id="interface/coracao" /> {ficha.pontosDeVida}/{ficha.pontosDeVidaMaximos}
       </span>

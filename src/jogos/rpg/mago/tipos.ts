@@ -1,5 +1,5 @@
 import type { LadosDado } from '../../../compartilhado/dados';
-import type { Genero, TextoPorIdioma } from '../../../compartilhado/idioma';
+import type { TextoPorIdioma } from '../../../compartilhado/idioma';
 
 /** Tipo de mago que a criança escolhe. */
 export type EscolaId = 'fogo' | 'gelo' | 'natureza' | 'estrelas';
@@ -51,7 +51,8 @@ export interface Escola {
 
 /** Ficha do mago controlado pela criança. */
 export interface FichaMago {
-  genero: Genero;
+  /** Id do personagem escolhido (veja ../personagem.ts). */
+  personagem: string;
   escola: EscolaId;
   habilidades: Habilidades;
   pontosDeVida: number;
