@@ -97,7 +97,7 @@ Ainda não foram ouvidas; a tabela é só a leitura dos fonemas. As 2 de "prová
 
 ## Ajustes feitos a partir da comparação (ouvidos em frases)
 
-Os ajustes por palavra ficam em `TROCAS_PALAVRA_PT_BR` (`scripts/piper_falar.py`): chave = fonemas do espeak, valor = fonemas usados. As que só valem para a palavra sozinha ficam em `TROCAS_PALAVRA_SOLTA_PT_BR` (rodada 3); uma troca da palavra para ela mesma ali (porta, rodada 4) deixa a palavra sozinha fora de `TROCAS_PALAVRA_PT_BR`. Desde a rodada 5 há também `TROCAS_ANTES_DE_PT_BR` (a palavra só muda antes de outra: "de" em "De repente"), `TROCAS_TEXTO_PT_BR` (o texto inteiro falado de outro jeito, sem mudar a tela) e `GRUPO_SIMPLES_PT_BR` (palavras em que o grupo de consoantes fica com um `ɾ` só). Depois de mudar, regerar com `npm run audio:piper -- --voz faber --refazer-palavras palavra1,palavra2` (refaz todo texto que contém a palavra).
+Os ajustes por palavra ficam em `TROCAS_PALAVRA_PT_BR` (`scripts/piper_falar.py`): chave = fonemas do espeak, valor = fonemas usados. As que só valem para a palavra sozinha ficam em `TROCAS_PALAVRA_SOLTA_PT_BR` (rodada 3); uma troca da palavra para ela mesma ali (porta, rodada 4) deixa a palavra sozinha fora de `TROCAS_PALAVRA_PT_BR`. Desde a rodada 6, "um" antes de consoante também muda conforme a palavra seguinte (`UM_PT_BR`). Desde a rodada 5 há também `TROCAS_ANTES_DE_PT_BR` (a palavra só muda antes de outra: "de" em "De repente"), `TROCAS_TEXTO_PT_BR` (o texto inteiro falado de outro jeito, sem mudar a tela) e `GRUPO_SIMPLES_PT_BR` (palavras em que o grupo de consoantes fica com um `ɾ` só). Depois de mudar, regerar com `npm run audio:piper -- --voz faber --refazer-palavras palavra1,palavra2` (refaz todo texto que contém a palavra).
 
 | Palavra | Espeak (sozinha / na frase) | Usado | Motivo |
 |---|---|---|---|
@@ -330,6 +330,96 @@ Por que um ajuste vale para umas palavras e não para outras:
 - **"Hora de dormir.":** o que ajudou foi a entonação da exclamação, não a duração.
 
 Ainda sem solução (rodada 5): **caminhão** sozinha ("canião": o "mi" some em todos os ritmos; testar o `ɲ` como `nj`, como o `ʎ` → `lj`), **Clara** em "O que Clara quer fazer?" soa "Clark" (`klˈaɾɐ` no meio da frase; testar `klˈaɾa`), "Golem" (`ɡˈɔleɪŋ`, não ouvido), "deixa um" soa "deixa un", "sua voz" estranho em "quis mostrar sua voz.", e as combinações novas que ainda não foram ouvidas juntas: `ɾɾdd` em guardião (`ɡwˌaɾɾddʒiʲˈɐ̃ʊ̃`), acorda (`ˌakˈɔɾɾddɐ`) e as outras palavras com "r" antes de `t`/`d` no meio da frase.
+
+### Rodada 6 (confere as regras da rodada 5 e testa o que ficou sem solução)
+
+`$PIPER_PYTHON scripts/fonemas/gerar_rodada6.py` gera `referencias-fonemas/validacao-rodada6/` (`--listar` só mostra os itens e os fonemas, sem gerar áudio). Para ouvir: `python scripts/fonemas/servir_validacao.py validacao-rodada6` e abrir <http://localhost:5198/> numa aba do navegador (não no explorador de arquivos do Kedalion). As respostas vão para `validacao-rodada6/respostas.json`.
+
+Diferenças da rodada 5: no grupo 0 a versão A roda o `scripts/piper_falar.py` do commit `d1b414d` (antes da rodada 5), e entre os textos que casam com cada caso fica o que mudou com menos regras e que não foi ouvido na rodada 5; o item pode mostrar a palavra anterior junto (`junto`, para "sua voz").
+
+| Grupo | O que testa | Versões |
+|---|---|---|
+| 0. Regras da rodada 5 (29 textos reais do site) | `OCLUSIVA_DEPOIS_DE_R` no meio da frase (guardião, acorda, acordou, parte, perde, jardim, esperto); `S_GRUPO` (estranha no fim com `A_FINAL`, "Chuva de Estrelas!", distribuir, mostrava, construir); a volta do `ɾɾ` no grupo (cobria, agradeceu, descobriram, ladrão, atravessou); as trocas de chave (3 frases), Goblin (título "O Goblin Chefe" e 1 frase), "De repente, a porta...", tartaruga sozinha e o título | antes da rodada 5 · atual |
+| | `TONICA_R_FINAL` sem "o" (flor, melhor, tambor no fim da frase) | só a palavra com a vogal longa (como antes) · atual |
+| | exceção do grupo (soprou, abriu) em frases ainda não ouvidas | atual (`ɾ` simples) · `ɾɾ` |
+| 1. "nh" em palavra sozinha (5 do site) | caminhão, Montanha, joaninha!, minhoca!, porquinho | atual · `ɲ`→`nj` · vogal longa antes do `ɲ` (`kˌamiːɲˈɐ̃ʊ̃`) · `nj` + ritmo 1.5 |
+| 2. Clara e Amara (6 do site) | nome no começo e no meio, antes de consoante e de vogal | atual (`klˈaɾɐ`) · `klˈaɾa` · `klˈaːɾɐ` · vírgula depois; Amara também `ˌamˈaɾa` |
+| 3. Golem (3 do site) | `ɡˈɔleɪŋ` (`ɡˈɔleɪn` antes de "s") | atual · `ɡˈɔlẽ` · `ɡˈolẽ` · `ɡˈɔlẽɪ` |
+| 4. "um" antes de consoante (4 do site) | antes de r, p, l/c, s | atual (`ũn`/`ũm`) · `ũ` · `ũm` |
+| 5. "sua voz" (3 do site) | "quis mostrar sua voz.", "Se sua voz for...", "...para sua avó?" | atual (`sˌuɐ vˈɔs`) · `sˈua` · `vˈɔːs` · `vˈɔz` |
+| 6. corda, gordo, verde (5 do site, 1 nova) | 2 frases de cada | atual (`ɾɾdd`) · `ɾɾɾd` · `ɾɾɾdd` |
+| 7. "s" + grupo depois da tônica (3 do site) | mestre, mostra, terrestre (as únicas do site além de rastro) | atual (`ɾɾ`) · `ɾɾɾ` · consoante dobrada (`ttɾɾ`) |
+| 8. Frase curta com "." (5 do site) | "Tente de novo.", "Continue procurando.", "Deixe o sapo entrar.", "Atravesse com equilíbrio.", "Os animais aplaudiram." | com "." · com "!" (só na fala) |
+
+Observações ao montar: não há "forte" no meio de frase no site (entrou jardim) nem caminhão numa frase; das palavras com "nh" pedidas (cozinha, galinha, aranha) só Montanha existe sozinha no site, por isso entram joaninha, minhoca e porquinho. O texto de "flor" no fim também mudou por porta e estragar, por isso o grupo 0 compara só a vogal de flor/melhor/tambor. Em "um pássaro" o espeak já dá `ũm`, então ali só existe a versão `ũ`. A frase "O gato gordo dormiu no sofá." é nova (o site só tem gordo no fim da frase).
+
+### Resultado da rodada 6 (2026-11-07, 64 respostas)
+
+| Grupo | Resultado | O que mudou (`scripts/piper_falar.py`) |
+|---|---|---|
+| 0. `OCLUSIVA_DEPOIS_DE_R` no meio da frase | Antes de vogal: atual em acorda e esperto (textos com outras mudanças), sem diferença em acordou. Antes de chiado: **antes 2** (parte `ttʃ`, perde `ddʒ`), sem diferença 2 (guardião, jardim). | A regra não vale mais antes de `tʃ`/`dʒ` (veja abaixo); tarde fica com `ddʒ` por palavra. |
+| 0. `S_GRUPO` | Atual 3 (distribuir, mostrava, construir), sem diferença 1 (estranha), nenhum 1 ("Chuva de Estrelas!": iguais; "chuva" rápido demais). | Nada. |
+| 0. `ɾɾ` de volta no grupo | Atual 6 de 6 (cobria, agradeceu, ladrões/descobriram, ladrão, atravessou), sem diferença 1 (atrás). | Nada. |
+| 0. Exceção do grupo | soprou: **`ɾɾ`** ("O lobo soprou com..."); abriu: sem diferença. | Nada: soprou soma 2 votos para o simples ("Soprou, soprou", rodadas 3 e 4) e 1 para o `ɾɾ`. |
+| 0. `TONICA_R_FINAL` sem "o" | Atual 2 (melhor, tambor), sem diferença 1 (flor). | Nada. |
+| 0. Trocas | Goblin 2, chave 1 (+2 sem diferença), "De repente" 1, tartaruga 2: atual. | Nada. |
+| 1. "nh" sozinha | caminhão: **`nj` + ritmo 1.5** ("ainda não totalmente, mas ouço caminhão"). Montanha: atual (as outras soam "montania"). joaninha, minhoca: vogal longa = atual. porquinho: nenhum ("pouquinho": o "r" some). | caminhão em `AJUSTES_PT_BR` (`kˌaminjˈɐ̃ʊ̃`, 1.5). O `nj` não vira regra. |
+| 2. Clara, Amara | `klˈaɾa` 4 de 4. Amara: `ˌamˈaɾa` 1, empate `ˌamˈaɾa`/`ˌɐmˈaːɾɐ` 1. | Clara → `klˈaɾa`, Amara → `ˌamˈaɾa`. |
+| 3. Golem | `ɡˈɔlẽɪ` 2, `ɡˈɔlẽ` 1. | Golem → `ɡˈɔlẽɪ`. |
+| 4. "um" antes de consoante | O atual nunca ganhou: `ũ` antes de r e p, `ũm` antes de l/c e s. | "um" antes de consoante vira `ũ` antes de `x`/`p` e `ũm` antes das outras (antes de vogal fica como está). |
+| 5. "sua" | `sˈua` 3 de 3. | sua → `sˈua`. |
+| 6. corda, gordo, verde | `ɾɾɾd` 4 (corda ×2, gordo no fim, verde no meio), atual 1 (gordo, frase nova), sem diferença 1 (verde no fim). | corda → `kˈɔɾɾɾdɐ` (sozinha fica como está), gordo → `ɡˈoɾɾɾdʊ`. verde fica com a regra (`ɾɾdʒ`). |
+| 7. "s" + grupo depois da tônica | terrestre `ɾɾɾ`; mestre e mostra sem diferença. | `S_GRUPO_DEPOIS`: `ɾɾɾ` (com rastro: ganhou 2, empatou 2). A troca de rastro saiu. |
+| 8. Frase curta com "." | "!" ganhou 2 (Continue procurando, Os animais aplaudiram), sem diferença 2, "." 1 (Atravesse com equilíbrio). | As 2 em `TROCAS_TEXTO_PT_BR`; sem regra geral. |
+
+Por que um ajuste vale para umas palavras e não para outras:
+
+- **Oclusiva dobrada depois do "r":** somando as rodadas 5 e 6, antes de `t`/`d` + vogal (porta, perto, certa, ordem) ganhou sempre; antes de chiado (`tʃ`, `dʒ`) ganhou só em tarde, perdeu em parte, perde e verde (no meio, para `ɾɾɾdʒ`) e empatou em guardião, jardim e verde ×2. O chiado já é uma consoante longa; dobrar o `d` antes dele não dá tempo ao "r", só alonga o chiado.
+- **"r" + "d" depois de "o"/"ó" (corda, gordo):** o problema é o "r" virar semivogal ("coida", "goudo"); o `ɾɾɾ` resolve melhor que reforçar o `d`. Mas ordem (também "ó" + `ɾd`) preferiu o `dd` na rodada 5, por isso fica por palavra.
+- **"s" + grupo:** antes da tônica a consoante dobrada ajuda (S_GRUPO); depois da tônica, o `ɾɾɾ`. Mesmo padrão de esfregou (`f`, onde o `ɾɾɾ` também ganhou).
+- **Nome no fim do sintagma (Clara, Amara):** o `ɐ` final some e o nome soa cortado ("Clark"), em qualquer posição; o `a` pleno resolve, como o `A_FINAL` no fim da frase.
+- **"um":** a consoante nasal que o espeak acrescenta soa como "un"; tirar (antes de "r", "p") ou usar `m` (antes de "l", "s", "c") ajudou. Um voto por consoante: as não ouvidas (d, t, m, b, f, v, ʃ...) ficam com `ũm`.
+
+Ainda sem solução (rodada 6): **porquinho** sozinha ("pouquinho": o "r" de fim de sílaba some; testar `ɾɾ` e ritmo 1.5), **Goblin** antes de vogal sem o "n" ("o goblin e a estrela"; testar `ɡˈɔblĩn`), **atrás** soa "atás" (`atɾɾˈaz`), **vingar** soa "vindar" (`vĩŋɡˈaːɾ`; testar `ŋ`→`n`), **suas** soa "sus" ("Vão construir suas casas!"; testar `sˈuas`, como sua), "Chuva de Estrelas!" com "chuva" rápido demais, caminhão ainda não perfeita, e as regras novas ainda não ouvidas em outras frases (`ũm` antes das consoantes não testadas, `S_GRUPO_DEPOIS`, oclusiva simples antes de chiado).
+
+### Prompt para a rodada 7 (pausada)
+
+As melhorias do narrador estão pausadas depois da rodada 6. Para retomar, use o texto abaixo como pedido.
+
+```markdown
+# Rodada 7 da validação de fonemas pt-BR (voz Faber do Piper)
+
+Leia primeiro `docs/VALIDACAO-FONEMAS.md` inteiro, em especial os resultados das rodadas 2 a 6 e a lista "Ainda sem solução (rodada 6)". Depois leia:
+- `scripts/piper_falar.py`: `TROCAS_PALAVRA_PT_BR`, `TROCAS_PALAVRA_SOLTA_PT_BR`, `TROCAS_ANTES_DE_PT_BR`, `TROCAS_TEXTO_PT_BR`, `UM_PT_BR`, `AJUSTES_PT_BR`, `trocar_palavras`, `corrigir_fonemas`, `reforcar_r` (`R_GRUPO` com `GRUPO_SIMPLES_PT_BR`, `S_GRUPO`, `S_GRUPO_DEPOIS`, `R_FIM_DE_SILABA`, `OCLUSIVA_DEPOIS_DE_R`, `A_FINAL`, `TONICA_R_FINAL`, `O_CONSOANTE`, `A_ATONO_NASAL`), `ajuste_palavra_solta`, `sintetizar`.
+- `scripts/fonemas/gerar_rodada6.py`: modelo da página e do mecanismo (`--listar` mostra itens e fonemas sem gerar áudio). A versão testada troca a palavra **depois** de todas as correções do app; a mudança vale para todas as ocorrências da palavra; uma versão pode mudar outra palavra (`alvo`), a anterior (`anterior`) ou o texto todo (`texto`); `virgula` põe pausa antes; `junto` mostra a palavra anterior; o grupo 0 carrega o `piper_falar.py` de um commit antigo com `git show` e escolhe, entre os textos que casam, o que mudou com menos regras e não foi ouvido antes.
+- `scripts/fonemas/servir_validacao.py` e `referencias-fonemas/validacao-rodada6/respostas.json` (respostas e notas da rodada 6).
+
+Rode `git status` e `git log`. O commit "antes da rodada 6" é `1b91e3f`. Se houver mudança local, me avise antes de mexer.
+
+## O que já se sabe (não testar de novo)
+Tudo o que está nas seções "O que já se sabe" e nos resultados das rodadas 2 a 6 do doc. Em especial:
+- Oclusiva dobrada depois do "r" ajuda antes de `t`/`d` + vogal, não antes de chiado (`tʃ`, `dʒ`); tarde é a exceção (por palavra).
+- corda e gordo: `ɾɾɾd`. "s" + grupo: consoante dobrada antes da tônica, `ɾɾɾ` depois.
+- Clara `klˈaɾa`, Amara `ˌamˈaɾa`, Golem `ɡˈɔlẽɪ`, sua `sˈua`, caminhão sozinha `kˌaminjˈɐ̃ʊ̃` com ritmo 1.5. O `nj` no lugar do `ɲ` não ajudou em Montanha (soou "montania").
+- "um" antes de consoante: `ũ` antes de r/p, `ũm` antes de l/s/c.
+- **Como ler as minhas notas:** elas descrevem o que eu ouço ("pouquinho", "atás", "sus"). Não são afirmações de gramática nem de fonética. Procure o que soa errado (vogal longa ou curta, tônica deslocada, consoante vizinha fraca, ritmo) e crie versões que isolem cada hipótese.
+
+## O que testar na rodada 7
+0. **Conferir as regras da rodada 6** em uns 25 textos reais do site (A = `git show 1b91e3f:scripts/piper_falar.py`, B = hoje): "um" antes de consoantes ainda não ouvidas (d, t, m, b, f, v, ch, g, n), `OCLUSIVA_DEPOIS_DE_R` sem dobra antes de chiado (fortes, parte, verde, guardião, jardim em outras frases), `S_GRUPO_DEPOIS` (rastro, mestre, mostra, terrestre em outras frases), Clara/Amara/sua/Golem/corda/gordo em frases não ouvidas, caminhão sozinha e as 2 frases que passaram a ser faladas com "!".
+1. **porquinho sozinha soa "pouquinho"** (o "r" de fim de sílaba some na palavra sozinha). Versões: atual, `ɾɾ`, ritmo 1.5, `ɾɾ` + 1.5. Junte outras palavras sozinhas do site com "r" de fim de sílaba e 3 sílabas.
+2. **Goblin antes de vogal sem o "n"** ("O Sol acorda o goblin e a estrela..."): atual `ɡˈɔblĩ`, `ɡˈɔblĩn`, `ɡˈɔblin`. Use as frases do site com Goblin antes de vogal e 1 antes de consoante como controle.
+3. **atrás soa "atás"** (`atɾɾˈaz`): atual, `ɾɾɾ`, `tt` (`attɾɾˈaz`), `aː` tônico. 3 frases do site.
+4. **vingar soa "vindar"** (`vĩŋɡˈaːɾ`): atual, `ŋ`→`n`, sem a consoante nasal (`vĩɡˈaːɾ`), `ɡɡ`. Junte outras palavras do site com `ŋɡ`.
+5. **suas soa "sus"** ("Vão construir suas casas!"): atual `sˌuɐs`, `sˈuas`, `sˈuɐs`. 3 frases do site (inclua "suas penas").
+6. **"Chuva de Estrelas!"**: "chuva" rápido demais no começo. Versões: atual, `uː` em "chuva", `ʃʃ` no começo, ritmo 1.3 na frase toda, pausa antes. Inclua "Você aprendeu Chuva de Estrelas!".
+7. **caminhão sozinha** ainda não perfeita: atual (`nj` + 1.5), `iː` + `nj` + 1.5, `ˌa` → `ˈa` (secundário mais forte), ritmo 1.7.
+
+## Como montar
+Mesmas lições da rodada 6 (veja o prompt dela neste histórico e as seções "Observações ao montar"): crie `scripts/fonemas/gerar_rodada7.py` a partir de `gerar_rodada6.py`, saída em `referencias-fonemas/validacao-rodada7/` (fora do git); pule versões iguais e itens com uma versão só; use `--listar` para conferir os fonemas e as regex na frase inteira antes de gerar áudio; Python com o Piper em `.venv-piper/Scripts/python.exe`; rode antes `node scripts/fonemas/extrair-palavras.mjs`; troca com `ː` antes de `ɾ` precisa já trazer o `ɾɾ`. Sirva com `python scripts/fonemas/servir_validacao.py validacao-rodada7` em background (http://localhost:5198/), abra numa aba do navegador do Kedalion (nunca no explorador de arquivos), teste gravar, recarregar e apagar as respostas antes de me passar. Registre a rodada 7 neste doc no mesmo formato.
+
+## Depois das minhas respostas
+Analise procurando padrões, some os votos de todas as rodadas para o mesmo caso, prefira regra geral quando os dados sustentarem e troca por palavra quando não. Implemente em `scripts/piper_falar.py`, regere o áudio pt-BR (`PIPER_PYTHON=.venv-piper/Scripts/python.exe npm run audio:piper -- --voz faber --refazer`, ou `--refazer-palavras`), atualize a documentação e rode `npm test`.
+```
 
 ## Limites
 

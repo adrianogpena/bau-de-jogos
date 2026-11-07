@@ -174,7 +174,23 @@ TROCAS_PALAVRA_PT_BR.update(
         "ʃˈavɪ": "ʃˈaːvɪ",  # chave: soava "tchave"; com o "a" longo, não (ouvido só em "chave de fenda!")
         "ʃˈavj": "ʃˈaːvj",
         "ˌesfɾeɡˈow": "ˌesfɾɾɾeɡˈow",  # esfregou: soava "esfegou"; só com "ɾɾɾ" o "r" se ouve
-        "xˈastɾʊ": "xˈastɾɾɾʊ",  # rastro
+    }
+)
+# Rodada 6 de validação.
+TROCAS_PALAVRA_PT_BR.update(
+    {
+        "klˈaɾɐ": "klˈaɾa",  # Clara: soava "Clark" (4 de 4, no começo e no meio, antes de vogal e de consoante)
+        "ˌɐmˈaɾɐ": "ˌamˈaɾa",  # Amara
+        "ɡˈɔleɪŋ": "ɡˈɔlẽɪ",  # Golem (2 de 3; o outro preferiu "ɡˈɔlẽ")
+        "ɡˈɔleɪn": "ɡˈɔlẽɪ",
+        "ɡˈɔleɪm": "ɡˈɔlẽɪ",
+        "sˌuɐ": "sˈua",  # sua: "sua voz" soava estranho (3 de 3)
+        # "r" + "d" depois de "o"/"ó": "ɾɾɾ" e um "d" só (corda soava "coida"; 4 votos contra 1 do "ɾɾdd")
+        "kˈɔɾdɐ": "kˈɔɾɾɾdɐ",  # corda
+        "ɡˈoɾdʊ": "ɡˈoɾɾɾdʊ",  # gordo
+        # tarde: a única palavra com chiado em que o "d" dobrado ganhou (OCLUSIVA_DEPOIS_DE_R não vale antes de "dʒ")
+        "tˈaɾdʒɪ": "tˈaɾddʒɪ",
+        "tˈaɾdʒj": "tˈaɾddʒj",
     }
 )
 # Só quando o texto (a frase) é uma palavra sozinha; têm prioridade sobre TROCAS_PALAVRA_PT_BR.
@@ -185,6 +201,7 @@ TROCAS_PALAVRA_SOLTA_PT_BR = {
     "pˌɐnˈɛlɐ": "panˈɛla",  # panela: soava "pânela"
     "bɾˈuʃɐ": "bɾˈuʃa",  # bruxa: o "x" sumia
     "tˌaɾtaɾˈuɡɐ": "tˌaːɾttaɾˈuɡɐ",  # tartaruga: faltava força no primeiro "ta" (rodada 5)
+    "kˈɔɾdɐ": "kˈɔɾdɐ",  # corda sozinha fica como o espeak gera (o "ɾɾɾ" só foi ouvido na frase)
 }
 # Palavra seguida de outra: (fonemas da palavra, começo dos fonemas da próxima) → fonemas usados.
 TROCAS_ANTES_DE_PT_BR = {
@@ -192,13 +209,21 @@ TROCAS_ANTES_DE_PT_BR = {
 }
 # Textos inteiros falados de outro jeito (a tela não muda).
 TROCAS_TEXTO_PT_BR = {
-    "A Lebre e a Tartaruga": "A Lebre e a, Tartaruga",  # pausa antes de "Tartaruga": soava "la tataruga" (rodada 5)
+    "A Lebre e a Tartaruga":"A Lebre e a, Tartaruga",  # pausa antes de "Tartaruga": soava "la tataruga" (rodada 5)
+    # Frases curtas com "." que soaram melhor com a entonação da exclamação (rodada 6)
+    "Continue procurando.": "Continue procurando!",
+    "Os animais aplaudiram.": "Os animais aplaudiram!",
 }
 # Só no meio da frase: no começo (ex.: o título "Chapeuzinho Vermelho") o fonema do espeak soa melhor, e este engole o "ch".
 TROCAS_PALAVRA_NO_MEIO_PT_BR = {
     "ʃˌapeʊzˈiɲʊ": "ʃapˌɛʊzˈiɲʊ",  # chapeuzinho
 }
 PONTUACAO = ",.!?:;"
+# "um" antes de consoante: o espeak dá "ũn"/"ũm"/"ũŋ" conforme a consoante, e "deixa um rastro" soava "deixa un". O atual
+# nunca ganhou (rodada 6): "ũ" antes de "r" e "p", "ũm" antes de "l", "s" e "c" (e das consoantes ainda não ouvidas).
+UM_PT_BR = {unicodedata.normalize("NFD", p) for p in ("ũn", "ũm", "ũŋ")}
+UM_SEM_CONSOANTE_ANTES_DE = "xp"
+VOGAIS = "aeiouɛɔɐɪʊ"
 # O espeak devolve as vogais nasais decompostas (vogal + til); as chaves são comparadas nessa forma.
 TROCAS_PALAVRA_PT_BR = {unicodedata.normalize("NFD", k): v for k, v in TROCAS_PALAVRA_PT_BR.items()}
 TROCAS_PALAVRA_NO_MEIO_PT_BR = {unicodedata.normalize("NFD", k): v for k, v in TROCAS_PALAVRA_NO_MEIO_PT_BR.items()}
@@ -225,6 +250,9 @@ def trocar_palavras(fonemas):
         if troca is None and not cauda and n + 1 < len(palavras):
             proxima = "".join(palavras[n + 1])
             troca = next((v for (p, c), v in TROCAS_ANTES_DE_PT_BR.items() if p == "".join(palavra) and proxima.startswith(c)), None)
+            inicio = proxima.lstrip("ˈˌ")[:1]
+            if troca is None and "".join(palavra) in UM_PT_BR and inicio and inicio not in VOGAIS:
+                troca = "ũ" if inicio in UM_SEM_CONSOANTE_ANTES_DE else "ũm"
         if troca is None:
             troca = TROCAS_PALAVRA_PT_BR.get("".join(palavra))
         if troca is None and saida:
@@ -269,13 +297,16 @@ GRUPO_SIMPLES_PT_BR = {unicodedata.normalize("NFD", p) for p in (
     "sopɾˈow", "sopɾˈoʊ", "sopɾˈaɾ", "abɾˈiw", "abɾˈiʊ", "ˌapɾẽndʒˈiz",  # soprou, soprar, abriu, aprendiz
 )}
 # "s" + grupo antes da tônica ou nela (estragar, estrela, mostrar, construiu): mesmo com "ɾɾ" o "r" sumia ("estagar");
-# com a consoante do grupo dobrada ele aparece (rodada 5, 6 de 6). Com "f" (esfregou) e depois da tônica (rastro) ganhou
-# "ɾɾɾ", trocado por palavra.
+# com a consoante do grupo dobrada ele aparece (rodada 5, 6 de 6). Com "f" (esfregou) ganhou "ɾɾɾ", trocado por palavra;
+# depois da tônica (rastro, terrestre) vale S_GRUPO_DEPOIS.
 S_GRUPO = re.compile(r"(?<=s)([pbtdkɡv])(?=ɾɾ(?!ɾ).*ˈ)")
 R_FIM_DE_SILABA = re.compile(r"(?<=[aeiouɛɔɐɪʊ])ɾ(?=[^aeiouɛɔɐɪʊ̃ˈˌʲɾː" + re.escape(PONTUACAO) + r"])")
-# "r" de fim de sílaba antes de "t"/"d" (porta, perto, tarde, ordem): o "r" sumia ("pôta"); com a oclusiva dobrada, como
-# em tartaruga, ele aparece (rodada 5, 8 de 10; os outros 2 empataram).
-OCLUSIVA_DEPOIS_DE_R = re.compile(r"(?<=[aeiouɛɔɐɪʊ̃ː]ɾɾ)([td])(?![td])")
+# "s" + grupo depois da tônica (rastro, terrestre): "ɾɾɾ" ganhou 2 e empatou 2 (mestre, mostra), nunca perdeu (rodada 6).
+S_GRUPO_DEPOIS = re.compile(r"(?<=s[pbtdkɡv])ɾɾ(?!ɾ)(?!.*ˈ)")
+# "r" de fim de sílaba antes de "t"/"d" (porta, perto, certa, ordem): o "r" sumia ("pôta"); com a oclusiva dobrada, como
+# em tartaruga, ele aparece (rodada 5, 8 de 10). Antes de chiado ("ttʃ", "ddʒ": parte, perde, verde, guardião, jardim) não
+# ajudou (rodadas 5 e 6: perdeu 3, empatou 4, ganhou só em tarde, que ficou por palavra).
+OCLUSIVA_DEPOIS_DE_R = re.compile(r"(?<=[aeiouɛɔɐɪʊ̃ː]ɾɾ)([td])(?![tdʃʒ])")
 # Última palavra da frase terminada em "ɐ": com "a" pleno não some (caixa soava "caix"). Menos "-gia" (magia, energia).
 A_FINAL = re.compile(r"(?<!ʒˈiʲ)ɐ(?=[" + re.escape(PONTUACAO) + r"]*$)")
 # Última palavra da frase terminada em "a", "e" ou "i" tônico + "r" (dormir, brincar, chorar, fugir, achar): saía rápida
@@ -302,7 +333,7 @@ def reforcar_r(fonemas):
         return list(" ".join(palavras))
     ultima = reais[-1] if reais else -1
     for i, p in enumerate(palavras):
-        p = S_GRUPO.sub(r"\1\1", reforcar_grupo(p))
+        p = S_GRUPO_DEPOIS.sub("ɾɾɾ", S_GRUPO.sub(r"\1\1", reforcar_grupo(p)))
         p = OCLUSIVA_DEPOIS_DE_R.sub(r"\1\1", R_FIM_DE_SILABA.sub("ɾɾ", p))
         if i == ultima:
             p = TONICA_R_FINAL.sub(r"ˈ\1ːɾ", A_FINAL.sub("a", p))
@@ -327,6 +358,7 @@ AJUSTES_PT_BR = {
     "cinquenta e dois": (1.5, True, False, None),
     "cem": (1.5, True, False, "sˈẽĩ"),
     "quinze": (1.5, True, False, "kˈĩzi"),
+    "caminhão": (1.5, True, False, "kˌaminjˈɐ̃ʊ̃"),  # soava "canião"; com o "nh" como "nj" e mais lenta, não (rodada 6)
 }
 
 
