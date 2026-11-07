@@ -187,7 +187,7 @@ const O_QUE_FAZER: TextoPorIdioma = {
   'pt-BR': 'O que {nome} quer fazer?',
 };
 
-/** A história. "{nome}" é trocado pelo nome do herói. */
+/** A história. "{nome}" vira "o herói/a heroína" (veja personagem.ts). */
 export const CENAS: Record<string, Cena> = {
   aldeia: {
     id: 'aldeia',
@@ -221,9 +221,9 @@ export const CENAS: Record<string, Cena> = {
     emoji: '[[cenas/estrada]]',
     texto: {
       'pt-PT':
-        '{nome} chega ao fim da aldeia. O caminho divide-se: de um lado, a floresta escura; do outro, um rio com pedras no meio da água.',
+        '{Nome} chega ao fim da aldeia. O caminho divide-se: de um lado, a floresta escura; do outro, um rio com pedras no meio da água.',
       'pt-BR':
-        '{nome} chega ao fim da vila. O caminho se divide: de um lado, a floresta escura; do outro, um rio com pedras no meio da água.',
+        '{Nome} chega ao fim da vila. O caminho se divide: de um lado, a floresta escura; do outro, um rio com pedras no meio da água.',
     },
     pergunta: O_QUE_FAZER,
     escolhas: [
@@ -242,8 +242,8 @@ export const CENAS: Record<string, Cena> = {
     id: 'floresta',
     emoji: '[[cenas/floresta]]',
     texto: {
-      'pt-PT': '{nome} entra na floresta escura. Dois olhos amarelos brilham entre as árvores... É um lobo!',
-      'pt-BR': '{nome} entra na floresta escura. Dois olhos amarelos brilham entre as árvores... É um lobo!',
+      'pt-PT': '{Nome} entra na floresta escura. Dois olhos amarelos brilham entre as árvores... É um lobo!',
+      'pt-BR': '{Nome} entra na floresta escura. Dois olhos amarelos brilham entre as árvores... É um lobo!',
     },
     luta: { inimigo: 'lobo', aoVencer: 'clareira' },
   },
@@ -251,8 +251,8 @@ export const CENAS: Record<string, Cena> = {
     id: 'rio',
     emoji: '[[cenas/rio]]',
     texto: {
-      'pt-PT': '{nome} chega ao rio. Há pedras no meio da água para atravessar. Salta de pedra em pedra sem cair!',
-      'pt-BR': '{nome} chega ao rio. Há pedras no meio da água para atravessar. Pule de pedra em pedra sem cair!',
+      'pt-PT': '{Nome} chega ao rio. Há pedras no meio da água para atravessar. Salta de pedra em pedra sem cair!',
+      'pt-BR': '{Nome} chega ao rio. Há pedras no meio da água para atravessar. Pule de pedra em pedra sem cair!',
     },
     teste: { atributo: 'agilidade', dificuldade: 10, sucesso: 'rio_certo', falha: 'rio_errado' },
   },
@@ -260,8 +260,8 @@ export const CENAS: Record<string, Cena> = {
     id: 'rio_certo',
     emoji: '[[cenas/coelho]]',
     texto: {
-      'pt-PT': 'Que salto! {nome} atravessou como um coelho, sem molhar os pés.',
-      'pt-BR': 'Que pulo! {nome} atravessou como um coelho, sem molhar os pés.',
+      'pt-PT': 'Que salto! {Nome} atravessou como um coelho, sem molhar os pés.',
+      'pt-BR': 'Que pulo! {Nome} atravessou como um coelho, sem molhar os pés.',
     },
     escolhas: [{ texto: SEGUIR, proximaCena: 'clareira' }],
   },
@@ -291,9 +291,9 @@ export const CENAS: Record<string, Cena> = {
     emoji: '[[cenas/clareira]]',
     texto: {
       'pt-PT':
-        'Numa clareira, um baú brilha ao luar. Lá dentro está uma poção mágica! 🧪 {nome} descansa um pouco e recupera as forças.',
+        'Numa clareira, um baú brilha ao luar. Lá dentro está uma poção mágica! 🧪 {Nome} descansa um pouco e recupera as forças.',
       'pt-BR':
-        'Em uma clareira, um baú brilha ao luar. Lá dentro está uma poção mágica! 🧪 {nome} descansa um pouco e recupera as forças.',
+        'Em uma clareira, um baú brilha ao luar. Lá dentro está uma poção mágica! 🧪 {Nome} descansa um pouco e recupera as forças.',
     },
     recompensa: { pocoes: { cura: 1 }, curar: true },
     escolhas: [{ texto: SEGUIR, proximaCena: 'vale' }],
@@ -333,8 +333,8 @@ export const CENAS: Record<string, Cena> = {
     id: 'ponte_certo',
     emoji: '[[cenas/acrobata]]',
     texto: {
-      'pt-PT': 'Que equilíbrio! {nome} atravessou a ponte sem partir nenhuma tábua.',
-      'pt-BR': 'Que equilíbrio! {nome} atravessou a ponte sem quebrar nenhuma tábua.',
+      'pt-PT': 'Que equilíbrio! {Nome} atravessou a ponte sem partir nenhuma tábua.',
+      'pt-BR': 'Que equilíbrio! {Nome} atravessou a ponte sem quebrar nenhuma tábua.',
     },
     escolhas: [{ texto: SEGUIR, proximaCena: 'caverna' }],
   },
@@ -351,8 +351,8 @@ export const CENAS: Record<string, Cena> = {
     id: 'pantano',
     emoji: '[[inimigos/sapo-gigante]]',
     texto: {
-      'pt-PT': '{nome} entra no pântano. Plop! Um sapo gigante salta da lama!',
-      'pt-BR': '{nome} entra no pântano. Plop! Um sapo gigante pula da lama!',
+      'pt-PT': '{Nome} entra no pântano. Plop! Um sapo gigante salta da lama!',
+      'pt-BR': '{Nome} entra no pântano. Plop! Um sapo gigante pula da lama!',
     },
     luta: { inimigo: 'sapo', aoVencer: 'caverna' },
   },
@@ -373,9 +373,9 @@ export const CENAS: Record<string, Cena> = {
     emoji: '[[cenas/caverna]]',
     texto: {
       'pt-PT':
-        '{nome} chega a uma grande porta de pedra, na entrada da caverna do Goblin Chefe. Tem três símbolos a brilhar: 🌙 ⭐ ☀️.',
+        '{Nome} chega a uma grande porta de pedra, na entrada da caverna do Goblin Chefe. Tem três símbolos a brilhar: 🌙 ⭐ ☀️.',
       'pt-BR':
-        '{nome} chega a uma grande porta de pedra, na entrada da caverna do Goblin Chefe. Tem três símbolos brilhando: 🌙 ⭐ ☀️.',
+        '{Nome} chega a uma grande porta de pedra, na entrada da caverna do Goblin Chefe. Tem três símbolos brilhando: 🌙 ⭐ ☀️.',
     },
     pergunta: O_QUE_FAZER,
     escolhas: [
@@ -407,8 +407,8 @@ export const CENAS: Record<string, Cena> = {
     id: 'empurrar',
     emoji: '[[interface/forca]]',
     texto: {
-      'pt-PT': '{nome} encosta o ombro à porta e empurra com todas as forças!',
-      'pt-BR': '{nome} encosta o ombro na porta e empurra com todas as forças!',
+      'pt-PT': '{Nome} encosta o ombro à porta e empurra com todas as forças!',
+      'pt-BR': '{Nome} encosta o ombro na porta e empurra com todas as forças!',
     },
     teste: { atributo: 'forca', dificuldade: 13, sucesso: 'porta_aberta', falha: 'porta_morcego' },
   },
@@ -425,8 +425,8 @@ export const CENAS: Record<string, Cena> = {
     id: 'porta_aberta',
     emoji: '[[cenas/porta-de-pedra]]',
     texto: {
-      'pt-PT': 'Clique! A porta abre-se devagarinho. {nome} conseguiu!',
-      'pt-BR': 'Clique! A porta se abre devagarinho. {nome} conseguiu!',
+      'pt-PT': 'Clique! A porta abre-se devagarinho. {Nome} conseguiu!',
+      'pt-BR': 'Clique! A porta se abre devagarinho. {Nome} conseguiu!',
     },
     escolhas: [{ texto: SEGUIR, proximaCena: 'fundo' }],
   },
@@ -434,8 +434,8 @@ export const CENAS: Record<string, Cena> = {
     id: 'porta_morcego',
     emoji: '[[inimigos/morcego]]',
     texto: {
-      'pt-PT': 'Ups! A porta tremeu com o barulho. Um morcego acordou e voou na direção de {nome}!',
-      'pt-BR': 'Ops! A porta tremeu com o barulho. Um morcego acordou e voou na direção de {nome}!',
+      'pt-PT': 'Ups! A porta tremeu com o barulho. Um morcego acordou e voou na direção {doNome}!',
+      'pt-BR': 'Ops! A porta tremeu com o barulho. Um morcego acordou e voou na direção {doNome}!',
     },
     luta: { inimigo: 'morcego', aoVencer: 'porta_aberta' },
   },
@@ -453,9 +453,9 @@ export const CENAS: Record<string, Cena> = {
     emoji: '[[cenas/lua-cheia]]',
     texto: {
       'pt-PT':
-        'A Pedra da Lua voltou ao céu e a noite ficou clara! A aldeia inteira festeja {nome}, o herói da aventura.',
+        'A Pedra da Lua voltou ao céu e a noite ficou clara! A aldeia inteira festeja {nome}, que salvou a noite.',
       'pt-BR':
-        'A Pedra da Lua voltou ao céu e a noite ficou clara! A vila inteira festeja {nome}, o herói da aventura.',
+        'A Pedra da Lua voltou ao céu e a noite ficou clara! A vila inteira festeja {nome}, que salvou a noite.',
     },
     fim: true,
   },

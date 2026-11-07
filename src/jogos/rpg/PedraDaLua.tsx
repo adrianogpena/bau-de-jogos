@@ -1,3 +1,4 @@
+import { valoresPersonagem } from './personagem';
 import { useState } from 'react';
 import type { PropsJogo } from '../tipos';
 import { type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
@@ -162,7 +163,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
       <TextoNarrado
         className="texto-historia"
         idioma={idioma}
-        texto={preencher(t(cena.texto, idioma), { nome: ficha.nome })}
+        texto={preencher(t(cena.texto, idioma), valoresPersonagem('heroi', ficha.genero))}
       />
 
       {fase === 'luta' && cena.luta ? (
@@ -213,7 +214,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
             <TextoNarrado
               className="texto-grande"
               idioma={idioma}
-              texto={preencher(t(cena.pergunta, idioma), { nome: ficha.nome })}
+              texto={preencher(t(cena.pergunta, idioma), valoresPersonagem('heroi', ficha.genero))}
             />
           )}
 

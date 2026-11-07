@@ -38,7 +38,33 @@ export function t(texto: TextoPorIdioma, idioma: Idioma): string {
   return texto[idioma];
 }
 
-/** Troca `{chave}` pelos valores dados (ex.: "{nome} venceu!"). */
+/** Gênero do personagem escolhido pela criança: masculino ou feminino. */
+export type Genero = 'm' | 'f';
+
+/** Rótulos da escolha de gênero, por variante (pt-PT: rapaz/rapariga; pt-BR: menino/menina). */
+export const ROTULO_GENERO: Record<Idioma, Record<Genero, string>> = {
+  'pt-PT': { m: 'Rapaz', f: 'Rapariga' },
+  'pt-BR': { m: 'Menino', f: 'Menina' },
+};
+
+/**
+ * Troca `{chave}` pelos valores dados (ex.: "{nome} venceu!") e escolhe o gênero.
+ *
+ * - `{o|a}`: texto masculino | texto feminino, conforme `valores.genero` ('m' ou 'f'; sem gênero, vale o masculino).
+ *   Serve para artigos e concordância: "{O|A} {herói|heroína} está {pronto|pronta}".
+ * - `{Chave}` com inicial maiúscula usa o valor de `{chave}` com a primeira letra maiúscula
+ *   (início de frase: "{Nome} entra" vira "O herói entra").
+ */
 export function preencher(texto: string, valores: Record<string, string | number>): string {
-  return texto.replace(/\{(\w+)\}/g, (_, chave: string) => String(valores[chave] ?? ''));
+  const feminino = valores.genero === 'f';
+  return texto
+    .replace(/\{([^{}|]*)\|([^{}|]*)\}/g, (_, masculino: string, femininoTexto: string) =>
+      feminino ? femininoTexto : masculino,
+    )
+    .replace(/\{(\w+)\}/g, (_, chave: string) => {
+      if (valores[chave] !== undefined) return String(valores[chave]);
+      const minuscula = chave[0].toLowerCase() + chave.slice(1);
+      const valor = minuscula !== chave ? valores[minuscula] : undefined;
+      return valor === undefined ? '' : String(valor).replace(/^./, (c) => c.toUpperCase());
+    });
 }

@@ -1,3 +1,4 @@
+import { tituloPersonagem } from '../personagem';
 import { useState } from 'react';
 import { type Idioma, type TextoPorIdioma, preencher, t } from '../../../compartilhado/idioma';
 import { TextoNarrado } from '../../../compartilhado/TextoNarrado';
@@ -278,7 +279,7 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
           <span className="combatente-emoji" aria-hidden="true">
             {comIcones(ficha.avatar)}
           </span>
-          <strong>{ficha.nome}</strong>
+          <strong>{tituloPersonagem('mago', ficha.genero)}</strong>
           <Barra vida={vidaHeroi} maxima={ficha.pontosDeVidaMaximos} />
           <Barra vida={energia} maxima={ficha.energiaMaxima} emoji="🔮" classe="barra-energia" />
           <small>

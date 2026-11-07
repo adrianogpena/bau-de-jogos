@@ -1,5 +1,5 @@
 import type { LadosDado } from '../../compartilhado/dados';
-import type { TextoPorIdioma } from '../../compartilhado/idioma';
+import type { Genero, TextoPorIdioma } from '../../compartilhado/idioma';
 
 export type NomeAtributo = 'forca' | 'agilidade' | 'inteligencia' | 'coragem';
 
@@ -8,7 +8,7 @@ export type Atributos = Record<NomeAtributo, number>;
 
 /** Ficha do personagem controlado pela criança. */
 export interface FichaPersonagem {
-  nome: string;
+  genero: Genero;
   /** Emoji do avatar escolhido. */
   avatar: string;
   pontosDeVida: number;

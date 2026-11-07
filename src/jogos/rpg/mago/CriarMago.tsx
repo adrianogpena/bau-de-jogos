@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { TextoNarrado } from '../../../compartilhado/TextoNarrado';
-import { type Idioma, type TextoPorIdioma, preencher, t } from '../../../compartilhado/idioma';
+import { type Genero, type Idioma, type TextoPorIdioma, preencher, t } from '../../../compartilhado/idioma';
+import { EscolherGenero } from '../EscolherGenero';
 import type { EscolaId, FichaMago, Habilidades, NomeHabilidade } from './tipos';
 import {
   AVATARES_MAGO,
+  AVATAR_MAGA,
   ESCOLAS,
   FEITICOS,
   HABILIDADES,
@@ -19,9 +21,10 @@ import { Icone, comIcones } from '../../../compartilhado/icones';
 
 const TEXTOS = {
   titulo: { 'pt-PT': 'Cria o teu mago', 'pt-BR': 'Crie seu mago' },
-  nome: { 'pt-PT': 'Como se chama o mago?', 'pt-BR': 'Qual é o nome do mago?' },
-  nomePadrao: { 'pt-PT': 'Aprendiz', 'pt-BR': 'Aprendiz' },
-  escreveNome: { 'pt-PT': 'Escreve o nome', 'pt-BR': 'Escreva o nome' },
+  falta: {
+    'pt-PT': 'Escolhe rapaz ou rapariga para começar!',
+    'pt-BR': 'Escolha menino ou menina para começar!',
+  },
   avatar: { 'pt-PT': 'Escolhe o teu amigo', 'pt-BR': 'Escolha seu amigo' },
   tipo: {
     'pt-PT': 'Que tipo de mago queres ser?',
@@ -45,10 +48,13 @@ interface Props {
   aoComecar: (ficha: FichaMago) => void;
 }
 
-/** Criação do mago: nome, amigo, tipo de mago (escola de magia) e habilidades. */
+/** Criação do mago: rapaz ou rapariga, amigo, tipo de mago (escola de magia) e habilidades. */
 export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
-  const [nome, setNome] = useState('');
-  const [avatar, setAvatar] = useState(AVATARES_MAGO[0]);
+  const [genero, setGenero] = useState<Genero | null>(null);
+  const [indiceAvatar, setIndiceAvatar] = useState(0);
+  // o primeiro avatar é o mago ou a maga, conforme o gênero
+  const avatares = AVATARES_MAGO.map((a, i) => (i === 0 && genero === 'f' ? AVATAR_MAGA : a));
+  const avatar = avatares[indiceAvatar];
   const [escolaId, setEscolaId] = useState<EscolaId>('fogo');
   const [habilidades, setHabilidades] = useState<Habilidades>(HABILIDADES_INICIAIS);
 
@@ -64,9 +70,10 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
   }
 
   function comecar() {
+    if (!genero) return;
     const energia = energiaMaxima(habilidades.energia);
     aoComecar({
-      nome: nome.trim() || t(TEXTOS.nomePadrao, idioma),
+      genero,
       avatar,
       escola: escolaId,
       habilidades,
@@ -89,25 +96,15 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
       <h1><Icone id="interface/chapeu-de-mago" /> {t(TEXTOS.titulo, idioma)}</h1>
 
       <div className="ficha-papel">
-        <label className="ficha-rotulo">
-          {t(TEXTOS.nome, idioma)}
-          <input
-            className="campo-resposta"
-            value={nome}
-            maxLength={14}
-            placeholder={t(TEXTOS.escreveNome, idioma)}
-            onChange={(e) => setNome(e.target.value)}
-            autoComplete="off"
-          />
-        </label>
+        <EscolherGenero idioma={idioma} genero={genero} aoEscolher={setGenero} />
 
         <div className="ficha-rotulo">{t(TEXTOS.avatar, idioma)}</div>
         <div className="avatares" role="group">
-          {AVATARES_MAGO.map((a) => (
+          {avatares.map((a, i) => (
             <button
-              key={a}
+              key={i}
               className={`avatar ${a === avatar ? 'avatar-escolhido' : ''}`}
-              onClick={() => setAvatar(a)}
+              onClick={() => setIndiceAvatar(i)}
               aria-pressed={a === avatar}
             >
               {comIcones(a)}
@@ -199,8 +196,8 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
         </p>
       </div>
 
-      <p className="mensagem">{sobram > 0 ? t(TEXTOS.gasta, idioma) : ''}</p>
-      <button className="botao" onClick={comecar} disabled={sobram > 0}>
+      <p className="mensagem">{!genero ? t(TEXTOS.falta, idioma) : sobram > 0 ? t(TEXTOS.gasta, idioma) : ''}</p>
+      <button className="botao" onClick={comecar} disabled={sobram > 0 || !genero}>
         {t(TEXTOS.comecar, idioma)}
       </button>
     </main>

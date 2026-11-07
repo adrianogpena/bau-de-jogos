@@ -1,7 +1,9 @@
 import type { TextoPorIdioma } from '../../../compartilhado/idioma';
 import type { Escola, EscolaId, Feitico, Habilidades, InimigoMago, NomeHabilidade } from './tipos';
 
-export const AVATARES_MAGO = ['🧙‍♂️', '🧙‍♀️', '🦉', '🐱'];
+/** Avatares do mago: o primeiro é o próprio mago (ou maga), conforme o gênero escolhido. */
+export const AVATARES_MAGO = ['🧙‍♂️', '🦉', '🐱'];
+export const AVATAR_MAGA = '🧙‍♀️';
 
 export const PONTOS_MAGO = 5;
 export const HABILIDADE_MINIMA = 1;

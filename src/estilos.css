@@ -222,6 +222,7 @@ p {
 .boas-vindas h2 {
   font-size: 2.2rem;
   color: var(--texto);
+  font-family: inherit;
 }
 
 .boas-vindas p {
@@ -1572,4 +1573,13 @@ p {
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
+}
+
+/* botão de escolha só com texto (ex.: rapaz / rapariga) */
+.avatar-texto {
+  padding: 0 24px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--texto);
+  font-family: inherit;
 }

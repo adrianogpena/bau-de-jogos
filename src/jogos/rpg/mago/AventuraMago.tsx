@@ -1,3 +1,4 @@
+import { tituloPersonagem, valoresPersonagem } from '../personagem';
 import { useState } from 'react';
 import { type Idioma, type TextoPorIdioma, preencher, t } from '../../../compartilhado/idioma';
 import { TextoNarrado } from '../../../compartilhado/TextoNarrado';
@@ -66,7 +67,7 @@ function ResumoMago({ ficha, idioma }: { ficha: FichaMago; idioma: Idioma }) {
       <span className="resumo-avatar" aria-hidden="true">
         {comIcones(ficha.avatar)}
       </span>
-      <strong>{ficha.nome}</strong>
+      <strong>{tituloPersonagem('mago', ficha.genero)}</strong>
       <span>
         {comIcones(escola.emoji)} {t(escola.nome, idioma)}
       </span>
@@ -128,7 +129,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
 
   const cena = CENAS_MAGO[cenaId];
   const escola = escolaPorId(ficha.escola);
-  const valoresTexto = { nome: ficha.nome, escola: t(escola.curto, idioma) };
+  const valoresTexto = { ...valoresPersonagem('mago', ficha.genero), escola: t(escola.curto, idioma) };
 
   function irPara(id: string, fichaAtual: FichaMago = ficha) {
     setFicha(aplicarCena(fichaAtual, CENAS_MAGO[id]));

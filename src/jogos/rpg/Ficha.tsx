@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { TextoNarrado } from '../../compartilhado/TextoNarrado';
-import { type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
+import { type Genero, type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
 import { MOEDAS_INICIAIS, estatisticas, totalPocoes } from './itens';
+import { EscolherGenero } from './EscolherGenero';
 import { Moedas } from './Moedas';
+import { tituloPersonagem } from './personagem';
 import type { Atributos, FichaPersonagem, NomeAtributo } from './tipos';
 import {
   ATRIBUTOS,
@@ -16,9 +18,6 @@ import { Icone, comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
   titulo: { 'pt-PT': 'Cria o teu herói', 'pt-BR': 'Crie seu herói' },
-  nome: { 'pt-PT': 'Como se chama o herói?', 'pt-BR': 'Qual é o nome do herói?' },
-  nomePadrao: { 'pt-PT': 'Herói', 'pt-BR': 'Herói' },
-  escreveNome: { 'pt-PT': 'Escreve o nome', 'pt-BR': 'Escreva o nome' },
   amigo: { 'pt-PT': 'Escolhe o teu amigo', 'pt-BR': 'Escolha seu amigo' },
   pontos: {
     'pt-PT': 'Pontos para distribuir: {n}',
@@ -27,6 +26,10 @@ const TEXTOS = {
   gasta: {
     'pt-PT': 'Gasta todos os pontos para começar!',
     'pt-BR': 'Use todos os pontos para começar!',
+  },
+  falta: {
+    'pt-PT': 'Escolhe rapaz ou rapariga para começar!',
+    'pt-BR': 'Escolha menino ou menina para começar!',
   },
   vida: { 'pt-PT': 'Vida', 'pt-BR': 'Vida' },
   comecar: { 'pt-PT': 'Começar a aventura!', 'pt-BR': 'Começar a aventura!' },
@@ -43,7 +46,7 @@ interface Props {
 
 /** Tela de criação da ficha de personagem. */
 export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
-  const [nome, setNome] = useState('');
+  const [genero, setGenero] = useState<Genero | null>(null);
   const [avatar, setAvatar] = useState(AVATARES[0]);
   const [atributos, setAtributos] = useState<Atributos>({
     forca: ATRIBUTO_MINIMO,
@@ -63,9 +66,10 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
   }
 
   function comecar() {
+    if (!genero) return;
     const vida = vidaMaxima(atributos.coragem);
     aoComecar({
-      nome: nome.trim() || t(TEXTOS.nomePadrao, idioma),
+      genero,
       avatar,
       atributos,
       pontosDeVida: vida,
@@ -89,17 +93,7 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
       <h1><Icone id="interface/pergaminho" /> {t(TEXTOS.titulo, idioma)}</h1>
 
       <div className="ficha-papel">
-        <label className="ficha-rotulo">
-          {t(TEXTOS.nome, idioma)}
-          <input
-            className="campo-resposta"
-            value={nome}
-            maxLength={14}
-            placeholder={t(TEXTOS.escreveNome, idioma)}
-            onChange={(e) => setNome(e.target.value)}
-            autoComplete="off"
-          />
-        </label>
+        <EscolherGenero idioma={idioma} genero={genero} aoEscolher={setGenero} />
 
         <div className="ficha-rotulo">{t(TEXTOS.amigo, idioma)}</div>
         <div className="avatares" role="group">
@@ -158,8 +152,8 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
         </p>
       </div>
 
-      <p className="mensagem">{sobram > 0 ? t(TEXTOS.gasta, idioma) : ''}</p>
-      <button className="botao" onClick={comecar} disabled={sobram > 0}>
+      <p className="mensagem">{!genero ? t(TEXTOS.falta, idioma) : sobram > 0 ? t(TEXTOS.gasta, idioma) : ''}</p>
+      <button className="botao" onClick={comecar} disabled={sobram > 0 || !genero}>
         {t(TEXTOS.comecar, idioma)}
       </button>
     </main>
@@ -173,7 +167,7 @@ export function ResumoFicha({ ficha, idioma }: { ficha: FichaPersonagem; idioma:
       <span className="resumo-avatar" aria-hidden="true">
         {comIcones(ficha.avatar)}
       </span>
-      <strong>{ficha.nome}</strong>
+      <strong>{tituloPersonagem('heroi', ficha.genero)}</strong>
       <span>
         <Icone id="interface/coracao" /> {ficha.pontosDeVida}/{ficha.pontosDeVidaMaximos}
       </span>

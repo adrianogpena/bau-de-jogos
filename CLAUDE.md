@@ -14,6 +14,15 @@ Todo o projeto é em **português**: textos da interface, histórias, nomes de v
 - Em jogos de **escrita e leitura**, a palavra "certa" depende da variante. Ex.: a lista de palavras e a correção da resposta têm de usar a variante escolhida.
 - Em dúvida sobre uma palavra ou grafia, **pergunte ao usuário** em vez de adivinhar.
 
+### Gênero do personagem (RPG)
+
+O herói e o mago **não têm nome digitado**: a criança escolhe rapaz/rapariga (pt-PT) ou menino/menina (pt-BR), e o personagem é "o herói / a heroína" ou "o mago / a maga". Os textos das histórias concordam com a escolha, por `preencher()` (`src/compartilhado/idioma.ts`) e `valoresPersonagem()` (`src/jogos/rpg/personagem.ts`):
+
+- `{nome}` → "o herói" / "a heroína"; `{Nome}` (maiúscula) abre a frase; `{doNome}` → "do herói" / "da heroína"; `{aoNome}` → "ao herói" / "à heroína".
+- `{masculino|feminino}` para artigos e adjetivos: `{pronto|pronta}`, `{o|a}`.
+- Não escreva "o herói" fixo num texto narrado ao personagem: use `{nome}`.
+- `npm test` confere que nenhum texto do RPG sobra com chave solta nem fica no masculino quando o personagem é feminino.
+
 ### Diferenças comuns para vigiar
 
 | Tema | pt-PT | pt-BR |
