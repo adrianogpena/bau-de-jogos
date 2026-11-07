@@ -149,6 +149,20 @@ TROCAS_PALAVRA_PT_BR.update(
         "bˌoɾbolˈetɐ": "bˌoɾɾbolˈetɐ",  # borboleta
     }
 )
+# Rodada 3 de validação (docs/VALIDACAO-FONEMAS.md).
+TROCAS_PALAVRA_PT_BR.update(
+    {
+        "fˌoɾmˈiɡɐ": "fˌoɾɾmmˈiɡɐ",  # formiga: com um "m" só soava "forniga" (sozinha); na frase não muda
+        "pˈaɾɪz": "pˈaɾiz",  # pares: com "ɪ" soava "pais"
+    }
+)
+# Só quando o texto (a frase) é uma palavra sozinha; têm prioridade sobre TROCAS_PALAVRA_PT_BR.
+TROCAS_PALAVRA_SOLTA_PT_BR = {
+    "pˈoɾkʊ": "pˈoɾko",  # porco: o "o" de "por" soava estranho
+    "bˈokɐ": "bˈoːkɐ",  # boca
+    "pˌɐnˈɛlɐ": "panˈɛla",  # panela: soava "pânela"
+    "bɾˈuʃɐ": "bɾˈuʃa",  # bruxa: o "x" sumia
+}
 # Só no meio da frase: no começo (ex.: o título "Chapeuzinho Vermelho") o fonema do espeak soa melhor, e este engole o "ch".
 TROCAS_PALAVRA_NO_MEIO_PT_BR = {
     "ʃˌapeʊzˈiɲʊ": "ʃapˌɛʊzˈiɲʊ",  # chapeuzinho
@@ -157,6 +171,7 @@ PONTUACAO = ",.!?:;"
 # O espeak devolve as vogais nasais decompostas (vogal + til); as chaves são comparadas nessa forma.
 TROCAS_PALAVRA_PT_BR = {unicodedata.normalize("NFD", k): v for k, v in TROCAS_PALAVRA_PT_BR.items()}
 TROCAS_PALAVRA_NO_MEIO_PT_BR = {unicodedata.normalize("NFD", k): v for k, v in TROCAS_PALAVRA_NO_MEIO_PT_BR.items()}
+TROCAS_PALAVRA_SOLTA_PT_BR = {unicodedata.normalize("NFD", k): v for k, v in TROCAS_PALAVRA_SOLTA_PT_BR.items()}
 
 
 def trocar_palavras(fonemas):
@@ -168,12 +183,15 @@ def trocar_palavras(fonemas):
         else:
             atual.append(f)
     palavras.append(atual)
+    sozinha = sum(1 for p in palavras if "".join(p).strip(PONTUACAO)) == 1
     saida = []
     for palavra in palavras:
         cauda = []
         while palavra and palavra[-1] in PONTUACAO:
             cauda.insert(0, palavra.pop())
-        troca = TROCAS_PALAVRA_PT_BR.get("".join(palavra))
+        troca = TROCAS_PALAVRA_SOLTA_PT_BR.get("".join(palavra)) if sozinha else None
+        if troca is None:
+            troca = TROCAS_PALAVRA_PT_BR.get("".join(palavra))
         if troca is None and saida:
             troca = TROCAS_PALAVRA_NO_MEIO_PT_BR.get("".join(palavra))
         if saida:
@@ -205,20 +223,33 @@ def corrigir_fonemas(fonemas, pt_br):
     return reforcar_r(saida)
 
 
-# O modelo engole o "r" (ɾ) curto; com "ɾɾ" ele aparece (validação de fonemas, rodadas 1 e 2: docs/VALIDACAO-FONEMAS.md).
-# Em grupo de consoantes (dentro, vidro, quatro) ajuda em qualquer posição. No fim de sílaba (porta, corda) ajuda no
-# meio da frase, mas na última palavra da frase o original soa igual ou melhor (o fim da frase já sai mais lento).
-R_GRUPO = re.compile(r"(?<=[pbtdkɡfv])ɾ(?!ɾ)")
+# O modelo engole o "r" (ɾ) curto; com "ɾɾ" ele aparece (validação de fonemas, rodadas 1 a 3: docs/VALIDACAO-FONEMAS.md).
+# Em grupo de consoantes (dentro, vidro, quatro) ajuda em qualquer posição, menos depois de "é" tônico (pedra, lebre:
+# soava "pé-dra"). No fim de sílaba (porta, corda, gordo) ajuda em toda palavra da frase; só na palavra sozinha o
+# ritmo lento de `ajuste_palavra_solta` já basta e o "ɾɾ" sobra.
+R_GRUPO = re.compile(r"(?<=[pbtdkɡfv])(?<!ˈɛ[pbtdkɡfv])ɾ(?!ɾ)")
 R_FIM_DE_SILABA = re.compile(r"(?<=[aeiouɛɔɐɪʊ])ɾ(?=[^aeiouɛɔɐɪʊ̃ˈˌʲɾː" + re.escape(PONTUACAO) + r"])")
+# Última palavra da frase terminada em "ɐ": com "a" pleno não some (caixa soava "caix"). Menos "-gia" (magia, energia).
+A_FINAL = re.compile(r"(?<!ʒˈiʲ)ɐ(?=[" + re.escape(PONTUACAO) + r"]*$)")
+# Palavra sozinha: consoante depois do "o" tônico fechado dobrada (lobo soava "logo", ovo "ouvo"; também osso, sopa)
+# e "a" pleno no "ɐ" átono antes de consoante nasal (janela, banana, caneta).
+O_CONSOANTE = re.compile(r"(?<=ˈo)([bvsp])(?!\1)")
+A_ATONO_NASAL = re.compile(r"ˌɐ(?=[nmɲ])")
 
 
 def reforcar_r(fonemas):
     palavras = "".join(fonemas).split(" ")
-    ultima = max((i for i, p in enumerate(palavras) if p.strip(PONTUACAO)), default=-1)
+    reais = [i for i, p in enumerate(palavras) if p.strip(PONTUACAO)]
+    if len(reais) == 1:
+        p = R_GRUPO.sub("ɾɾ", palavras[reais[0]])
+        p = O_CONSOANTE.sub(r"\1\1", p)
+        palavras[reais[0]] = A_ATONO_NASAL.sub("ˌa", p)
+        return list(" ".join(palavras))
+    ultima = reais[-1] if reais else -1
     for i, p in enumerate(palavras):
-        p = R_GRUPO.sub("ɾɾ", p)
-        if i != ultima:
-            p = R_FIM_DE_SILABA.sub("ɾɾ", p)
+        p = R_FIM_DE_SILABA.sub("ɾɾ", R_GRUPO.sub("ɾɾ", p))
+        if i == ultima:
+            p = A_FINAL.sub("a", p)
         palavras[i] = p
     return list(" ".join(palavras))
 

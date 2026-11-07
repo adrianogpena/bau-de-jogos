@@ -72,7 +72,7 @@ Ainda não foram ouvidas; a tabela é só a leitura dos fonemas. As 2 de "prová
 
 ## Ajustes feitos a partir da comparação (ouvidos em frases)
 
-Os ajustes por palavra ficam em `TROCAS_PALAVRA_PT_BR` (`scripts/piper_falar.py`): chave = fonemas do espeak, valor = fonemas usados. Depois de mudar, regerar com `npm run audio:piper -- --voz faber --refazer-palavras palavra1,palavra2` (refaz todo texto que contém a palavra).
+Os ajustes por palavra ficam em `TROCAS_PALAVRA_PT_BR` (`scripts/piper_falar.py`): chave = fonemas do espeak, valor = fonemas usados. As que só valem para a palavra sozinha ficam em `TROCAS_PALAVRA_SOLTA_PT_BR` (rodada 3). Depois de mudar, regerar com `npm run audio:piper -- --voz faber --refazer-palavras palavra1,palavra2` (refaz todo texto que contém a palavra).
 
 | Palavra | Espeak (sozinha / na frase) | Usado | Motivo |
 |---|---|---|---|
@@ -169,6 +169,51 @@ As frases novas dos grupos 2 a 4 são só para o teste e não entram no site.
 Conclusão: o "r" some quando a palavra sai rápida. Palavra sozinha precisa de ritmo; no meio da frase, `ɾɾ` dá ao "r" o tempo que falta; no fim da frase o modelo já desacelera e o `ɾɾ` sobra. Algumas trocas por palavra da rodada 1 (`ɾ`→`ɾɾ`) ficaram redundantes com as regras, mas não atrapalham.
 
 Ainda sem solução (ouvidos na rodada 2): lobo soa "logo", ovo soa "ouvo", porco (o "o" de "por"), panela soa "pânela", pedra soa "pédra" (o "e" aberto está certo no pt-BR, mas algo na pronúncia soa errado; "pédra" foi o jeito de descrever o que se ouve), formiga soa "forniga", tartaruga perde o primeiro "r", bruxa (o "x"), "pares" soa "pais" (r entre vogais), "gordo" soa "goudo", "caixa" no fim de frase soa "caix", "dormir" rápido demais.
+
+### Rodada 3 (confere as regras da rodada 2 e testa o que ficou sem solução)
+
+`$PIPER_PYTHON scripts/fonemas/gerar_rodada3.py` gera `referencias-fonemas/validacao-rodada3/`. Para ouvir: `python scripts/fonemas/servir_validacao.py validacao-rodada3` e abrir <http://localhost:5198/> numa aba do navegador (não no explorador de arquivos do Kedalion, onde nada é gravado). As respostas vão para `validacao-rodada3/respostas.json`.
+
+Diferenças da rodada 2: a versão testada troca a palavra **depois** de todas as correções do app (trocas por palavra, `R_GRUPO`, `R_FIM_DE_SILABA`), para que uma versão como "dɾ simples" não seja desfeita pelas regras; o identificador de cada item começa pelo grupo (na rodada 2 o mesmo texto em dois grupos dividiu áudio e voto); cada versão mostra também o ritmo.
+
+| Grupo | O que testa | Versões |
+|---|---|---|
+| 0. Regras novas (25 textos reais do site, sorteio fixo) | 8 palavras sozinhas, 7 só `R_GRUPO`, 7 só `R_FIM_DE_SILABA`, 3 com as duas | antes das regras · atual |
+| 1. Vogais em palavra sozinha (14) | lobo, ovo, porco, osso, sopa, boca ("o" fechado) | atual · `oː` (vogal curta?) · consoante dobrada (consoante fraca?) · final pleno `ʊ`→`o`, `ɐ`→`a` |
+| | panela, banana, caneta, janela (`ɐ` átono antes de "n") | atual · `ˌa` · `a` sem acento · `ɐ` sem acento |
+| | pedra sozinha (2 itens), pedra na frase, lebre | atual · `e` fechado · ritmo 1.3 / 1.15 (vogal longa?) · `dɾ` simples · `a` final · tônica fraca (`ˌɛ`) |
+| 2. "r" entre vogais (13 frases) | pares, caro, para, hora, tesouro, agora, no meio e no fim | atual · `ɾː` · `ɾɾ` · vogal seguinte plena (`ɪ`→`i`...) |
+| 3. "r" de fim de sílaba na última palavra (8 frases) | gordo, porco, forno (o), corda (ɔ), perto (ɛ), verde (e), barco (a) | atual · a outra forma (`ɾ` ou `ɾɾ`) |
+| 4. Casos soltos (14) | formiga (`ɾɾ` × `mm`), tartaruga (`ɾɾ` × ritmo 1.3), `ɐ`→`a` na última palavra (caixa, casa, mesa, bola, janela), dormir (acento no "dor", `iː`, `ɾɾ`), bruxa (`ʃʃ` × `a` final) | 2 a 4 |
+
+As frases dos grupos 1 a 4 são novas, só para o teste, e não entram no site (menos "Encontre os pares iguais!" e a frase de "gordo", que são do site). Observação ao montar: em "O cachorro não para." o espeak trata "para" como preposição (`pˌaɾɐ`, sem tônica).
+
+### Resultado da rodada 3 (2026-11-07, 74 respostas)
+
+| Grupo | Resultado | O que mudou (`scripts/piper_falar.py`) |
+|---|---|---|
+| 0. Regras novas | Atual 21, antes 1 ("Soprou, soprou", `pɾɾ`), sem diferença 2, nenhum 2 (colher, porta). As regras ficam. | Nada. |
+| 1. "o" fechado sozinho | Consoante dobrada 4 de 6 (lobo, ovo, osso, sopa: `b`, `v`, `s`, `p`). Porco: final `o`. Boca: `oː`. | `O_CONSOANTE` (palavra sozinha); porco e boca em `TROCAS_PALAVRA_SOLTA_PT_BR`. |
+| 1. `ɐ` átono antes de nasal | `a` pleno ganhou em janela (`ˌa`) e panela (`a` sem acento); banana e caneta sem diferença; só `ɐ` sem acento soou errado. | `A_ATONO_NASAL` (palavra sozinha): `ˌɐ` antes de n/m/ɲ vira `ˌa`; panela por palavra. |
+| 1. pedra, lebre | O "pédra" vinha do `ɾɾ` depois do "é": `dɾ`/`bɾ` simples ganhou nos 4 itens (sozinha e na frase). Ritmo 1.3 ou 1.15 também resolvia; `e` fechado não. | `R_GRUPO` não vale depois de `ˈɛ`. |
+| 2. "r" entre vogais | Quase tudo sem diferença; `ɾɾ` soou errado 3 vezes no fim da frase. "pares" na frase do site: vogal plena (`pˈaɾiz`). | Nada geral; pares por palavra. |
+| 3. "r" de fim de sílaba na última palavra | `ɾɾ` ganhou 7 de 7 (gordo ×2, porco, forno, corda, verde, barco); perto sem diferença. Contradiz a rodada 2 (3 frases curtas no imperativo: "Puxe a corda."); a rodada 3 tem mais frases e todas as vogais. | `R_FIM_DE_SILABA` vale também na última palavra; só a palavra sozinha fica sem. |
+| 4. `ɐ` final na última palavra | `a` ganhou 3 (caixa ×2, janela), sem diferença 3 (casa, mesa, bola), nunca perdeu. | `A_FINAL`: na última palavra da frase, `ɐ` final vira `a` (menos "-gia", que na rodada 1 ficou melhor como está). |
+| 4. formiga, bruxa | formiga sozinha: `ɾɾ` + `mm` (na frase sem diferença). bruxa sozinha: `a` final (na frase sem diferença); `ʃʃ` não ajudou. | Formiga em `TROCAS_PALAVRA_PT_BR`, bruxa em `TROCAS_PALAVRA_SOLTA_PT_BR`. |
+| 4. tartaruga, dormir | tartaruga soa "tarraruga" em todas as versões (o segundo "t" vira "r"). dormir: rápido demais em todas; "i longo" ganhou em 1 de 2. | Nada. |
+
+"Palavra sozinha", nas regras de fonema, é a frase com uma palavra só (o texto "Pedra", ou "Dica:"). A rodada 3 também corrigiu um erro: o espeak devolve "Dica:" com um espaço no fim, e isso fazia esses rótulos contarem como duas palavras.
+
+Por que um ajuste vale para umas palavras e não para outras:
+
+- **`ɾɾ` em grupo** some com o "r" quando a vogal antes é um "é" tônico: o grupo já sai longo e o `ɾɾ` separa a sílaba ("pé-dra"). Nas outras vogais (dentro, vidro, quatro, livro) ele ajuda.
+- **Fim da frase:** na rodada 2 o "r" da última palavra parecia não precisar de `ɾɾ`. Com mais frases, ajuda. Quem dispensa o `ɾɾ` é a palavra sozinha, que já sai lenta.
+- **"o" fechado sozinho:** o problema era a consoante seguinte, fraca (b virava "g" em "logo"), não a vogal. Dobrar ajudou em `b`, `v`, `s`, `p`; não em `k` (boca) nem `ɾ` (porco).
+- **"r" entre vogais:** não precisa de regra. O "pais" de "pares" vinha do `ɪ` seguinte, não do "r".
+
+Combinações que as regras geram sem terem sido ouvidas juntas: última palavra com "r" de fim de sílaba e `ɐ` final (corda → `kˈɔɾɾda`), e palavras sozinhas que entram em `O_CONSOANTE` ou `A_ATONO_NASAL` sem terem sido testadas (poço, caminhão, chaminé, camiseta).
+
+Ainda sem solução (rodada 3): **colher** sozinha soa como o verbo (o espeak dá `koʎˈeɾ`; o utensílio é `kuˈʎɛɾ` no BIPA; ouvir `kuljˈɛɾ` e `koljˈɛɾ`), **tartaruga** ("tarraruga"), **dormir** no fim da frase rápido demais, **porta** ainda estranha na frase ("...bloqueia a porta e grita..."), "Soprou" preferiu `pɾ` simples (um voto só), "brincar" (r final de verbo) e frases inteiras rápidas ("O brinquedo caro quebrou.").
 
 ## Limites
 
