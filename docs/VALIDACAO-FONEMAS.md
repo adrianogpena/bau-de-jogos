@@ -97,7 +97,7 @@ Ainda não foram ouvidas; a tabela é só a leitura dos fonemas. As 2 de "prová
 
 ## Ajustes feitos a partir da comparação (ouvidos em frases)
 
-Os ajustes por palavra ficam em `TROCAS_PALAVRA_PT_BR` (`scripts/piper_falar.py`): chave = fonemas do espeak, valor = fonemas usados. As que só valem para a palavra sozinha ficam em `TROCAS_PALAVRA_SOLTA_PT_BR` (rodada 3); uma troca da palavra para ela mesma ali (porta, rodada 4) deixa a palavra sozinha fora de `TROCAS_PALAVRA_PT_BR`. Depois de mudar, regerar com `npm run audio:piper -- --voz faber --refazer-palavras palavra1,palavra2` (refaz todo texto que contém a palavra).
+Os ajustes por palavra ficam em `TROCAS_PALAVRA_PT_BR` (`scripts/piper_falar.py`): chave = fonemas do espeak, valor = fonemas usados. As que só valem para a palavra sozinha ficam em `TROCAS_PALAVRA_SOLTA_PT_BR` (rodada 3); uma troca da palavra para ela mesma ali (porta, rodada 4) deixa a palavra sozinha fora de `TROCAS_PALAVRA_PT_BR`. Desde a rodada 5 há também `TROCAS_ANTES_DE_PT_BR` (a palavra só muda antes de outra: "de" em "De repente"), `TROCAS_TEXTO_PT_BR` (o texto inteiro falado de outro jeito, sem mudar a tela) e `GRUPO_SIMPLES_PT_BR` (palavras em que o grupo de consoantes fica com um `ɾ` só). Depois de mudar, regerar com `npm run audio:piper -- --voz faber --refazer-palavras palavra1,palavra2` (refaz todo texto que contém a palavra).
 
 | Palavra | Espeak (sozinha / na frase) | Usado | Motivo |
 |---|---|---|---|
@@ -283,6 +283,53 @@ Por que um ajuste vale para umas palavras e não para outras:
 `TONICA_R_FINAL` vale pelo fonema, então também pega substantivos no fim da frase (flor, mar, lugar), que não foram ouvidos.
 
 Ainda sem solução (rodada 4): **Goblin** (`ɡoblˈĩm`: o "go" devia ser mais fechado, mais perto do inglês, com a tônica no começo), **porta** na frase do Golem ("pôta"; testar `tt` como em tartaruga), **tartaruga** ainda não totalmente certa ("A Lebre e a Tartaruga": falta força no primeiro "ta"), **"Hora de dormir."** (nenhuma versão), **esfregou** ("esfegou") e **estragar** ("estagar"), "chave" soando "tchave" em "chave de fenda!", "De repente" com o "de" fraco, o "r" de "ordem" fraco em "Pense bem na ordem certa!", **caminhão** sozinha um pouco rápida (3 sílabas, ritmo 1.15), e substantivos com `TONICA_R_FINAL` (flor, mar, lugar).
+
+### Rodada 5 (confere as regras da rodada 4 e testa o que ficou sem solução)
+
+`$PIPER_PYTHON scripts/fonemas/gerar_rodada5.py` gera `referencias-fonemas/validacao-rodada5/`. Para ouvir: `python scripts/fonemas/servir_validacao.py validacao-rodada5` e abrir <http://localhost:5198/> numa aba do navegador (não no explorador de arquivos do Kedalion). As respostas vão para `validacao-rodada5/respostas.json`.
+
+Diferenças da rodada 4: no grupo 0 a versão A roda o `scripts/piper_falar.py` do commit `50d48e5` (antes da rodada 4); uma versão pode mudar outra palavra do texto (`alvo`: "hora" em "Hora de dormir."), a palavra anterior (`anterior`) ou trocar o texto todo (`texto`: a frase com "!").
+
+| Grupo | O que testa | Versões |
+|---|---|---|
+| 0. Regras da rodada 4 (25 textos reais do site) | `TONICA_R_FINAL` (achar, flor, lugar, ar, fazer, cair...), `ɾ` simples do `R_GRUPO` (descobriram, cobria, agradeceu, ladrões, secreto, segredo, aprenda), trocas de tartaruga (sozinha e na frase), porta (inclusive "...e bateu na porta.") e colher, exceção do `O_CONSOANTE` (só poço muda no site) | antes da rodada 4 · atual |
+| 1. "r" antes de "t"/"d" (10 do site) | porta (Golem, começo, fim), perto, certa, tarde, corda, gordo, verde, ordem ("Pense bem na ordem certa!") | atual · `tt`/`dd` · `ɾɾɾ` · `ɾɪ` (vogal de apoio) · porta: `ɔɾɾtt` (sem `ː`) |
+| 2. tartaruga (2) | sozinha e "A Lebre e a Tartaruga" | atual · primário no 1º "ta" · `aː` no 1º "ta" · pausa antes ("e a, tartaruga") |
+| 3. Goblin (3 do site, "Goblin Chefe") | `ɡoblˈĩn` hoje | atual · `ɡˈoblĩ` · `ɡˈɔblĩ` · `ɡˈoblin` · `ɡˈoblĩm` |
+| 4. "Hora de dormir." + controle "O urso foi dormir." (novas) | dormir já sai `doɾɾmˈiːɾ` | atual · ritmo 1.3 · `ˈɔːɾɐ` em hora · com "!" · `doɾmˈiːɾ` |
+| 5. "r" em grupo depois de "s" (8 do site) | estragar, esfregou, estrela, estrelinha, mostrar, rastro, estrondo, construiu | atual (`ɾɾ`) · `ɾɾɾ` · `ɾ` · `ttɾɾ`/`ffɾɾ` · "e" inicial curto (`ˈe` sem `ː`) |
+| 6. "chave de fenda!" | "tchave" | atual · `ʃʃ` · `i` final pleno · `aː` |
+| 7. "De repente," (3 do site) | "de" fraco | atual (`dʒɪ`) · `dʒi` · `de` · vírgula depois do "de" |
+| 8. Palavra sozinha de 3 sílabas com nasal final (4 do site) | caminhão, Corações, esfregão!, Coragem | ritmo 1.15 (atual) · 1.3 · 1.5 (todas com pausa antes) |
+| 9. "r" de fim de sílaba antes da tônica na última palavra (8 do site) | irmãos ×2, irmão, dorminhoca, surpresa, acertar, comercial, cortar | atual (`ɾɾ`) · `ɾ` simples |
+
+Observações ao montar: "chave" sai `ʃˈavɪ`, sem acento secundário e com "a" pleno, então a versão "a pleno sem secundário" não existe; no lugar entram `i` final e `aː`. Em "A Lebre e a Tartaruga" o artigo já é `a`, então a versão "`ɐ`→`a` no artigo" sumiu. Nenhum texto do site termina em "mar". O `O_CONSOANTE` sem dobra antes de "o" só muda "poço".
+
+### Resultado da rodada 5 (2026-11-07, 66 respostas)
+
+| Grupo | Resultado | O que mudou (`scripts/piper_falar.py`) |
+|---|---|---|
+| 0. `TONICA_R_FINAL` | Verbos: atual 3 (achar, voltar, alcançar), sem diferença 3 (cair, entrar, fazer). Substantivos: flor **antes** ("flore"), lugar e ar sem diferença. | Só vale para "a", "e", "i" tônico (os infinitivos); "o" (flor) fica de fora. |
+| 0. `ɾ` simples do `R_GRUPO` | **Antes 6** (ladrões ×3, secretos e segredo "com a língua presa", Aprenda), sem diferença 2 (cobria, agradeceu), atual 0. | A regra geral sai; o `ɾ` simples fica só nas palavras ouvidas com ele (`GRUPO_SIMPLES_PT_BR`: soprou, soprar, abriu, aprendiz). |
+| 0. Trocas da rodada 4 | tartaruga 3, colher 2, poço 1: atual. porta: atual 1, sem diferença 1, nenhum 1 ("...bateu na porta.": "pôda"). | Nada (porta muda pelo grupo 1). |
+| 1. "r" antes de "t"/"d" | Oclusiva dobrada 8 de 10 (porta ×3, uma delas sem `ː`; perto, certa, tarde, ordem); corda `ɾɾɾ` "por pouco"; gordo e verde sem diferença (em gordo, todas melhores que a atual). | `OCLUSIVA_DEPOIS_DE_R`: na frase, `ɾɾ` de fim de sílaba + `t`/`d` vira `ɾɾtt`/`ɾɾdd` (também `ddʒ`, `ttʃ`). porta fica com `ɔː`. |
+| 2. tartaruga | Sozinha: `aː` no 1º "ta". Título: pausa antes. | Sozinha → `tˌaːɾttaɾˈuɡɐ`; o título é falado "A Lebre e a, Tartaruga" (`TROCAS_TEXTO_PT_BR`). |
+| 3. Goblin | `ɡˈɔblĩ` 3 de 3. | Troca por palavra. |
+| 4. "Hora de dormir." | Com "!" ganhou nas duas frases (as duas são novas). | Nada: no site o verbo no fim já foi resolvido pela tônica longa. |
+| 5. "s" + grupo | Consoante dobrada 6 de 8 (estragar, estrela, estrelinha, mostrar, estrondo, construiu); `ɾɾɾ` 2 (esfregou: "o único em que ouvi o r"; rastro). | `S_GRUPO`: "s" + `p/b/t/d/k/ɡ/v` + `ɾɾ` antes da tônica ou nela dobra a consoante; esfregou e rastro com `ɾɾɾ` por palavra. |
+| 6. chave | `aː` ganhou. | chave → `ʃˈaːvɪ` (ouvida só em "chave de fenda!"). |
+| 7. "De repente," | `de` (sem chiado) 3 de 3. | `TROCAS_ANTES_DE_PT_BR`: "de" antes de "repente". Os outros "de" (27 textos começam com "de dano...") não mudam. |
+| 8. Sozinha, 3 sílabas | Corações sem diferença, esfregão e Coragem: atual. caminhão: nenhum ("canião" em todas; 1.5 o mais perto). | Nada: o limite de 2 sílabas fica. |
+| 9. "r" antes da tônica na última palavra | Atual 3 (irmãos, surpresa, acertar), sem diferença 5. Somando a rodada 4: `ɾɾ` 3, simples 1, sem diferença 8. | Nada. |
+
+Por que um ajuste vale para umas palavras e não para outras:
+
+- **`ɾ` simples no grupo:** somando as rodadas 3 a 5, entre vogais, antes da tônica ou nela, o `ɾ` simples ganhou em soprou, soprar, abriu e aprendiz, e perdeu em ladrões, secretos, segredo e aprenda (empate em cobria e agradeceu). A posição da tônica não separa os dois lados (so-PROU e la-DRÕES têm o grupo na tônica final), nem a consoante (aprendiz e aprenda são `pɾ`). Sem padrão, o `ɾɾ` volta a valer para todas, e as 4 que preferiram o simples ficam por palavra.
+- **"r" fraco antes de consoante:** o mesmo remédio de tartaruga (reforçar a consoante seguinte) serviu para o "r" de fim de sílaba antes de `t`/`d` e para o "r" do grupo depois de "s". Nos dois casos o "r" fica espremido entre duas consoantes, e o `ɾɾ` sozinho não dava tempo a ele. Com "f" (esfregou) e com o grupo depois da tônica (rastro) ganhou o `ɾɾɾ`; são 2 palavras, por isso ficam por palavra.
+- **`TONICA_R_FINAL`:** ajuda nos infinitivos, não nos substantivos. Com "o" (flor) o "r" longo vira uma sílaba a mais ("flore").
+- **"Hora de dormir.":** o que ajudou foi a entonação da exclamação, não a duração.
+
+Ainda sem solução (rodada 5): **caminhão** sozinha ("canião": o "mi" some em todos os ritmos; testar o `ɲ` como `nj`, como o `ʎ` → `lj`), **Clara** em "O que Clara quer fazer?" soa "Clark" (`klˈaɾɐ` no meio da frase; testar `klˈaɾa`), "Golem" (`ɡˈɔleɪŋ`, não ouvido), "deixa um" soa "deixa un", "sua voz" estranho em "quis mostrar sua voz.", e as combinações novas que ainda não foram ouvidas juntas: `ɾɾdd` em guardião (`ɡwˌaɾɾddʒiʲˈɐ̃ʊ̃`), acorda (`ˌakˈɔɾɾddɐ`) e as outras palavras com "r" antes de `t`/`d` no meio da frase.
 
 ## Limites
 

@@ -166,6 +166,17 @@ TROCAS_PALAVRA_PT_BR.update(
         "pˈɔɾtɐ": "pˈɔːɾɾtɐ",  # porta na frase: "ó" mais longo (o "ɾɾ" já vem da regra, mas o "ː" a impediria)
     }
 )
+# Rodada 5 de validação.
+TROCAS_PALAVRA_PT_BR.update(
+    {
+        "ɡoblˈĩn": "ɡˈɔblĩ",  # Goblin: tônica no "go" aberto, mais perto do inglês (3 de 3)
+        "ɡoblˈĩm": "ɡˈɔblĩ",
+        "ʃˈavɪ": "ʃˈaːvɪ",  # chave: soava "tchave"; com o "a" longo, não (ouvido só em "chave de fenda!")
+        "ʃˈavj": "ʃˈaːvj",
+        "ˌesfɾeɡˈow": "ˌesfɾɾɾeɡˈow",  # esfregou: soava "esfegou"; só com "ɾɾɾ" o "r" se ouve
+        "xˈastɾʊ": "xˈastɾɾɾʊ",  # rastro
+    }
+)
 # Só quando o texto (a frase) é uma palavra sozinha; têm prioridade sobre TROCAS_PALAVRA_PT_BR.
 TROCAS_PALAVRA_SOLTA_PT_BR = {
     "pˈɔɾtɐ": "pˈɔɾtɐ",  # porta sozinha fica como o espeak gera (o "ɔː" só foi ouvido na frase)
@@ -173,6 +184,15 @@ TROCAS_PALAVRA_SOLTA_PT_BR = {
     "bˈokɐ": "bˈoːkɐ",  # boca
     "pˌɐnˈɛlɐ": "panˈɛla",  # panela: soava "pânela"
     "bɾˈuʃɐ": "bɾˈuʃa",  # bruxa: o "x" sumia
+    "tˌaɾtaɾˈuɡɐ": "tˌaːɾttaɾˈuɡɐ",  # tartaruga: faltava força no primeiro "ta" (rodada 5)
+}
+# Palavra seguida de outra: (fonemas da palavra, começo dos fonemas da próxima) → fonemas usados.
+TROCAS_ANTES_DE_PT_BR = {
+    ("dʒɪ", "xˌepˈẽn"): "de",  # "De repente": o "dʒɪ" quase sumia (rodada 5, 3 de 3)
+}
+# Textos inteiros falados de outro jeito (a tela não muda).
+TROCAS_TEXTO_PT_BR = {
+    "A Lebre e a Tartaruga": "A Lebre e a, Tartaruga",  # pausa antes de "Tartaruga": soava "la tataruga" (rodada 5)
 }
 # Só no meio da frase: no começo (ex.: o título "Chapeuzinho Vermelho") o fonema do espeak soa melhor, e este engole o "ch".
 TROCAS_PALAVRA_NO_MEIO_PT_BR = {
@@ -183,6 +203,7 @@ PONTUACAO = ",.!?:;"
 TROCAS_PALAVRA_PT_BR = {unicodedata.normalize("NFD", k): v for k, v in TROCAS_PALAVRA_PT_BR.items()}
 TROCAS_PALAVRA_NO_MEIO_PT_BR = {unicodedata.normalize("NFD", k): v for k, v in TROCAS_PALAVRA_NO_MEIO_PT_BR.items()}
 TROCAS_PALAVRA_SOLTA_PT_BR = {unicodedata.normalize("NFD", k): v for k, v in TROCAS_PALAVRA_SOLTA_PT_BR.items()}
+TROCAS_ANTES_DE_PT_BR = {tuple(unicodedata.normalize("NFD", x) for x in k): v for k, v in TROCAS_ANTES_DE_PT_BR.items()}
 
 
 def trocar_palavras(fonemas):
@@ -196,11 +217,14 @@ def trocar_palavras(fonemas):
     palavras.append(atual)
     sozinha = sum(1 for p in palavras if "".join(p).strip(PONTUACAO)) == 1
     saida = []
-    for palavra in palavras:
+    for n, palavra in enumerate(palavras):
         cauda = []
         while palavra and palavra[-1] in PONTUACAO:
             cauda.insert(0, palavra.pop())
         troca = TROCAS_PALAVRA_SOLTA_PT_BR.get("".join(palavra)) if sozinha else None
+        if troca is None and not cauda and n + 1 < len(palavras):
+            proxima = "".join(palavras[n + 1])
+            troca = next((v for (p, c), v in TROCAS_ANTES_DE_PT_BR.items() if p == "".join(palavra) and proxima.startswith(c)), None)
         if troca is None:
             troca = TROCAS_PALAVRA_PT_BR.get("".join(palavra))
         if troca is None and saida:
@@ -234,19 +258,29 @@ def corrigir_fonemas(fonemas, pt_br):
     return reforcar_r(saida)
 
 
-# O modelo engole o "r" (ɾ) curto; com "ɾɾ" ele aparece (validação de fonemas, rodadas 1 a 4: docs/VALIDACAO-FONEMAS.md).
-# Em grupo de consoantes ajuda depois da tônica (dentro, vidro, quatro), no começo da palavra (tronco, prato) e depois de
-# consoante (encontrou, estragar). Não ajuda depois de "é" tônico (pedra, lebre: soava "pé-dra") nem entre vogais antes
-# da tônica ou nela (soprou, abriu, aprendiz: o "r" simples soou melhor). No fim de sílaba (porta, corda, gordo) ajuda
-# em toda palavra da frase; só na palavra sozinha o ritmo lento de `ajuste_palavra_solta` já basta e o "ɾɾ" sobra.
+# O modelo engole o "r" (ɾ) curto; com "ɾɾ" ele aparece (validação de fonemas, rodadas 1 a 5: docs/VALIDACAO-FONEMAS.md).
+# Em grupo de consoantes ajuda em quase toda posição (dentro, tronco, encontrou, ladrões, segredo, secretos). Não ajuda
+# depois de "é" tônico (pedra, lebre: soava "pé-dra") nem nas palavras de GRUPO_SIMPLES_PT_BR. No fim de sílaba (porta,
+# corda, gordo) ajuda em toda palavra da frase; só na palavra sozinha o ritmo lento de `ajuste_palavra_solta` já basta.
 R_GRUPO = re.compile(r"(?<=[pbtdkɡfv])(?<!ˈɛ[pbtdkɡfv])ɾ(?!ɾ)")
-VOGAL_ANTES = "aeiouɛɔɐɪʊ̃"  # inclui o til das vogais nasais (NFD)
+# Palavras (fonemas sem pontuação) em que o grupo soou melhor com um "ɾ" só (rodadas 3 e 4). Na rodada 5 a regra geral
+# "ɾ simples entre vogais antes da tônica" perdeu em ladrões, secretos, segredo e aprenda e voltou a ser só por palavra.
+GRUPO_SIMPLES_PT_BR = {unicodedata.normalize("NFD", p) for p in (
+    "sopɾˈow", "sopɾˈoʊ", "sopɾˈaɾ", "abɾˈiw", "abɾˈiʊ", "ˌapɾẽndʒˈiz",  # soprou, soprar, abriu, aprendiz
+)}
+# "s" + grupo antes da tônica ou nela (estragar, estrela, mostrar, construiu): mesmo com "ɾɾ" o "r" sumia ("estagar");
+# com a consoante do grupo dobrada ele aparece (rodada 5, 6 de 6). Com "f" (esfregou) e depois da tônica (rastro) ganhou
+# "ɾɾɾ", trocado por palavra.
+S_GRUPO = re.compile(r"(?<=s)([pbtdkɡv])(?=ɾɾ(?!ɾ).*ˈ)")
 R_FIM_DE_SILABA = re.compile(r"(?<=[aeiouɛɔɐɪʊ])ɾ(?=[^aeiouɛɔɐɪʊ̃ˈˌʲɾː" + re.escape(PONTUACAO) + r"])")
+# "r" de fim de sílaba antes de "t"/"d" (porta, perto, tarde, ordem): o "r" sumia ("pôta"); com a oclusiva dobrada, como
+# em tartaruga, ele aparece (rodada 5, 8 de 10; os outros 2 empataram).
+OCLUSIVA_DEPOIS_DE_R = re.compile(r"(?<=[aeiouɛɔɐɪʊ̃ː]ɾɾ)([td])(?![td])")
 # Última palavra da frase terminada em "ɐ": com "a" pleno não some (caixa soava "caix"). Menos "-gia" (magia, energia).
 A_FINAL = re.compile(r"(?<!ʒˈiʲ)ɐ(?=[" + re.escape(PONTUACAO) + r"]*$)")
-# Última palavra da frase terminada em vogal tônica + "r" (dormir, brincar, chorar, fugir): saía rápida demais; com a
-# vogal tônica longa ficou melhor (rodada 4).
-TONICA_R_FINAL = re.compile(r"ˈ([aeiouɛɔ])ɾ(?=[" + re.escape(PONTUACAO) + r"]*$)")
+# Última palavra da frase terminada em "a", "e" ou "i" tônico + "r" (dormir, brincar, chorar, fugir, achar): saía rápida
+# demais; com a vogal tônica longa ficou melhor (rodadas 4 e 5). Com "o" (flor) soou "flore" e ficou de fora.
+TONICA_R_FINAL = re.compile(r"ˈ([aei])ɾ(?=[" + re.escape(PONTUACAO) + r"]*$)")
 # Palavra sozinha: consoante depois do "o" tônico fechado dobrada (lobo soava "logo", ovo "ouvo"; também osso, sopa),
 # menos antes de "o" pleno (poço, já com o final trocado, ficou pior), e "a" pleno no "ɐ" átono antes de consoante
 # nasal (janela, banana, caneta, caminhão, chaminé, camiseta).
@@ -254,24 +288,22 @@ O_CONSOANTE = re.compile(r"(?<=ˈo)([bvsp])(?!\1)(?!o)")
 A_ATONO_NASAL = re.compile(r"ˌɐ(?=[nmɲ])")
 
 
-def dobrar_grupo(m):
-    antes, depois = m.string[: m.start()], m.string[m.end() :]
-    if len(antes) >= 2 and antes[-2] in VOGAL_ANTES and "ˈ" in depois:
-        return "ɾ"  # entre vogais, antes da tônica ou nela: soprou, abriu, aprendiz
-    return "ɾɾ"
+def reforcar_grupo(p):
+    return p if p.rstrip(PONTUACAO) in GRUPO_SIMPLES_PT_BR else R_GRUPO.sub("ɾɾ", p)
 
 
 def reforcar_r(fonemas):
     palavras = "".join(fonemas).split(" ")
     reais = [i for i, p in enumerate(palavras) if p.strip(PONTUACAO)]
     if len(reais) == 1:
-        p = R_GRUPO.sub(dobrar_grupo, palavras[reais[0]])
+        p = reforcar_grupo(palavras[reais[0]])
         p = O_CONSOANTE.sub(r"\1\1", p)
         palavras[reais[0]] = A_ATONO_NASAL.sub("ˌa", p)
         return list(" ".join(palavras))
     ultima = reais[-1] if reais else -1
     for i, p in enumerate(palavras):
-        p = R_FIM_DE_SILABA.sub("ɾɾ", R_GRUPO.sub(dobrar_grupo, p))
+        p = S_GRUPO.sub(r"\1\1", reforcar_grupo(p))
+        p = OCLUSIVA_DEPOIS_DE_R.sub(r"\1\1", R_FIM_DE_SILABA.sub("ɾɾ", p))
         if i == ultima:
             p = TONICA_R_FINAL.sub(r"ˈ\1ːɾ", A_FINAL.sub("a", p))
         palavras[i] = p
@@ -312,6 +344,8 @@ def ajuste_palavra_solta(texto):
 def sintetizar(voz, texto, pt_br):
     pedacos = []
     silencio = np.zeros(int(voz.config.sample_rate * PAUSA_ENTRE_FRASES), dtype=np.int16)
+    if pt_br:
+        texto = TROCAS_TEXTO_PT_BR.get(texto, texto)
     ajuste = (AJUSTES_PT_BR.get(texto.strip().lower()) or ajuste_palavra_solta(texto)) if pt_br else None
     config = CONFIG
     for fonemas in voz.phonemize(texto):
