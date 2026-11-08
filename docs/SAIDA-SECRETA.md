@@ -74,7 +74,7 @@ Arquivo `salas/sotao.ts`. Saída: porta do sótão. Fontes: relógio de pêndulo
 
 Cada sala está em `salas/<sala>.ts`, com o fundo em `public/imagens/saida-secreta/<sala>.jpg`. As posições (x, y) abaixo foram o ponto de partida; as zonas reais estão no arquivo da sala (confira com `?zonas`). Atenção às palavras com grafia diferente: vêm marcadas como **pt-PT / pt-BR**.
 
-Cada fonte e cada extra traz **3 ideias por nível** (fácil, médio, difícil), como no sótão. A resposta vem entre parênteses. Os tipos são `cadeado` (código), `escolha`, `ordem` e `pares`. As ideias foram conferidas contra o sótão e entre as salas: nenhuma se repete. Ideias que o sótão já usa e que **não** podem voltar: ler horas e partes do dia, rotina do dia, patas e rodas, ordenar animais por tamanho ou peso, semente até à árvore, fases da lua, onde nasce o sol, roupa para a chuva ou a neve, instrumentos, intrusos de fruta, animal ou leitura, padrões de cores de livros e novelos, quem tem penas, quem nasce de ovo, rimas.
+Cada fonte e cada extra traz **3 enigmas por nível** (fácil, médio, difícil), como no sótão. As listas abaixo são geradas dos arquivos das salas: texto em pt-PT (o pt-BR está no arquivo), o `visual` entre crases e a resposta entre parênteses. Os tipos são `cadeado` (código), `escolha`, `ordem` e `pares`. As ideias foram conferidas contra o sótão e entre as salas: nenhuma se repete. Ideias que o sótão já usa e que **não** podem voltar: ler horas e partes do dia, rotina do dia, patas e rodas, ordenar animais por tamanho ou peso, semente até à árvore, fases da lua, onde nasce o sol, roupa para a chuva ou a neve, instrumentos, intrusos de fruta, animal ou leitura, padrões de cores de livros e novelos, quem tem penas, quem nasce de ovo, rimas.
 
 ### 1. O Navio Pirata (`navio`)
 
@@ -82,62 +82,63 @@ Cada fonte e cada extra traz **3 ideias por nível** (fácil, médio, difícil),
 **Saída:** porta do camarote (centro, x 50, y 45).
 **Foco:** direções e pontos cardeais, mapas com coordenadas, partilhar (dividir), flutua ou afunda.
 
-**Leme** (esquerda, 10, 50)
-- Fácil: escolha: o leme rodou para a esquerda; para onde vai o barco (⬅️ entre ⬅️ ➡️ ⬆️)?; cadeado: quantos punhos tem o leme (8)?; ordem: copiar o caminho desenhado no convés, 4 setas à vista (⬆️ ➡️ ⬇️ ⬅️).
-- Médio: escolha: o barco ia para norte e virou para a direita; para onde vai (este / leste)?; ordem: o capitão dita 5 ordens ("norte, norte, este / leste, sul, oeste") e a criança toca as setas; cadeado: o leme tem 8 punhos e 3 estão partidos / quebrados, quantos estão bons (5)?
-- Difícil: escolha: o barco ia para norte e o leme deu meia volta; para onde vai (sul)?; ordem: ordens só por escrito, sem setas ("primeiro oeste, depois norte, depois este / leste, depois sul"), com a rosa dos ventos ao lado; escolha: o vento sopra do norte; para onde vai a bandeira (sul)?
+**Leme** (`leme`)
+- Fácil: escolha: O capitão rodou o leme para a esquerda. Para onde vai o barco? `☸️ ⬅️` (⬅️ Para a esquerda, entre ➡️ ⬆️); cadeado: O leme tem punhos à volta para o capitão o agarrar. Quantos punhos tem? Escreve o número. `☸️` (8); ordem: No convés está desenhado o caminho do barco. Copia as setas pela mesma ordem. (⬆️ → ➡️ → ⬇️ → ⬅️)
+- Médio: escolha: O barco ia para norte e o capitão virou para a direita. Para onde vai agora? `🧭 ⬆️` (➡️ Este, entre ⬅️ ⬇️); ordem: O capitão dá as ordens: norte, este, sul, oeste e, no fim, lançar a âncora! Toca nas setas por essa ordem. (⬆️ → ➡️ → ⬇️ → ⬅️ → ⚓); cadeado: O leme tem 8 punhos e 3 estão partidos. Quantos punhos estão bons? `☸️` (5)
+- Difícil: escolha: O barco ia para norte e o capitão rodou o leme até dar meia volta. Para onde vai agora? `🧭 ⬆️ 🔄` (⬇️ Sul, entre ⬆️ ➡️ ⬅️); ordem: O capitão escreveu o caminho: primeiro oeste, depois norte, depois este, depois sul. Põe as setas por ordem. (⬅️ → ⬆️ → ➡️ → ⬇️); escolha: O vento sopra do norte. Para onde vai a bandeira do mastro? `🌬️ 🚩` (⬇️ Sul, entre ⬆️ ➡️ ⬅️)
 
-**Mapa do tesouro** (cima esquerda, 28, 22)
-- Fácil: cadeado: quantas palmeiras há no mapa (5)?; escolha: o tesouro está ao pé da palmeira; qual destes sítios tem o ❌?; escolha: segue as pegadas; a que ilha chegam?
-- Médio: escolha: grelha 3×3, partindo da 🌴 andas 2 casas para a direita; onde chegas?; cadeado: em que coluna está o ❌ (3)?; escolha: o tesouro está a norte (em cima) da caveira; qual é o sítio?
-- Difícil: cadeado de 2 números: coluna e linha do ❌ (coluna 3, linha 2 → "32"); escolha: partindo da 🌴, 2 casas para este / leste e 1 para sul, onde se chega?; cadeado: o tesouro está 3 casas a norte e 2 a este / leste da palmeira; quantas casas andas ao todo (5)?
+**Mapa do tesouro** (`mapa`)
+- Fácil: cadeado: Quantas palmeiras há no mapa? Escreve o número. `🌴 🌴 🌴 🌴 🌴` (5); escolha: O mapa diz: «O tesouro está ao pé da palmeira.» Em que sítio pões o ❌? `🗺️ ❌` (🌴 Palmeira, entre 🪨 🛖 ⛰️); escolha: Segue as pegadas do pirata. A que ilha chegam? `🌋 ⛵ 👣 👣 👣 ➡️ 🏝️` (🏝️ Ilha da palmeira, entre 🌋 🏔️)
+- Médio: escolha: O mapa tem uma fila de casas. Partes da palmeira e andas 2 casas para a direita. Onde chegas? `🌴 🪨 🛖 🦀` (🛖 Cabana, entre 🪨 🦀); cadeado: As colunas do mapa contam-se da esquerda para a direita. Em que coluna está o ❌? `⬜ ⬜ ❌ ⬜` (3); escolha: O mapa diz: «O tesouro está a norte da caveira.» Para que lado da caveira tens de ir? `☠️` (⬆️ Para cima, entre ⬇️ ⬅️ ➡️)
+- Difícil: cadeado: Partes da palmeira, andas 5 casas para este e depois 2 casas para oeste. A quantas casas da palmeira ficas? `🌴 ⬜ ⬜ ⬜ ⬜ ⬜ ⬜` (3); escolha: Partindo da palmeira, andas 2 casas para este e 1 casa para sul. Que setas mostram esse caminho? `🌴 🧭` (➡️➡️⬇️ Direita, direita, baixo, entre ⬅️⬅️⬇️ ➡️⬇️⬇️ ⬆️➡️➡️); cadeado: O tesouro está 3 casas a norte e 2 casas a este da palmeira. Quantas casas andas ao todo? `🌴 ⬆️⬆️⬆️ ➡️➡️ 💰` (5)
 
-**Luneta** (meio esquerda, 30, 52)
-- Fácil: escolha: o que se vê no mar pela luneta (🐳 entre 🐄 🦒 🐘)?; cadeado: quantos barcos se veem (4)?; escolha: qual barco tem a bandeira igual à nossa (🏴‍☠️)?
-- Médio: escolha: qual barco está mais longe (o que parece mais pequeno / menor)?; cadeado: quantos barcos têm vela vermelha? Não contes os outros (3); escolha: o que está à esquerda do farol?
-- Difícil: escolha: bandeira vermelha quer dizer "perigo"; que barco pede ajuda (o que tem bandeira vermelha e não tem velas)?; cadeado: quantos barcos não têm bandeira de pirata (6)?; escolha: estamos virados para norte e o barco está a oeste; de que lado o vemos (esquerda)?
+**Luneta** (`luneta`)
+- Fácil: escolha: Olha pela luneta! Que animal se vê no mar? `🔭 🌊` (🐳 Baleia, entre 🐄 🦒 🐘); cadeado: Quantos barcos se veem pela luneta? Escreve o número. `⛵ ⛵ ⛵ ⛵` (4); escolha: A nossa bandeira é esta. Qual barco tem uma bandeira igual à nossa? `🏴‍☠️` (🏴‍☠️ Bandeira de pirata, entre 🏳️ 🏁 🚩)
+- Médio: escolha: Pela luneta vês três barcos iguais. Qual deles está mais longe? `🔭` (⛵ O que parece mais pequeno, entre ⛵ ⛵); cadeado: Quantos barcos têm bandeira vermelha? Não contes os outros. `⛵🚩 ⛵🏳️ ⛵🚩 ⛵🏴 ⛵🚩 ⛵🏳️` (3); escolha: O que está à esquerda da ilha? `🐬 🏝️ ⛵` (🐬 Golfinho, entre ⛵ 🐙)
+- Difícil: escolha: Bandeira vermelha quer dizer «perigo». Que barco está a pedir ajuda? O que tem bandeira vermelha e não tem velas. `🚩 = ⚠️` (🛶🚩 Canoa com bandeira vermelha, entre ⛵🚩 🛶🏳️ ⛵🏴‍☠️); cadeado: Cada bandeira é um barco. Quantos barcos não têm bandeira de pirata? `🏴‍☠️ 🏳️ 🚩 🏴‍☠️ 🏳️ 🚩 🏳️ 🚩` (6); escolha: Estamos virados para norte e há um barco a oeste. De que lado o vemos? `🧭 ⛵` (⬅️ À esquerda, entre ➡️ ⬆️ ⬇️)
 
-**Vigia (janela redonda)** (cima direita, 70, 18)
-- Fácil: cadeado: quantos peixes passam pela vigia (6)?; escolha: a gaivota está em cima ou em baixo / embaixo da nuvem?; pares: 4 pares de peixes e conchas iguais.
-- Médio: escolha: qual desenho mostra a ilha à direita do navio?; cadeado: passavam 7 peixes e 3 nadaram para a esquerda; quantos ficaram à direita (4)?; pares: 5 pares iguais.
-- Difícil: escolha: a ilha está do lado esquerdo e o navio dá meia volta; de que lado fica agora (direita)?; escolha: o farol está atrás do navio, que anda para a frente; o farol fica maior ou mais pequeno / menor?; cadeado: passaram 2 grupos de 3 peixes e mais 1 (7).
+**Vigia** (`vigia`)
+- Fácil: cadeado: Quantos peixes passam pela vigia? Escreve o número. `🐟 🐠 🐟 🐠 🐟 🐠` (6); escolha: Pela vigia vês uma gaivota e uma nuvem. A gaivota está de que lado da nuvem? `🐦 ☁️` (⬅️ À esquerda, entre ➡️); pares: Pela vigia passam peixes e conchas. Encontra os pares iguais! (🐟 🐠 🐚 🐡)
+- Médio: escolha: Qual destes desenhos mostra a ilha à direita do navio? (⛵🏝️ Desenho C, entre 🏝️⛵ ⛵🐳); cadeado: Passavam 7 peixes na vigia e 3 nadaram para a esquerda. Quantos ficaram à direita? `🐟 🐟 🐟 🐟 🐟 🐟 🐟` (4); pares: O mar está cheio de bichos! Encontra os cinco pares iguais. (🐟 🐠 🐚 🦀 🐬)
+- Difícil: escolha: A ilha está do lado esquerdo do navio. O navio dá meia volta. De que lado fica agora a ilha? `🏝️ ⛵ 🔄` (➡️ À direita, entre ⬅️); escolha: O farol está atrás do navio e o navio anda sempre para a frente. Pela vigia, o farol parece cada vez... `⛵ ➡️` (⬇️ Mais pequeno, entre ⬆️ ⏸️); cadeado: Pela vigia passaram 2 grupos de 3 peixes e depois mais 1 peixe. Quantos peixes passaram? `🐟🐟🐟 🐠🐠🐠 🐡` (7)
 
-**Papagaio na gaiola** (meio direita, 68, 48)
-- Fácil: escolha: o papagaio só come fruta (🍌 entre 🧦 🔑 🪨); pares: 4 pares de penas coloridas; cadeado: quantas penas tem a cauda (5)?
-- Médio: escolha: o papagaio diz o contrário de "em cima"; o que é (em baixo / embaixo)?; cadeado: o papagaio tem 6 sementes e reparte com o amigo, cada um fica com o mesmo; quantas cada (3)?; escolha: o papagaio diz o contrário de "esquerda" (direita).
-- Difícil: ordem: o papagaio disse a palavra às avessas; pôr as sílabas por ordem (pa · pa · gai · o); escolha: o papagaio diz sempre o contrário; disse "o tesouro está a norte", onde está (sul)?; cadeado: 9 bolachas / biscoitos para 3 papagaios, todos com o mesmo; quantas / quantos cada (3)?
+**Papagaio na gaiola** (`papagaio`)
+- Fácil: escolha: O papagaio só come fruta. O que lhe dás? `🦜` (🍌 Banana, entre 🧦 🔑 🪨); pares: O papagaio espalhou as coisas dele. Encontra os pares iguais! (🦜 🪶 🍌 🥜); cadeado: Quantas penas tem a cauda do papagaio? Escreve o número. `🪶 🪶 🪶 🪶 🪶` (5)
+- Médio: escolha: O papagaio diz sempre o contrário. Ouviu «em cima». O que diz ele? `🦜 ⬆️` (⬇️ Em baixo, entre ⬆️ ➡️); cadeado: O papagaio tem 6 sementes e reparte com o amigo, para cada um ficar com o mesmo. Com quantas fica cada um? `🦜 🌰🌰🌰🌰🌰🌰 🦜` (3); escolha: O papagaio diz sempre o contrário. Ouviu «esquerda». O que diz ele? `🦜 ⬅️` (➡️ Direita, entre ⬆️ ⬅️)
+- Difícil: ordem: O papagaio baralhou uma palavra do navio: «ro · nhei · ma · ri». Põe as sílabas por ordem para formar «marinheiro». (ma → ri → nhei → ro); escolha: O papagaio diz sempre o contrário. Disse: «O tesouro está a norte!» Onde está o tesouro? `🦜 🧭` (⬇️ Sul, entre ⬆️ ➡️ ⬅️); cadeado: Há 9 bolachas para 3 papagaios, e todos ficam com o mesmo. Quantas bolachas recebe cada papagaio? `🍪🍪🍪🍪🍪🍪🍪🍪🍪 🦜🦜🦜` (3)
 
-**Bússola e globo** (direita, 90, 50)
-- Fácil: escolha: qual é a bússola (🧭 entre ⏰ 🍪 🎈)?; pares: 4 pares iguais (🧭 🌍 ⚓ 🦜); cadeado: quantas pontas tem a rosa dos ventos (4)?
-- Médio: escolha: a agulha aponta para norte (em cima); o que fica em baixo / embaixo (sul)?; pares associados: animal ↔ onde vive (🐧↔🧊, 🐪↔🏜️, 🐒↔🌴, 🐟↔🌊); cadeado: a rosa dos ventos tem 4 pontas grandes e 4 pequenas; quantas ao todo (8)?
-- Difícil: escolha: a agulha aponta para norte; o que fica à direita (este / leste)?; pares associados: os 4 do médio e 🐻‍❄️↔❄️; escolha: estás virado para sul; o que fica nas tuas / suas costas (norte)?
+**Bússola e globo** (`bussola`)
+- Fácil: escolha: O capitão precisa da bússola para não se perder. Qual é a bússola? (🧭 Bússola, entre ⏰ 🍪 🎈); pares: As coisas do capitão estão misturadas. Encontra os pares iguais! (🧭 🌍 ⚓ 🦜); cadeado: A rosa dos ventos aponta para o norte, o sul, o este e o oeste. Quantas pontas tem? `🧭` (4)
+- Médio: escolha: A agulha aponta para o norte, que fica em cima. O que fica em baixo? `🧭 ⬆️` (⬇️ Sul, entre ⬅️ ➡️); pares: No globo, cada animal tem a sua casa. Junta cada animal ao sítio onde vive! (🐧↔🧊 🐪↔🏜️ 🐒↔🌴 🐟↔🌊); cadeado: A rosa dos ventos tem 4 pontas grandes e 4 pontas pequenas. Quantas pontas tem ao todo? `🧭` (8)
+- Difícil: escolha: A agulha da bússola aponta para o norte. Que ponto fica à direita? `🧭 ⬆️` (➡️ Este, entre ⬅️ ⬇️); pares: Gira o globo! Junta cada animal ao sítio onde vive. (🐧↔🧊 🐪↔🏜️ 🐒↔🌴 🐟↔🌊 🐻‍❄️↔❄️); escolha: Estás virado para sul. Que ponto fica nas tuas costas? `🧭 ⬇️` (⬆️ Norte, entre ⬅️ ➡️ ⬇️)
 
-**Barril** (baixo, 34, 80)
-- Fácil: cadeado: quantas maçãs há no barril (7)?; escolha: o que não é comida no barril (🧦 entre 🍎 🍞 🧀)?; cadeado: cada pirata quer 1 maçã; quantas maçãs são precisas para estes piratas (3)?
-- Médio: cadeado: 8 maçãs para 2 piratas, quantas para cada um (4)?; cadeado: 6 bolachas / biscoitos em 3 pratos iguais, quantas / quantos em cada (2)?; escolha: em que desenho as maçãs estão bem divididas (todos com o mesmo)?
-- Difícil: cadeado: 12 maçãs para 4 piratas, quantas para cada um (3)?; cadeado: 3 piratas comem 2 bolachas / biscoitos cada, havia 9, quantas / quantos sobram (3)?; cadeado: 10 maçãs para 3 piratas, todos com o mesmo; quantas sobram (1)?
+**Barril** (`barril`)
+- Fácil: cadeado: Quantas maçãs há no barril? Escreve o número. `🍎 🍎 🍎 🍎 🍎 🍎 🍎` (7); escolha: No barril dos piratas há uma coisa que não se come. Qual é? (🧦 Meia, entre 🍎 🍞 🧀); cadeado: Cada pirata quer 1 maçã do barril. Quantas maçãs são precisas para estes piratas? `🧔 🧔 🧔` (3)
+- Médio: cadeado: Há 8 maçãs para 2 piratas, e os dois ficam com o mesmo. Quantas maçãs recebe cada um? `🍎🍎🍎🍎🍎🍎🍎🍎 🧔 🧔` (4); cadeado: Há 6 bolachas para pôr em 3 pratos, com o mesmo em cada prato. Quantas bolachas vão para cada prato? `🍪🍪🍪🍪🍪🍪 🍽️ 🍽️ 🍽️` (2); escolha: Dois piratas repartiram as maçãs. Em que desenho ficaram os dois com o mesmo? (🍎🍎 | 🍎🍎 Desenho C, entre 🍎🍎🍎 | 🍎 🍎 | 🍎🍎🍎)
+- Difícil: cadeado: Há 12 maçãs para 4 piratas, e todos ficam com o mesmo. Quantas maçãs recebe cada um? `🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎 🧔🧔🧔🧔` (3); cadeado: No barril havia 9 bolachas. Cada um dos 3 piratas comeu 2. Quantas bolachas sobram? `🍪🍪🍪🍪🍪🍪🍪🍪🍪 🧔🧔🧔` (3); cadeado: Há 10 maçãs para 3 piratas, e todos ficam com o mesmo. Quantas maçãs sobram no barril? `🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎 🧔🧔🧔` (1)
 
-**Âncora** (baixo centro, 50, 84; `requer: 'corda'`)
-- Fácil: escolha: o que vai ao fundo da água (⚓ entre 🦆 🎈 🪵)?; pares: 4 pares de conchas e âncoras; cadeado: quantas conchas estão presas na âncora (4)?
-- Médio: escolha: qual destas coisas flutua (🪵 entre 🪨 🔑 ⚓)?; cadeado: a corrente tem 10 elos e 4 já estão na água; quantos estão fora (6)?; ordem: a âncora a descer (no barco, a cair / caindo, na água, a afundar / afundando, no fundo).
-- Difícil: escolha: adivinha "tenho penas, sou leve e não vou ao fundo" (🦆); cadeado: atiraram ao mar 3 rolhas, 4 pedras e 2 chaves; quantas coisas ficaram a flutuar / flutuando (3)?; ordem: do céu até ao fundo do mar (🐦 → ⛵ → 🐟 → 🐙 → ⚓).
+**Âncora** (`ancora`; `requer: 'corda'`)
+- Fácil: escolha: Qual destas coisas vai ao fundo da água? `🌊` (⚓ Âncora, entre 🦆 🎈 🪵); pares: No fundo do mar há conchas e âncoras. Encontra os pares iguais! (🐚 ⚓ 🦀 🪸); cadeado: Quantas conchas estão presas na âncora? Escreve o número. `⚓ 🐚 🐚 🐚 🐚` (4)
+- Médio: escolha: Qual destas coisas flutua na água? `🌊` (🪵 Tronco, entre 🪨 🔑 ⚓); cadeado: A corrente da âncora tem 10 elos e 4 já estão dentro da água. Quantos estão fora da água? `⛓️ ⛓️ ⛓️ ⛓️ ⛓️ ⛓️ 🌊 ⛓️ ⛓️ ⛓️ ⛓️` (6); ordem: Põe a viagem da âncora por ordem: no barco, a cair, a entrar na água, a afundar e, no fim, no fundo do mar. (🚢 → ⬇️ → 💦 → 🫧 → 🪨)
+- Difícil: escolha: Adivinha: tenho penas, sou leve e não vou ao fundo da água. Quem sou? (🦆 Pato, entre ⚓ 🎈 🪨); cadeado: Atiraram ao mar 3 rolhas, 4 pedras e 2 chaves. Quantas coisas ficaram a flutuar? `🍾🍾🍾 🪨🪨🪨🪨 🔑🔑` (3); ordem: Põe as coisas por ordem, do céu até ao fundo do mar. (🐦 → ⛵ → 🐟 → 🐙 → ⚓)
 
-**Baú do tesouro** (baixo esquerda, 16, 84; `requer: 'chave'`)
-- Fácil: cadeado: quantas moedas há no baú (6)?; escolha: o que não é tesouro (🧦 entre 💎 👑 🪙)?; pares: 4 pares iguais (🪙 💎 🗝️ 🏴‍☠️).
-- Médio: cadeado: 1 moeda de 2 e 1 moeda de 1, quanto dinheiro (3)?; cadeado: o baú tinha 7 moedas e o pirata gastou 2 (5); escolha: que saco tem mais moedas?
-- Difícil: cadeado: 2 moedas de 2 e 1 moeda de 1, quanto dinheiro (5)?; escolha: qual vale mais, 3 moedas de 1 ou 1 moeda de 5?; cadeado: 8 moedas em 2 baús, um tem mais 2 do que o outro; quantas no maior (5)?
+**Baú do tesouro** (`bau`; `requer: 'chave'`)
+- Fácil: cadeado: Quantas moedas há no baú? Escreve o número. `🪙 🪙 🪙 🪙 🪙 🪙` (6); escolha: No baú há uma coisa que não é tesouro. Qual é? (🧦 Meia, entre 💎 👑 🪙); pares: O tesouro está todo misturado. Encontra os pares iguais! (🪙 💎 🗝️ 🏴‍☠️)
+- Médio: cadeado: No baú há 1 moeda de 2 e 1 moeda de 1. Quanto dinheiro há ao todo? `🪙2 ➕ 🪙1` (3); cadeado: O baú tinha 7 moedas e o pirata gastou 2. Quantas moedas ficaram? `🪙 🪙 🪙 🪙 🪙 🪙 🪙` (5); escolha: O pirata quer o saco com mais moedas. Qual é? (🪙🪙🪙🪙🪙 Segundo saco, entre 🪙🪙🪙 🪙🪙)
+- Difícil: cadeado: No baú há 2 moedas de 2 e 1 moeda de 1. Quanto dinheiro há ao todo? `🪙2 🪙2 🪙1` (5); escolha: O que vale mais: 3 moedas de 1 ou 1 moeda de 5? (🪙 Uma moeda de 5, entre 🪙🪙🪙); cadeado: Há 8 moedas em 2 baús. Um baú tem mais 2 moedas do que o outro. Quantas moedas tem o baú maior? `💰 💰` (5)
 
 **Extras:**
 
-**Garrafa com mensagem** (baixo direita, 66, 82) dá a **chave** do baú
-- Fácil: escolha: qual chave tem a mesma forma que a sombra?; pares: 4 pares de garrafas iguais; escolha: a mensagem é um desenho (🗝️ 🏝️); o que manda procurar (🗝️)?
-- Médio: escolha: a mensagem diz "a chave está debaixo / embaixo da tábua"; qual desenho mostra isso?; ordem: a viagem da garrafa (o pirata escreve, põe na garrafa, atira ao mar, a garrafa boia, chega à praia); pares: 5 pares iguais.
-- Difícil: escolha: a mensagem está escrita de trás para a frente, "EVAHC"; qual é a palavra (CHAVE)?; escolha: "a chave não está no barril nem no canhão, está a sul do leme"; onde está?; cadeado: a garrafa andou 2 ilhas para norte e 3 para sul; a quantas ilhas do ponto de partida ficou (1)?
+**Garrafa com mensagem** (`garrafa`) dá **Chave do baú** (`chave`)
+- Fácil: escolha: A mensagem tem o desenho de uma chave. Qual destas é igual ao desenho? `🗝️` (🗝️ Chave antiga, entre 🔑 🔒 🔐); pares: Chegaram muitas garrafas à praia. Encontra os pares iguais! (🍾 🧴 🍶 🫙); escolha: A mensagem é um desenho: uma chave e uma ilha. O que manda procurar? `📜 🗝️ 🏝️` (🗝️ Uma chave, entre 🐟 🍌)
+- Médio: escolha: A mensagem diz: «A chave está à esquerda da âncora.» Qual desenho mostra isso? (🗝️⚓ Desenho B, entre ⚓🗝️ ⚓🐚); ordem: Põe a viagem da garrafa por ordem: o pirata escreve, põe a mensagem na garrafa, atira-a ao mar, a garrafa boia nas ondas e chega à praia. (✍️ → 🍾 → 💦 → 🌊 → 🏖️); pares: Chegaram muitas coisas à praia. Encontra os cinco pares iguais! (🍾 📜 🐚 🦀 ⭐)
+- Difícil: escolha: A mensagem está escrita de trás para a frente: «EVAHC». Que palavra é? `📜 EVAHC` (🗝️ Chave, entre 🐄 ⚓ 🦜); escolha: A mensagem diz: «A chave não está no barril nem no canhão. Está a sul do leme.» Onde está? `📜 🧭` (⬇️ Por baixo do leme, entre 🛢️ ☸️ 💣); cadeado: A garrafa andou 2 ilhas para norte e depois 3 ilhas para sul. A quantas ilhas do ponto de partida ficou? `🍾 ⬆️⬆️ ⬇️⬇️⬇️` (1)
 
-**Canhão com corda** (baixo direita, 88, 84) dá a **corda** da âncora
-- Fácil: cadeado: quantas bolas de canhão há (5)?; escolha: para que lado aponta o canhão (➡️ entre ⬅️ ⬆️ ➡️)?; pares: 4 pares iguais.
-- Médio: cadeado: 9 bolas em 3 montes iguais, quantas em cada (3)?; escolha: o canhão aponta para a direita; que barco está nesse lado?; pares: 5 pares iguais.
-- Difícil: escolha: o canhão aponta para norte e roda um quarto de volta para a direita; para onde aponta (este / leste)?; cadeado: 10 bolas para 2 canhões, cada um com o mesmo; cada canhão disparou 1; quantas tem cada um agora (4)?; escolha: o que flutua, a bola de canhão ou o barril vazio (barril)?
+**Canhão com corda** (`canhao`) dá **Corda** (`corda`)
+- Fácil: cadeado: A corda está presa debaixo das bolas de canhão. Quantas bolas há? `⚫ ⚫ ⚫ ⚫ ⚫` (5); escolha: Para que lado aponta o canhão? `💣 ➡️` (➡️ Para a direita, entre ⬅️ ⬆️); pares: As coisas do convés estão espalhadas. Encontra os pares iguais! (💣 🪢 🏴‍☠️ ⛵)
+- Médio: cadeado: Há 9 bolas de canhão para pôr em 3 montes iguais. Quantas bolas ficam em cada monte? `⚫⚫⚫⚫⚫⚫⚫⚫⚫` (3); escolha: O canhão aponta para a direita. Que barco está desse lado? `🛶 💣➡️ ⛵` (⛵ Veleiro, entre 🛶 🚢); pares: As coisas do convés estão espalhadas. Encontra os cinco pares iguais! (💣 🪢 🏴‍☠️ ⛵ 🔭)
+- Difícil: escolha: O canhão aponta para norte e roda um quarto de volta para a direita. Para onde aponta agora? `💣 ⬆️ ↪️` (➡️ Este, entre ⬅️ ⬇️ ⬆️); cadeado: Há 10 bolas para 2 canhões, com o mesmo em cada um. Cada canhão disparou 1 bola. Quantas bolas tem cada canhão agora? `⚫⚫⚫⚫⚫⚫⚫⚫⚫⚫ 💣 💣` (4); escolha: Caíram duas coisas ao mar: uma bola de canhão e um barril vazio. Qual delas flutua? `🌊` (🛢️ O barril vazio, entre ⚫)
+
 
 **Palavras:** camarote, vigia (janela redonda do navio), luneta; papagaio aqui é a ave (pt-PT também usa "papagaio" para o brinquedo, que no Brasil é "pipa"); este (pt-PT) / leste (pt-BR); bolachas (pt-PT) / biscoitos (pt-BR); partido / quebrado; em baixo / embaixo; mais pequeno / menor; gerúndio (`a cair` / `caindo`).
 
@@ -147,62 +148,63 @@ Cada fonte e cada extra traz **3 ideias por nível** (fácil, médio, difícil),
 **Saída:** escotilha (centro, x 50, y 45).
 **Foco:** sequências numéricas (de 2 em 2, contagem para trás), regras de padrões, lógica de pistas.
 
-**Janela dos planetas** (cima esquerda, 26, 22)
-- Fácil: cadeado: quantos planetas se veem (5)?; escolha: qual planeta tem anéis (🪐 entre 🌍 🌕 ☀️)?; pares: 4 pares de planetas iguais.
-- Médio: cadeado: contagem para o lançamento 5, 4, ❔, 2, 1 (3); escolha: que planeta vem a seguir em 🌍🪐🌍🪐❔ (🌍)?; ordem: os números da contagem para trás (5 → 1).
-- Difícil: cadeado: contagem 9, 8, 7, ❔, 5 (6); cadeado: contagem de 2 em 2 para trás 10, 8, 6, ❔ (4); escolha: regra de 3 🌍🪐🌕🌍🪐❔ (🌕).
+**Janela dos planetas** (`janela`)
+- Fácil: cadeado: Quantos planetas se veem pela janela? Escreve o número. `🪐 🌍 🌕 🪐 🌍` (5); escolha: Pela janela vês um planeta com anéis à volta. Qual é? (🪐 Saturno, entre 🌍 🌕 ☀️); pares: Os planetas fugiram pela janela! Encontra os pares iguais. (🪐 🌍 🌕 ☀️)
+- Médio: cadeado: A nave conta para trás antes de partir: 5, 4, ?, 2, 1. Que número falta? Escreve o número. `5️⃣ 4️⃣ ❔ 2️⃣ 1️⃣` (3); escolha: Os planetas da janela seguem uma regra. Qual vem a seguir? `🌍 🪐 🌍 🪐 ❔` (🌍 Terra, entre 🪐 🌕); ordem: A nave vai partir! Põe os números pela ordem da contagem para trás, do 5 até ao 1. (5 → 4 → 3 → 2 → 1)
+- Difícil: cadeado: A nave conta para trás: 9, 8, 7, ?, 5. Que número falta? Escreve o número. `9️⃣ 8️⃣ 7️⃣ ❔ 5️⃣` (6); cadeado: Agora a contagem salta de 2 em 2 para trás: 10, 8, 6... Que número vem a seguir? `🔟 8️⃣ 6️⃣ ❔` (4); escolha: Os planetas da janela seguem uma regra. Qual vem a seguir? `🌍 🪐 🌕 🌍 🪐 ❔` (🌕 Lua, entre 🌍 🪐 ☀️)
 
-**Painel de botões** (meio esquerda, 28, 55)
-- Fácil: escolha: qual botão é igual ao modelo (cor e desenho)?; ordem: carregar / apertar os botões 1, 2, 3, 4; cadeado: quantos botões vermelhos há (3)?
-- Médio: escolha: que botão completa 🔴🟢🔴🟢❔ (🔴)?; cadeado: as luzes acendem 2, 3, 4, ❔ (5); ordem: carregar / apertar de 5 até 1.
-- Difícil: ordem: carregar / apertar de 2 em 2 (2, 4, 6, 8, 10); escolha: que botão completa 🔴🟢🟢🔴🟢🟢🔴❔ (🟢)?; cadeado: o botão certo tem mais 2 do que o 5 e menos 1 do que o 8 (7).
+**Painel de botões** (`painel`)
+- Fácil: escolha: Qual botão é igual ao modelo, na cor e no desenho? `🔵🌙` (🔵🌙 Azul com lua, entre 🔴🌙 🔵⭐ 🔴⭐); ordem: Carrega nos botões por ordem: 1, 2, 3, 4. (1 → 2 → 3 → 4); cadeado: Quantos botões vermelhos há no painel? Escreve o número. `🔴 🟢 🔴 🔵 🔴 🟡` (3)
+- Médio: escolha: Os botões seguem uma regra. Que botão completa a fila? `🔴 🟢 🔴 🟢 ❔` (🔴 Botão vermelho, entre 🟢 🔵); cadeado: As luzes do painel acendem-se: 2, depois 3, depois 4. Quantas se acendem a seguir? `💡💡  💡💡💡  💡💡💡💡  ❔` (5); ordem: Carrega nos botões do 5 até ao 1, a contar para trás. (5 → 4 → 3 → 2 → 1)
+- Difícil: ordem: Carrega nos botões de 2 em 2, do número mais pequeno ao maior. (2 → 4 → 6 → 8 → 10); escolha: Os botões seguem uma regra. Que botão completa a fila? `🔴 🟢 🟢 🔴 🟢 🟢 🔴 ❔` (🟢 Botão verde, entre 🔴 🔵); cadeado: O botão certo tem mais 2 do que o 5 e menos 1 do que o 8. Que número é? Escreve o número. `🔘` (7)
 
-**Radar** (cima direita, 70, 20)
-- Fácil: cadeado: quantos pontos há no radar (4)?; escolha: qual nave está no centro?; pares: 4 pares de naves iguais.
-- Médio: escolha: qual nave está mais perto do centro?; cadeado: os pontos aparecem 2, 3, 4… quantos a seguir (5)?; escolha: a luz pisca 💡⚫💡⚫❔ (💡).
-- Difícil: cadeado: os pontos aparecem 1, 3, 5, 7… quantos a seguir (9)?; escolha: pistas "a nave amiga não está no centro, não é a maior e tem luz verde"; cadeado: há 9 pontos e somem 2 em cada volta; quantos ao fim de 3 voltas (3)?
+**Radar** (`radar`)
+- Fácil: cadeado: Quantos pontos verdes há no radar? Escreve o número. `🟢 🟢 🟢 🟢` (4); escolha: Há três naves no radar. Qual está no meio? `🛰️ 🚀 🛸` (🚀 Foguetão, entre 🛰️ 🛸); pares: O radar encontrou naves! Encontra os pares de naves iguais. (🚀 🛸 🛰️ ✈️)
+- Médio: escolha: O alvo é o centro do radar. Qual nave está mais perto do centro? `🛸 ⚫ ⚫ ⚫ 🎯 ⚫ 🚀 ⚫ ⚫ 🛰️` (🚀 Foguetão, entre 🛸 🛰️); cadeado: Os pontos aparecem no radar: 2, depois 3, depois 4. Quantos aparecem a seguir? `🟢🟢  🟢🟢🟢  🟢🟢🟢🟢  ❔` (5); escolha: A luz do radar pisca com uma regra. O que vem a seguir? `💡 ⚫ 💡 ⚫ ❔` (💡 Luz acesa, entre ⚫)
+- Difícil: cadeado: Os pontos aparecem no radar: 1, 3, 5, 7... Quantos aparecem a seguir? `1️⃣ 3️⃣ 5️⃣ 7️⃣ ❔` (9); escolha: A nave amiga não está no centro, não é a maior e tem luz verde. Qual é? (🛰️🟢 Nave pequena de luz verde, na ponta, entre 🛸🟢 🚀🟢 🚀🔴); cadeado: Há 9 pontos no radar e em cada volta desaparecem 2. Quantos ficam ao fim de 3 voltas? `🟢 🟢 🟢 🟢 🟢 🟢 🟢 🟢 🟢` (3)
 
-**Robô ajudante** (meio direita, 68, 50; `requer: 'cartao'`)
-- Fácil: escolha: que peça falta ao robô (o braço)?; cadeado: quantas luzes tem o robô (6)?; ordem: montar o robô (pés → corpo → cabeça → antena).
-- Médio: escolha: que peça vem a seguir em ⚙️🔩⚙️🔩❔ (⚙️)?; cadeado: a bateria tem 8 riscas / listras e gastou 3 (5); ordem: os robôs pelo número de antenas, de 1 a 5.
-- Difícil: escolha: pistas "não sou o robô azul, tenho duas antenas e não tenho rodas"; cadeado: a bateria tem 10 riscas / listras e gasta 2 por hora; quantas ficam ao fim de 3 horas (4)?; ordem: os robôs numerados de 3 em 3 (3, 6, 9, 12, 15).
+**Robô ajudante** (`robo`; `requer: 'cartao'`)
+- Fácil: escolha: O robô tem cabeça, corpo e pernas, mas falta-lhe uma peça para apanhar as coisas. Qual é? `🤖` (🦾 Braço, entre 🛞 📡 💡); cadeado: Quantas luzes tem o robô? Escreve o número. `🤖 💡💡💡💡💡💡` (6); ordem: Ajuda a montar o robô, de baixo para cima: as pernas, o corpo com a bateria, a cabeça e a antena. (🦿 → 🔋 → 🤖 → 📡)
+- Médio: escolha: As peças do robô seguem uma regra. Qual vem a seguir? `⚙️ 🔩 ⚙️ 🔩 ❔` (⚙️ Roda dentada, entre 🔩 🔧); cadeado: A bateria do robô tem 8 riscas e gastou 3. Quantas riscas ficaram? `🔋 ▮▮▮▮▮▮▮▮` (5); ordem: Cada robô mostra as suas antenas. Põe os robôs por ordem, de 1 antena até 5 antenas. (📡 → 📡📡 → 📡📡📡 → 📡📡📡📡 → 📡📡📡📡📡)
+- Difícil: escolha: Adivinha qual é o robô: não sou o robô azul, tenho duas antenas e não tenho rodas. (🤖🦿 Robô verde de duas antenas, com pernas, entre 🤖🔵 🤖🛞 🤖📡); cadeado: A bateria do robô tem 10 riscas e gasta 2 riscas por hora. Quantas ficam ao fim de 3 horas? `🔋 ▮▮▮▮▮▮▮▮▮▮` (4); ordem: Os robôs estão numerados de 3 em 3. Põe-nos por ordem, do número mais pequeno ao maior. (3 → 6 → 9 → 12 → 15)
 
-**Capacete e comida espacial** (direita, 90, 48)
-- Fácil: ordem: vestir o astronauta (meias → fato / traje → luvas → capacete); cadeado: quantos pacotes de comida há (6)?; escolha: o que não se come (👟 entre 🍎 🥕 🍞)?
-- Médio: escolha: que pacote vem a seguir em 🍎🥕🍎🥕❔ (🍎)?; cadeado: o astronauta tinha 7 pacotes e comeu 2 (5); escolha: 1 maçã, 2 maçãs, 3 maçãs… qual pacote vem a seguir (4 maçãs)?
-- Difícil: cadeado: no 1.º dia bebeu 1 copo, no 2.º 3, no 3.º 5; quantos no 4.º (7)?; escolha: pistas "o pacote não é doce, não é verde e é redondo"; ordem com regras: 5 peças, "o fato / traje antes das botas, as luvas depois do fato / traje, o capacete por último".
+**Capacete e comida espacial** (`capacete`)
+- Fácil: ordem: Ajuda o astronauta a vestir-se! Põe por ordem: as meias, o fato, as luvas e o capacete. (🧦 → 🥼 → 🧤 → 🪖); cadeado: Quantos pacotes de comida há na prateleira? Escreve o número. `🟧 🟨 🟩 🟦 🟪 🟥` (6); escolha: Na prateleira da comida há uma coisa fora do lugar. Qual destas coisas não se come? (👟 Sapatilha, entre 🍎 🥕 🍞)
+- Médio: escolha: Os pacotes de comida seguem uma regra. Qual vem a seguir? `🍎 🥕 🍎 🥕 ❔` (🍎 Maçã, entre 🥕 🍞); cadeado: O astronauta tinha 7 pacotes de comida e comeu 2. Quantos pacotes ficaram? `📦 📦 📦 📦 📦 📦 📦` (5); escolha: Os pacotes têm 1 maçã, 2 maçãs, 3 maçãs... Qual é o pacote seguinte? `🍎   🍎🍎   🍎🍎🍎   ❔` (🍎🍎🍎🍎 Quatro maçãs, entre 🍎🍎 🍎🍎🍎🍎🍎)
+- Difícil: cadeado: No primeiro dia o astronauta bebeu 1 copo de água, no segundo dia 3 copos e no terceiro dia 5 copos. Quantos copos bebe no quarto dia? `🥤   🥤🥤🥤   🥤🥤🥤🥤🥤   ❔` (7); escolha: Adivinha o pacote preferido do astronauta: não é doce, não é verde e é redondo. (🍅 Tomate, entre 🍪 🥒 🥖); ordem: Veste o astronauta. Primeiro as meias. O fato vem antes das botas. As luvas vêm depois das botas. O capacete fica para o fim. (🧦 → 🥼 → 🥾 → 🧤 → 🪖)
 
-**Estufa** (baixo esquerda, 16, 82)
-- Fácil: cadeado: quantas folhas tem a planta (5)?; escolha: o que a planta precisa para crescer (💧 entre 🧦 🔑 🎈)?; pares: 4 pares de vasos iguais.
-- Médio: cadeado: no 1.º dia a planta tem 2 folhas, no 2.º 3; quantas no 3.º (4)?; escolha: que vaso vem a seguir em 🌷🌵🌷🌵❔ (🌷)?; ordem: os vasos de 1 a 5 flores.
-- Difícil: cadeado: a planta tinha 1 cm e cresce 2 cm por dia; quanto mede ao fim de 3 dias (7)?; escolha: pistas "a minha planta não tem flores, não é um cato / cacto e tem folhas grandes"; cadeado: cada dia nascem o dobro das flores, 1, 2, 4, ❔ (8).
+**Estufa** (`estufa`)
+- Fácil: cadeado: Quantas folhas tem a planta da estufa? Escreve o número. `🍃 🍃 🍃 🍃 🍃` (5); escolha: Do que precisa a planta para crescer? `🌱` (💧 Água, entre 🧦 🔑 🎈); pares: Os vasos da estufa estão misturados. Encontra os pares iguais! (🌷 🌵 🌻 🌱)
+- Médio: cadeado: No primeiro dia a planta tem 2 folhas e no segundo dia tem 3. Quantas folhas tem no terceiro dia? `🍃🍃   🍃🍃🍃   ❔` (4); escolha: Os vasos da estufa seguem uma regra. Qual vem a seguir? `🌷 🌵 🌷 🌵 ❔` (🌷 Tulipa, entre 🌵 🌻); ordem: Põe os vasos por ordem, do que tem 1 flor ao que tem 5 flores. (🌷 → 🌷🌷 → 🌷🌷🌷 → 🌷🌷🌷🌷 → 🌷🌷🌷🌷🌷)
+- Difícil: cadeado: A planta tinha 1 centímetro e cresce 2 centímetros por dia. Quanto mede ao fim de 3 dias? `🌱 📏` (7); escolha: Adivinha qual é a planta da Capitã: não tem flores, não é um cato e tem folhas grandes. (🪴 Planta de vaso, entre 🌻 🌵 🌱); cadeado: Cada dia nasce o dobro das flores do dia anterior: 1, 2, 4... Quantas flores nascem a seguir? `🌸   🌸🌸   🌸🌸🌸🌸   ❔` (8)
 
-**Telescópio** (baixo, 34, 80)
-- Fácil: cadeado: quantas estrelas se veem (7)?; escolha: o que se vê no céu de noite (⭐ entre 🌈 🐄 🚗)?; pares: 4 pares de estrelas iguais.
-- Médio: cadeado: estrelas cadentes 1, 2, 3… quantas na 4.ª noite (4)?; escolha: qual desenho tem os mesmos pontos que a constelação?; escolha: o que vem a seguir em ⭐☄️⭐☄️❔ (⭐)?
-- Difícil: cadeado: estrelas cadentes 2, 4, 6… quantas na 4.ª noite (8)?; escolha: ligar os pontos de uma constelação; que figura formam?; cadeado: um cometa passa de 3 em 3 noites e passou na noite 1; em que noite passa pela 3.ª vez (7)?
+**Telescópio** (`telescopio`)
+- Fácil: cadeado: Quantas estrelas se veem pelo telescópio? Escreve o número. `⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐` (7); escolha: O que se vê no céu de noite? `🔭` (⭐ Estrela, entre 🌈 🐄 🚗); pares: O céu está cheio de estrelas. Encontra os pares de estrelas iguais! (⭐ 🌟 💫 ✨)
+- Médio: cadeado: Na primeira noite caiu 1 estrela cadente, na segunda noite caíram 2 e na terceira caíram 3. Quantas caem na quarta noite? `☄️   ☄️☄️   ☄️☄️☄️   ❔` (4); escolha: Esta constelação tem estes pontos de luz. Qual desenho tem o mesmo número de estrelas? `✨ ✨ ✨ ✨ ✨` (⭐⭐⭐⭐⭐ Cinco estrelas, entre ⭐⭐⭐ ⭐⭐⭐⭐ ⭐⭐⭐⭐⭐⭐); escolha: No céu passam estrelas e cometas com uma regra. O que vem a seguir? `⭐ ☄️ ⭐ ☄️ ❔` (⭐ Estrela, entre ☄️ 🌙)
+- Difícil: cadeado: Na primeira noite caíram 2 estrelas cadentes, na segunda 4 e na terceira 6. Quantas caem na quarta noite? `☄️☄️   ☄️☄️☄️☄️   ☄️☄️☄️☄️☄️☄️   ❔` (8); cadeado: O telescópio aproxima a estrela e conta para trás de 3 em 3: 15, 12, 9... Que número vem a seguir? `🔭 15 · 12 · 9 · ❔` (6); cadeado: Um cometa passa de 3 em 3 noites. Passou na noite 1. Em que noite passa pela terceira vez? `☄️` (7)
 
-**Mapa das estrelas** (baixo centro, 50, 86)
-- Fácil: pares: 4 pares iguais (⭐ 🌙 ☀️ 🪐); cadeado: quantas estrelas tem o mapa (8)?; escolha: o que está no céu de dia (☀️ entre 🌙 ⭐ 🦉)?
-- Médio: pares associados: 🚀↔🔥, 👩‍🚀↔🪖, 🌍↔💧, ⭐↔✨; escolha: o que dá luz própria, o Sol ou a Lua?; escolha: o que vem a seguir em ☀️☀️🌙☀️☀️❔ (🌙)?
-- Difícil: pares associados: os 4 do médio e ☀️↔🌙; escolha: pistas "a estrela da Capitã é amarela, não é a maior e tem 5 pontas"; cadeado de 2 números: as estrelas estão numeradas 3, 6, 9, ❔ (12).
+**Mapa das estrelas** (`mapa`)
+- Fácil: pares: O mapa mostra o céu. Encontra os pares iguais! (⭐ 🌙 ☀️ 🪐); cadeado: Quantas estrelas tem o mapa? Escreve o número. `⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐ ⭐` (8); escolha: O que está no céu de dia? (☀️ Sol, entre 🌙 ⭐ 🦉)
+- Médio: pares: Junta as coisas que andam juntas, como o foguetão e o fogo! (🚀↔🔥 👩‍🚀↔🪖 🌍↔💧 ⭐↔✨); escolha: Qual destes tem luz própria, como uma lâmpada acesa? (☀️ Sol, entre 🌙); escolha: O mapa mostra uma regra. O que vem a seguir? `☀️ ☀️ 🌙 ☀️ ☀️ ❔` (🌙 Lua, entre ☀️ ⭐)
+- Difícil: pares: Vira as cartas e junta as coisas que andam juntas, como o foguetão e o fogo. São cinco pares! (🚀↔🔥 👩‍🚀↔🪖 🌍↔💧 ⭐↔✨ ☀️↔🌙); escolha: A estrela da Capitã é amarela, não é a maior e tem 5 pontas. Qual é? (⭐ Estrela amarela pequena, entre 🌟 ✴️); cadeado: As estrelas do mapa estão numeradas: 3, 6, 9... Que número tem a estrela seguinte? `⭐3 · ⭐6 · ⭐9 · ❔` (12)
 
-**Caixas de carga** (baixo direita, 68, 82; `requer: 'estrela'`)
-- Fácil: cadeado: quantas caixas há (6)?; escolha: qual pilha vai cair (a que tem a caixa grande por cima)?; pares: 4 pares de caixas iguais.
-- Médio: escolha: pistas "a caixa não é azul e tem uma estrela"; cadeado: as caixas têm os números 1, 2, 3, ❔ (4); ordem: empilhar de baixo para cima contando para trás (5 → 1).
-- Difícil: escolha: pistas "está por cima da verde, não tem estrela e não é a do topo"; escolha: qual de 4 pilhas vai cair (detalhe: a caixa torta ou mal apoiada)?; cadeado de 2 números: as caixas vão de 5 em 5, 5, 10, 15, ❔ (20).
+**Caixas de carga** (`caixas`; `requer: 'estrela'`)
+- Fácil: cadeado: Quantas caixas de carga há? Escreve o número. `📦 📦 📦 📦 📦 📦` (6); escolha: A Capitã quer a caixa que tem uma estrela. Qual é? (📦⭐ Caixa com estrela, entre 📦🌙 📦🪐 📦☀️); pares: As caixas estão misturadas. Encontra os pares de caixas iguais! (🟥 🟨 🟦 🟩)
+- Médio: escolha: A caixa certa não é azul e tem uma estrela. Qual é? (🟥⭐ Caixa vermelha com estrela, entre 🟦⭐ 🟨🌙 🟦🌙); cadeado: As caixas têm os números 1, 2, 3... Que número tem a caixa seguinte? `📦1 · 📦2 · 📦3 · ❔` (4); ordem: Empilha as caixas de baixo para cima, a contar para trás do 5 até ao 1. (5 → 4 → 3 → 2 → 1)
+- Difícil: escolha: O desenho mostra uma pilha de caixas, de cima para baixo. Qual é a caixa certa? Está por cima da verde, não tem estrela e não é a do topo. `🟨 🟥 🟦⭐ 🟩` (🟥 Caixa vermelha, entre 🟨 🟦⭐ 🟩); escolha: Há três caixas empilhadas. A vermelha está em cima da amarela e a azul está debaixo da amarela. Qual está no fundo da pilha? (🟦 Caixa azul, entre 🟥 🟨); cadeado: As caixas estão numeradas de 5 em 5: 5, 10, 15... Que número tem a caixa seguinte? `📦5 · 📦10 · 📦15 · ❔` (20)
 
 **Extras:**
 
-**Armário** (esquerda, 10, 50) dá o **cartão de acesso** do robô
-- Fácil: escolha: qual cartão é igual ao modelo?; pares: 4 pares de cartões; cadeado: quantos cartões há no armário (5)?
-- Médio: escolha: pistas "é azul e tem estrela"; escolha: que cartão vem a seguir em 🟦🟨🟦🟨❔ (🟦)?; pares: 5 pares de cartões.
-- Difícil: escolha: pistas "não é azul, tem estrela e não tem riscas / listras"; ordem: cartões de 3 em 3 (3, 6, 9, 12, 15); cadeado: o código é o número que vem depois de 9, 7, 5 (3).
+**Armário** (`armario`) dá **Cartão de acesso** (`cartao`)
+- Fácil: escolha: O armário só abre com o cartão igual ao modelo. Qual é? `🟦⭐` (🟦⭐ Azul com estrela, entre 🟥⭐ 🟦🌙 🟨⭐); pares: Os cartões do armário estão misturados. Encontra os pares iguais! (💳 🪪 🎫 🏷️); cadeado: O armário tem um cadeado. Quantos cartões há no armário? `💳 💳 💳 💳 💳` (5)
+- Médio: escolha: O cartão do robô é azul e tem uma estrela. Qual é? (🟦⭐ Azul com estrela, entre 🟨⭐ 🟦🌙 🟨🌙); escolha: Os cartões estão arrumados com uma regra. Qual vem a seguir? `🟦 🟨 🟦 🟨 ❔` (🟦 Cartão azul, entre 🟨 🟥); pares: Os cartões do armário estão misturados. Encontra os cinco pares iguais! (💳 🪪 🎫 🏷️ 📇)
+- Difícil: escolha: Adivinha qual é o cartão do robô: não é azul, tem uma estrela e não tem riscas. (🟥⭐ Vermelho com estrela, entre 🟦⭐ 🟨⭐〰️ 🟨🌙); ordem: Os cartões estão numerados de 4 em 4. Põe-nos por ordem, do número mais pequeno ao maior. (4 → 8 → 12 → 16 → 20); cadeado: O código do armário é o número que vem depois de 9, 7, 5. Qual é? Escreve o número. `9️⃣ 7️⃣ 5️⃣ ❔` (3)
 
-**Bichinho extraterrestre** (baixo direita, 88, 84) dá a **chave-estrela** das caixas
-- Fácil: escolha: o bichinho só come coisas verdes (🥦 entre 🍓 🍌 🍊); cadeado: quantos olhos tem o bichinho (5)?; pares: 4 pares de bichinhos iguais.
-- Médio: escolha: o bichinho só come coisas verdes e redondas (🍏 entre 🥒 🍊 🍌); cadeado: tem 3 olhos e nasce um olho novo por dia; quantos amanhã (4)?; escolha: que mancha vem a seguir em 🟣🟡🟣🟡❔ (🟣)?
-- Difícil: escolha: "não come nada vermelho nem comprido e gosta de coisas redondas" (🫐 entre 🍓 🥕 🍌); cadeado: comeu 1 bolinha no 1.º dia, 2 no 2.º e 3 no 3.º; quantas ao todo (6)?; escolha: que mancha vem a seguir em 🟣🟡🟡🟣🟡🟡❔ (🟣)?
+**Bichinho extraterrestre** (`bichinho`) dá **Chave-estrela** (`estrela`)
+- Fácil: escolha: O bichinho só come coisas verdes. O que lhe dás? (🥦 Brócolos, entre 🍓 🍌 🍊); cadeado: Quantos olhos tem o bichinho? Escreve o número. `👁️ 👁️ 👁️ 👁️ 👁️` (5); pares: Os amigos do bichinho vieram brincar. Encontra os pares iguais! (👽 👾 🐛 🦠)
+- Médio: escolha: O bichinho só come coisas verdes e redondas. O que lhe dás? (🍏 Maçã verde, entre 🥒 🍊 🍌); cadeado: O bichinho tem 3 olhos e nasce-lhe um olho novo por dia. Quantos olhos vai ter amanhã? `👁️ 👁️ 👁️` (4); escolha: As manchas do bichinho seguem uma regra. Qual vem a seguir? `🟣 🟡 🟣 🟡 ❔` (🟣 Mancha roxa, entre 🟡 🟢)
+- Difícil: escolha: O bichinho não come nada vermelho nem comprido, e gosta de coisas redondas. O que lhe dás? (🫐 Mirtilos, entre 🍓 🥕 🍌); cadeado: O bichinho pensou em quantas bolinhas quer comer: é mais do que 3, menos do que 6 e não é 5. Quantas quer? Escreve o número. `👽 🟢❔` (4); escolha: As manchas do bichinho seguem uma regra. Qual vem a seguir? `🟣 🟡 🟡 🟣 🟡 🟡 ❔` (🟣 Mancha roxa, entre 🟡 🟢)
+
 
 **Palavras:** ecrã (pt-PT) / tela (pt-BR); carregar no botão (pt-PT) / apertar o botão (pt-BR); fato (pt-PT) / traje (pt-BR); cato (pt-PT) / cacto (pt-BR); riscas / listras; extraterrestre nas duas.
 
@@ -212,62 +214,63 @@ Cada fonte e cada extra traz **3 ideias por nível** (fácil, médio, difícil),
 **Saída:** porta de engrenagens (centro, x 50, y 45).
 **Foco:** misturas de cores, causa e efeito, formas e metades, rodas e alavancas, comparar pesos na balança.
 
-**Armário de frascos** (esquerda, 10, 50)
-- Fácil: escolha: qual frasco está vazio?; cadeado: quantos frascos estão cheios (4)?; pares: 4 pares de frascos iguais.
-- Médio: escolha: qual frasco está a meio / pela metade?; ordem: do vazio ao cheio (vazio, pouco, a meio / pela metade, quase cheio, cheio); cadeado: há 8 frascos e metade estão cheios; quantos (4)?
-- Difícil: ordem: do vazio ao cheio com quartos (vazio, um quarto, metade, três quartos, cheio); escolha: juntando dois frascos a meio / pela metade, o que se tem (um frasco cheio)?; cadeado: 3 frascos cheios e 2 a meio / pela metade; juntando tudo, quantos frascos cheios (4)?
+**Armário de frascos** (`frascos`)
+- Fácil: escolha: O professor precisa do frasco com o líquido da cor do tomate. Qual é? `🍅` (🔴 Líquido vermelho, entre 🔵 🟢 🟡); cadeado: Na prateleira há frascos cheios 🧪 e frascos vazios 🫙. Quantos frascos estão cheios? `🧪 🫙 🧪 🧪 🫙 🧪` (4); pares: Os frascos saíram do armário! Encontra os pares iguais. (🧪 ⚗️ 🫙 🍯)
+- Médio: escolha: O professor pôs água e sabão num frasco, tapou-o e abanou-o com força. O que aparece? `🫙 💧 🧼` (🫧 Espuma, entre 🧊 🔥 🪨); ordem: O professor pôs gotas nos frascos. Põe os frascos por ordem, do que tem menos gotas ao que tem mais. (💧 → 💧💧 → 💧💧💧 → 💧💧💧💧 → 💧💧💧💧💧); cadeado: No armário há 8 frascos e metade estão cheios. Quantos frascos estão cheios? `🧪 🧪 🧪 🧪 🧪 🧪 🧪 🧪` (4)
+- Difícil: ordem: Faz a experiência do sal pela ordem certa: o frasco vazio, pôr água, deitar o sal, mexer com a colher e o sal desaparece. (🫙 → 💧 → 🧂 → 🥄 → ✨); escolha: Tenho dois frascos iguais, cada um a meio. Se juntar a água dos dois num só frasco, o que fico a ter? (🧪 Um frasco cheio, entre 🫙 💧 🧪🧪); cadeado: No armário há 3 frascos cheios e 2 frascos a meio. Se juntar a água dos frascos a meio, quantos frascos cheios fico a ter? `🧪 🧪 🧪 ➕ ½ ½` (4)
 
-**Quadro de giz (pt-PT) / Lousa (pt-BR)** (cima esquerda, 28, 22)
-- Fácil: escolha: qual é o círculo (⚪ entre 🔺 🟦 ⭐)?; cadeado: quantos triângulos estão desenhados (5)?; pares: 4 pares de formas iguais.
-- Médio: escolha: qual forma tem 3 lados?; cadeado: quantos lados tem o quadrado (4)?; escolha: qual figura está cortada em duas metades iguais?
-- Difícil: cadeado: quantos lados têm juntos um triângulo e um quadrado (7)?; escolha: que forma sai ao cortar um quadrado ao meio pela diagonal (triângulo)?; escolha: qual forma não tem lados direitos nem cantos (círculo)?
+**Quadro de giz / Lousa** (`quadro`)
+- Fácil: escolha: O professor desenhou formas no quadro de giz. Qual é o círculo? (⚪ Círculo, entre 🔺 🟦 ⭐); cadeado: Quantos triângulos estão desenhados no quadro de giz? Escreve o número. `🔺 🔺 🔺 🔺 🔺` (5); pares: As formas do quadro de giz misturaram-se. Encontra os pares iguais! (⚪ 🔺 🟦 ⭐)
+- Médio: escolha: Qual destas formas tem 3 lados? (🔺 Triângulo, entre 🟦 ⚪ ⭐); cadeado: Quantos lados tem o quadrado? Escreve o número. `🟦` (4); escolha: Qual destas coisas tem a forma de um círculo? (🪙 Moeda, entre 📦 🚪 📐)
+- Difícil: cadeado: Quantos lados têm, juntos, um triângulo e um quadrado? Escreve o número. `🔺 ➕ 🟦` (7); escolha: O professor cortou um quadrado ao meio, de um canto ao canto do outro lado. Que forma tem cada metade? `🟦 ✂️` (🔺 Triângulo, entre ⚪ 🟦 ⭐); escolha: Qual destas formas não tem lados direitos nem cantos? (⚪ Círculo, entre 🔺 🟦 ⭐)
 
-**Tubos de ensaio** (meio esquerda, 28, 55; `requer: 'oculos'`)
-- Fácil: pares: 4 pares de tubos da mesma cor; cadeado: quantos tubos azuis há (3)?; escolha: qual não é um tubo de ensaio (🍌 entre 🧪 🧪 🧪)?
-- Médio: escolha: vermelho + amarelo dá (🟠)?; pares associados: "🔴+🟡"↔🟠, "🔵+🟡"↔🟢, "🔴+🔵"↔🟣, "⚫+⚪"↔🔘; cadeado: quantos tubos são verdes? Não contes os outros (4).
-- Difícil: pares associados: os 4 do médio e "🔴+⚪"↔🩷; escolha: que cores misturei para ter roxo (🔴+🔵)?; cadeado: 3 tubos vermelhos e 3 amarelos, misturo um de cada; quantos tubos laranja (3)?
+**Tubos de ensaio** (`tubos`; `requer: 'oculos'`)
+- Fácil: pares: Os tubos de ensaio estão misturados. Encontra os pares da mesma cor! (🔴 🟡 🔵 🟢); cadeado: Quantos tubos têm líquido azul? Escreve o número. `🔴 🔵 🔵 🟡 🔵` (3); escolha: Há um intruso no suporte dos tubos! Qual destas coisas não é um tubo de ensaio? (🍌 Banana, entre 🧪 🧪 🧪)
+- Médio: escolha: O professor misturou tinta vermelha com tinta amarela. Que cor ficou? `🔴 ➕ 🟡` (🟠 Laranja, entre 🟢 🟣 🔵); pares: Junta cada mistura com a cor que dá! (🔴+🟡↔🟠 🔵+🟡↔🟢 🔴+🔵↔🟣 ⚫+⚪↔🔘); cadeado: Quantos tubos têm líquido verde? Não contes os outros. `🟢 🔴 🟢 🟡 🟢 🔵 🟢` (4)
+- Difícil: pares: As misturas perderam o seu par! Junta cada mistura com a cor que dá. (🔴+🟡↔🟠 🔵+🟡↔🟢 🔴+🔵↔🟣 ⚫+⚪↔🔘 🔴+⚪↔🌸); escolha: O professor fez tinta roxa. Que duas cores misturou? `🟣` (🔴+🔵 Vermelho e azul, entre 🔴+🟡 🔵+🟡 ⚫+⚪); cadeado: Há 3 tubos vermelhos e 3 amarelos. O professor mistura sempre um vermelho com um amarelo. Quantos tubos cor de laranja consegue fazer? `🔴 🔴 🔴 🟡 🟡 🟡` (3)
 
-**Engrenagens** (cima direita, 70, 20)
-- Fácil: escolha: qual roda é a maior?; cadeado: quantas rodas dentadas há (6)?; pares: 4 pares de rodas iguais.
-- Médio: escolha: rodando a manivela, que roda se mexe (a que está encostada)?; escolha: a roda grande roda para a direita; para que lado roda a pequena encostada (esquerda)?; cadeado: a pequena dá 2 voltas por cada volta da grande; a grande deu 2, quantas deu a pequena (4)?
-- Difícil: escolha: 3 rodas em fila; a primeira roda para a direita, e a terceira (direita)?; cadeado: a pequena dá 2 voltas por cada volta da grande; a grande deu 4, quantas deu a pequena (8)?; escolha: alavanca: para levantar a pedra com menos força, onde se empurra (longe do apoio)?
+**Engrenagens** (`engrenagens`)
+- Fácil: escolha: O professor precisa de uma roda dentada. Qual é? (⚙️ Roda dentada, entre 🔨 🪛 🔩); cadeado: Quantas rodas dentadas há? Escreve o número. `⚙️ ⚙️ ⚙️ ⚙️ ⚙️ ⚙️` (6); pares: As ferramentas do professor estão espalhadas. Encontra os pares iguais! (⚙️ 🔧 🪛 🔨)
+- Médio: escolha: A roda da manivela tem duas rodas perto: a roda A está encostada a ela e a roda B está longe, sem lhe tocar. Rodando a manivela, que roda se mexe? `⚙️⚙️   ⚙️` (⚙️ A roda A, que está encostada, entre ⚙️ ❌); escolha: A roda grande roda para a direita. Para que lado roda a roda pequena encostada a ela? `⚙️⚙️` (🔄 Para a esquerda, entre 🔃); cadeado: A roda pequena dá 2 voltas por cada volta da roda grande. A grande deu 2 voltas. Quantas voltas deu a pequena? `⚙️ ⚙️` (4)
+- Difícil: escolha: Há 3 rodas em fila, todas encostadas. A primeira roda para a direita. Para que lado roda a terceira? `⚙️⚙️⚙️` (🔃 Para a direita, entre 🔄); cadeado: A roda pequena dá 2 voltas por cada volta da roda grande. A grande deu 4 voltas. Quantas voltas deu a pequena? `⚙️ ⚙️` (8); escolha: O professor usa uma tábua e um apoio para levantar uma pedra pesada. Onde deve empurrar a tábua para fazer menos força? `🪨 ➖➖🔺➖➖➖➖` (👋 Na ponta, longe do apoio, entre 🪨 🔺)
 
-**Sistema solar** (meio direita, 68, 48)
-- Fácil: escolha: o que dá luz e calor (☀️ entre 🌍 🌙 🪨)?; cadeado: quantos planetas tem a maqueta / maquete (8)?; escolha: com o sol no céu é dia ou noite?
-- Médio: escolha: a lâmpada faz de Sol e ilumina a bola; em que lado da bola é dia (o virado para a luz)?; cadeado: a Terra tem 1 lua e Marte tem 2; quantas luas juntos (3)?; escolha: o que anda à volta da Terra (🌙 entre ☀️ 🪐 ⭐)?
-- Difícil: escolha: porque é de noite? (a Terra rodou e ficámos / ficamos de costas para o Sol); escolha: se a Terra não rodasse, o que acontecia (de um lado era sempre dia)?; cadeado: a maqueta / maquete tem 8 planetas e 3 têm a luz acesa; quantos estão apagados (5)?
+**Sistema solar** (`sistema-solar`)
+- Fácil: escolha: Qual destas coisas dá luz e calor à Terra? (☀️ Sol, entre 🌍 🌙 🪨); cadeado: Quantos planetas tem a maqueta do professor? Escreve o número. `🪐 🪐 🪐 🪐 🪐 🪐 🪐 🪐` (8); escolha: O Sol está no céu. É dia ou é noite? `☀️` (☀️ Dia, entre 🌙)
+- Médio: escolha: A lâmpada faz de Sol e ilumina uma bola, que faz de Terra. Em que lado da bola é dia? `💡 ⚽` (💡 No lado virado para a luz, entre 🌚); cadeado: A Terra tem 1 lua e Marte tem 2 luas. Quantas luas têm os dois juntos? `🌍 🌙 ➕ 🔴 🌙 🌙` (3); escolha: Na maqueta, uma coisa anda à volta da Terra. Qual é? `🌍` (🌙 Lua, entre ☀️ 🪐 ⭐)
+- Difícil: escolha: Porque é que de noite fica escuro? `🌍 ☀️` (🌍 A Terra rodou e ficámos de costas para o Sol, entre ☀️ 🌙 ☁️); escolha: Se a Terra deixasse de rodar, o que acontecia? `🌍 ⏸️` (🌍 De um lado era sempre dia e do outro sempre noite, entre 🌧️ 🌙); cadeado: A maqueta tem 8 planetas e 3 têm a luz acesa. Quantos planetas estão apagados? `💡 💡 💡 ⚫ ⚫ ⚫ ⚫ ⚫` (5)
 
-**Íman (pt-PT) / Ímã (pt-BR)** (baixo, 32, 80)
-- Fácil: escolha: o que o íman / ímã apanha / pega (📎 entre 🪵 🧸 🍎)?; cadeado: quantos clipes estão presos (5)?; pares: 4 pares iguais (🧲 📎 🔩 🔑).
-- Médio: escolha: qual destas coisas é de metal (🔑 entre 🧦 🪵 🍪)?; cadeado: tinha 6 clipes presos e caíram 2 (4); pares: 5 pares iguais.
-- Difícil: cadeado: cada íman / ímã segura 3 clipes; quantos seguram 3 (9)?; escolha: adivinha "apanho / pego clipes, tenho dois polos e sou vermelho e azul" (🧲); escolha: polos da mesma cor afastam-se / se afastam, de cores diferentes juntam-se / se juntam; qual par se junta?
+**Íman / Ímã** (`iman`)
+- Fácil: escolha: Qual destas coisas o íman consegue apanhar? `🧲` (📎 Clipe, entre 🪵 🧸 🍎); cadeado: Quantos clipes estão presos ao íman? Escreve o número. `🧲 📎 📎 📎 📎 📎` (5); pares: As coisas do íman caíram ao chão. Encontra os pares iguais! (🧲 📎 🔩 🔑)
+- Médio: escolha: Qual destas coisas é de metal? (🔑 Chave, entre 🧦 🪵 🍪); cadeado: O íman tinha 6 clipes presos e caíram 2. Quantos clipes ficaram presos? `🧲 📎 📎 📎 📎 📎 📎` (4); pares: As coisas de metal estão misturadas. Encontra os cinco pares iguais! (🧲 📎 🔩 🔑 🥄)
+- Difícil: cadeado: Cada íman segura 3 clipes. Quantos clipes seguram 3 ímanes? `🧲 🧲 🧲` (9); escolha: Adivinha: apanho clipes, tenho dois polos e sou vermelho e azul. Quem sou? (🧲 Íman, entre 🔋 🪛 🔑); escolha: Os polos da mesma cor afastam-se e os de cores diferentes juntam-se. Qual destes pares de polos se junta? `🧲 🧲` (🔴🔵 Vermelho com azul, entre 🔴🔴 🔵🔵)
 
-**Aquário** (baixo centro, 50, 84)
-- Fácil: escolha: o que vive no aquário (🐟 entre 🐄 🐔 🐈)?; cadeado: quantos peixes há (6)?; escolha: o que acontece ao gelo ao sol (derrete)?
-- Médio: escolha: o que acontece ao gelo na água morna (derrete)?; cadeado: a água estava na risca 2 e cada pedra sobe 1 risca; puseste / você pôs 3 pedras, em que risca está (5)?; ordem: o cubo de gelo a derreter / derretendo, 5 desenhos do cubo à poça.
-- Difícil: cadeado: a água está na risca 1; pedra grande sobe 2 riscas e pequena 1; puseram 2 grandes e 1 pequena (6); escolha: qual destas coisas não derrete ao sol (🪨 entre 🧊 🍦 ⛄)?; ordem: a viagem da água (🧊 → 💧 → ♨️ → ☁️ → 🌧️).
+**Aquário** (`aquario`)
+- Fácil: escolha: Qual destes animais vive no aquário? (🐟 Peixe, entre 🐄 🐔 🐈); cadeado: Quantos peixes há no aquário? Escreve o número. `🐟 🐠 🐟 🐡 🐟 🐠` (6); escolha: O professor deixou um cubo de gelo ao sol. O que lhe acontece? `🧊 ☀️` (💧 Derrete e fica água, entre 🧊 ⛄)
+- Médio: escolha: O professor pôs um cubo de gelo num copo de água morna. O que acontece ao gelo? `🧊 ➡️ 💧` (💧 Derrete, entre 🧊 🪨 ❄️); cadeado: A água do aquário estava na risca 2. Cada pedra que entra faz a água subir 1 risca. Puseste 3 pedras. Em que risca está a água? `🪨 🪨 🪨` (5); ordem: Quatro cubos de gelo estão a derreter, um de cada vez. Põe os desenhos por ordem, do princípio ao fim. (🧊🧊🧊🧊 → 🧊🧊🧊💧 → 🧊🧊💧💧 → 🧊💧💧💧 → 💧💧💧💧)
+- Difícil: cadeado: A água está na risca 1. Uma pedra grande faz a água subir 2 riscas e uma pequena faz subir 1. Puseram 2 pedras grandes e 1 pequena. Em que risca está a água? `🪨 🪨 🪨` (6); escolha: Qual destas coisas não derrete ao sol? `☀️` (🪨 Pedra, entre 🧊 🍦 ⛄); ordem: Põe a viagem da água por ordem: o gelo derrete, a água aquece e vira vapor, o vapor faz uma nuvem e a nuvem dá chuva. (🧊 → 💧 → ♨️ → ☁️ → 🌧️)
 
-**Balança** (baixo direita, 68, 80)
-- Fácil: escolha: que lado pesa mais (o que está em baixo / embaixo)?; escolha: o que pesa mais, 🍉 ou 🍒?; cadeado: quantas maçãs há no prato (5)?
-- Médio: cadeado: a balança está equilibrada, de um lado 5 maçãs e do outro 2 e ❔ (3); escolha: 1 melancia pesa o mesmo que 4 maçãs; que lado pesa mais, 🍉 ou 🍎🍎🍎?; escolha: qual balança está equilibrada?
-- Difícil: cadeado: 1 melancia pesa o mesmo que 4 maçãs; 2 melancias pesam o mesmo que quantas maçãs (8)?; cadeado: 🍍 pesa como 2 🍎 e 🍉 pesa como 2 🍍; a melancia pesa como quantas maçãs (4)?; escolha: qual das 4 balanças não está certa (o lado mais leve está em baixo / embaixo)?
+**Balança** (`balanca`)
+- Fácil: escolha: Um prato da balança desceu e o outro subiu. Que lado pesa mais? `⚖️` (⬇️ O prato que está em baixo, entre ⬆️); escolha: O que pesa mais? (🍉 Melancia, entre 🍒); cadeado: Quantas maçãs há no prato da balança? Escreve o número. `⚖️ 🍎 🍎 🍎 🍎 🍎` (5)
+- Médio: cadeado: A balança está equilibrada. Num prato há 5 maçãs e no outro há 2 maçãs e mais algumas escondidas. Quantas maçãs estão escondidas? `🍎🍎🍎🍎🍎 ⚖️ 🍎🍎 ❔` (3); escolha: Uma melancia pesa o mesmo que 4 maçãs. O que pesa mais: a melancia ou 3 maçãs? (🍉 A melancia, entre 🍎🍎🍎 ⚖️); escolha: Qual destas balanças fica equilibrada, com os dois pratos à mesma altura? (🍎⚖️🍎 Uma maçã e uma maçã, entre 🍎🍎⚖️🍎 🍉⚖️🍒 🍎🍎🍎⚖️🍎)
+- Difícil: cadeado: Uma melancia pesa o mesmo que 4 maçãs. Duas melancias pesam o mesmo que quantas maçãs? `🍉 🍉` (8); cadeado: Um ananás pesa o mesmo que 2 maçãs. Uma melancia pesa o mesmo que 2 ananases. A melancia pesa o mesmo que quantas maçãs? `🍍 = 🍎🍎   🍉 = 🍍🍍` (4); escolha: Num prato da balança está uma bola de ferro e no outro uma bola de algodão, do mesmo tamanho. Para que lado desce a balança? `⚫ ⚖️ ☁️` (⚫ Para o lado do ferro, entre ☁️ ⚖️)
 
-**Robô de latas** (baixo direita, 88, 84; `requer: 'pilha'`)
-- Fácil: escolha: o que faz andar o robô (🔋 entre 🍌 🧦 🪨)?; cadeado: de quantas latas é feito o robô (7)?; pares: 4 pares iguais (🥫 🔩 🔋 💡).
-- Médio: escolha: por onde passa a eletricidade (🥄 de metal entre 🧸 🪵 🧦)?; ordem: causa e efeito (pôr a pilha → ligar o fio → carregar / apertar o interruptor → a luz acende → o robô anda); cadeado: o robô tem 2 pilhas e precisa de 5; quantas faltam (3)?
-- Difícil: ordem: ligar o circuito (pilha → fio → interruptor → fio → lâmpada); escolha: a lâmpada não acende; porquê (o fio está cortado)?; cadeado: o robô tem 4 pilhas e 1 está gasta; cada pilha boa dá 2 voltas; quantas voltas dá (6)?
+**Robô de latas** (`robo`; `requer: 'pilha'`)
+- Fácil: escolha: O que faz o robô andar? `🤖` (🔋 Pilha, entre 🍌 🧦 🪨); cadeado: O professor fez o robô com latas. Quantas latas usou? Escreve o número. `🥫 🥫 🥫 🥫 🥫 🥫 🥫` (7); pares: As peças do robô espalharam-se. Encontra os pares iguais! (🥫 🔩 🔋 💡)
+- Médio: escolha: A eletricidade passa pelo metal. Por qual destas coisas passa a eletricidade? `⚡` (🥄 Colher de metal, entre 🧸 🪵 🧦); ordem: Põe por ordem o que acontece: pôr a pilha, ligar o fio, carregar no interruptor, a luz acende e o robô anda. (🔋 → 🔌 → 🔘 → 💡 → 🤖); cadeado: O robô tem 2 pilhas e precisa de 5. Quantas pilhas faltam? `🔋 🔋` (3)
+- Difícil: ordem: Liga o circuito do robô pela ordem: a pilha, o fio vermelho, o interruptor, o fio azul e, no fim, a lâmpada. (🔋 → 🔴〰️ → 🔘 → 🔵〰️ → 💡); escolha: O robô tem uma pilha nova e o interruptor está ligado, mas a lâmpada não acende. Porquê? `🔋 〰️ 💡` (✂️ O fio está cortado, entre 🔋 😊 🔘); cadeado: O robô tem 4 pilhas, mas 1 está gasta. Cada pilha boa dá 2 voltas ao robô. Quantas voltas dá o robô? `🔋 🔋 🔋 🪫` (6)
 
 **Extras:**
 
-**Estante do microscópio** (direita, 90, 48) dá os **óculos de proteção**
-- Fácil: pares: 4 pares de micróbios sorridentes; escolha: o que serve para ver coisas pequenas (🔍 entre 🥄 🧦 🎈)?; cadeado: quantos micróbios há no vidro (5)?
-- Médio: pares: 5 pares de micróbios; escolha: qual destes desenhos é a formiga vista à lupa (maior)?; cadeado: havia 7 micróbios no vidro e limparam 2 (5).
-- Difícil: pares: 6 pares de micróbios; escolha: qual metade completa o desenho do micróbio (metades e simetria)?; cadeado: cada micróbio divide-se / se divide em 2; havia 2, dividiram-se / se dividiram duas vezes, quantos há (8)?
+**Estante do microscópio** (`estante`) dá **Óculos de proteção** (`oculos`)
+- Fácil: pares: As coisas da estante estão misturadas. Encontra os pares iguais! (🔬 🔍 🦠 🥽); escolha: Qual destas coisas serve para ver coisas muito pequeninas? (🔍 Lupa, entre 🥄 🧦 🎈); cadeado: A estante tem um cadeado. Quantos micróbios se veem no vidro do microscópio? `🦠 🦠 🦠 🦠 🦠` (5)
+- Médio: pares: As coisas da estante estão misturadas. Encontra os cinco pares iguais! (🔬 🔍 🦠 🥽 🧫); escolha: O professor olhou para uma formiga com a lupa. Como é que a formiga parece? `🐜 🔍` (🔍 Maior, entre 🤏 💨 🎨); cadeado: Havia 7 micróbios no vidro e o professor limpou 2. Quantos micróbios ficaram? `🦠 🦠 🦠 🦠 🦠 🦠 🦠` (5)
+- Difícil: pares: As coisas da estante estão todas misturadas. Encontra os seis pares iguais! (🔬 🔍 🦠 🥽 🧫 🧬); escolha: Qual destes animais tem as duas metades iguais, como se tivesse um espelho no meio? (🦋 Borboleta, entre 🐌 🦒 🦩); cadeado: Cada micróbio divide-se em 2. Havia 2 micróbios e dividiram-se duas vezes. Quantos micróbios há agora? `🦠 🦠` (8)
 
-**Mesa com gaveta** (baixo esquerda, 16, 82) dá a **pilha** do robô
-- Fácil: escolha: qual destes precisa de pilha (🔦 entre 🕯️ 🪁 📖)?; cadeado: quantas pilhas há na gaveta (6)?; pares: 4 pares iguais.
-- Médio: escolha: o que se apaga quando se tira a pilha (🔦 entre ☀️ 🕯️ 🔥)?; cadeado: havia 9 pilhas e o professor levou 4 (5); pares: 5 pares iguais.
-- Difícil: escolha: qual não precisa de pilha nem de tomada (🪁 entre 🔦 📻 💡)?; cadeado: cada lanterna leva 2 pilhas; quantas pilhas para 3 lanternas (6)?; escolha: a pilha tem + e −; em que desenho está bem posta?
+**Mesa com gaveta** (`mesa`) dá **Pilha** (`pilha`)
+- Fácil: escolha: A gaveta tem um cadeado. Qual destas coisas precisa de pilha? (🔦 Lanterna, entre 🕯️ 🪁 📖); cadeado: A gaveta tem um cadeado. Quantas pilhas há lá dentro? `🔋 🔋 🔋 🔋 🔋 🔋` (6); pares: As coisas da gaveta estão misturadas. Encontra os pares iguais! (🔋 🔦 📎 ✏️)
+- Médio: escolha: Qual destas coisas se apaga quando lhe tiras a pilha? (🔦 Lanterna, entre ☀️ 🕯️ 🔥); cadeado: Havia 9 pilhas na gaveta e o professor levou 4. Quantas pilhas ficaram? `🔋 🔋 🔋 🔋 🔋 🔋 🔋 🔋 🔋` (5); pares: As coisas da gaveta estão misturadas. Encontra os cinco pares iguais! (🔋 🔦 📎 ✏️ 📏)
+- Difícil: escolha: Qual destas coisas não precisa de pilha nem de tomada para funcionar? (🪁 Papagaio de papel, entre 🔦 📻 💡); cadeado: Cada lanterna leva 2 pilhas. Quantas pilhas são precisas para 3 lanternas? `🔦 🔦 🔦` (6); escolha: Qual das lanternas gasta a pilha mais depressa? `🔦 🌙` (💡 A que ficou ligada a noite toda, entre 🔦 ⚖️)
+
 
 **Palavras:** íman / ímã (plural ímanes / ímãs); quadro / lousa; apanhar (pt-PT) / pegar (pt-BR); a meio (pt-PT) / pela metade (pt-BR); maqueta (pt-PT) / maquete (pt-BR); em baixo / embaixo; gerúndio (`a derreter` / `derretendo`); "mesa com gaveta" serve às duas (evite secretária / escrivaninha).
 
@@ -277,62 +280,63 @@ Cada fonte e cada extra traz **3 ideias por nível** (fácil, médio, difícil),
 **Saída:** porta do museu (centro, x 50, y 45).
 **Foco:** tempo (ontem, hoje, amanhã; antes e depois), ciclos de vida, comprimento, classificar animais.
 
-**Esqueleto de T-rex** (esquerda, 12, 50)
-- Fácil: escolha: qual osso é o mais comprido (4 ossos à vista)?; cadeado: quantos dentes tem o desenho (8)?; pares: 4 pares de ossos iguais.
-- Médio: escolha: pelos dentes afiados, o T-rex comia… (🍖 entre 🥕 🍞 🍦)?; cadeado: o T-rex mede 4 passos e o triceratops 3; quanto medem juntos (7)?; escolha: quem viveu primeiro, o T-rex ou o teu avô / seu avô?
-- Difícil: cadeado: 2 braços pequenos com 2 dedos cada, quantos dedos nos braços (4)?; cadeado: o T-rex mede 9 passos e o bebé / bebê 3; quantos passos a mais mede o T-rex (6)?; ordem: do mais antigo ao mais recente (dinossauros → mamute → pessoas das cavernas → castelo → avião).
+**Esqueleto de T-rex** (`trex`)
+- Fácil: escolha: Caíram quatro ossos do T-rex! Qual é o osso mais comprido? `🦖` (▬▬▬▬ Osso da perna, entre ▬▬ ▬ ▬▬▬); cadeado: Olha para os dentes do T-rex! Quantos dentes há no desenho? Escreve o número. `🦷 🦷 🦷 🦷 🦷 🦷 🦷 🦷` (8); pares: O esqueleto desmontou-se! Encontra os pares iguais. (🦴 💀 🦷 🦖)
+- Médio: escolha: O T-rex tinha dentes muito afiados. O que é que ele comia? `🦖 🦷🦷🦷` (🍖 Carne, entre 🥕 🍞 🍦); cadeado: O T-rex mede 4 passos e o tricerátops mede 3 passos. Quantos passos medem os dois juntos? `🦖 👣👣👣👣 ➕ 🦕 👣👣👣` (7); escolha: Quem viveu primeiro na Terra: o T-rex ou o teu avô? (🦖 O T-rex, entre 👴)
+- Difícil: cadeado: O T-rex tem 2 braços pequeninos e cada braço tem 2 dedos. Quantos dedos tem nos braços? `🦖 ✌️ ✌️` (4); cadeado: O T-rex adulto mede 9 passos e o T-rex bebé mede 3. Quantos passos mede o adulto a mais do que o bebé? `🦖 👣👣👣👣👣👣👣👣👣` (6); ordem: Põe por ordem, do mais antigo ao mais recente: os dinossauros, o mamute, as pessoas das cavernas, o castelo e o avião. (🦕 → 🦣 → 🔥 → 🏰 → ✈️)
 
-**Quadro dos dinossauros** (cima esquerda, 28, 22)
-- Fácil: cadeado: quantos dinossauros há no quadro (6)?; escolha: qual não é um dinossauro (🚗 entre 🦕 🦖 🦕)?; pares: 4 pares (🦕 🦖 🥚 🌋).
-- Médio: cadeado: quantos dinossauros têm pescoço comprido? Não contes os outros (4); escolha: que animal de hoje também tem escamas (🐍 entre 🐄 🐑 🐕)?; escolha: qual dinossauro come plantas (o de pescoço comprido, a comer folhas)?
-- Difícil: escolha: que animal de hoje já vivia no tempo dos dinossauros (🐊 entre 🐘 🐄 🐕)?; cadeado: há 3 dinossauros de pescoço comprido e o dobro de pequenos; quantos pequenos (6)?; cadeado: quantos dinossauros do quadro não comem plantas (3)?
+**Quadro dos dinossauros** (`quadro`)
+- Fácil: cadeado: Quantos dinossauros há no quadro? Escreve o número. `🦕 🦖 🦕 🦕 🦖 🦕` (6); escolha: No quadro há um intruso! Qual destes não é um dinossauro? (🚗 Carro, entre 🦕 🦖); pares: As coisas do quadro misturaram-se. Encontra os pares iguais! (🦕 🦖 🥚 🌋)
+- Médio: cadeado: Quantos dinossauros do quadro têm o pescoço comprido? Não contes os outros. `🦕 🦖 🦕 🦖 🦕 🦕 🦖` (4); escolha: Os dinossauros tinham a pele coberta de escamas. Que animal de hoje também tem escamas? `🦖` (🐍 Cobra, entre 🐄 🐑 🐕); escolha: No quadro, um dos animais está a comer as folhas das árvores. Qual é? `🌳 🌿` (🦕 Dinossauro de pescoço comprido, entre 🦖 🐊)
+- Difícil: escolha: Um destes animais de hoje já vivia no tempo dos dinossauros. Qual é? (🐊 Crocodilo, entre 🐘 🐄 🐕); cadeado: No quadro há 3 dinossauros de pescoço comprido e o dobro de dinossauros pequenos. Quantos dinossauros pequenos há? `🦕 🦕 🦕` (6); cadeado: Quantos dinossauros do quadro não comem plantas? `🦕 🦖 🦕 🦖 🦕 🦖 🦕` (3)
 
-**Ninho de ovos** (meio esquerda, 28, 55)
-- Fácil: cadeado: quantos ovos há no ninho (7)?; ordem: ovo → ovo a rachar / rachando → bebé / bebê → dinossauro adulto; pares: 4 pares de ovos iguais.
-- Médio: cadeado: havia 9 ovos e já nasceram 5; quantos faltam nascer (4)?; ordem: ovo → a rachar / rachando → bebé / bebê → jovem → adulto; escolha: qual é o bebé / bebê da galinha (🐥 entre 🐛 🐟 🐸)?
-- Difícil: ordem: o ciclo inteiro em 6 (ovo → a rachar / rachando → bebé / bebê → jovem → adulto → põe ovos); cadeado: nasce 1 ovo por dia; hoje nasceram 2 e há 3 por nascer; daqui a quantos dias nasce o último (3)?; escolha: a lagarta 🐛 transforma-se / se transforma em… (🦋 entre 🐝 🪲 🐞)?
+**Ninho de ovos** (`ninho`)
+- Fácil: cadeado: Quantos ovos há no ninho? Escreve o número. `🥚 🥚 🥚 🥚 🥚 🥚 🥚` (7); ordem: Põe o dinossauro por ordem: o ovo, o ovo a rachar, o bebé e o adulto. O risco mostra o tamanho. (🥚 → 🐣 → 🦖▬ → 🦖▬▬▬); pares: O ninho está cheio de surpresas. Encontra os pares iguais! (🥚 🐣 🐥 🍳)
+- Médio: cadeado: No ninho havia 9 ovos e já nasceram 5 bebés. Quantos ovos faltam nascer? `🐣 🐣 🐣 🐣 🐣 🥚 🥚 🥚 🥚` (4); ordem: Põe o dinossauro por ordem: o ovo, o ovo a rachar, o bebé, o jovem e o adulto. O risco mostra o tamanho. (🥚 → 🐣 → 🦖▬ → 🦖▬▬ → 🦖▬▬▬); escolha: A galinha também põe ovos. Qual é o bebé da galinha? `🐔` (🐥 Pintainho, entre 🐛 🐟 🐸)
+- Difícil: ordem: Põe o ciclo de vida do dinossauro por ordem: o ovo, o ovo a rachar, o bebé, o jovem, o adulto e o adulto a pôr ovos. (🥚 → 🐣 → 🦖▬ → 🦖▬▬ → 🦖▬▬▬ → 🦖🥚); cadeado: No ninho nasce 1 ovo por dia. Hoje já nasceram 2 e ainda há 3 por nascer. Daqui a quantos dias nasce o último? `🐣 🐣 🥚 🥚 🥚` (3); escolha: Há bichos que mudam muito quando crescem. A lagarta transforma-se em quê? `🐛` (🦋 Borboleta, entre 🐝 🪲 🐞)
 
-**Fóssil de concha** (cima direita, 70, 20)
-- Fácil: escolha: qual é a concha (🐚 entre 🍕 🚗 🧦)?; cadeado: quantos fósseis há na pedra (5)?; pares: 4 pares (🐚 🦴 🪨 🦕).
-- Médio: escolha: o que é um fóssil (a marca de um animal muito antigo na pedra)?; escolha: qual destes vive no mar (🐚 entre 🐄 🐓 🐿️)?; cadeado: havia 3 conchas e a cientista achou mais 4 (7).
-- Difícil: escolha: qual destes animais não tem ossos (🐌 entre 🐟 🐸 🐦)?; escolha: a rocha tem camadas; onde está o fóssil mais antigo (na camada de baixo)?; cadeado: quantos destes animais não têm ossos (🐌 🐙 🪱 entre 🐟 🐦 → 3)?
+**Fóssil de concha** (`fossil`)
+- Fácil: escolha: Na pedra está uma concha muito antiga. Qual destas coisas é uma concha? (🐚 Concha, entre 🍕 🚗 🧦); cadeado: Quantos fósseis há na pedra? Escreve o número. `🐚 🦴 🐚 🦴 🐚` (5); pares: Os fósseis caíram da pedra. Encontra os pares iguais! (🐚 🦴 🪨 🦕)
+- Médio: escolha: Esta pedra é um fóssil. O que é um fóssil? `🪨 🐚` (🐚 A marca de um animal muito antigo na pedra, entre 🌱 🧸 🍪); escolha: A concha do fóssil viveu no mar. Qual destes animais também vive no mar? `🌊` (🐚 Búzio, entre 🐄 🐓 🐿️); cadeado: Havia 3 conchas na pedra e a cientista encontrou mais 4. Quantas conchas há agora? `🐚 🐚 🐚 ➕ 🐚 🐚 🐚 🐚` (7)
+- Difícil: escolha: Os ossos dos animais ficam na pedra como fósseis. Qual destes animais não tem ossos? (🐌 Caracol, entre 🐟 🐸 🐦); escolha: A rocha tem camadas, umas por cima das outras. Onde está o fóssil mais antigo? `🟨 🟧 🟫` (⬇️ Na camada de baixo, entre ⬆️ ↔️); cadeado: Quantos destes animais não têm ossos? `🐟 🐌 🐦 🐙 🪱` (3)
 
-**Vitrine de cristais** (meio direita, 68, 48; `requer: 'lanterna'`)
-- Fácil: pares: 4 pares de cristais iguais; cadeado: quantos cristais há (6)?; escolha: qual cristal brilha com a lanterna?
-- Médio: pares: 5 pares de cristais; escolha: qual cristal é o mais comprido?; cadeado: quantos cristais são azuis? Não contes os outros (3).
-- Difícil: pares: 6 pares de cristais; escolha: qual cristal é diferente dos outros (detalhe)?; cadeado: o cristal cresce 1 cm por ano e tem 3 cm; quanto terá daqui a 2 anos (5)?
+**Vitrine de cristais** (`vitrine`; `requer: 'lanterna'`)
+- Fácil: pares: Os cristais brilham com a lanterna. Encontra os pares iguais! (💎 🔷 🔶 🔺); cadeado: Quantos cristais há na vitrine? Escreve o número. `💎 🔷 🔶 💎 🔷 🔶` (6); escolha: Apontaste a lanterna para a vitrine. Qual destas coisas brilha com a luz? `🔦` (💎 Cristal, entre 🪨 🪵 🧦)
+- Médio: pares: Os cristais brilham com a lanterna. Encontra os cinco pares iguais! (💎 🔷 🔶 🔺 🟣); escolha: Os cristais crescem dentro da rocha. Qual destes cristais é o mais comprido? (💙▬▬▬▬ Cristal azul, entre 💜▬▬▬ 💚▬▬ 🧡▬▬▬); cadeado: Quantos cristais azuis há na vitrine? Não contes os outros. `🔷 🔶 🔷 🟣 🔷 🔶` (3)
+- Difícil: pares: Os cristais da vitrine são parecidos. Encontra os seis pares iguais! (💎 🔷 🔶 🔹 🔸 🔺); escolha: Quatro caixas de cristais parecem iguais, mas uma é diferente. Qual é? (🔷🔶🔷 Terceira caixa, entre 🔷🔷🔶 🔷🔷🔶 🔷🔷🔶); cadeado: Este cristal cresce 1 centímetro por ano. Hoje mede 3 centímetros. Quanto vai medir daqui a 2 anos? `💎 📏` (5)
 
-**Vulcão** (direita, 90, 50)
-- Fácil: escolha: o que sai do vulcão quando acorda (🔥 lava entre 🍦 💧 ❄️)?; ordem: o vulcão a acordar / acordando (🏔️ → 💨 → 🔥 → 🌋); cadeado: quantas nuvens de fumo / fumaça há (4)?
-- Médio: ordem: 5 desenhos (vulcão calmo → fumo / fumaça → a terra treme → lava → rocha nova); escolha: a lava arrefeceu / esfriou; o que vem depois (rocha)?; cadeado: o vulcão deitou fumo / soltou fumaça ontem e hoje, e amanhã também; quantos dias ao todo (3)?
-- Difícil: cadeado: o vulcão acordou anteontem; há quantos dias foi (2)?; ordem: depois da lava (lava quente → arrefece / esfria → rocha → nasce uma planta → floresta); escolha: o dinossauro viu o fumo / a fumaça e fugiu; o que veio antes, o fumo / a fumaça ou a fuga?
+**Vulcão** (`vulcao`)
+- Fácil: escolha: O vulcão está a acordar! O que sai do vulcão? `🌋` (🔥 Lava quente, entre 🍦 💧 ❄️); ordem: Põe o vulcão por ordem, a acordar: a montanha calma, o fumo, o fogo e a lava a sair. (🏔️ → 💨 → 🔥 → 🌋); cadeado: Quantas nuvens de fumo saíram do vulcão? Escreve o número. `🌋 ☁️ ☁️ ☁️ ☁️` (4)
+- Médio: ordem: Põe por ordem o que acontece: o vulcão calmo, o fumo, a terra a tremer, a lava e a rocha nova. (🏔️ → 💨 → 〰️ → 🔥 → 🪨); escolha: A lava quente saiu do vulcão e arrefeceu. Em que se transforma? `🔥 ➡️ ❔` (🪨 Rocha, entre 💧 ❄️ 🔥); cadeado: O vulcão deitou fumo ontem e hoje, e amanhã vai deitar fumo também. Em quantos dias deita fumo ao todo? `💨 💨 💨` (3)
+- Difícil: cadeado: O vulcão acordou anteontem. Há quantos dias foi isso? `🌋 📅` (2); ordem: Põe por ordem o que acontece depois da lava: a lava quente, a lava a arrefecer, a rocha, uma planta a nascer e a floresta. (🔥 → 🌡️ → 🪨 → 🌱 → 🌲🌳🌲); escolha: O dinossauro viu o fumo do vulcão e fugiu. O que aconteceu primeiro? `🦕 💨 🏃` (💨 O vulcão deitou fumo, entre 🏃)
 
-**Pegadas** (baixo, 32, 82)
-- Fácil: escolha: qual pegada é a maior?; cadeado: quantas pegadas há (8)?; escolha: de quem é a pegada grande (🦖 entre 🐈 🐦 🐜)?
-- Médio: escolha: qual pegada é a mais comprida (4 parecidas)?; cadeado: duas pegadas de 3 palmos cada; quanto medem juntas (6)?; escolha: qual pegada é de ave (três dedos finos)?
-- Difícil: cadeado: o T-rex dá passos de 3 palmos e deu 3 passos; quantos palmos andou (9)?; cadeado: a pegada grande mede 8 palmos e a pequena 3; quantos palmos a mais (5)?; escolha: pistas "não tem garras, é redonda e não é a mais pequena / menor".
+**Pegadas** (`pegadas`)
+- Fácil: escolha: No chão há quatro pegadas. Qual é a maior? (⬤ Segunda pegada, entre • ● ∙); cadeado: Quantas pegadas há no chão? Escreve o número. `🐾 🐾 🐾 🐾 🐾 🐾 🐾 🐾` (8); escolha: Esta pegada é enorme! De quem é? (🦖 T-rex, entre 🐈 🐦 🐜)
+- Médio: escolha: Estas pegadas são quase iguais. Qual é a mais comprida? (🐾▬▬▬▬▬ Quarta pegada, entre 🐾▬▬▬▬ 🐾▬▬▬ 🐾▬▬▬▬); cadeado: Cada pegada mede 3 palmos. Quantos palmos medem as duas pegadas juntas? `🦶 🦶` (6); escolha: Esta pegada tem três dedos finos e compridos. De que animal é? (🐦 Pássaro, entre 🐴 🐷 🐶)
+- Difícil: cadeado: O T-rex dá passos de 3 palmos e deu 3 passos. Quantos palmos andou? `🦖 👣 👣 👣` (9); cadeado: A pegada grande mede 8 palmos e a pequena mede 3. Quantos palmos tem a grande a mais? `🦖 🐾` (5); escolha: Adivinha de quem é a pegada: não tem garras, é redonda e não é a mais pequena. (🐘 Elefante: redonda e grande, entre 🦖 🐈 🐔)
 
-**Ampulheta** (baixo centro, 50, 82)
-- Fácil: escolha: qual ampulheta já acabou (areia toda em baixo / embaixo)?; ordem: a areia a cair / caindo (toda em cima → mais em cima → mais em baixo / embaixo → toda em baixo / embaixo); cadeado: quantas ampulhetas há (5)?
-- Médio: escolha: se hoje é segunda-feira, que dia é amanhã (terça-feira)?; escolha: se hoje é segunda-feira, que dia foi ontem (domingo)?; cadeado: virou a ampulheta de 3 minutos e depois a de 2; quantos minutos passaram (5)?
-- Difícil: escolha: anteontem foi sábado; que dia é hoje (segunda-feira)?; cadeado: a ampulheta demora 3 minutos e foi virada 3 vezes; quantos minutos passaram (9)?; ordem: os dias da escola (segunda → terça → quarta → quinta → sexta).
+**Ampulheta** (`ampulheta`)
+- Fácil: escolha: Qual destas ampulhetas já acabou? A areia já está toda em baixo. (⌛ Segunda ampulheta, entre ⏳ ⏳); ordem: Põe por ordem, do que demora menos ao que demora mais: piscar os olhos, lavar os dentes, almoçar e dormir a noite toda. (😉 → 🪥 → 🍽️ → 🛌); cadeado: Quantas ampulhetas há na mesa? Escreve o número. `⏳ ⌛ ⏳ ⌛ ⏳` (5)
+- Médio: escolha: Hoje é segunda-feira. Que dia é amanhã? `📅` (📅 Terça-feira, entre 📅 📅 📅); escolha: Hoje é segunda-feira. Que dia foi ontem? `📅` (📅 Domingo, entre 📅 📅 📅); cadeado: Viraste a ampulheta de 3 minutos e, quando acabou, viraste a de 2 minutos. Quantos minutos passaram? `⏳ ⏳` (5)
+- Difícil: escolha: Anteontem foi sábado. Que dia é hoje? `📅` (📅 Segunda-feira, entre 📅 📅 📅); cadeado: A areia da ampulheta demora 3 minutos a cair. Viraste-a 3 vezes. Quantos minutos passaram? `⏳ ⏳ ⏳` (9); ordem: Põe os dias da escola por ordem, do primeiro ao último da semana. (Segunda → Terça → Quarta → Quinta → Sexta)
 
-**Globo** (baixo direita, 88, 82)
-- Fácil: escolha: qual destes animais voa (🦅 entre 🐄 🐘 🐊)?; cadeado: quantos animais há no globo (6)?; pares: 4 pares de animais iguais.
-- Médio: escolha: qual destes tem escamas (🐟 entre 🐈 🐑 🐒)?; cadeado: quantas aves há no globo? Não contes os outros (3); escolha: qual destes é um inseto (🐝 entre 🐦 🐸 🐁)?
-- Difícil: escolha: qual destes é um mamífero que voa (🦇 entre 🦅 🦋 🐝)?; escolha: qual destes é um réptil (🐢 entre 🐸 🐟 🐧)?; cadeado: quantos animais do globo não são mamíferos (5)?
+**Globo** (`globo`)
+- Fácil: escolha: No globo há animais do mundo inteiro. Qual destes animais voa? `🌍` (🦅 Águia, entre 🐄 🐘 🐊); cadeado: Quantos animais há desenhados no globo? Escreve o número. `🐘 🦒 🐧 🐨 🐪 🐼` (6); pares: Os animais saltaram do globo! Encontra os pares iguais. (🐘 🦒 🐧 🐨)
+- Médio: escolha: Qual destes animais tem o corpo coberto de escamas? (🐟 Peixe, entre 🐈 🐑 🐒); cadeado: Quantas aves há no globo? Não contes os outros animais. `🐧 🐘 🦅 🐟 🦜 🐒` (3); escolha: Qual destes animais é um inseto? (🐝 Abelha, entre 🐦 🐸 🐁)
+- Difícil: escolha: Os mamíferos bebem o leite da mãe. Qual destes é um mamífero que voa? (🦇 Morcego, entre 🦅 🦋 🐝); escolha: Os répteis têm escamas e põem ovos, como os dinossauros. Qual destes é um réptil? (🐢 Tartaruga, entre 🐸 🐟 🐧); cadeado: Quantos animais do globo não são mamíferos? `🐘 🦅 🐟 🐄 🐢 🐍 🦋 🐒` (5)
 
 **Extras:**
 
-**Escavação** (baixo direita, 68, 84) dá a **chave do caixote**
-- Fácil: pares: 4 pares (🦴 🦕 ⛏️ 🪨); cadeado: quantos ossos há na terra (5)?; escolha: o que serve para escavar (⛏️ entre 🍰 🎈 🧦)?
-- Médio: pares: 5 pares iguais; cadeado: achou 2 ossos ontem e 3 hoje (5); pares associados: animal ↔ parte (🦖↔🦴, 🐢↔🐚, 🐘↔🦷, 🐦↔🪶).
-- Difícil: pares associados: os 4 do médio e 🦕↔🥚; cadeado: achou 2 ossos por dia durante 3 dias e perdeu 1 (5); cadeado: o osso mede 4 palmos e a pá 2; quantas pás de comprimento tem o osso (2)?
+**Escavação** (`escavacao`) dá **Chave do caixote** (`chave`)
+- Fácil: pares: Na areia da escavação há coisas escondidas. Encontra os pares iguais! (🦴 🦕 ⛏️ 🪨); cadeado: Quantos ossos há na areia? Escreve o número. `🦴 🦴 🦴 🦴 🦴` (5); escolha: Para achar a chave tens de escavar. O que serve para escavar? (⛏️ Picareta, entre 🍰 🎈 🧦)
+- Médio: pares: Na areia da escavação há coisas escondidas. Encontra os cinco pares iguais! (🦴 🦕 ⛏️ 🪨 🦷); cadeado: A cientista achou 2 ossos ontem e 3 ossos hoje. Quantos ossos achou? `🦴 🦴 ➕ 🦴 🦴 🦴` (5); pares: Junta cada animal a uma parte do seu corpo, como o T-rex e o osso! (🦖↔🦴 🐢↔🐚 🐘↔🦷 🐦↔🪶)
+- Difícil: pares: Junta cada animal a uma coisa que é dele, como o T-rex e o osso! (🦖↔🦴 🐢↔🐚 🐘↔🦷 🐦↔🪶 🦕↔🥚); cadeado: A cientista achou 2 ossos por dia durante 3 dias, mas perdeu 1. Quantos ossos tem? `🦴🦴 🦴🦴 🦴🦴` (5); cadeado: O osso mede 4 palmos e a pá mede 2. Quantas pás seguidas medem o mesmo que o osso? `🦴 ▬▬▬▬  🪏 ▬▬` (2)
 
-**Caixote trancado** (baixo esquerda, 14, 84; `requer: 'chave'`) dá a **lanterna** para ver a vitrine
-- Fácil: ordem: 4 ossos do mais curto ao mais comprido; cadeado: quantas coisas há no caixote (6)?; escolha: o que dá luz (🔦 entre 🪨 🦴 🧦)?
-- Médio: ordem: 5 ossos do mais curto ao mais comprido; cadeado: o caixote tem 8 coisas e tiraste / você tirou 3 (5); escolha: qual fita mede o mesmo que o osso?
-- Difícil: ordem: 6 ossos com o comprimento escrito em palmos (do mais curto ao mais comprido); escolha: qual osso mede o mesmo que 2 ossos pequenos juntos?; cadeado: 3 filas de 3 fósseis e falta 1; quantos há (8)?
+**Caixote trancado** (`caixote`; `requer: 'chave'`) dá **Lanterna** (`lanterna`)
+- Fácil: ordem: No caixote há quatro ossos. Põe-nos por ordem, do mais curto ao mais comprido. (▬ → ▬▬ → ▬▬▬ → ▬▬▬▬); cadeado: Quantas coisas há no caixote? Escreve o número. `🦴 🪨 🐚 🦴 🪨 🐚` (6); escolha: O museu está escuro. Qual destas coisas do caixote dá luz? (🔦 Lanterna, entre 🪨 🦴 🧦)
+- Médio: ordem: No caixote há cinco ossos. Põe-nos por ordem, do mais curto ao mais comprido. (▬ → ▬▬ → ▬▬▬ → ▬▬▬▬ → ▬▬▬▬▬); cadeado: O caixote tem 8 ossos e tiraste 3. Quantos ossos ficaram no caixote? `🦴 🦴 🦴 🦴 🦴 🦴 🦴 🦴` (5); escolha: Qual destas fitas mede o mesmo que o osso? `🦴 ▬▬▬` (📏 ▬▬▬ Fita azul, entre 📏 ▬▬ 📏 ▬▬▬▬ 📏 ▬)
+- Difícil: ordem: Cada osso tem o comprimento escrito em palmos. Põe-nos por ordem, do mais curto ao mais comprido. (🦴 1 → 🦴 2 → 🦴 4 → 🦴 5 → 🦴 7 → 🦴 9); escolha: Cada osso pequeno mede 2 palmos. Qual osso mede o mesmo que 2 ossos pequenos juntos? `🦴 2 ➕ 🦴 2` (🦴 4 palmos, entre 🦴 🦴 🦴); cadeado: No caixote há 3 filas de 3 fósseis, mas falta 1. Quantos fósseis há? `🐚🐚🐚 🐚🐚🐚 🐚🐚▫️` (8)
+
 
 **Palavras:** adormeceu (pt-PT) / pegou no sono (pt-BR); bebé / bebê; fumo (pt-PT) / fumaça (pt-BR); deitar fumo / soltar fumaça; arrefecer (pt-PT) / esfriar (pt-BR); em baixo / embaixo; mais pequena / menor; gerúndio (`a rachar` / `rachando`, `a cair` / `caindo`).
 
@@ -342,61 +346,62 @@ Cada fonte e cada extra traz **3 ideias por nível** (fácil, médio, difícil),
 **Saída:** porta de pedra com o sol (centro, x 50, y 45).
 **Foco:** códigos secretos (cada símbolo vale um número), numeração com traços, filas com pistas lógicas.
 
-**Tocha** (esquerda, 10, 50)
-- Fácil: cadeado: quantos traços há na parede ao lado da tocha (6)?; escolha: qual tocha está acesa?; pares: 4 pares iguais (🔥 🏺 🐈‍⬛ ☀️).
-- Médio: cadeado: traços em grupo, ||||| e || (7); cadeado: 🔥 vale 2; quanto vale 🔥🔥 (4)?; ordem: tochas em fila com uma pista ("a grande é a primeira, a pequena é a última").
-- Difícil: escolha: 🔥 vale 3 e 🌙 vale 1; que grupo vale 7 (🔥🔥🌙)?; cadeado: havia |||| |||| traços e apagaram 3 (5); ordem: as tochas acendem por pistas ("a amarela é a primeira, a azul antes da verde, a vermelha é a última").
+**Tocha** (`tocha`)
+- Fácil: cadeado: Ao lado da tocha há traços riscados na parede. Quantos traços há? Escreve o número. `🔥 | | | | | |` (6); escolha: Está escuro na câmara! Qual tocha está acesa? (🔥 Tocha com fogo, entre 🪵 💧 💨); pares: A tocha ilumina umas cartas no chão. Encontra os pares iguais! (🔥 🏺 🐈‍⬛ ☀️)
+- Médio: cadeado: Na parede, os traços estão em grupos: um grupo de 5 e outro de 2. Quantos traços há ao todo? `||||| ||` (7); cadeado: No código secreto da pirâmide, cada chama vale 2. Quanto valem duas chamas? `🔥 = 2   🔥🔥 = ❔` (4); ordem: Põe as tochas em fila. A tocha grande, com mais chamas, é a primeira. A pequena é a última. (🔥🔥🔥 → 🔥🔥 → 🔥)
+- Difícil: escolha: No código secreto, a chama vale 3 e a lua vale 1. Que grupo vale 7? `🔥 = 3   🌙 = 1` (🔥🔥🌙 Grupo D, entre 🔥🌙 🔥🔥 🔥🌙🌙🌙); cadeado: Na parede havia estes traços e o vento apagou 3. Quantos traços ficaram? `|||| ||||` (5); ordem: As tochas acendem-se por ordem. A amarela é a primeira, a azul acende antes da verde e a vermelha é a última. Põe as tochas por ordem. (🟡 → 🔵 → 🟢 → 🔴)
 
-**Hieróglifos** (cima esquerda, 28, 22)
-- Fácil: escolha: qual símbolo é igual ao modelo (👁️)?; cadeado: quantas 🐍 há na parede (5)?; pares: 4 pares de símbolos.
-- Médio: cadeado: 🐍 vale 2; quanto vale 🐍🐍🐍 (6)?; pares associados: grupo ↔ número (🐍↔1, 🐍🐍↔2, 🐍🐍🐍↔3, 🐍🐍🐍🐍↔4); escolha: 👁️ vale 3; que grupo vale 6 (👁️👁️)?
-- Difícil: cadeado: 🐍 vale 2 e 👁️ vale 3; quanto vale 🐍👁️👁️ (8)?; escolha: ☀️ vale 4; que símbolo junto com ☀️ dá 9 (o que vale 5)?; pares associados: 5 grupos de símbolos ↔ o seu / seu valor.
+**Hieróglifos** (`hieroglifos`)
+- Fácil: escolha: Na parede há um símbolo mágico. Qual destes símbolos é igual a ele? `👁️` (👁️ Olho, entre 🐍 ☀️ 🐦); cadeado: Nos hieróglifos há cobras desenhadas. Quantas cobras há na parede? `🐍 🐍 🐍 🐍 🐍` (5); pares: Os símbolos da parede soltaram-se! Encontra os pares iguais. (👁️ 🐍 ☀️ 🌊)
+- Médio: cadeado: No código secreto, cada cobra vale 2. Quanto valem três cobras? `🐍 = 2   🐍🐍🐍 = ❔` (6); pares: Junta cada grupo de cobras com o seu número! (🐍↔1️⃣ 🐍🐍↔2️⃣ 🐍🐍🐍↔3️⃣ 🐍🐍🐍🐍↔4️⃣); escolha: No código secreto, cada olho vale 3. Que grupo vale 6? `👁️ = 3` (👁️👁️ Dois olhos, entre 👁️ 👁️👁️👁️)
+- Difícil: cadeado: No código secreto, a cobra vale 2 e o olho vale 3. Quanto vale uma cobra com dois olhos? `🐍 = 2   👁️ = 3   🐍👁️👁️ = ❔` (8); escolha: O sol vale 4. A cobra vale 2, o olho vale 3, o pássaro vale 5 e a onda vale 6. Que símbolo, junto com o sol, dá 9? `☀️ = 4   ☀️ ➕ ❔ = 9` (🐦 Pássaro, entre 🐍 👁️ 🌊); pares: A cobra vale 2 e o olho vale 3. Junta cada grupo de símbolos com o seu valor! (🐍↔2️⃣ 👁️↔3️⃣ 🐍🐍↔4️⃣ 🐍👁️↔5️⃣ 👁️👁️↔6️⃣)
 
-**Estátua do gato** (meio esquerda, 28, 52)
-- Fácil: escolha: quem sou? "sou preto e faço miau" (🐈‍⬛); cadeado: quantos gatos de pedra há (4)?; pares: 4 pares de animais do Egito.
-- Médio: escolha: quem sou? "tenho bossas e ando no deserto" (🐪); ordem: 5 animais em fila com 2 pistas ("o gato é o primeiro, o camelo é o último"); cadeado: o gato é o 3.º da fila; quantos estão à frente dele (2)?
-- Difícil: ordem: 5 animais em fila por pistas ("o gato está entre o crocodilo e o camelo; o escorpião é o último"); escolha: quem sou? "não tenho pernas, vivo na areia e não sou peixe" (🐍); cadeado: numa fila de 9 animais, o gato é o 4.º a contar da frente; quantos estão atrás dele (5)?
+**Estátua do gato** (`gato`)
+- Fácil: escolha: Adivinha quem sou: sou preto e faço miau. (🐈‍⬛ Gato, entre 🐕 🐄 🐑); cadeado: Na câmara há gatos de pedra. Quantos gatos há? Escreve o número. `🐈‍⬛ 🐈‍⬛ 🐈‍⬛ 🐈‍⬛` (4); pares: Os animais do Egito estão escondidos. Encontra os pares iguais! (🐈‍⬛ 🐪 🐊 🦂)
+- Médio: escolha: Adivinha quem sou: tenho bossas e ando no deserto. (🐪 Camelo, entre 🐈‍⬛ 🐊 🦂); ordem: Os animais estão em fila. O gato é o primeiro, o crocodilo vem logo a seguir ao gato e o camelo é o último. Põe a fila por ordem. (🐈‍⬛ → 🐊 → 🦂 → 🐪); cadeado: O gato é o terceiro da fila. Quantos animais estão à frente dele? `🐪 🐊 🐈‍⬛ 🦂 🐍` (2)
+- Difícil: ordem: Põe os animais em fila. A cobra é a primeira. O gato está entre o crocodilo e o camelo, e o crocodilo vem antes do camelo. O escorpião é o último. (🐍 → 🐊 → 🐈‍⬛ → 🐪 → 🦂); escolha: Adivinha quem sou: não tenho pernas, vivo na areia e não sou um peixe. (🐍 Cobra, entre 🐟 🦂 🐊); cadeado: Numa fila de 9 animais, o gato é o quarto a contar da frente. Quantos animais estão atrás dele? `🐪 🐊 🐍 🐈‍⬛ 🦂 🐪 🐊 🐍 🦂` (5)
 
-**Pintura do barco** (cima direita, 70, 20)
-- Fácil: cadeado: quantos remadores há (6)?; escolha: qual barco é igual à pintura?; pares: 4 pares iguais.
-- Médio: cadeado: o barco tem 4 remos de um lado e 4 do outro; quantos ao todo (8)?; escolha: ☀️ na vela quer dizer "rei"; qual é o barco do rei?; ordem: 4 barcos em fila com uma pista ("o dourado vai à frente").
-- Difícil: ordem: barcos no Nilo por pistas ("o de vela branca vai à frente do dourado; o pequeno vai entre eles; o de remos é o último"); cadeado: 9 remadores, 3 descansam e os outros remam aos pares; quantos pares (3)?; escolha: na pintura, 🌿 quer dizer "rio" e 🐦 quer dizer "céu"; qual pintura mostra um pássaro sobre o rio (🐦 em cima de 🌿)?
+**Pintura do barco** (`barco`)
+- Fácil: cadeado: Na pintura, o barco tem remadores. Quantos remadores há? Escreve o número. `🚣 🚣 🚣 🚣 🚣 🚣` (6); escolha: Qual destes barcos é igual ao barco da pintura? `⛵` (⛵ Barco à vela, entre 🚤 🚢 🛶); pares: A pintura do rio desfez-se em cartas. Encontra os pares iguais! (⛵ 🌴 🐟 ☀️)
+- Médio: cadeado: O barco tem 4 remos de um lado e 4 do outro. Quantos remos tem ao todo? `🚣 ⛵ 🚣` (8); escolha: Na pintura, um sol na vela quer dizer «rei». Qual é o barco do rei? (⛵☀️ Barco do sol, entre ⛵🌙 ⛵⭐ ⛵🌊); ordem: Os barcos descem o rio em fila. O navio grande vai à frente e a canoa pequena vai no fim. Põe a fila por ordem. (🚢 → ⛵ → 🛶)
+- Difícil: ordem: Os barcos navegam no Nilo. O barco à vela vai à frente do navio grande, a canoa vai entre eles e o barco a remos é o último. Põe a fila por ordem. (⛵ → 🛶 → 🚢 → 🚣); cadeado: No barco há 9 remadores. 3 estão a descansar e os outros remam aos pares. Quantos pares remam? `🚣 🚣 🚣 🚣 🚣 🚣 🚣 🚣 🚣` (3); escolha: Nas pinturas, cada símbolo é uma palavra. Qual pintura diz: «o pássaro voa sobre o rio, debaixo do sol»? `🐦 = pássaro   🌿 = rio   ☀️ = sol` (🐦🌿☀️ Pintura B, entre 🐦🌿 🌿☀️ 🐦☀️)
 
-**Balança dourada** (meio direita, 68, 48; `requer: 'moedas'`)
-- Fácil: cadeado: quantas moedas há no prato (5)?; escolha: qual prato tem mais moedas?; pares: 4 pares de moedas iguais.
-- Médio: cadeado: as moedas têm traços; quanto valem |, || e || juntas (5)?; escolha: qual moeda tem 3 traços?; pares associados: moeda com traços ↔ número.
-- Difícil: cadeado: ☀️ vale 5 e 🌙 vale 1; quanto vale o prato ☀️🌙🌙 (7)?; escolha: pistas "a moeda do faraó não tem sol, tem mais de 2 traços e não é a última da fila"; escolha: qual prato vale 6 (☀️🌙 entre ☀️☀️, 🌙🌙🌙, ☀️🌙🌙)?
+**Balança dourada** (`balanca`; `requer: 'moedas'`)
+- Fácil: cadeado: Puseste as moedas no prato da balança. Quantas moedas há no prato? `🪙 🪙 🪙 🪙 🪙` (5); escolha: Qual prato tem mais moedas? (🪙🪙🪙🪙 Prato B, entre 🪙🪙 🪙); pares: As moedas e os tesouros caíram da balança. Encontra os pares iguais! (🪙 💰 💎 ⚖️)
+- Médio: cadeado: Cada moeda vale o número dos seus traços. Quanto valem estas três moedas juntas? `( | )   ( || )   ( || )` (5); escolha: Qual destas moedas tem 3 traços? (||| Moeda D, entre || |||| |); pares: Junta cada moeda com traços ao seu número! (|↔1️⃣ ||↔2️⃣ |||↔3️⃣ ||||↔4️⃣)
+- Difícil: cadeado: A moeda do sol vale 5 e a moeda da lua vale 1. No prato há um sol e duas luas. Quanto vale o prato? `☀️ = 5   🌙 = 1   ☀️🌙🌙 = ❔` (7); escolha: Adivinha qual é a moeda do faraó: não tem sol, tem mais de 2 traços e não é a última da fila. (||| Moeda C, entre ☀️||| || ||||); escolha: O sol vale 5 e a lua vale 1. Qual prato vale 6? `☀️ = 5   🌙 = 1` (☀️🌙 Prato D, entre ☀️☀️ 🌙🌙🌙 ☀️🌙🌙)
 
-**Sarcófago** (direita, 90, 48; `requer: 'escaravelho'`)
-- Fácil: pares: 4 pares de joias iguais; cadeado: quantas joias há (7)?; escolha: qual é a coroa (👑 entre 💍 📿 🏺)?
-- Médio: pares associados: joia ↔ onde se usa (👑↔cabeça, 💍↔dedo, 📿↔pescoço, ⌚↔pulso); ordem: 4 joias em fila com uma pista ("a coroa é a primeira"); cadeado: o faraó tinha 9 anéis e pôs 4 (5).
-- Difícil: ordem: as joias em fila por pistas ("a coroa é a primeira, o anel está logo antes do colar"); pares associados: os 4 do médio e 👡↔pé; cadeado: 👑 vale 3 e 💍 vale 1; quanto vale a máscara 👑💍💍💍 (6)?
+**Sarcófago** (`sarcofago`; `requer: 'escaravelho'`)
+- Fácil: pares: O sarcófago está cheio de joias. Encontra os pares iguais! (👑 💍 📿 💎); cadeado: Quantas joias há no sarcófago? Escreve o número. `💍 💎 👑 📿 💍 💎 📿` (7); escolha: O faraó usava uma coroa. Qual destas coisas é a coroa? (👑 Coroa, entre 💍 📿 🏺)
+- Médio: pares: Junta cada coisa do faraó com o sítio onde se usa: a coroa vai com a cabeça! (👑↔🙂 💍↔☝️ ⌚↔✋ 🕶️↔👀); ordem: Põe as joias do faraó em fila. A coroa é a primeira, o colar vem logo a seguir à coroa e o anel é o último. (👑 → 📿 → 💎 → 💍); cadeado: O faraó tinha 9 anéis e pôs 4 nos dedos. Quantos anéis ficaram no sarcófago? `💍 💍 💍 💍 💍 💍 💍 💍 💍` (5)
+- Difícil: ordem: Põe as joias do faraó em fila. A coroa é a primeira. O anel está logo antes do colar. O diamante não está ao lado da coroa. (👑 → 💍 → 📿 → 💎); pares: Junta cada coisa do faraó com o sítio onde se usa: a coroa vai com a cabeça! (👑↔🙂 💍↔☝️ ⌚↔✋ 🕶️↔👀 👡↔🦶); cadeado: Na máscara do faraó, a coroa vale 3 e cada anel vale 1. A máscara tem uma coroa e três anéis. Quanto vale? `👑 = 3   💍 = 1   👑💍💍💍 = ❔` (6)
 
-**Vasos de barro** (baixo esquerda, 16, 82)
-- Fácil: escolha: qual vaso é igual ao modelo (riscas / listras bem diferentes)?; cadeado: quantos vasos há (6)?; cadeado: quantos traços tem o vaso (4)?
-- Médio: escolha: qual vaso é igual ao modelo (uma diferença)?; cadeado: o vaso tem 3 riscas / listras em cima e 2 em baixo / embaixo (5); ordem: os vasos de 1 a 5 traços.
-- Difícil: cadeado: numeração egípcia, ∩ vale 10 e | vale 1; quanto vale ∩ | | | (13)?; escolha: qual vaso é igual ao modelo (detalhes finos das riscas / listras)?; escolha: qual vaso vale 21 (∩ ∩ | entre ∩ | |, ∩ ∩ | |, ∩ ∩ ∩)?
+**Vasos de barro** (`vasos`)
+- Fácil: escolha: Estas são as riscas do vaso da câmara. Qual destes vasos tem as mesmas riscas? `🏺 🟥🟦🟥` (🟥🟦🟥 Vaso B, entre 🟩🟨🟩 🟨🟨🟨 🟦🟩🟦); cadeado: Quantos vasos de barro há na câmara? Escreve o número. `🏺 🏺 🏺 🏺 🏺 🏺` (6); cadeado: O vaso tem traços pintados. Quantos traços tem? `🏺 | | | |` (4)
+- Médio: escolha: Estas são as riscas do vaso da câmara. Qual destes vasos tem as mesmas riscas? `🏺 🟥🟦🟥🟦` (🟥🟦🟥🟦 Vaso C, entre 🟥🟦🟦🟦 🟥🟦🟥🟥 🟦🟦🟥🟦); cadeado: O vaso tem 3 riscas em cima e 2 riscas em baixo. Quantas riscas tem ao todo? `🏺 ➖➖➖ ➖➖` (5); ordem: Põe os vasos por ordem, do que tem menos traços ao que tem mais. (| → || → ||| → |||| → |||||)
+- Difícil: cadeado: Os egípcios escreviam números assim: o arco vale 10 e o traço vale 1. Quanto vale o número do vaso? `∩ = 10   | = 1   ∩ | | | = ❔` (13); escolha: Estas são as riscas do vaso da câmara. Qual destes vasos tem as mesmas riscas? Olha bem! `🏺 🟥🟨🟦🟨🟥` (🟥🟨🟦🟨🟥 Vaso D, entre 🟥🟦🟨🟨🟥 🟥🟨🟦🟦🟥 🟨🟥🟦🟨🟥); escolha: O arco vale 10 e o traço vale 1. Qual vaso tem o número 21? `∩ = 10   | = 1` (∩ ∩ | Vaso B, entre ∩ | | ∩ ∩ | | ∩ ∩ ∩)
 
-**Maquete das pirâmides** (baixo centro, 50, 84)
-- Fácil: cadeado: quantos blocos há na fila de baixo (4)?; escolha: a que pirâmide falta um bloco?; pares: 4 pares de blocos iguais.
-- Médio: cadeado: pirâmide de blocos 3 + 2 + 1 (6); ordem: construir de baixo para cima (fila de 4, de 3, de 2, de 1); escolha: qual pirâmide tem mais blocos?
-- Difícil: cadeado de 2 números: pirâmide de blocos 4 + 3 + 2 + 1 (10); ordem: 5 filas de baixo para cima (5, 4, 3, 2, 1); cadeado: a pirâmide de 4 filas perdeu o bloco do topo e um da base; quantos blocos tem (8)?
+**Maquete das pirâmides** (`maquete`)
+- Fácil: cadeado: A pirâmide é feita de filas de blocos. Quantos blocos há na fila de baixo, a maior? `🟨 · 🟨🟨 · 🟨🟨🟨 · 🟨🟨🟨🟨` (4); escolha: A uma destas pirâmides falta um bloco. Qual é? (🟨 🟨⬛ 🟨🟨🟨 Pirâmide C, entre 🟨 🟨🟨 🟨🟨🟨 🟨 🟨🟨 🟨🟨🟨 🟨 🟨🟨 🟨🟨🟨); pares: Os blocos da maquete estão misturados. Encontra os pares iguais! (🟨 🟥 🟦 🟩)
+- Médio: cadeado: A pirâmide tem 3 blocos em baixo, 2 no meio e 1 em cima. Quantos blocos tem ao todo? `🟨 · 🟨🟨 · 🟨🟨🟨` (6); ordem: Constrói a pirâmide de baixo para cima: primeiro a fila maior, por último o bloco do topo. (🟨🟨🟨🟨 → 🟨🟨🟨 → 🟨🟨 → 🟨); escolha: Qual destas pirâmides tem mais blocos? (🟨 🟨🟨 🟨🟨🟨 🟨🟨🟨🟨 Pirâmide B, entre 🟨 🟨🟨 🟨 🟨🟨 🟨🟨🟨)
+- Difícil: cadeado: A pirâmide tem filas de 4, 3, 2 e 1 blocos. Quantos blocos tem ao todo? Escreve o número. `🟨 · 🟨🟨 · 🟨🟨🟨 · 🟨🟨🟨🟨` (10); ordem: Constrói uma pirâmide de 5 filas, de baixo para cima. (🟨🟨🟨🟨🟨 → 🟨🟨🟨🟨 → 🟨🟨🟨 → 🟨🟨 → 🟨); cadeado: A pirâmide de 4 filas perdeu o bloco do topo e um bloco da base. Quantos blocos tem agora? `🟨 · 🟨🟨 · 🟨🟨🟨 · 🟨🟨🟨🟨` (8)
 
-**Tábua de pontos** (baixo direita, 68, 84)
-- Fácil: cadeado: quantos pontos tem a peça de dominó (5)?; escolha: qual peça tem 3 pontos?; pares: 4 pares de peças iguais.
-- Médio: escolha: qual peça de dominó tem 6 pontos ao todo?; cadeado: a peça tem 4 de um lado e 2 do outro (6); ordem: as peças de 1 a 5 pontos.
-- Difícil: escolha: pistas "tem mais de 5 pontos, um dos lados está vazio e não é a de 9"; cadeado: as peças (3|2) e (1|3) juntas (9); ordem: encadear 5 peças, cada uma toca a seguinte com o mesmo número.
+**Tábua de pontos** (`tabua`)
+- Fácil: cadeado: Na tábua está pintada uma peça de dominó. Quantos pontos tem a peça? `⚂|⚁` (5); escolha: Qual destas peças de dominó tem 3 pontos? (⚁|⚀ Peça C, entre ⚃|⚀ ⚀|　 ⚂|⚂); pares: As peças de dominó caíram da tábua. Encontra os pares iguais! (⚀|⚁ ⚂|⚃ ⚄|⚅ ⚁|⚁)
+- Médio: escolha: Qual destas peças de dominó tem 6 pontos ao todo? (⚃|⚁ Peça C, entre ⚂|⚁ ⚃|⚂ ⚀|⚀); cadeado: A peça tem 4 pontos de um lado e 2 do outro. Quantos pontos tem ao todo? `⚃|⚁` (6); ordem: Põe as peças de dominó por ordem, da que tem menos pontos à que tem mais. (⚀|　 → ⚀|⚀ → ⚁|⚀ → ⚁|⚁ → ⚂|⚁)
+- Difícil: escolha: Adivinha qual é a peça: tem mais de 5 pontos, um dos lados está vazio e não é a de 9 pontos. (⚅|　 Peça D, entre ⚄|　 ⚅|⚂ ⚃|⚂); cadeado: Quantos pontos têm estas duas peças juntas? `⚂|⚁   ⚀|⚂` (9); ordem: Encadeia as peças de dominó: cada peça toca a seguinte com o mesmo número. Começa na peça que começa com um ponto. (⚀|⚂ → ⚂|⚄ → ⚄|⚁ → ⚁|⚅ → ⚅|⚃)
 
 **Extras:**
 
-**Escaravelho dourado** (baixo, 34, 82) dá o **escaravelho-chave** do sarcófago
-- Fácil: escolha: qual escaravelho é igual ao da porta (4 bem diferentes)?; cadeado: quantas pintas tem o escaravelho (4)?; pares: 4 pares de escaravelhos.
-- Médio: escolha: qual escaravelho é igual ao da porta (uma diferença)?; cadeado: quantos escaravelhos têm sol? Não contes os outros (3); pares: 5 pares de escaravelhos.
-- Difícil: escolha: qual é igual ao da porta (4 quase iguais)?; escolha: pistas "tem 2 pintas, não tem as asas abertas e está virado para a direita"; cadeado: numa fila de 7, o certo é o 3.º a contar do fim; em que lugar está a contar do início (5)?
+**Escaravelho dourado** (`escaravelho-dourado`) dá **Escaravelho-chave** (`escaravelho`)
+- Fácil: escolha: Na fechadura do sarcófago está desenhado este bicho. Qual destes é igual? `🪲` (🪲 Escaravelho, entre 🐞 🦋 🐜); cadeado: O escaravelho tem um cadeado. Quantas pintas tem o escaravelho? `🪲 ⚫ ⚫ ⚫ ⚫` (4); pares: Os escaravelhos fugiram! Encontra os pares iguais. (🪲☀️ 🪲🌙 🪲⭐ 🪲💎)
+- Médio: escolha: Este é o escaravelho da fechadura. Qual destes é igual a ele? `☀️🪲☀️` (☀️🪲☀️ Escaravelho B, entre ☀️🪲🌙 🌙🪲☀️ ☀️🐞☀️); cadeado: Quantos escaravelhos têm um sol? Não contes os outros. `🪲☀️  🪲  🪲☀️  🪲🌙  🪲☀️  🪲` (3); pares: Os escaravelhos fugiram! Encontra os cinco pares iguais. (🪲☀️ 🪲🌙 🪲⭐ 🪲💎 🪲🔥)
+- Difícil: escolha: Este é o escaravelho da fechadura. Qual destes é igual a ele? Olha bem! `☀️🌙🪲⭐` (☀️🌙🪲⭐ Escaravelho D, entre 🌙☀️🪲⭐ ☀️⭐🪲🌙 ☀️🌙🪲🌙); escolha: Adivinha qual é o escaravelho-chave: tem um sol, tem mais de um desenho ao lado e não tem estrela. (🪲☀️🌙 Escaravelho D, entre 🪲☀️ 🪲☀️⭐ 🪲🌙🌙); cadeado: Numa fila de 7 escaravelhos, o escaravelho-chave é o terceiro a contar do fim. Em que lugar está, a contar do início? `🪲 🪲 🪲 🪲 🪲 🪲 🪲` (5)
 
-**Baú aberto** (baixo direita, 88, 84) dá as **moedas** da balança
-- Fácil: cadeado: quantas moedas há no baú (7)?; escolha: o código tem só o ☀️; qual tecla abre o baú?; pares: 4 pares iguais.
-- Médio: cadeado: código de 2 símbolos, ☀️ vale 1 e 🌙 vale 2; quanto vale ☀️🌙 (3)?; escolha: qual fila de símbolos é igual à do baú?; pares: 5 pares iguais.
-- Difícil: cadeado: código de 3 símbolos, ☀️ vale 1, 🌙 vale 2 e ⭐ vale 3; quanto vale ⭐🌙☀️ (6)?; escolha: com o mesmo código, que fila vale 9 (⭐⭐⭐ entre ⭐⭐🌙, ☀️🌙⭐, 🌙🌙🌙)?; ordem: 5 grupos de símbolos do que vale menos ao que vale mais.
+**Baú aberto** (`bau`) dá **Moedas de ouro** (`moedas`)
+- Fácil: cadeado: O baú tem um cadeado. Quantas moedas há no baú? `🪙 🪙 🪙 🪙 🪙 🪙 🪙` (7); escolha: No cadeado do baú está desenhado um sol. Que botão abre o baú? `☀️` (☀️ Sol, entre 🌙 ⭐ 🌊); pares: Os tesouros do baú estão misturados. Encontra os pares iguais! (🪙 💎 👑 🏺)
+- Médio: cadeado: O cadeado do baú tem um código: o sol vale 1 e a lua vale 2. Quanto vale sol e lua? `☀️ = 1   🌙 = 2   ☀️🌙 = ❔` (3); escolha: Esta é a fila de símbolos do baú. Qual destas filas é igual? `☀️🌙⭐` (☀️🌙⭐ Fila C, entre ⭐🌙☀️ ☀️⭐🌙 🌙☀️⭐); pares: Os tesouros do baú estão misturados. Encontra os cinco pares iguais! (🪙 💎 👑 🏺 📿)
+- Difícil: cadeado: O código do baú: o sol vale 1, a lua vale 2 e a estrela vale 3. Quanto vale estrela, lua e sol? `☀️ = 1   🌙 = 2   ⭐ = 3   ⭐🌙☀️ = ❔` (6); escolha: Com o mesmo código, que fila vale 9? `☀️ = 1   🌙 = 2   ⭐ = 3` (⭐⭐⭐ Fila D, entre ⭐⭐🌙 ☀️🌙⭐ 🌙🌙🌙); ordem: Com o mesmo código, põe os grupos por ordem, do que vale menos ao que vale mais. (☀️ → ☀️🌙 → ⭐🌙 → ⭐⭐☀️ → ⭐⭐⭐)
+
 
 **Palavras:** riscas (pt-PT) / listras (pt-BR); bossas nas duas; devagarinho nas duas; em baixo / embaixo; o seu valor (pt-PT) / seu valor (pt-BR).
