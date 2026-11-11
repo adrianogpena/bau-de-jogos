@@ -97,9 +97,9 @@ const TEXTOS = {
   tentarOutraVez: { 'pt-PT': 'Tentar outra vez', 'pt-BR': 'Tentar de novo' },
 } satisfies Record<string, TextoPorIdioma>;
 
-/** Conta de somar para se concentrar: cada número vai de 10 a 50. */
-function novaConta() {
-  const numero = () => 10 + Math.floor(Math.random() * 41);
+/** Conta de somar para se concentrar: cada número vai do mínimo ao máximo do nível. */
+function novaConta({ minimo, maximo }: { minimo: number; maximo: number }) {
+  const numero = () => minimo + Math.floor(Math.random() * (maximo - minimo + 1));
   return { a: numero(), b: numero() };
 }
 
@@ -109,12 +109,14 @@ interface Props {
   idioma: Idioma;
   ficha: FichaMago;
   inimigo: InimigoMago;
+  /** Faixa dos números das contas de somar (depende do nível). */
+  conta: { minimo: number; maximo: number };
   /** Chamado ao vencer, com a vida e a energia que sobraram. */
   aoVencer: (vida: number, energia: number) => void;
 }
 
 /** Luta por turnos em que o mago lança feitiços (gastando energia mágica). */
-export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
+export function LutaMagica({ idioma, ficha, inimigo, conta: faixaConta, aoVencer }: Props) {
   const dado = usarDado();
   const nomeInimigo = t(inimigo.nome, idioma);
   const poder = ficha.habilidades.poder;
@@ -207,7 +209,7 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
 
   function abrirConta() {
     if (ocupado || estado !== 'jogador') return;
-    setConta(novaConta());
+    setConta(novaConta(faixaConta));
     setDigitos('');
   }
 
@@ -240,7 +242,7 @@ export function LutaMagica({ idioma, ficha, inimigo, aoVencer }: Props) {
     }
     setOcupado(true);
     const d20 = await dado.rolar(20);
-    const total = d20 + inimigo.bonusAtaque;
+    const total = Math.max(1, d20 + inimigo.bonusAtaque);
     const valores = { inimigo: nomeInimigo, total, ca: caHeroi };
     const critico = d20 === 20;
     if (d20 !== 1 && (critico || total >= caHeroi)) {

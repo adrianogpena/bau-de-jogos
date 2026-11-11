@@ -107,8 +107,7 @@ export interface PerguntaPuzzle {
   certa: string;
 }
 
-export const PUZZLE: { tentativas: number; pistas: TextoPorIdioma[]; perguntas: PerguntaPuzzle[] } = {
-  tentativas: 3,
+export const PUZZLE: { pistas: TextoPorIdioma[]; perguntas: PerguntaPuzzle[] } = {
   pistas: [
     {
       'pt-PT': 'O atalho da saída da aldeia não passa por onde o lobo uiva.',

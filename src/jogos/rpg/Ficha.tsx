@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { type Idioma, type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
-import { MOEDAS_INICIAIS, estatisticas, totalPocoes } from './itens';
+import { estatisticas, totalPocoes } from './itens';
+import type { Nivel } from '../../compartilhado/niveis';
+import { AJUSTES_NIVEL } from './niveis';
 import { EscolherPersonagem } from './EscolherPersonagem';
 import { FiguraPersonagem } from './FiguraPersonagem';
 import { Moedas } from './Moedas';
@@ -40,12 +42,13 @@ const TEXTOS = {
 
 interface Props {
   idioma: Idioma;
+  nivel: Nivel;
   aoVoltar: () => void;
   aoComecar: (ficha: FichaPersonagem) => void;
 }
 
 /** Tela de criação da ficha de personagem. */
-export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
+export function CriarFicha({ idioma, nivel, aoVoltar, aoComecar }: Props) {
   const [personagem, setPersonagem] = useState<string | null>(null);
   const [atributos, setAtributos] = useState<Atributos>({
     forca: ATRIBUTO_MINIMO,
@@ -72,11 +75,11 @@ export function CriarFicha({ idioma, aoVoltar, aoComecar }: Props) {
       atributos,
       pontosDeVida: vida,
       pontosDeVidaMaximos: vida,
-      prata: MOEDAS_INICIAIS,
+      prata: AJUSTES_NIVEL[nivel].moedas,
       arma: null,
       armadura: null,
       escudo: false,
-      pocoes: {},
+      pocoes: { ...AJUSTES_NIVEL[nivel].pocoesIniciais },
     });
   }
 

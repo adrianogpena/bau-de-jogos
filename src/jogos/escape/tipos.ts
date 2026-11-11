@@ -14,10 +14,8 @@ import type { TextoPorIdioma } from '../../compartilhado/idioma';
  * Todo texto é escrito por variante (pt-PT e pt-BR).
  */
 
-/** Nível de dificuldade: fácil (4 a 5 anos), médio (6 a 7 anos), difícil (8 anos ou mais). */
-export type Nivel = 'facil' | 'medio' | 'dificil';
-
-export const NIVEIS: Nivel[] = ['facil', 'medio', 'dificil'];
+import type { Nivel } from '../../compartilhado/niveis';
+export { type Nivel, NIVEIS } from '../../compartilhado/niveis';
 
 /** Uma lista para cada nível. */
 export type PorNivel<T> = Record<Nivel, T>;

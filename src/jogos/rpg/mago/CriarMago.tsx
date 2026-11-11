@@ -16,6 +16,8 @@ import {
   escolaPorId,
 } from './feiticos';
 import { Icone, comIcones } from '../../../compartilhado/icones';
+import type { Nivel } from '../../../compartilhado/niveis';
+import { AJUSTES_NIVEL } from '../niveis';
 
 const TEXTOS = {
   titulo: { 'pt-PT': 'Cria o teu mago', 'pt-BR': 'Crie seu mago' },
@@ -41,12 +43,13 @@ const TEXTOS = {
 
 interface Props {
   idioma: Idioma;
+  nivel: Nivel;
   aoVoltar: () => void;
   aoComecar: (ficha: FichaMago) => void;
 }
 
 /** Criação do mago: personagem, tipo de mago (escola de magia) e habilidades. */
-export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
+export function CriarMago({ idioma, nivel, aoVoltar, aoComecar }: Props) {
   const [personagem, setPersonagem] = useState<string | null>(null);
   const [escolaId, setEscolaId] = useState<EscolaId>('fogo');
   const [habilidades, setHabilidades] = useState<Habilidades>(HABILIDADES_INICIAIS);
@@ -64,13 +67,14 @@ export function CriarMago({ idioma, aoVoltar, aoComecar }: Props) {
 
   function comecar() {
     if (!personagem) return;
-    const energia = energiaMaxima(habilidades.energia);
+    const energia = energiaMaxima(habilidades.energia) + AJUSTES_NIVEL[nivel].energiaMago;
+    const vida = VIDA_MAGO + AJUSTES_NIVEL[nivel].vidaMago;
     aoComecar({
       personagem,
       escola: escolaId,
       habilidades,
-      pontosDeVida: VIDA_MAGO,
-      pontosDeVidaMaximos: VIDA_MAGO,
+      pontosDeVida: vida,
+      pontosDeVidaMaximos: vida,
       energia,
       energiaMaxima: energia,
       feiticos: ['faisca', ...escola.feiticos],

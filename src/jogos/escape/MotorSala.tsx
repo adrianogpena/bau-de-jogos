@@ -7,6 +7,7 @@ import { chaveEstrelas, estrelasPorDicas, lerEstrelas, salvarEstrelas } from './
 import { Recorte } from './Recorte';
 import { extraQueDa, sortearRodada } from './rodada';
 import { type Enigma, NIVEIS, type Nivel, type Sala, type Zona } from './tipos';
+import { TEXTOS_NIVEL } from '../../compartilhado/niveis';
 
 const TEXTOS = {
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
@@ -31,12 +32,7 @@ const TEXTOS = {
   dicasUsadas: { 'pt-PT': 'Dicas usadas: {n}', 'pt-BR': 'Dicas usadas: {n}' },
 } satisfies Record<string, TextoPorIdioma>;
 
-/** Nome e idade de cada nível (também usados no cartão da sala). */
-export const TEXTOS_NIVEL: Record<Nivel, { nome: TextoPorIdioma; idade: TextoPorIdioma }> = {
-  facil: { nome: { 'pt-PT': 'Fácil', 'pt-BR': 'Fácil' }, idade: { 'pt-PT': '4 a 5 anos', 'pt-BR': '4 a 5 anos' } },
-  medio: { nome: { 'pt-PT': 'Médio', 'pt-BR': 'Médio' }, idade: { 'pt-PT': '6 a 7 anos', 'pt-BR': '6 a 7 anos' } },
-  dificil: { nome: { 'pt-PT': 'Difícil', 'pt-BR': 'Difícil' }, idade: { 'pt-PT': '8 anos ou mais', 'pt-BR': '8 anos ou mais' } },
-};
+export { TEXTOS_NIVEL };
 
 type Aberto = { tipo: 'objeto'; id: string } | { tipo: 'saida' } | null;
 

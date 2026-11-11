@@ -40,9 +40,17 @@ export function ListaPistas({ idioma }: { idioma: Idioma }) {
  * O herói precisa acertar os três enigmas ao mesmo tempo, usando as pistas.
  * Há poucas tentativas, então não dá para ganhar só testando botões.
  */
-export function Puzzle({ idioma, aoConcluir }: { idioma: Idioma; aoConcluir: (decifrou: boolean) => void }) {
+export function Puzzle({
+  idioma,
+  tentativas,
+  aoConcluir,
+}: {
+  idioma: Idioma;
+  tentativas: number;
+  aoConcluir: (decifrou: boolean) => void;
+}) {
   const [respostas, setRespostas] = useState<Record<string, string>>({});
-  const [restantes, setRestantes] = useState(PUZZLE.tentativas);
+  const [restantes, setRestantes] = useState(tentativas);
   const [resultado, setResultado] = useState<'jogando' | 'certo' | 'falhou'>('jogando');
   const [aviso, setAviso] = useState('');
 

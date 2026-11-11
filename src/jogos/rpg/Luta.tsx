@@ -215,7 +215,7 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
     if (ocupado || estado !== 'inimigo') return;
     setOcupado(true);
     const d20 = await dado.rolar(20);
-    const total = d20 + inimigo.bonusAtaque;
+    const total = Math.max(1, d20 + inimigo.bonusAtaque);
     const valores = { inimigo: nomeInimigo, total, ca: caHeroi };
     const critico = d20 === 20;
     if (d20 !== 1 && (critico || total >= caHeroi)) {
@@ -279,7 +279,7 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
           <small><Icone id="interface/escudo" /> {t(TEXTOS.defesa, idioma)} {inimigo.defesa}</small>
           <DadosDoCombatente
             idioma={idioma}
-            ataque={`d20+${inimigo.bonusAtaque}`}
+            ataque={`d20${inimigo.bonusAtaque < 0 ? '−' : '+'}${Math.abs(inimigo.bonusAtaque)}`}
             dano={`d${inimigo.dadoDeDano}`}
           />
         </div>

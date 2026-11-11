@@ -1,6 +1,9 @@
 import { personagemPorId, valoresPersonagem } from './personagem';
 import { useState } from 'react';
 import type { PropsJogo } from '../tipos';
+import type { Nivel } from '../../compartilhado/niveis';
+import type { PropsHistoria } from './Rpg';
+import { AJUSTES_NIVEL, inimigoDoNivel } from './niveis';
 import { type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
 import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { Dado, usarDado } from '../../compartilhado/usarDado';
@@ -34,7 +37,7 @@ const TEXTOS = {
 } satisfies Record<string, TextoPorIdioma>;
 
 /** História 1: A Pedra da Lua. Guerreiro com ficha, loja, mapa, testes e lutas com dados. */
-export function PedraDaLua({ idioma, aoVoltar }: PropsJogo) {
+export function PedraDaLua({ idioma, aoVoltar, nivel }: PropsHistoria) {
   const [ficha, setFicha] = useState<FichaPersonagem | null>(null);
   const [etapa, setEtapa] = useState<'pergunta' | 'loja' | 'aventura'>('pergunta');
 
@@ -42,6 +45,7 @@ export function PedraDaLua({ idioma, aoVoltar }: PropsJogo) {
     return (
       <CriarFicha
         idioma={idioma}
+        nivel={nivel}
         aoVoltar={aoVoltar}
         aoComecar={(nova) => {
           setFicha(nova);
@@ -76,6 +80,7 @@ export function PedraDaLua({ idioma, aoVoltar }: PropsJogo) {
     <Aventura
       idioma={idioma}
       aoVoltar={aoVoltar}
+      nivel={nivel}
       fichaInicial={ficha}
       aoRecomecar={() => setFicha(null)}
     />
@@ -83,6 +88,7 @@ export function PedraDaLua({ idioma, aoVoltar }: PropsJogo) {
 }
 
 interface PropsAventura extends PropsJogo {
+  nivel: Nivel;
   fichaInicial: FichaPersonagem;
   aoRecomecar: () => void;
 }
@@ -100,7 +106,7 @@ function aplicarRecompensa(ficha: FichaPersonagem, cena: Cena): FichaPersonagem 
   };
 }
 
-function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura) {
+function Aventura({ idioma, aoVoltar, nivel, fichaInicial, aoRecomecar }: PropsAventura) {
   const [ficha, setFicha] = useState(() => aplicarRecompensa(fichaInicial, CENAS[CENA_INICIAL]));
   const [cenaId, setCenaId] = useState(CENA_INICIAL);
   const [fase, setFase] = useState<Fase>('cena');
@@ -113,6 +119,8 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
   const dado = usarDado();
 
   const cena = CENAS[cenaId];
+  const ajustes = AJUSTES_NIVEL[nivel];
+  const dificuldadeTeste = cena.teste ? cena.teste.dificuldade + ajustes.dificuldadeTeste : 0;
 
   function irPara(id: string, fichaAtual: FichaPersonagem = ficha) {
     setFicha(aplicarRecompensa(fichaAtual, CENAS[id]));
@@ -129,7 +137,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
     const d20 = await dado.rolar(20);
     const valor = ficha.atributos[cena.teste.atributo];
     const total = d20 + valor;
-    const ok = total >= cena.teste.dificuldade;
+    const ok = total >= dificuldadeTeste;
     ok ? somAcerto() : somTentarDeNovo();
     setPassou(ok);
     setResumoTeste(preencher(t(TEXTOS.resultado, idioma), { dado: d20, valor, total }));
@@ -171,7 +179,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
           key={cena.id}
           idioma={idioma}
           ficha={ficha}
-          inimigo={INIMIGOS[cena.luta.inimigo]}
+          inimigo={inimigoDoNivel(INIMIGOS[cena.luta.inimigo], nivel)}
           aoVencer={(vida, pocoes) => irPara(cena.luta!.aoVencer, { ...ficha, pontosDeVida: vida, pocoes })}
         />
       ) : (
@@ -183,7 +191,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
                 texto={preencher(t(TEXTOS.instrucaoTeste, idioma), {
                   atributo: nomeAtributo,
                   valor: ficha.atributos[cena.teste.atributo],
-                  dificuldade: cena.teste.dificuldade,
+                  dificuldade: dificuldadeTeste,
                 })}
               />
               {fase === 'teste' && <Dado valor={dado.valor} lados={dado.lados} rolando={dado.rolando} />}
@@ -202,6 +210,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
           {cena.puzzle && (
             <Puzzle
               idioma={idioma}
+              tentativas={ajustes.tentativasPuzzle}
               aoConcluir={(decifrou) => {
                 setMapaDecifrado(decifrou);
                 setViuMapa(true);

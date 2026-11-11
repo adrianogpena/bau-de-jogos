@@ -3,7 +3,6 @@ import type { FichaPersonagem } from './tipos';
 
 /** Moedas: 1 ouro vale 10 pratas. Os preços e o dinheiro são guardados em pratas. */
 export const PRATAS_POR_OURO = 10;
-export const MOEDAS_INICIAIS = 105; // 10 ouro e 5 prata
 
 export type TipoItem = 'arma' | 'armadura' | 'escudo' | 'pocao';
 export type EfeitoPocao = 'cura' | 'precisao' | 'forca';

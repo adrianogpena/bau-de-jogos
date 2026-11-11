@@ -5,6 +5,12 @@ import { type TextoPorIdioma, t } from '../../compartilhado/idioma';
 import { PedraDaLua } from './PedraDaLua';
 import { TorreEncantada } from './mago/AventuraMago';
 import { Icone, comIcones } from '../../compartilhado/icones';
+import { NIVEIS, type Nivel, TEXTOS_NIVEL } from '../../compartilhado/niveis';
+
+/** Cada história recebe o nível escolhido. */
+export interface PropsHistoria extends PropsJogo {
+  nivel: Nivel;
+}
 
 interface Historia {
   id: string;
@@ -13,7 +19,7 @@ interface Historia {
   descricao: TextoPorIdioma;
   /** O que torna esta história diferente das outras. */
   destaque: TextoPorIdioma;
-  componente: ComponentType<PropsJogo>;
+  componente: ComponentType<PropsHistoria>;
 }
 
 /** Histórias do RPG. Para adicionar uma história nova, registre-a aqui. */
@@ -51,16 +57,43 @@ const HISTORIAS: Historia[] = [
 const TEXTOS = {
   escolha: { 'pt-PT': 'Escolhe a tua história!', 'pt-BR': 'Escolha sua história!' },
   voltar: { 'pt-PT': 'Voltar', 'pt-BR': 'Voltar' },
+  escolherNivel: { 'pt-PT': 'Escolhe o nível:', 'pt-BR': 'Escolha o nível:' },
 } satisfies Record<string, TextoPorIdioma>;
 
 /** Jogo 3: Aventura RPG. A criança escolhe qual história quer viver. */
 export function Rpg({ idioma, aoVoltar }: PropsJogo) {
   const [historiaId, setHistoriaId] = useState<string | null>(null);
+  const [nivel, setNivel] = useState<Nivel | null>(null);
   const historia = HISTORIAS.find((h) => h.id === historiaId);
 
-  if (historia) {
+  if (historia && nivel) {
     const Componente = historia.componente;
-    return <Componente idioma={idioma} aoVoltar={() => setHistoriaId(null)} />;
+    return <Componente idioma={idioma} nivel={nivel} aoVoltar={() => setNivel(null)} />;
+  }
+
+  if (historia) {
+    return (
+      <main className="tela tela-centro">
+        <header className="barra-jogo">
+          <button className="botao botao-secundario" onClick={() => setHistoriaId(null)}>
+            ← {t(TEXTOS.voltar, idioma)}
+          </button>
+        </header>
+        <p className="emoji-grande" aria-hidden="true">
+          {comIcones(historia.emoji)}
+        </p>
+        <h1>{t(historia.titulo, idioma)}</h1>
+        <strong>{t(TEXTOS.escolherNivel, idioma)}</strong>
+        <div className="acoes niveis-sala">
+          {NIVEIS.map((n) => (
+            <button key={n} className="botao botao-nivel" onClick={() => setNivel(n)}>
+              {t(TEXTOS_NIVEL[n].nome, idioma)}
+              <small>{t(TEXTOS_NIVEL[n].idade, idioma)}</small>
+            </button>
+          ))}
+        </div>
+      </main>
+    );
   }
 
   return (

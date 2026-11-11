@@ -6,6 +6,9 @@ import { TextoNarrado } from '../../../compartilhado/TextoNarrado';
 import { Dado, usarDado } from '../../../compartilhado/usarDado';
 import { somAcerto, somTentarDeNovo } from '../../../compartilhado/som';
 import type { PropsJogo } from '../../tipos';
+import type { Nivel } from '../../../compartilhado/niveis';
+import type { PropsHistoria } from '../Rpg';
+import { AJUSTES_NIVEL, inimigoDoNivel } from '../niveis';
 import type { CenaMago, FichaMago } from './tipos';
 import { CriarMago } from './CriarMago';
 import { LutaMagica } from './LutaMagica';
@@ -47,14 +50,23 @@ const TEXTOS = {
 } satisfies Record<string, TextoPorIdioma>;
 
 /** História 2: A Torre Encantada. Cria o mago e conduz a aventura. */
-export function TorreEncantada({ idioma, aoVoltar }: PropsJogo) {
+export function TorreEncantada({ idioma, aoVoltar, nivel }: PropsHistoria) {
   const [ficha, setFicha] = useState<FichaMago | null>(null);
 
-  if (!ficha) return <CriarMago idioma={idioma} aoVoltar={aoVoltar} aoComecar={setFicha} />;
-  return <Aventura idioma={idioma} aoVoltar={aoVoltar} fichaInicial={ficha} aoRecomecar={() => setFicha(null)} />;
+  if (!ficha) return <CriarMago idioma={idioma} nivel={nivel} aoVoltar={aoVoltar} aoComecar={setFicha} />;
+  return (
+    <Aventura
+      idioma={idioma}
+      aoVoltar={aoVoltar}
+      nivel={nivel}
+      fichaInicial={ficha}
+      aoRecomecar={() => setFicha(null)}
+    />
+  );
 }
 
 interface PropsAventura extends PropsJogo {
+  nivel: Nivel;
   fichaInicial: FichaMago;
   aoRecomecar: () => void;
 }
@@ -117,7 +129,7 @@ function aplicarCena(ficha: FichaMago, cena: CenaMago): FichaMago {
   return { ...ficha, pontosDeVida: ficha.pontosDeVidaMaximos, energia: ficha.energiaMaxima };
 }
 
-function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura) {
+function Aventura({ idioma, aoVoltar, nivel, fichaInicial, aoRecomecar }: PropsAventura) {
   const [ficha, setFicha] = useState(() => aplicarCena(fichaInicial, CENAS_MAGO[CENA_INICIAL_MAGO]));
   const [cenaId, setCenaId] = useState(CENA_INICIAL_MAGO);
   const [fase, setFase] = useState<Fase>('cena');
@@ -129,6 +141,8 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
   const dado = usarDado();
 
   const cena = CENAS_MAGO[cenaId];
+  const ajustes = AJUSTES_NIVEL[nivel];
+  const dificuldadeTeste = cena.teste ? cena.teste.dificuldade + ajustes.dificuldadeTeste : 0;
   const escola = escolaPorId(ficha.escola);
   const valoresTexto = { ...valoresPersonagem(personagemPorId('mago', ficha.personagem)), escola: t(escola.curto, idioma) };
 
@@ -148,7 +162,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
     const d20 = await dado.rolar(20);
     const valor = ficha.habilidades[cena.teste.habilidade];
     const total = d20 + valor;
-    const ok = total >= cena.teste.dificuldade;
+    const ok = total >= dificuldadeTeste;
     ok ? somAcerto() : somTentarDeNovo();
     setPassou(ok);
     setResumoTeste(preencher(t(TEXTOS.resultado, idioma), { dado: d20, valor, total }));
@@ -197,7 +211,8 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
           key={cena.id}
           idioma={idioma}
           ficha={ficha}
-          inimigo={INIMIGOS_MAGO[cena.luta.inimigo]}
+          inimigo={inimigoDoNivel(INIMIGOS_MAGO[cena.luta.inimigo], nivel)}
+          conta={ajustes.conta}
           aoVencer={(vida, energia) =>
             irPara(cena.luta!.aoVencer, {
               ...ficha,
@@ -215,7 +230,7 @@ function Aventura({ idioma, aoVoltar, fichaInicial, aoRecomecar }: PropsAventura
                 texto={preencher(t(TEXTOS.instrucaoTeste, idioma), {
                   habilidade: t(habilidadeTeste.nome, idioma),
                   valor: ficha.habilidades[habilidadeTeste.id],
-                  dificuldade: cena.teste.dificuldade,
+                  dificuldade: dificuldadeTeste,
                 })}
               />
               {fase === 'teste' && <Dado valor={dado.valor} lados={dado.lados} rolando={dado.rolando} />}
