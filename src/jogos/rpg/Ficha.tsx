@@ -109,7 +109,7 @@ export function CriarFicha({ idioma, nivel, aoVoltar, aoComecar }: Props) {
               <TextoNarrado
                 compacto
                 idioma={idioma}
-                texto={`${t(atr.nome, idioma)}. ${t(atr.ajuda, idioma)}`}
+                texto={`${t(atr.nome, idioma)}\n${t(atr.ajuda, idioma)}`}
               />
             </span>
             <span className="controle-atributo">

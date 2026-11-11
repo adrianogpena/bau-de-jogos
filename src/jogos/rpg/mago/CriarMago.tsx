@@ -147,7 +147,7 @@ export function CriarMago({ idioma, nivel, aoVoltar, aoComecar }: Props) {
               <TextoNarrado
                 compacto
                 idioma={idioma}
-                texto={`${t(hab.nome, idioma)}. ${t(hab.ajuda, idioma)}`}
+                texto={`${t(hab.nome, idioma)}\n${t(hab.ajuda, idioma)}`}
               />
             </span>
             <span className="controle-atributo">
