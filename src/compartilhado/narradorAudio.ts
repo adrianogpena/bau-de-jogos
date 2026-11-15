@@ -44,8 +44,29 @@ const VELOCIDADE_AUDIO = 1;
 
 // ---------- voz do narrador ----------
 
+const CHAVE_NARRADOR = 'bau-de-jogos:narrador';
+
+/**
+ * Narrador de teste: abrir o site com `?voz=aparelho` troca o site inteiro para a voz do aparelho (no Windows/Edge,
+ * a Microsoft Thalita em pt-BR e a Raquel em pt-PT: ver `vozPreferida` em TextoNarrado.tsx), e `?voz=piper` volta
+ * aos áudios do Piper. A escolha fica guardada no aparelho.
+ */
+function usaVozDoAparelho(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    const pedido = new URLSearchParams(window.location.search).get('voz');
+    if (pedido === 'aparelho' || pedido === 'piper') localStorage.setItem(CHAVE_NARRADOR, pedido);
+    return localStorage.getItem(CHAVE_NARRADOR) === 'aparelho';
+  } catch {
+    return false;
+  }
+}
+
+const SO_VOZ_DO_APARELHO = usaVozDoAparelho();
+
 /** Voz de áudio da variante (a primeira da lista), ou null para usar a voz do aparelho. */
 export function vozEscolhida(idioma: Idioma): VozNarrador | null {
+  if (SO_VOZ_DO_APARELHO) return null;
   return VOZES_NARRADOR.find((v) => v.variante === idioma) ?? null;
 }
 

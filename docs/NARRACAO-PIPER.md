@@ -45,6 +45,10 @@ done
 npm run servidor     # http://localhost:5199/bau-de-jogos/
 ```
 
+## Ouvir o site com a voz do aparelho (teste)
+
+Abrir o site com `?voz=aparelho` (ex.: <http://localhost:5199/bau-de-jogos/?voz=aparelho>) faz o site inteiro ignorar os áudios do Piper e usar a voz do aparelho. No Windows com Edge (ou no navegador do Kedalion) é a **Microsoft Thalita (Natural)** em pt-BR e a **Raquel (Natural)** em pt-PT (`vozPreferida` em `src/compartilhado/TextoNarrado.tsx`). A escolha fica guardada no aparelho; `?voz=piper` volta ao Piper. Essas vozes são online e só existem no Windows/Edge: num tablet Android ou iPad, a voz do aparelho é outra.
+
 ## Trocar de voz
 
 Edite `src/compartilhado/vozes-narrador.json` (id, nome, variante e arquivo do modelo), coloque o `.onnx` em `modelos-piper/` e rode `npm run audio:piper`. O app usa a primeira voz de cada variante. Outras vozes: <https://huggingface.co/rhasspy/piper-voices>.
