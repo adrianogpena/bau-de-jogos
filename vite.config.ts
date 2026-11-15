@@ -10,7 +10,8 @@ const BASE = '/bau-de-jogos/';
 export default defineConfig(({ command }) => ({
   base: BASE,
   // aceita qualquer endereço no servidor de testes (ex.: a pré-visualização do Claude na nuvem)
-  server: { allowedHosts: true },
+  // o ambiente do Piper e os modelos de voz não fazem parte do site: mexer neles não recarrega a página
+  server: { allowedHosts: true, watch: { ignored: ['**/.venv-piper/**', '**/modelos-piper/**'] } },
   plugins: [
     react(),
     // no servidor de testes, gera na hora o áudio das vozes do Piper (veja docs/NARRACAO-PIPER.md)

@@ -4,6 +4,7 @@ import { Escrita } from './escrita/Escrita';
 import { Leitura } from './leitura/Leitura';
 import { Escape } from './escape/Escape';
 import { Achar } from './achar/Achar';
+import { Mapa } from './mapa/Mapa';
 
 /** Lista de todos os jogos. Para adicionar um jogo novo, registre-o aqui. */
 export const JOGOS: Jogo[] = [
@@ -66,5 +67,18 @@ export const JOGOS: Jogo[] = [
     etiqueta: { 'pt-PT': 'Observação', 'pt-BR': 'Observação' },
     cor: '#4dabf7',
     componente: Achar,
+  },
+  {
+    id: 'mapa',
+    // desenho provisório: troque por '[[menu/jogo-mapa]]' quando a imagem existir (docs/PROMPTS-IMAGENS.md)
+    emoji: '🗺',
+    titulo: { 'pt-PT': 'Mapa-múndi', 'pt-BR': 'Mapa-múndi' },
+    descricao: {
+      'pt-PT': 'Monta o mapa: arrasta cada país para o seu lugar, no mundo inteiro ou num continente.',
+      'pt-BR': 'Monte o mapa: arraste cada país para o lugar dele, no mundo inteiro ou em um continente.',
+    },
+    etiqueta: { 'pt-PT': 'Geografia', 'pt-BR': 'Geografia' },
+    cor: '#3ddc84',
+    componente: Mapa,
   },
 ];

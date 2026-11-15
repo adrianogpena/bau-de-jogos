@@ -86,12 +86,18 @@ src/
     achar/               jogo 4: achar itens escondidos em cenas (fundo + itens soltos em camadas)
       tipos.ts           modelo de dados: Cena, ItemCena (posição em % da cena)
       cenas/             uma cena por arquivo (palavras por variante); liste em cenas/index.ts
+    mapa/                jogo 5: Mapa-múndi, quebra-cabeça de países (mundo inteiro ou um continente)
+      paises.ts          nome de cada país por variante e os continentes em que é peça
+      dados/             peças de cada mapa (desenho, lugar e cor), geradas por `npm run mapas:gerar`; não edite à mão
+      Mapa.tsx           escolha do mapa e o quebra-cabeça: zonas fixas com as peças à espera, arrastar para o mapa
 public/                  ícones do app
 ```
 
 Para criar uma sala nova da Saída Secreta: siga `docs/SAIDA-SECRETA.md` (fundo com os objetos desenhados, 9 fontes de número com variantes, extras e saída; zonas acertadas com `?zonas`).
 
 Para criar uma cena nova de achar itens: crie `src/jogos/achar/cenas/<nome>.ts` com uma `Cena` e adicione em `cenas/index.ts`. Como gerar as imagens: `docs/GERAR-IMAGENS.md`.
+
+Mapa-múndi: para mudar o nome de um país, pôr ou tirar um país ou mudar o recorte de um mapa, edite `src/jogos/mapa/paises.ts` (ou `MAPAS` em `scripts/gerar-mapas.mjs`), rode `npm run mapas:gerar` e depois `npm run audio:piper` (cada nome de país tem áudio). Narração do jogo: **tocar** numa peça da bandeja diz o nome do país; **arrastar** não diz nada; ao **encaixar** no lugar certo o narrador diz o nome. Países pequenos demais para o dedo não viram peça (limite `minimo` de cada mapa).
 
 Para criar um jogo novo: crie a pasta em `src/jogos/<nome>/`, exporte um componente React e registre em `src/jogos/registro.ts`.
 
@@ -115,6 +121,7 @@ npm run dev        # servidor de desenvolvimento (acessível na rede local para 
 npm run servidor   # servidor local de testes, sempre na porta 5199 (http://localhost:5199/bau-de-jogos/)
 npm run build      # build de produção
 npm run typecheck  # checagem de tipos
+npm run mapas:gerar # refaz as peças dos mapas (src/jogos/mapa/dados/) a partir das fronteiras do Natural Earth
 npm test          # confere que todo texto fixo do site tem áudio (roda sozinho no push)
 ```
 
