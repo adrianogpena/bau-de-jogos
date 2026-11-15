@@ -7,6 +7,7 @@
       "servico": "edge",
       "voz": "pt-PT-RaquelNeural",
       "ritmo": "-5%",
+      "ritmoPalavra": "-30%",
       "tom": "+10Hz"
     },
     {
@@ -16,6 +17,7 @@
       "servico": "edge",
       "voz": "pt-BR-ThalitaMultilingualNeural",
       "ritmo": "-5%",
+      "ritmoPalavra": "-30%",
       "tom": "+10Hz",
       "vozCurta": "pt-BR-FranciscaNeural",
       "palavrasCurta": 4

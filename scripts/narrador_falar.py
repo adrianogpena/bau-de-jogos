@@ -47,7 +47,8 @@ FILTRO_SILENCIO = (
 
 async def sintetizar_frase(texto: str, voz: str, args) -> bytes:
     """O único ponto que depende do serviço de voz: texto -> bytes de áudio. (Azure: trocar só esta função.)"""
-    comunicar = edge_tts.Communicate(texto, voz, rate=args.ritmo, pitch=args.tom)
+    ritmo = args.ritmo_palavra if args.ritmo_palavra and len(re.findall(r"[\w'-]+", texto)) == 1 else args.ritmo
+    comunicar = edge_tts.Communicate(texto, voz, rate=ritmo, pitch=args.tom)
     pedacos = []
     async for parte in comunicar.stream():
         if parte["type"] == "audio":
@@ -120,6 +121,7 @@ if __name__ == "__main__":
     p.add_argument("--voz-curta", default=None)
     p.add_argument("--palavras-curta", type=int, default=4)
     p.add_argument("--ritmo", default="-5%")
+    p.add_argument("--ritmo-palavra", default=None, help="ritmo de uma palavra isolada (mais lento, para quem aprende a ler)")
     p.add_argument("--tom", default="+0Hz")
     p.add_argument("--paralelo", type=int, default=3)
     p.add_argument("--tentativas", type=int, default=6)

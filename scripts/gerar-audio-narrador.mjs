@@ -21,13 +21,14 @@ import path from 'node:path';
 import { arquivoAudio, frasesDoSite, lerVozes, pastaAudio } from './frases-narradas.mjs';
 import { raiz } from './textos.mjs';
 
-const args = { simular: false, podar: false, refazer: false, refazerTextos: null, voz: null, paralelo: '3' };
+const args = { simular: false, podar: false, refazer: false, refazerTextos: null, refazerPalavras: false, voz: null, paralelo: '3' };
 const lista = process.argv.slice(2);
 for (let i = 0; i < lista.length; i++) {
   if (lista[i] === '--simular') args.simular = true;
   else if (lista[i] === '--podar') args.podar = true;
   else if (lista[i] === '--refazer') args.refazer = true;
   else if (lista[i] === '--refazer-textos') args.refazerTextos = new Set(lista[++i].split(','));
+  else if (lista[i] === '--refazer-palavras') args.refazerPalavras = true;
   else if (lista[i] === '--voz') args.voz = lista[++i];
   else if (lista[i] === '--paralelo') args.paralelo = lista[++i];
   else throw new Error(`Argumento desconhecido: ${lista[i]}`);
@@ -59,6 +60,7 @@ export async function gerarLote(voz, falas, paralelo = '3') {
       '--lote', temporario,
       ...(voz.vozCurta ? ['--voz-curta', voz.vozCurta, '--palavras-curta', String(voz.palavrasCurta ?? 4)] : []),
       `--ritmo=${voz.ritmo ?? '+0%'}`,
+      ...(voz.ritmoPalavra ? [`--ritmo-palavra=${voz.ritmoPalavra}`] : []),
       `--tom=${voz.tom ?? '+0Hz'}`,
       '--paralelo', String(paralelo),
     ]);
@@ -76,8 +78,8 @@ async function principal() {
     const todas = [...frases[voz.variante]];
     const faltam = todas
       .map(([hash, texto]) => ({ texto, saida: arquivoAudio(voz, hash) }))
-      .filter((f) => args.refazer || args.refazerTextos?.has(f.texto) || !existsSync(f.saida));
-    if (args.refazer || args.refazerTextos) {
+      .filter((f) => args.refazer || args.refazerTextos?.has(f.texto) || (args.refazerPalavras && /^[\p{L}\p{N}'-]+$/u.test(f.texto.trim())) || !existsSync(f.saida));
+    if (args.refazer || args.refazerTextos || args.refazerPalavras) {
       for (const f of faltam) await rm(f.saida, { force: true }); // o gerador só pula o que existe
     }
     const caracteres = faltam.reduce((s, f) => s + f.texto.length, 0);
