@@ -232,16 +232,3 @@ Five separate objects on a pure white background (#FFFFFF), flat and uniform: no
 5. a red brick chimney on top of a small roof section, with a little smoke rising.
 Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
 ```
-
----
-
-## Ícone do jogo Mapa-múndi — 1 imagem
-
-Ícone do cartão do jogo no menu inicial. Enquanto não existir, o menu mostra o desenho do mapa do tesouro (`🗺`).
-Salvar em `public/imagens/icones/menu/jogo-mapa.png` e trocar o `emoji` do jogo `mapa` em `src/jogos/registro.ts` por `'[[menu/jogo-mapa]]'`. Formato **1:1**.
-
-### jogo-mapa
-```
-Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
-A single game icon on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. A cheerful round globe of planet Earth made of jigsaw puzzle pieces: blue oceans and continents where each country is a puzzle piece in a different bright color (coral red, golden yellow, green, sky blue, lilac, orange), with thin dark borders between the pieces. One colorful puzzle piece shaped like a country is floating just off the globe, about to be fitted into its empty cream-colored slot. Centered, whole and not cropped, with generous white margin around it, no stand, no shadow on the floor, no other objects. 1:1 square.
-```

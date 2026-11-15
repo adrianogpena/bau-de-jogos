@@ -70,8 +70,7 @@ export const JOGOS: Jogo[] = [
   },
   {
     id: 'mapa',
-    // desenho provisório: troque por '[[menu/jogo-mapa]]' quando a imagem existir (docs/PROMPTS-IMAGENS.md)
-    emoji: '🗺',
+    emoji: '[[menu/jogo-mapa]]',
     titulo: { 'pt-PT': 'Mapa-múndi', 'pt-BR': 'Mapa-múndi' },
     descricao: {
       'pt-PT': 'Monta o mapa: arrasta cada país para o seu lugar, no mundo inteiro ou num continente.',
