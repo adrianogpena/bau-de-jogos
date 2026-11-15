@@ -28,17 +28,18 @@ before(async () => {
   });
   ({ preencher } = await servidor.ssrLoadModule('/src/compartilhado/idioma.ts'));
   ({ valoresPersonagem, PERSONAGENS } = await servidor.ssrLoadModule('/src/jogos/rpg/personagem.ts'));
-  const { CENAS } = await servidor.ssrLoadModule('/src/jogos/rpg/historia.ts');
-  const { CENAS_MAGO } = await servidor.ssrLoadModule('/src/jogos/rpg/mago/historia.ts');
+  const { LIVRO_PEDRA_DA_LUA } = await servidor.ssrLoadModule('/src/jogos/rpg/historia.ts');
+  const { LIVRO_TORRE_ENCANTADA } = await servidor.ssrLoadModule('/src/jogos/rpg/mago/historia.ts');
   const coletar = (tipo, cenas) => {
     for (const cena of Object.values(cenas)) {
-      for (const campo of [cena.texto, cena.pergunta, ...(cena.escolhas ?? []).map((e) => e.texto)]) {
+      const enigmas = cena.desafio?.enigmas ?? [];
+      for (const campo of [cena.texto, cena.pergunta, cena.desafio?.enunciado, ...enigmas.flatMap((e) => [e.pergunta, ...e.opcoes]), ...(cena.escolhas ?? []).map((e) => e.texto)]) {
         if (campo) textos.push({ tipo, id: cena.id, campo });
       }
     }
   };
-  coletar('heroi', CENAS);
-  coletar('mago', CENAS_MAGO);
+  coletar('heroi', LIVRO_PEDRA_DA_LUA.pontos);
+  coletar('mago', LIVRO_TORRE_ENCANTADA.pontos);
 });
 
 after(() => servidor?.close());
@@ -82,7 +83,7 @@ describe('personagens do herói e do mago', () => {
       const problemas = [];
       for (const { tipo, id, campo } of textos) {
         for (const personagem of PERSONAGENS[tipo]) {
-          const pronto = preencher(campo[variante], { ...valoresPersonagem(personagem), escola: 'Fogo' });
+          const pronto = preencher(campo[variante], { ...valoresPersonagem(personagem), escola: 'Fogo', a: 2, b: 3 });
           if (/[{}|]/.test(pronto) || /\s{2,}/.test(pronto.replace(/\n/g, ' ')) || /undefined/.test(pronto)) {
             problemas.push(`${tipo}/${id}/${personagem.nome}: ${pronto.slice(0, 80)}`);
           }

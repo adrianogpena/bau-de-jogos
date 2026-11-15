@@ -10,6 +10,8 @@ export const ENERGIA_POR_VITORIA = 2;
 /** Energia ao se concentrar: depende de acertar ou errar a conta de matemática. */
 export const ENERGIA_CONTA_CERTA = 2;
 export const ENERGIA_CONTA_ERRADA = 1;
+/** A partir desta Sabedoria, o mago tem uma tentativa a mais nos puzzles. */
+export const SABEDORIA_PARA_TENTATIVA = 3;
 
 export const HABILIDADES: {
   id: NomeHabilidade;

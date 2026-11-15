@@ -73,26 +73,3 @@ export interface InimigoMago {
   bonusAtaque: number;
   dadoDeDano: LadosDado;
 }
-
-export interface EscolhaMago {
-  texto: TextoPorIdioma;
-  proximaCena: string;
-  /** Só aparece para magos desta escola. Sem isso, aparece para todos. */
-  escola?: EscolaId;
-}
-
-export interface CenaMago {
-  id: string;
-  emoji: string;
-  texto: TextoPorIdioma;
-  pergunta?: TextoPorIdioma;
-  escolhas?: EscolhaMago[];
-  luta?: { inimigo: string; aoVencer: string };
-  /** Teste com d20 + habilidade; sempre leva a algum lugar. */
-  teste?: { habilidade: NomeHabilidade; dificuldade: number; sucesso: string; falha: string };
-  /** Descanso: recupera vida e energia mágica. */
-  descanso?: boolean;
-  /** O mago aprende um feitiço de outra escola; depois segue para `proxima`. */
-  aprender?: { proxima: string };
-  fim?: boolean;
-}

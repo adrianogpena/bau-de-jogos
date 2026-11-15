@@ -16,8 +16,8 @@ export interface AjustesNivel {
   moedas: number;
   /** Pedra da Lua: poções que o herói já leva de casa. */
   pocoesIniciais: Record<string, number>;
-  /** Pedra da Lua: tentativas para decifrar o mapa. */
-  tentativasPuzzle: number;
+  /** Tentativas em cada puzzle das histórias (escrever, conta, sequência, adivinha). */
+  tentativasDesafio: number;
   /** Torre Encantada: vida extra do mago. */
   vidaMago: number;
   /** Torre Encantada: energia mágica máxima extra. */
@@ -33,7 +33,7 @@ export const AJUSTES_NIVEL: Record<Nivel, AjustesNivel> = {
     dificuldadeTeste: -3,
     moedas: 150,
     pocoesIniciais: { cura: 1 },
-    tentativasPuzzle: 5,
+    tentativasDesafio: 3,
     vidaMago: 4,
     energiaMago: 2,
     conta: { minimo: 1, maximo: 5 },
@@ -44,7 +44,7 @@ export const AJUSTES_NIVEL: Record<Nivel, AjustesNivel> = {
     dificuldadeTeste: -1,
     moedas: 130,
     pocoesIniciais: {},
-    tentativasPuzzle: 4,
+    tentativasDesafio: 3,
     vidaMago: 2,
     energiaMago: 1,
     conta: { minimo: 5, maximo: 20 },
@@ -55,7 +55,7 @@ export const AJUSTES_NIVEL: Record<Nivel, AjustesNivel> = {
     dificuldadeTeste: 0,
     moedas: 105,
     pocoesIniciais: {},
-    tentativasPuzzle: 3,
+    tentativasDesafio: 2,
     vidaMago: 0,
     energiaMago: 0,
     conta: { minimo: 10, maximo: 50 },
