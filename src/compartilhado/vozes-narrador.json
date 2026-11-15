@@ -20,6 +20,7 @@
       "ritmoPalavra": "-30%",
       "tom": "+10Hz",
       "vozCurta": "pt-BR-FranciscaNeural",
+      "frasePalavra": "Isto é {palavra}.",
       "palavrasCurta": 4
     }
   ]

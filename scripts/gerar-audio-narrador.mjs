@@ -60,6 +60,7 @@ export async function gerarLote(voz, falas, paralelo = '3') {
       '--lote', temporario,
       ...(voz.vozCurta ? ['--voz-curta', voz.vozCurta, '--palavras-curta', String(voz.palavrasCurta ?? 4)] : []),
       `--ritmo=${voz.ritmo ?? '+0%'}`,
+      ...(voz.frasePalavra ? [`--frase-palavra=${voz.frasePalavra}`] : []),
       ...(voz.ritmoPalavra ? [`--ritmo-palavra=${voz.ritmoPalavra}`] : []),
       `--tom=${voz.tom ?? '+0Hz'}`,
       '--paralelo', String(paralelo),

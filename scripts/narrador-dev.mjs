@@ -26,6 +26,7 @@ export function narradorDev({ raiz, hashTexto }) {
             '--voz', voz.voz,
             '--lote', lote,
             `--ritmo=${voz.ritmo ?? '+0%'}`,
+      ...(voz.frasePalavra ? [`--frase-palavra=${voz.frasePalavra}`] : []),
       ...(voz.ritmoPalavra ? [`--ritmo-palavra=${voz.ritmoPalavra}`] : []),
             `--tom=${voz.tom ?? '+0Hz'}`,
             '--tentativas', '3',

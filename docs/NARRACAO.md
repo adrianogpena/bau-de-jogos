@@ -8,7 +8,7 @@ O áudio é gerado com o pacote Python **edge-tts**, que usa o serviço do Edge 
 
 Ritmo `-5%` e tom `+10Hz` (em `vozes-narrador.json`) deixam as vozes parecidas com a voz do aparelho no preset "natural" de `TextoNarrado.tsx` (velocidade 0.95, tom 1.05). O gerador corta o silêncio do começo e do fim.
 
-Palavra isolada (1 palavra: países, itens, palavras das imagens) usa `ritmoPalavra` (`-30%`), mais lenta para quem está aprendendo a ler. Para regravar só essas: `npm run audio:narrador -- --refazer-palavras`.
+Palavra isolada (1 palavra: países, itens, palavras das imagens) usa `ritmoPalavra` (`-30%`), mais lenta para quem está aprendendo a ler. Para regravar só essas: `npm run audio:narrador -- --refazer-palavras`. Em pt-BR a palavra isolada é falada dentro de `frasePalavra` ("Isto é {palavra}.") e recortada pelos tempos do serviço, porque a palavra solta sai com o R traquejado (Turquia, Brasil).
 
 ## Como funciona
 

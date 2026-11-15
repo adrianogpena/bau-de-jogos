@@ -47,22 +47,37 @@ FILTRO_SILENCIO = (
 
 async def sintetizar_frase(texto: str, voz: str, args) -> bytes:
     """O único ponto que depende do serviço de voz: texto -> bytes de áudio. (Azure: trocar só esta função.)"""
-    ritmo = args.ritmo_palavra if args.ritmo_palavra and len(re.findall(r"[\w'-]+", texto)) == 1 else args.ritmo
-    comunicar = edge_tts.Communicate(texto, voz, rate=ritmo, pitch=args.tom)
+    palavra_isolada = len(re.findall(r"[\w'-]+", texto)) == 1
+    ritmo = args.ritmo_palavra if args.ritmo_palavra and palavra_isolada else args.ritmo
+    # Palavra solta sai traquejada (o "R") nas vozes multilíngues: fala-se dentro de uma frase e recorta-se só a palavra.
+    em_frase = bool(args.frase_palavra and palavra_isolada and "{palavra}" in args.frase_palavra)
+    falado = args.frase_palavra.replace("{palavra}", texto) if em_frase else texto
+    comunicar = edge_tts.Communicate(falado, voz, rate=ritmo, pitch=args.tom, boundary="WordBoundary")
     pedacos = []
+    palavras = []
     async for parte in comunicar.stream():
         if parte["type"] == "audio":
             pedacos.append(parte["data"])
+        elif parte["type"] == "WordBoundary":
+            palavras.append(parte)
     audio = b"".join(pedacos)
     if not audio:
         raise RuntimeError("serviço não devolveu áudio")
-    return audio
+    if not em_frase:
+        return audio, None
+    alvo = [w for w in palavras if w["text"].strip(".,!?").lower() == texto.strip().lower()]
+    if not alvo:
+        raise RuntimeError(f"não achei a palavra {texto!r} na frase")
+    w = alvo[-1]
+    inicio = w["offset"] / 1e7
+    return audio, (max(0.0, inicio - 0.03), w["duration"] / 1e7 + 0.08)
 
 
-def finalizar(audio: bytes) -> bytes:
-    """Corta silêncio nas pontas e devolve MP3 mono."""
+def finalizar(audio: bytes, recorte=None) -> bytes:
+    """Corta silêncio nas pontas (e, se houver, recorta o trecho (início, duração) em segundos) e devolve MP3 mono."""
+    trecho = ["-ss", f"{recorte[0]:.3f}", "-t", f"{recorte[1]:.3f}"] if recorte else []
     r = subprocess.run(
-        [FFMPEG, "-loglevel", "error", "-i", "pipe:0", "-af", FILTRO_SILENCIO, "-ac", "1", "-c:a", "libmp3lame", "-b:a", "64k", "-f", "mp3", "pipe:1"],
+        [FFMPEG, "-loglevel", "error", "-i", "pipe:0", *trecho, "-af", FILTRO_SILENCIO, "-ac", "1", "-c:a", "libmp3lame", "-b:a", "64k", "-f", "mp3", "pipe:1"],
         input=audio,
         capture_output=True,
     )
@@ -86,8 +101,8 @@ async def uma_fala(fala, args, semaforo, estado):
     async with semaforo:
         for tentativa in range(1, args.tentativas + 1):
             try:
-                audio = await asyncio.wait_for(sintetizar_frase(fala["texto"].strip(), voz_da_fala(fala["texto"], args), args), timeout=60)
-                mp3 = await asyncio.to_thread(finalizar, audio)
+                audio, recorte = await asyncio.wait_for(sintetizar_frase(fala["texto"].strip(), voz_da_fala(fala["texto"], args), args), timeout=60)
+                mp3 = await asyncio.to_thread(finalizar, audio, recorte)
                 saida.parent.mkdir(parents=True, exist_ok=True)
                 temporario = saida.with_suffix(".tmp.mp3")
                 temporario.write_bytes(mp3)
@@ -122,6 +137,7 @@ if __name__ == "__main__":
     p.add_argument("--palavras-curta", type=int, default=4)
     p.add_argument("--ritmo", default="-5%")
     p.add_argument("--ritmo-palavra", default=None, help="ritmo de uma palavra isolada (mais lento, para quem aprende a ler)")
+    p.add_argument("--frase-palavra", default=None, help="frase com {palavra}: a palavra isolada é falada nela e recortada")
     p.add_argument("--tom", default="+0Hz")
     p.add_argument("--paralelo", type=int, default=3)
     p.add_argument("--tentativas", type=int, default=6)
