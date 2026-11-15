@@ -1,10 +1,9 @@
 name: Publicar no GitHub Pages
 
-# Publicação manual: Actions > Publicar no GitHub Pages > Run workflow.
-# Para publicar a cada push na main, acrescente:
-#   push:
-#     branches: [main]
+# Publica a cada push na main; também dá para rodar à mão (Actions > Publicar no GitHub Pages > Run workflow).
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
