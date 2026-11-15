@@ -11,7 +11,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host",
     "typecheck": "tsc --noEmit",
-    "audio:piper": "node scripts/gerar-audio-piper.mjs",
+    "audio:narrador": "node scripts/gerar-audio-narrador.mjs",
     "test": "node --test --test-reporter=spec scripts/audio.test.mjs scripts/genero.test.mjs scripts/rotulos.test.mjs",
     "prepare": "git config core.hooksPath .githooks || true",
     "mapas:gerar": "node scripts/gerar-mapas.mjs"

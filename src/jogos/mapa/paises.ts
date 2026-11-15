@@ -16,7 +16,7 @@ export interface Pais {
  * (Andorra, Malta, ilhas do Pacífico...) ficam de fora e aparecem só como terra de fundo.
  *
  * Atenção às variantes: muitos nomes mudam entre pt-PT e pt-BR (Irão/Irã, Polónia/Polônia, Vietname/Vietnã...).
- * Nome novo ou alterado exige áudio novo (`npm run audio:piper`).
+ * Nome novo ou alterado exige áudio novo (`npm run audio:narrador`).
  */
 export const PAISES: Record<string, Pais> = {
   // ---------- Europa ----------

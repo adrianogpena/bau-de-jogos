@@ -4,7 +4,7 @@
  * Textos com partes calculadas (números, nome do inimigo) não entram.
  *
  * Se um texto foi alterado ou acrescentado, o nome do arquivo (hash do texto) muda e o áudio novo não existe:
- * o teste falha e diz o que fazer (`npm run audio:piper`). Áudios que sobraram de textos antigos são avisados.
+ * o teste falha e diz o que fazer (`npm run audio:narrador`). Áudios que sobraram de textos antigos são avisados.
  *
  *   npm test
  */
@@ -45,7 +45,7 @@ describe('áudio do narrador', () => {
     assert.equal(
       problemas.length,
       0,
-      `\nTexto novo ou alterado sem áudio. Rode "npm run audio:piper", confira os arquivos novos em public/audio/ e inclua-os no commit.\n${problemas.join('\n')}\n`,
+      `\nTexto novo ou alterado sem áudio. Rode "npm run audio:narrador", confira os arquivos novos em public/audio/ e inclua-os no commit.\n${problemas.join('\n')}\n`,
     );
   });
 
@@ -57,7 +57,7 @@ describe('áudio do narrador', () => {
         if (existsSync(arquivo) && statSync(arquivo).size < 500) vazios.push(arquivo);
       }
     }
-    assert.deepEqual(vazios, [], 'áudios vazios ou corrompidos: apague-os e rode "npm run audio:piper"');
+    assert.deepEqual(vazios, [], 'áudios vazios ou corrompidos: apague-os e rode "npm run audio:narrador"');
   });
 
   test('textos com partes calculadas, sem áudio (aviso)', (t) => {
@@ -70,7 +70,7 @@ describe('áudio do narrador', () => {
       if (!existsSync(pasta)) continue;
       const sobras = readdirSync(pasta).filter((f) => f.endsWith('.mp3') && !frases[voz.variante].has(f.slice(0, -4)));
       if (sobras.length > 0) {
-        t.diagnostic(`${voz.variante}/${voz.id}: ${sobras.length} áudio(s) de textos antigos; apague com "npm run audio:piper -- --podar"`);
+        t.diagnostic(`${voz.variante}/${voz.id}: ${sobras.length} áudio(s) de textos antigos; apague com "npm run audio:narrador -- --podar"`);
       }
     }
   });

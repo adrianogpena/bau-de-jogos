@@ -24,7 +24,7 @@ Jogo de fuga (antigo "Escape Room"). Código em `src/jogos/escape/`; modelo de d
 1. Gere o fundo com o prompt de `docs/PROMPTS-IMAGENS.md` e salve como JPEG 1600×1200 em `public/imagens/saida-secreta/<sala>.jpg`.
 2. Crie `src/jogos/escape/salas/<sala>.ts` (copie a estrutura de `sotao.ts`) e liste-a em `salas/index.ts`.
 3. Abra a sala com `?zonas` no endereço (ex.: `http://localhost:5199/bau-de-jogos/?zonas`): as zonas aparecem marcadas a rosa com o id. Acerte `x`, `y`, `largura` e `altura` de cada objeto até cobrirem o desenho.
-4. Escreva cada texto nas duas variantes. `npm run audio:piper` gera o áudio; `npm test` confere.
+4. Escreva cada texto nas duas variantes. `npm run audio:narrador` gera o áudio; `npm test` confere.
 
 Regras para os enigmas:
 - Cadeado de um dígito (resposta de 1 a 9): o número da fonte é a resposta. Resposta de dois dígitos (ex.: 10 patas) também serve; aí o número da fonte é sorteado, como nos outros tipos.

@@ -1,7 +1,7 @@
 #!/bin/sh
-# Antes do push: confere que todo texto fixo do site tem áudio (texto novo ou alterado exige "npm run audio:piper").
+# Antes do push: confere que todo texto fixo do site tem áudio (texto novo ou alterado exige "npm run audio:narrador").
 echo "Conferindo os áudios do narrador..."
 npm test --silent || {
-  echo "Push cancelado: gere os áudios que faltam com \"npm run audio:piper\" e faça commit deles."
+  echo "Push cancelado: gere os áudios que faltam com \"npm run audio:narrador\" e faça commit deles."
   exit 1
 }

@@ -1,6 +1,6 @@
 /**
  * Frases que o narrador diz com áudio gravado (as histórias dos jogos de escrita e leitura),
- * e onde fica o arquivo de cada uma. Usado por `npm run audio:piper` (gera) e por `npm test` (confere).
+ * e onde fica o arquivo de cada uma. Usado por `npm run audio:narrador` (gera) e por `npm test` (confere).
  */
 import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';

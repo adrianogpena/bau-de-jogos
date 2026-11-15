@@ -4,10 +4,10 @@ import { pecasDaFala } from './pecasDaFala';
 import config from './vozes-narrador.json';
 
 /**
- * Narração com a voz de áudio da variante (Tugão em pt-PT, Faber em pt-BR), em vez da voz do aparelho.
+ * Narração com a voz de áudio da variante (Raquel em pt-PT, Thalita em pt-BR; as palavras e frases curtas da Thalita são ditas pela Francisca), em vez da voz do aparelho.
  *
  * Cada fala tem um arquivo `audio/<variante>/<voz>/t/<hash do texto>.mp3`. No servidor de testes
- * (`npm run servidor`), se o arquivo ainda não existe, ele é gerado na hora com o Piper e fica guardado
+ * (`npm run servidor`), se o arquivo ainda não existe, ele é gerado na hora (edge-tts, precisa de internet) e fica guardado
  * em `public/audio/`. Se o áudio não puder ser tocado, a fala cai na voz do aparelho.
  * No app publicado só existem os áudios já gerados (textos fixos do site; números de 0 a 100 e nomes têm áudio próprio, ver pecasDaFala.ts); o resto fica com a voz do aparelho.
  */
@@ -37,8 +37,8 @@ export interface OpcoesAparelho {
 }
 
 /**
- * Velocidade de reprodução do áudio do Piper. O ritmo já vem mais lento da geração (length_scale em
- * scripts/piper_falar.py); aqui só dá para ajustar sem regerar os áudios (ex.: 0.9 para mais devagar).
+ * Velocidade de reprodução do áudio gravado. O ritmo já vem da geração (`ritmo` em
+ * vozes-narrador.json); aqui só dá para ajustar sem regerar os áudios (ex.: 0.9 para mais devagar).
  */
 const VELOCIDADE_AUDIO = 1;
 
@@ -48,14 +48,14 @@ const CHAVE_NARRADOR = 'bau-de-jogos:narrador';
 
 /**
  * Narrador de teste: abrir o site com `?voz=aparelho` troca o site inteiro para a voz do aparelho (no Windows/Edge,
- * a Microsoft Thalita em pt-BR e a Raquel em pt-PT: ver `vozPreferida` em TextoNarrado.tsx), e `?voz=piper` volta
- * aos áudios do Piper. A escolha fica guardada no aparelho.
+ * a Microsoft Thalita em pt-BR e a Raquel em pt-PT: ver `vozPreferida` em TextoNarrado.tsx), e `?voz=gravado` volta
+ * aos áudios gravados. A escolha fica guardada no aparelho.
  */
 function usaVozDoAparelho(): boolean {
   if (typeof window === 'undefined') return false;
   try {
     const pedido = new URLSearchParams(window.location.search).get('voz');
-    if (pedido === 'aparelho' || pedido === 'piper') localStorage.setItem(CHAVE_NARRADOR, pedido);
+    if (pedido === 'aparelho' || pedido === 'gravado') localStorage.setItem(CHAVE_NARRADOR, pedido);
     return localStorage.getItem(CHAVE_NARRADOR) === 'aparelho';
   } catch {
     return false;
@@ -166,7 +166,7 @@ class FalaAudio implements FalaNarrada {
     let comecou = false;
     let caiu = false;
     const cair = (i: number) => {
-      // sem áudio (arquivo ausente, Piper indisponível...): o que falta é dito pela voz do aparelho
+      // sem áudio (arquivo ausente, serviço de voz indisponível...): o que falta é dito pela voz do aparelho
       if (this.parada || caiu) return;
       caiu = true;
       this.parar();

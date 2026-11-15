@@ -21,7 +21,7 @@ Cada história mostra **4 personagens** (2 masculinos e 2 femininos), cada um co
 - `{nome}` → "Clara"; `{Nome}` (maiúscula) abre a frase; `{doNome}` → "de Clara"; `{aoNome}` → "a Clara".
 - `{masculino|feminino}` para artigos e adjetivos: `{pronto|pronta}`, `{o|a}`.
 - Não escreva "o herói" fixo num texto narrado ao personagem: use `{nome}`.
-- Personagem novo ou nome novo: acrescente em `PERSONAGENS` e rode `npm run audio:piper` (o áudio é gerado com o nome de cada personagem).
+- Personagem novo ou nome novo: acrescente em `PERSONAGENS` e rode `npm run audio:narrador` (o áudio é gerado com o nome de cada personagem).
 - `npm test` confere os 8 personagens e que nenhum texto do RPG sobra com chave solta nem fica no masculino para personagem feminino.
 
 ### Diferenças comuns para vigiar
@@ -97,7 +97,7 @@ Para criar uma sala nova da Saída Secreta: siga `docs/SAIDA-SECRETA.md` (fundo 
 
 Para criar uma cena nova de achar itens: crie `src/jogos/achar/cenas/<nome>.ts` com uma `Cena` e adicione em `cenas/index.ts`. Como gerar as imagens: `docs/GERAR-IMAGENS.md`.
 
-Mapa-múndi: para mudar o nome de um país, pôr ou tirar um país ou mudar o recorte de um mapa, edite `src/jogos/mapa/paises.ts` (ou `MAPAS` em `scripts/gerar-mapas.mjs`), rode `npm run mapas:gerar` e depois `npm run audio:piper` (cada nome de país tem áudio). Narração do jogo: **tocar** numa peça da bandeja diz o nome do país; **arrastar** não diz nada; ao **encaixar** no lugar certo o narrador diz o nome. Países pequenos demais para o dedo não viram peça (limite `minimo` de cada mapa).
+Mapa-múndi: para mudar o nome de um país, pôr ou tirar um país ou mudar o recorte de um mapa, edite `src/jogos/mapa/paises.ts` (ou `MAPAS` em `scripts/gerar-mapas.mjs`), rode `npm run mapas:gerar` e depois `npm run audio:narrador` (cada nome de país tem áudio). Narração do jogo: **tocar** numa peça da bandeja diz o nome do país; **arrastar** não diz nada; ao **encaixar** no lugar certo o narrador diz o nome. Países pequenos demais para o dedo não viram peça (limite `minimo` de cada mapa).
 
 Para criar um jogo novo: crie a pasta em `src/jogos/<nome>/`, exporte um componente React e registre em `src/jogos/registro.ts`.
 
@@ -125,13 +125,13 @@ npm run mapas:gerar # refaz as peças dos mapas (src/jogos/mapa/dados/) a partir
 npm test          # confere que todo texto fixo do site tem áudio (roda sozinho no push)
 ```
 
-Narrador: voz Piper (Tugão em pt-PT, Faber em pt-BR) com a voz do aparelho como reserva. Áudios das histórias: `npm run audio:piper`; veja `docs/NARRACAO-PIPER.md`.
+Narrador: vozes neurais da Microsoft gravadas com o edge-tts (Raquel em pt-PT; Thalita em pt-BR, com a Francisca nas palavras e frases de até 4 palavras, onde a Thalita mistura inglês), com a voz do aparelho como reserva. Áudios das histórias: `npm run audio:narrador`; veja `docs/NARRACAO.md`.
 
 ## Fluxo de trabalho (git)
 
 - Faça **todos os ajustes direto na `main`** e dê **push na `main`**. Não crie branches nem pull requests, a menos que o usuário peça.
 - Antes de começar, atualize a `main` (`git pull origin main`). Rode `npm run typecheck`, `npm run build` e `npm test` antes de enviar.
-- **Texto de história novo ou alterado exige áudio novo:** rode `npm run audio:piper` e inclua `public/audio/` no commit antes do push. O `npm test` (e o hook de pre-push) falha se faltar áudio.
+- **Texto de história novo ou alterado exige áudio novo:** rode `npm run audio:narrador` e inclua `public/audio/` no commit antes do push. O `npm test` (e o hook de pre-push) falha se faltar áudio.
 
 ## Convenções
 

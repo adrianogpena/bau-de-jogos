@@ -1,16 +1,24 @@
 {
   "vozes": [
     {
-      "id": "tugao",
-      "nome": "Tugão",
+      "id": "raquel",
+      "nome": "Raquel",
       "variante": "pt-PT",
-      "modelo": "pt_PT-tugão-medium.onnx"
+      "servico": "edge",
+      "voz": "pt-PT-RaquelNeural",
+      "ritmo": "-5%",
+      "tom": "+10Hz"
     },
     {
-      "id": "faber",
-      "nome": "Faber",
+      "id": "thalita",
+      "nome": "Thalita",
       "variante": "pt-BR",
-      "modelo": "pt_BR-faber-medium.onnx"
+      "servico": "edge",
+      "voz": "pt-BR-ThalitaMultilingualNeural",
+      "ritmo": "-5%",
+      "tom": "+10Hz",
+      "vozCurta": "pt-BR-FranciscaNeural",
+      "palavrasCurta": 4
     }
   ]
 }

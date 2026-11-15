@@ -12,7 +12,7 @@ export interface Personagem {
   nome: string;
 }
 
-/** Os 8 personagens do RPG. Nomes novos precisam de áudio (`npm run audio:piper`). */
+/** Os 8 personagens do RPG. Nomes novos precisam de áudio (`npm run audio:narrador`). */
 export const PERSONAGENS: Record<TipoPersonagem, Personagem[]> = {
   heroi: [
     { id: 'heroi-masculino-1', tipo: 'heroi', genero: 'm', nome: 'Davi' },
