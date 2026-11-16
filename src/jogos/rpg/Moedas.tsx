@@ -25,7 +25,8 @@ export function Moedas({ pratas }: { pratas: number }) {
 
 /**
  * Frases das moedas, por singular/plural de cada metal (0, 1 ou mais). Cada combinação é um texto inteiro para ter
- * áudio: o narrador diz "Tens", "quinze", "moedas de ouro e", "cinco", "moedas de prata." (1 → "uma moeda").
+ * áudio: a frase é gravada inteira, com os números por extenso ("Tens quinze moedas de ouro e cinco moedas de prata.";
+ * 1 → "uma moeda"). Ouro acima de 20 cai nos pedaços (ver fraseInteira em numeros.ts).
  */
 const FRASES: Record<string, TextoPorIdioma> = {
   'n-n': {

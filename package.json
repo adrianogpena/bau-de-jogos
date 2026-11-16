@@ -12,6 +12,8 @@
     "preview": "vite preview --host",
     "typecheck": "tsc --noEmit",
     "audio:narrador": "node scripts/gerar-audio-narrador.mjs",
+    "audio:andamento": "node scripts/gerar-audio-narrador.mjs --andamento",
+    "audio:acompanhar": "node scripts/gerar-audio-narrador.mjs --acompanhar",
     "test": "node --test --test-reporter=spec scripts/audio.test.mjs scripts/genero.test.mjs scripts/rotulos.test.mjs",
     "prepare": "git config core.hooksPath .githooks || true",
     "mapas:gerar": "node scripts/gerar-mapas.mjs"

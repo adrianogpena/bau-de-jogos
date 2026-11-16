@@ -126,7 +126,7 @@ npm run mapas:gerar # refaz as peças dos mapas (src/jogos/mapa/dados/) a partir
 npm test          # confere que todo texto fixo do site tem áudio (roda sozinho no push)
 ```
 
-Narrador: vozes neurais da Microsoft gravadas com o edge-tts (Raquel em pt-PT; Thalita em pt-BR, com a Francisca nas palavras e frases de até 4 palavras, onde a Thalita mistura inglês), com a voz do aparelho como reserva. Áudios das histórias: `npm run audio:narrador`; veja `docs/NARRACAO.md`.
+Narrador: vozes neurais da Microsoft gravadas com o edge-tts (Raquel em pt-PT; Thalita em pt-BR, com a Francisca nas palavras e frases de até 4 palavras, onde a Thalita mistura inglês), com a voz do aparelho como reserva. Áudios das histórias: `npm run audio:narrador`; veja `docs/NARRACAO.md`. A geração é longa: rode-a em segundo plano como `node scripts/gerar-audio-narrador.mjs`, **sem redirecionar a saída** (o andamento aparece no Shell details a cada 10 s; `npm run …` passa pelo rtk, que só mostra a saída no fim) e consulte com `npm run audio:andamento` (barra, velocidade, previsão de término); não inicie uma segunda. **Texto narrado com número:** siga a regra de `docs/NARRACAO.md` (narração principal sem números quando possível, lutas por categoria de resultado, problemas de soma em uma frase por número); os números aparecem na tela.
 
 ## Fluxo de trabalho (git)
 

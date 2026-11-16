@@ -1,5 +1,5 @@
 import type { Idioma } from './idioma';
-import { FEMININAS_DEPOIS_DE_NUMERO, NUMERO_MAXIMO_FRASE_INTEIRA, NUMERO_MAXIMO_NARRADO, numeroPorExtenso } from './numeros';
+import { FEMININAS_DEPOIS_DE_NUMERO, NUMERO_MAXIMO_NARRADO, fraseInteira, numeroPorExtenso } from './numeros';
 
 /**
  * Sinais de matemática lidos como palavras, só quando ligados a números: "3 + 4 = 7" vira "3 mais 4 igual a 7" e
@@ -18,8 +18,8 @@ function simbolosPorPalavras(texto: string): string {
  * Divide uma frase nos pedaços que o narrador toca em sequência, cada um com o seu arquivo de áudio.
  * Todo número de 0 a 100 vira um pedaço próprio (por extenso, ex.: "quinze"), e o resto do texto fica nos pedaços
  * entre eles. Assim "Tiraste 15 contra a defesa 12!" usa os áudios "Tiraste", "quinze", "contra a defesa", "doze".
- * Exceção: frase com um único número até NUMERO_MAXIMO_FRASE_INTEIRA (20) é um pedaço só, com o número por extenso
- * dentro ("Tiraste quinze"), para sair numa voz e entonação contínuas.
+ * Exceção: frase com até MAXIMO_NUMEROS_FRASE_INTEIRA (2) números, todos até NUMERO_MAXIMO_FRASE_INTEIRA (20), é um pedaço
+ * só, com os números por extenso dentro ("Tiraste quinze"), para sair numa voz e entonação contínuas.
  * Sem número, o texto inteiro (um parágrafo, ver separarFrases em TextoNarrado.tsx) é um pedaço só. Sinais como "+" e "=" são lidos como palavras (simbolosPorPalavras). Os espaços são normalizados e pedaços sem letras somem.
  *
  * Usado pelo app (narradorAudio.ts) e pelo gerador/teste de áudios (scripts/frases-narradas.mjs): é a única
@@ -27,11 +27,14 @@ function simbolosPorPalavras(texto: string): string {
  */
 export function pecasDaFala(texto: string, idioma: Idioma): string[] {
   if (/\p{L}/u.test(texto)) texto = simbolosPorPalavras(texto);
-  // um único número pequeno: a frase inteira num áudio só, com o número por extenso no texto
-  const numeros = texto.match(/\d+/g) ?? [];
-  if (numeros.length === 1 && String(Number(numeros[0])) === numeros[0] && Number(numeros[0]) <= NUMERO_MAXIMO_FRASE_INTEIRA) {
-    const inteira = texto
-      .replace(/\d+(.*)$/su, (_, resto: string) => `${numeroPorExtenso(Number(numeros[0]), idioma, FEMININAS_DEPOIS_DE_NUMERO.test(resto))}${resto}`)
+  // um número pequeno (ou duas contagens de moedas): a frase inteira num áudio só, com os números por extenso no texto
+  if (fraseInteira(texto)) {
+    const partes = texto.split(/(\d+)/);
+    const inteira = partes
+      .map((parte, i) =>
+        i % 2 === 1 ? numeroPorExtenso(Number(parte), idioma, FEMININAS_DEPOIS_DE_NUMERO.test(partes[i + 1] ?? '')) : parte,
+      )
+      .join('')
       .replace(/\s+/g, ' ')
       .trim();
     return /\p{L}/u.test(inteira) ? [inteira] : [];

@@ -116,6 +116,9 @@ const NUMERICAS = {
   conta: '0 + 0', a: '0', b: '0', ouro: '0', prata: '0',
 };
 
+/** Maior valor das chaves numéricas de faixa menor que NUMERO_MAXIMO_FRASE_INTEIRA (10 pratas viram 1 ouro). */
+const FAIXA = { prata: 9 };
+
 /** Valores possíveis das chaves `{x}` que o jogo preenche com um nome dos dados do jogo, por variante. */
 async function nomesParaPreencher(servidor) {
   const rpg = await servidor.ssrLoadModule('/src/jogos/rpg/historia.ts');
@@ -165,15 +168,17 @@ export async function frasesDoSite() {
     optimizeDeps: { noDiscovery: true, include: [] },
   });
   const dinamicos = [];
+  let feiticos = {};
   try {
     const { frasesFaladas } = await servidor.ssrLoadModule('/src/compartilhado/TextoNarrado.tsx');
     const { preencher } = await servidor.ssrLoadModule('/src/compartilhado/idioma.ts');
     const { valoresPersonagem, PERSONAGENS } = await servidor.ssrLoadModule('/src/jogos/rpg/personagem.ts');
     const { hashTexto } = await servidor.ssrLoadModule('/src/compartilhado/hashTexto.ts');
     const { pecasDaFala } = await servidor.ssrLoadModule('/src/compartilhado/pecasDaFala.ts');
-    const { numeroPorExtenso, NUMERO_MAXIMO_NARRADO, NUMERO_MAXIMO_FRASE_INTEIRA } =await servidor.ssrLoadModule('/src/compartilhado/numeros.ts');
+    const { numeroPorExtenso, NUMERO_MAXIMO_NARRADO, NUMERO_MAXIMO_FRASE_INTEIRA, fraseInteira } = await servidor.ssrLoadModule('/src/compartilhado/numeros.ts');
     const pastaHistorias = path.join(raiz, 'src', 'compartilhado', 'historias');
     const nomes = await nomesParaPreencher(servidor);
+    feiticos = Object.fromEntries(VARIANTES.map((v) => [v, nomes[v].feitico]));
 
     const juntar = (variante, frase) => {
       for (const peca of pecasDaFala(frase, variante)) frases[variante].set(hashTexto(peca), peca);
@@ -201,12 +206,14 @@ export async function frasesDoSite() {
             continue;
           }
           // números viram "0" (cada número tem o seu áudio); nomes (inimigo, feitiço...) são todos os valores possíveis
-          // com uma só chave numérica, os valores até NUMERO_MAXIMO_FRASE_INTEIRA geram a frase inteira (cada valor tem o seu
-          // áudio); um valor acima gera os pedaços (ver pecasDaFala.ts). Com mais chaves numéricas a frase é sempre em pedaços.
-          const unicaNumerica = chaves.filter((c) => NUMERICAS[c]).length === 1;
+          // frase que fraseInteira() aceita (um número, ou duas contagens de moedas) gera a frase inteira para cada valor
+          // até NUMERO_MAXIMO_FRASE_INTEIRA (FAIXA limita as chaves de faixa menor) e mais um valor acima, que gera os
+          // pedaços (ver pecasDaFala.ts). As outras frases com número é sempre em pedaços.
+          const comZeros = bruto.replace(/\{(\w+)\}/g, (m, c) => (NUMERICAS[c] ? (c === 'conta' ? '0 + 0' : '0') : m));
+          const inteira = fraseInteira(comZeros);
           const valoresNumericos = (c) =>
-            unicaNumerica && NUMERICAS[c] === '0'
-              ? Array.from({ length: NUMERO_MAXIMO_FRASE_INTEIRA + 2 }, (_, n) => String(n))
+            inteira && NUMERICAS[c] === '0'
+              ? [...Array.from({ length: (FAIXA[c] ?? NUMERO_MAXIMO_FRASE_INTEIRA) + 1 }, (_, n) => String(n)), String(NUMERO_MAXIMO_FRASE_INTEIRA + 1)]
               : [NUMERICAS[c]];
           const combinacoes = chaves.reduce(
             (acc, c) =>
@@ -227,5 +234,5 @@ export async function frasesDoSite() {
   } finally {
     await servidor.close();
   }
-  return { frases, dinamicos };
+  return { frases, dinamicos, feiticos };
 }

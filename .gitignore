@@ -32,3 +32,4 @@ test-results
 # Imagens geradas pela skill split-image-objects
 split-output
 
+__pycache__/

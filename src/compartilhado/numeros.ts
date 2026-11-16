@@ -4,11 +4,23 @@ import type { Idioma } from './idioma';
 export const NUMERO_MAXIMO_NARRADO = 100;
 
 /**
- * Frase com um único número até este valor é gravada inteira, com o número por extenso dentro do texto (voz e
- * entonação contínuas). Acima disso, ou com mais de um número, a frase é tocada em pedaços (pecasDaFala.ts), porque
+ * Frase com até MAXIMO_NUMEROS_FRASE_INTEIRA números, todos até este valor, é gravada inteira, com os números por
+ * extenso dentro do texto (voz e entonação contínuas). Acima disso, ou com mais números, a frase é tocada em pedaços (pecasDaFala.ts), porque
  * gravar todas as combinações não cabe no projeto.
  */
 export const NUMERO_MAXIMO_FRASE_INTEIRA = 20;
+
+/**
+ * A frase é gravada inteira quando todos os seus números são até NUMERO_MAXIMO_FRASE_INTEIRA e ela tem um só número,
+ * ou dois números que contam moedas ("Tens 15 moedas de ouro e 5 moedas de prata"). Outras frases com dois números
+ * (ex.: "Tiraste 15 contra a defesa 12") têm combinações demais e ficam em pedaços.
+ */
+export function fraseInteira(texto: string): boolean {
+  const numeros = [...texto.matchAll(/\d+/g)];
+  if (numeros.length === 0 || numeros.length > 2) return false;
+  if (!numeros.every((n) => String(Number(n[0])) === n[0] && Number(n[0]) <= NUMERO_MAXIMO_FRASE_INTEIRA)) return false;
+  return numeros.length === 1 || numeros.every((n) => FEMININAS_DEPOIS_DE_NUMERO.test(texto.slice(n.index + n[0].length)));
+}
 
 const UNIDADES: Record<Idioma, string[]> = {
   'pt-PT': [

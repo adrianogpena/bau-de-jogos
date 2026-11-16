@@ -21,6 +21,7 @@
       "tom": "+10Hz",
       "vozCurta": "pt-BR-FranciscaNeural",
       "frasePalavra": "Isto é {palavra}.",
+      "virgulaAposFeitico": true,
       "palavrasCurta": 4
     }
   ]
