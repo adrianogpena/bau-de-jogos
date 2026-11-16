@@ -113,7 +113,7 @@ function paresDeTextos(arquivo, codigo) {
 /** Chaves `{x}` que o jogo preenche com números (cada número de 0 a 100 tem áudio próprio); "conta" é "3 + 4". */
 const NUMERICAS = {
   n: '0', total: '0', ca: '0', ataque: '0', dano: '0', cura: '0', valor: '0', dificuldade: '0', dado: '0', resposta: '0',
-  conta: '0 + 0', a: '0', b: '0',
+  conta: '0 + 0', a: '0', b: '0', ouro: '0', prata: '0',
 };
 
 /** Valores possíveis das chaves `{x}` que o jogo preenche com um nome dos dados do jogo, por variante. */
@@ -179,7 +179,10 @@ export async function frasesDoSite() {
 
     // todo número de 0 a 100 tem áudio próprio
     for (const variante of VARIANTES) {
-      for (let n = 0; n <= NUMERO_MAXIMO_NARRADO; n++) juntar(variante, numeroPorExtenso(n, variante));
+      for (let n = 0; n <= NUMERO_MAXIMO_NARRADO; n++) {
+        juntar(variante, numeroPorExtenso(n, variante));
+        juntar(variante, numeroPorExtenso(n, variante, true));
+      }
     }
 
     for (const arquivo of await arquivosFonte(path.join(raiz, 'src'))) {

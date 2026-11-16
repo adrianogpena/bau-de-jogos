@@ -43,6 +43,8 @@ FILTRO_SILENCIO = (
     "silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.12,"
     "areverse"
 )
+# Rampa de volume curta no começo e no fim (o fim é feito com o áudio invertido, sem precisar saber a duração).
+FILTRO_RAMPAS = ",afade=t=in:d=0.015,areverse,afade=t=in:d=0.06,areverse"
 
 
 async def sintetizar_frase(texto: str, voz: str, args) -> bytes:
@@ -73,14 +75,17 @@ async def sintetizar_frase(texto: str, voz: str, args) -> bytes:
         raise RuntimeError(f"não achei a palavra {texto!r} na frase")
     w = alvo[-1]
     inicio = w["offset"] / 1e7
-    return audio, (max(0.0, inicio - 0.03), w["duration"] / 1e7 + 0.08)
+    # folga no fim: palavras curtas ("uma", "duas") têm a duração marcada curta demais e saíam cortadas
+    return audio, (max(0.0, inicio - 0.03), w["duration"] / 1e7 + 0.15)
 
 
 def finalizar(audio: bytes, recorte=None) -> bytes:
     """Corta silêncio nas pontas (e, se houver, recorta o trecho (início, duração) em segundos) e devolve MP3 mono."""
     trecho = ["-ss", f"{recorte[0]:.3f}", "-t", f"{recorte[1]:.3f}"] if recorte else []
+    # o recorte cai no meio da onda: sem rampa de volume nas pontas, ouve-se um estalo ("uma", "duas")
+    filtro = FILTRO_SILENCIO + (FILTRO_RAMPAS if recorte else "")
     r = subprocess.run(
-        [FFMPEG, "-loglevel", "error", "-i", "pipe:0", *trecho, "-af", FILTRO_SILENCIO, "-ac", "1", "-c:a", "libmp3lame", "-b:a", "64k", "-f", "mp3", "pipe:1"],
+        [FFMPEG, "-loglevel", "error", "-i", "pipe:0", *trecho, "-af", filtro, "-ac", "1", "-c:a", "libmp3lame", "-b:a", "64k", "-f", "mp3", "pipe:1"],
         input=audio,
         capture_output=True,
     )

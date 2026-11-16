@@ -4,7 +4,7 @@ import { TextoNarrado } from '../../compartilhado/TextoNarrado';
 import { somAcerto, somTentarDeNovo } from '../../compartilhado/som';
 import type { FichaPersonagem } from './tipos';
 import { CATEGORIAS, ITENS, type Item, estatisticas, totalPocoes } from './itens';
-import { Moedas } from './Moedas';
+import { FraseMoedas, Moedas } from './Moedas';
 import { Icone, comIcones } from '../../compartilhado/icones';
 
 const TEXTOS = {
@@ -12,7 +12,6 @@ const TEXTOS = {
     'pt-PT': 'Antes de partires, queres ir à loja?',
     'pt-BR': 'Antes de partir, você quer ir à loja?',
   },
-  moedas: { 'pt-PT': 'Tens', 'pt-BR': 'Você tem' },
   irLoja: { 'pt-PT': '🛒 Ir à loja', 'pt-BR': '🛒 Ir à loja' },
   semLoja: { 'pt-PT': 'Começar a aventura!', 'pt-BR': 'Começar a aventura!' },
   titulo: { 'pt-PT': 'Loja', 'pt-BR': 'Loja' },
@@ -61,9 +60,7 @@ export function PerguntaLoja({
         <Icone id="interface/carrinho-loja" />
       </div>
       <TextoNarrado className="texto-historia" idioma={idioma} texto={t(TEXTOS.pergunta, idioma)} />
-      <p className="texto-grande">
-        {t(TEXTOS.moedas, idioma)} <Moedas pratas={ficha.prata} />
-      </p>
+      <FraseMoedas className="texto-grande" idioma={idioma} pratas={ficha.prata} />
       <div className="acoes">
         <button className="botao" onClick={aoIrLoja}>
           {comIcones(t(TEXTOS.irLoja, idioma))}
@@ -114,9 +111,7 @@ export function Loja({ idioma, ficha, aoAtualizar, aoComecar }: Props) {
   return (
     <main className="tela tela-centro">
       <h1><Icone id="interface/carrinho-loja" /> {t(TEXTOS.titulo, idioma)}</h1>
-      <p className="texto-grande">
-        {t(TEXTOS.moedas, idioma)} <Moedas pratas={ficha.prata} />
-      </p>
+      <FraseMoedas className="texto-grande" idioma={idioma} pratas={ficha.prata} />
       <p>
         {preencher(t(TEXTOS.resumo, idioma), { ca: est.ca, ataque: est.bonusAtaque, dano: est.bonusDano })}
         {ficha.escudo ? <> · <Icone id="interface/escudo" /></> : ''} · <Icone id="interface/pocao" /> {totalPocoes(ficha)}

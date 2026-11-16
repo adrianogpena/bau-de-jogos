@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Idioma } from './idioma';
 import { comIcones } from '../compartilhado/icones';
-import { type FalaNarrada, cancelarFala, criarFala } from './narradorAudio';
+import { type FalaNarrada, cancelarFala, criarFala, vozEscolhida } from './narradorAudio';
 
 /**
  * Presets de voz. Para voltar ao anterior, troque PRESET_ATIVO por 'anterior'.
@@ -50,15 +50,15 @@ function separarPalavras(texto: string): Palavra[] {
 }
 
 /**
- * Divide o texto em frases. Ler frase a frase evita que a voz do aparelho pare a meio
- * de textos longos (alguns navegadores cortam a fala ao fim de uns 15 segundos) e
- * permite acertar o destaque no início de cada frase.
+ * Divide o texto nos pedaços lidos de uma vez. Com áudio gravado (`porFrase` falso), cada parágrafo é um áudio só:
+ * uma voz e entonação contínua (frases curtas como "O caminho se divide:" não saem noutra voz). A voz do aparelho
+ * lê frase a frase (`porFrase`), porque alguns navegadores cortam a fala ao fim de uns 15 segundos.
  */
-function separarFrases(texto: string, palavras: Palavra[]): Frase[] {
+function separarFrases(texto: string, palavras: Palavra[], porFrase: boolean): Frase[] {
   const frases: Frase[] = [];
   let primeira = 0;
   palavras.forEach((p, i) => {
-    const fimDeFrase = p.quebra || /[.!?…:;]["'”»)]*$/.test(p.texto) || i === palavras.length - 1;
+    const fimDeFrase = p.quebra || (porFrase && /[.!?…:;]["'”»)]*$/.test(p.texto)) || i === palavras.length - 1;
     if (!fimDeFrase) return;
     frases.push({
       // o mesmo pedaço do texto original, para as posições das marcações baterem certo
@@ -72,9 +72,9 @@ function separarFrases(texto: string, palavras: Palavra[]): Frase[] {
   return frases;
 }
 
-/** As frases que o narrador diz para um texto, como ele as diz (usado para gerar os áudios das histórias antes). */
+/** Os pedaços que o narrador gravado diz para um texto, como ele os diz (usado para gerar os áudios antes). */
 export function frasesFaladas(texto: string): string[] {
-  return separarFrases(texto, separarPalavras(texto))
+  return separarFrases(texto, separarPalavras(texto), false)
     .map((f) => semSimbolos(f.texto))
     .filter((f) => /\p{L}/u.test(f));
 }
@@ -192,8 +192,11 @@ interface PedacoFalado {
   pausaAntes: number;
 }
 
-/** Divide em frases; quando o bloco muda (ou o parágrafo), a frase seguinte vem depois de uma pausa. */
-function pedacosParaFalar(bruto: string, nos: NoDeTexto[]): PedacoFalado[] {
+/**
+ * Divide em blocos (e, na voz do aparelho, em frases: ver separarFrases); quando o bloco muda (ou o parágrafo), o
+ * pedaço seguinte vem depois de uma pausa.
+ */
+function pedacosParaFalar(bruto: string, nos: NoDeTexto[], porFrase: boolean): PedacoFalado[] {
   const limpo = semSimbolos(bruto);
   // cortes: onde começa cada bloco novo e cada linha nova, para o título não colar no texto seguinte
   const cortes = new Set([0, limpo.length]);
@@ -207,7 +210,7 @@ function pedacosParaFalar(bruto: string, nos: NoDeTexto[]): PedacoFalado[] {
   for (let b = 0; b < ordenados.length - 1; b++) {
     const trecho = limpo.slice(ordenados[b], ordenados[b + 1]);
     let primeiroDoTrecho = true;
-    for (const m of trecho.matchAll(/[^.!?…:;]+[.!?…:;]*["'”»)]*\s*/g)) {
+    for (const m of trecho.matchAll(porFrase ? /[^.!?…:;]+[.!?…:;]*["'”»)]*\s*/g : /[^]+/g)) {
       if (!/\p{L}/u.test(m[0])) continue;
       const deslocamento = m[0].length - m[0].trimStart().length;
       pedacos.push({
@@ -237,7 +240,7 @@ export function falarTexto(texto: string, idioma: Idioma, elemento?: HTMLElement
   cancelarFala();
   const voz = escolherVoz(idioma);
   const podeMarcar = nos.length > 0 && 'highlights' in CSS;
-  const pedacos = pedacosParaFalar(bruto, nos);
+  const pedacos = pedacosParaFalar(bruto, nos, vozEscolhida(idioma) === null);
 
   const marcar = (posicao: number) => {
     if (!podeMarcar || minha !== leituraSimples) return;
@@ -331,7 +334,7 @@ export function TextoNarrado({
   destacar?: string;
 }) {
   const palavras = useMemo(() => separarPalavras(texto), [texto]);
-  const frases = useMemo(() => separarFrases(texto, palavras), [texto, palavras]);
+  const frases = useMemo(() => separarFrases(texto, palavras, vozEscolhida(idioma) === null), [texto, palavras, idioma]);
   const [atual, setAtual] = useState<number | null>(null);
   const temporizador = useRef<number | undefined>(undefined);
   /** Muda a cada leitura; avisos de uma leitura antiga são ignorados. */

@@ -12,9 +12,9 @@ Palavra isolada (1 palavra: países, itens, palavras das imagens) usa `ritmoPala
 
 ## Como funciona
 
-Cada frase lida vira um arquivo `public/audio/<variante>/<voz>/t/<código do texto>.mp3`.
+Cada parágrafo lido vira um arquivo `public/audio/<variante>/<voz>/t/<código do texto>.mp3`. O áudio gravado não corta o parágrafo nas frases (`. ! ? : ;`): assim ele sai numa voz só e com entonação contínua (antes, "O caminho se divide:" saía com a Francisca no meio de um parágrafo da Thalita). Só a voz do aparelho lê frase a frase (`separarFrases` em `TextoNarrado.tsx`).
 
-- **App publicado:** só toca as frases já geradas e guardadas no projeto: as histórias dos jogos de escrita e leitura e todos os textos fixos do site (os pares `'pt-PT'`/`'pt-BR'` do código, com o gênero do herói/mago expandido). Números de 0 a 100 têm áudio próprio (por extenso, por variante) e a frase é tocada em pedaços (`src/compartilhado/pecasDaFala.ts`): "Tiraste 15 contra a defesa 12" usa os áudios "Tiraste", "quinze", "contra a defesa", "doze". Nomes de inimigos, itens, feitiços etc. são gerados em todas as combinações. Números acima de 100 ficam com a voz do aparelho.
+- **App publicado:** só toca as frases já geradas e guardadas no projeto: as histórias dos jogos de escrita e leitura e todos os textos fixos do site (os pares `'pt-PT'`/`'pt-BR'` do código, com o gênero do herói/mago expandido). Números de 0 a 100 têm áudio próprio (por extenso, por variante) e a frase é tocada em pedaços (`src/compartilhado/pecasDaFala.ts`): "Tiraste 15 contra a defesa 12" usa os áudios "Tiraste", "quinze", "contra a defesa", "doze". Antes de "moeda(s)" o número é dito no feminino ("uma moeda", "duas moedas"). Nomes de inimigos, itens, feitiços etc. são gerados em todas as combinações. Números acima de 100 ficam com a voz do aparelho.
 - **Servidor de testes (`npm run servidor`):** uma frase sem áudio é gerada na hora (1 a 3 segundos, precisa de internet) e fica guardada em `public/audio/`. Assim dá para ouvir o RPG e o escape room com as vozes do narrador.
 - **Gerar todas as histórias de uma vez:** `npm run audio:narrador` (com `-- --simular` só conta as frases). Se uma história mudar, rode de novo: só as frases novas são geradas.
 

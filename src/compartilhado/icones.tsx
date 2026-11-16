@@ -82,6 +82,8 @@ const CHAVES = Object.keys(EMOJIS).sort((a, b) => b.length - a.length);
 const PADRAO = new RegExp(`\\[\\[([a-z0-9/-]+)\\]\\]|(${CHAVES.map(escapar).join('|')})\\uFE0F?`, 'g');
 
 export function Icone({ id, alt = '' }: { id: string; alt?: string }) {
+  // moedas do RPG: desenhadas em CSS, sem imagem (`[[moeda-ouro]]`, `[[moeda-prata]]` no texto)
+  if (id === 'moeda-ouro' || id === 'moeda-prata') return <span className={`moeda ${id}`} aria-hidden="true" />;
   return <img className="icone-texto" src={`${PASTA}${id}.png`} alt={alt} draggable={false} />;
 }
 
