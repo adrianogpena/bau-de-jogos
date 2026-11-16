@@ -44,7 +44,7 @@ Sempre que o trabalho precisar de uma **imagem nova** (cenário, personagem, ite
 - **Medida temporária permitida:** até a imagem do prompt entrar no banco, pode-se usar no lugar uma imagem comum de baixa qualidade (a existente mais próxima, emoji ou forma simples). Nunca deixe o caminho apontando para um arquivo que não existe. Registre no prompt qual arquivo é o substituto, para trocar depois.
 - O prompt vai em `docs/PROMPTS-IMAGENS.md` (fila de imagens ainda não geradas). Depois que a imagem for adicionada ao projeto (e o substituto trocado), **apague o prompt** desse arquivo.
 - Escreva o prompt **em inglês**, bem detalhado, encaixando no tema da história/app. Comece com o prompt de estilo único de `docs/GERAR-IMAGENS.md`.
-- Indique o **formato**: `1:1`, `9:16`, `3:4`, `4:3` ou `16:9`, e o caminho onde salvar (`public/imagens/...`).
+- Indique o **formato**: `1:1`, `9:16`, `3:4`, `4:3` ou `16:9`. Não indique onde salvar: isso fica a cargo de outra IA. Sugira o nome do arquivo igual ao nome do prompt.
 - Personagens e itens soltos: fundo branco puro (#FFFFFF), para recorte.
 
 ## Stack
