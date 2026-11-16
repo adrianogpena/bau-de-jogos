@@ -65,7 +65,10 @@ async def sintetizar_frase(texto: str, voz: str, args) -> bytes:
         raise RuntimeError("serviço não devolveu áudio")
     if not em_frase:
         return audio, None
-    alvo = [w for w in palavras if w["text"].strip(".,!?").lower() == texto.strip().lower()]
+    def _limpa(t: str) -> str:
+        return re.sub(r"[^\w'-]+", "", t).lower()
+
+    alvo = [w for w in palavras if _limpa(w["text"]) == _limpa(texto)]
     if not alvo:
         raise RuntimeError(f"não achei a palavra {texto!r} na frase")
     w = alvo[-1]
