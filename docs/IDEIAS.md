@@ -17,34 +17,7 @@ Lembretes que valem para tudo: texto por variante (`pt-PT` / `pt-BR`), texto fix
 
 ### Aventura RPG
 
-**1. Terceira história: classe nova (arqueira/arqueiro, ou druida com bicho companheiro)** 🔴
-- Ideia: uma aventura numa floresta ou num navio, com uma classe que joga diferente do guerreiro e do mago.
-- Lógica: o arqueiro tem **flechas contadas** (recurso que acaba e se compra/acha), e a distância importa: atacar de longe dá bônus no dado, de perto dá penalidade. O druida escolhe um bicho (lobo, coruja, urso) que dá uma habilidade passiva e um ataque por luta.
-- Reaproveita: ficha, loja, dados, `PERSONAGENS` (pede 4 personagens novos e áudio com os nomes).
-
-**2. Histórias com escolhas (caminhos que se bifurcam)** 🟡
-- Ideia: em certos pontos a criança escolhe: "atravessar a ponte" ou "ir pela caverna". Cada caminho tem lutas e tesouros diferentes e os dois chegam ao final.
-- Lógica: a história vira um grafo de cenas em vez de uma lista. Cada cena tem `proximas: [{ texto, destino, condicao? }]`. Condição pode ser ter um item ("só passa quem tem a corda"). Guardar os caminhos já vistos para convidar a rejogar.
-
-**3. Enigmas no lugar de lutas** 🟡
-- Ideia: nem todo monstro quer brigar: a esfinge faz uma pergunta, o troll quer uma conta certa, o dragão dorme se a criança repetir uma melodia.
-- Lógica: um encontro tem tipo `luta | enigma | troca`. Acertar o enigma vale a vitória sem perder vida; errar leva à luta normal (sem punição dura). Os enigmas podem vir do motor da Saída Secreta (Codigo, Ordem, Escolha, Pares).
-
-**4. Companheiro de viagem** 🟡
-- Ideia: no começo a criança ganha um bichinho (corujinha, raposa, dragãozinho) que ajuda uma vez por luta.
-- Lógica: cada companheiro tem uma habilidade com recarga: rolar o dado de novo, curar 2 de vida, dar uma dica no enigma. Ele "cresce" a cada história terminada (enfeite visual, sem mudar o equilíbrio).
-
-**5. Diário do herói** 🟢
-- Ideia: uma tela com tudo o que o personagem já viveu: monstros vencidos, itens achados, histórias terminadas.
-- Lógica: só leitura do progresso salvo. Cada monstro vira uma "figurinha" com nome narrado. Dá motivo para repetir com outro personagem.
-
-**6. Modo dois jogadores no mesmo tablet** 🟡
-- Ideia: duas crianças, cada uma com um personagem, jogam os dados em turnos contra o mesmo monstro.
-- Lógica: turnos alternados, vida do monstro maior, loja com ouro compartilhado (obriga a combinar o que comprar). O texto já aceita nome e gênero por `preencher()`; precisaria de chaves para o segundo personagem.
-
-**7. Arena de treino** 🟢
-- Ideia: lutas avulsas rápidas, fora da história, para quem só quer jogar os dados.
-- Lógica: sorteia um monstro de dificuldade crescente; conta quantos a criança vence em sequência. Ensina soma (dado + bônus) sem a leitura longa.
+As ideias 1 a 7 (classe nova, escolhas, enigmas, companheiro, diário, dois jogadores, arena de treino) foram movidas para `docs/RPG-HISTORIAS-NOVAS.md`, com a lógica das histórias novas e todos os puzzles. As ideias 6 (dois jogadores) e 7 (arena de treino) ficam lá só como pendência, sem história.
 
 ### Escrever palavras / Ler palavras
 
