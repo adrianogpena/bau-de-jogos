@@ -18,15 +18,11 @@ Por enquanto: menu inicial, seletor de variante, tela de créditos, os **jogos 1
 
 ## Gratuito para sempre
 
-O Baú de Jogos é **gratuito, sem anúncios, sem login e sem coleta de dados**. Isso não é só uma escolha: as imagens dos jogos 1 e 2 usam licença **não comercial** (veja abaixo). Se algum dia o app tiver anúncios, assinatura ou venda, essas imagens precisam sair.
-
+O Baú de Jogos é **gratuito, sem anúncios, sem login e sem coleta de dados**.
 ## Imagens e créditos
 
-- **Jogos de escrita e leitura:** pictogramas do [ARASAAC](https://arasaac.org) (Governo de Aragão), autor Sergio Palao, licença [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/). Ficam em `public/imagens/arasaac/` (veja o `LICENCA.md` da pasta) e o app tem uma tela **Créditos**.
-- **Achar itens:** por enquanto usa pictogramas do ARASAAC e um fundo em CSS. As imagens finais (livro infantil) entram conforme `docs/GERAR-IMAGENS.md`.
-- **RPG:** usa apenas emojis por enquanto, sem imagens externas.
+- **Todas as imagens** (palavras, achar itens, RPG, saída secreta) são geradas para o app, no estilo do livro infantil, conforme `docs/GERAR-IMAGENS.md`. Não há imagens de terceiros.
 - As imagens são guardadas no repositório (não vêm de API), para o app funcionar offline.
-- Imagens do ARASAAC editadas (recoloridas, por exemplo) devem manter a mesma licença CC BY-NC-SA.
 - Palavras por variante: a mesma imagem tem uma palavra para pt-PT e outra para pt-BR (ex.: *autocarro* / *ônibus*). Veja `src/compartilhado/palavras.ts`.
 
 ## Tecnologias

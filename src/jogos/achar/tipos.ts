@@ -60,6 +60,3 @@ export interface Cena {
   areaLivre?: AreaLivre;
   itens: ItemCena[];
 }
-
-/** Caminho de um pictograma do ARASAAC (itens provisórios). */
-export const arasaac = (numero: number) => `imagens/arasaac/${numero}.png`;

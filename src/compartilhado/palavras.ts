@@ -5,24 +5,20 @@ import type { Idioma, TextoPorIdioma } from './idioma';
  * certa muda (ex.: autocarro / ônibus). Cada variante tem a sua escrita.
  */
 export interface PalavraIlustrada {
-  /** Identificador da palavra: número do pictograma no ARASAAC (usado nas histórias). */
+  /** Identificador numérico da palavra (usado nas histórias). */
   imagem: number;
-  /** Nome do arquivo em public/imagens/itens/ (sem .png). Sem valor, usa o pictograma do ARASAAC. */
-  arquivo?: string;
+  /** Nome do arquivo em public/imagens/itens/ (sem .png). */
+  arquivo: string;
   palavra: TextoPorIdioma;
 }
 
-/** Caminho da imagem de uma palavra: imagem compartilhada em imagens/itens/ ou, sem ela, o pictograma do ARASAAC. */
+/** Caminho da imagem de uma palavra, em public/imagens/itens/. */
 export function caminhoImagem(imagem: number): string {
-  const arquivo = ARQUIVOS.get(imagem);
-  return arquivo
-    ? `${import.meta.env.BASE_URL}imagens/itens/${arquivo}.png`
-    : `${import.meta.env.BASE_URL}imagens/arasaac/${imagem}.png`;
+  return `${import.meta.env.BASE_URL}imagens/itens/${ARQUIVOS.get(imagem)}.png`;
 }
 
 /**
  * Palavras do jogo (comece pelas mais simples). Revise sempre as duas variantes ao acrescentar.
- * Pictogramas: ARASAAC (CC BY-NC-SA). Ver tela de créditos e README.
  */
 export const PALAVRAS: PalavraIlustrada[] = [
   { imagem: 2406, arquivo: 'gato', palavra: { 'pt-PT': 'gato', 'pt-BR': 'gato' } },
@@ -183,4 +179,4 @@ export function sortear<T>(lista: T[], quantidade: number): T[] {
   return copia.slice(0, quantidade);
 }
 
-const ARQUIVOS = new Map(PALAVRAS.flatMap((p) => (p.arquivo ? [[p.imagem, p.arquivo] as const] : [])));
+const ARQUIVOS = new Map(PALAVRAS.map((p) => [p.imagem, p.arquivo] as const));
