@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { PropsJogo } from '../tipos';
-import { type Idioma, type TextoPorIdioma, t } from '../../compartilhado/idioma';
+import { type TextoPorIdioma, preencher, t } from '../../compartilhado/idioma';
 import { caminhoImagem, normalizar, palavraDe } from '../../compartilhado/palavras';
 import { type Fabula, paragrafoCompleto, segmentosDoParagrafo } from '../../compartilhado/historias';
 import { EscolherFabula } from '../../compartilhado/EscolherFabula';
@@ -30,9 +30,14 @@ const TEXTOS = {
   historiaToda: { 'pt-PT': 'Aqui está a história toda:', 'pt-BR': 'Aqui está a história inteira:' },
 } satisfies Record<string, TextoPorIdioma>;
 
-function escreveSe(palavra: string, idioma: Idioma): string {
-  return idioma === 'pt-PT' ? `Escreve-se: ${palavra}` : `Escreve-se assim: ${palavra}`;
-}
+/**
+ * Acertou sem os acentos: o elogio e a escrita certa num texto só, para o narrador ter um áudio da frase inteira
+ * (`{escrita}` é cada palavra de PALAVRAS: ver nomesParaPreencher em scripts/frases-narradas.mjs).
+ */
+const MUITO_BEM_ESCREVE_SE: TextoPorIdioma = {
+  'pt-PT': 'Muito bem! 🎉 Escreve-se: {escrita}',
+  'pt-BR': 'Muito bem! 🎉 Escreve-se assim: {escrita}',
+};
 
 /** Jogo 1: a criança escolhe uma fábula e escreve a palavra que falta em cada parte. */
 export function Escrita({ idioma, aoVoltar }: PropsJogo) {
@@ -237,8 +242,11 @@ function EscritaFabula({ fabula, idioma, aoVoltar }: PropsJogo & { fabula: Fabul
 
         {acertou && (
           <p className="mensagem mensagem-acerto">
-            {comIcones(t(TEXTOS.muitoBem, idioma))}
-            {resposta.trim().toLocaleLowerCase('pt') !== certa ? ` ${escreveSe(certa, idioma)}` : ''}
+            {comIcones(
+              resposta.trim().toLocaleLowerCase('pt') !== certa
+                ? preencher(t(MUITO_BEM_ESCREVE_SE, idioma), { escrita: certa })
+                : t(TEXTOS.muitoBem, idioma),
+            )}
           </p>
         )}
         {estado === 'errou' && <p className="mensagem">{t(TEXTOS.quase, idioma)}</p>}

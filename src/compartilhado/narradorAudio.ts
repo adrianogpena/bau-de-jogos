@@ -42,6 +42,16 @@ export interface OpcoesAparelho {
  */
 const VELOCIDADE_AUDIO = 1;
 
+/**
+ * Peso das pausas no cálculo da palavra em destaque, em "letras" (a palavra pesa letras + 2). Medido nos áudios de
+ * parágrafo da Raquel, pelas pausas reais: sem isto o destaque chegava à frase seguinte 0,5 s antes da voz (mais de
+ * 1 s no fim de parágrafos longos); com 20 e 4 o erro típico fica em 0,2 s.
+ */
+const PESO_PAUSA_FRASE = 20;
+const PESO_PAUSA_VIRGULA = 4;
+const FIM_DE_FRASE = /[.!?…:;]["'”»)]*$/;
+const VIRGULA = /,["'”»)]*$/;
+
 // ---------- voz do narrador ----------
 
 const CHAVE_NARRADOR = 'bau-de-jogos:narrador';
@@ -138,7 +148,17 @@ class FalaAudio implements FalaNarrada {
     const pesoTotal = pesos.reduce((s, p) => s + p, 0);
 
     // palavras do texto e o momento aproximado em que cada uma começa (proporcional ao tamanho)
-    const palavras = [...this.texto.matchAll(/\S+/g)].map((m) => ({ inicio: m.index ?? 0, peso: m[0].length + 2 }));
+    // num áudio só (parágrafo inteiro), a pausa da pontuação conta como tempo da palavra que vem antes; a última
+    // palavra não tem pausa (o silêncio do fim é cortado na geração). Com vários pedaços (números) não há pausa a contar.
+    const umAudio = pecas.length === 1;
+    const palavras = [...this.texto.matchAll(/\S+/g)].map((m, i, todas) => {
+      let peso = m[0].length + 2;
+      if (umAudio && i < todas.length - 1) {
+        if (FIM_DE_FRASE.test(m[0])) peso += PESO_PAUSA_FRASE;
+        else if (VIRGULA.test(m[0])) peso += PESO_PAUSA_VIRGULA;
+      }
+      return { inicio: m.index ?? 0, peso };
+    });
     const totalPalavras = palavras.reduce((s, p) => s + p.peso, 0);
     let ultima = -1;
     let indicePeca = 0;

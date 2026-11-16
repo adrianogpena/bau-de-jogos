@@ -61,13 +61,12 @@ const TEXTOS = {
     'pt-PT': 'Levantaste o escudo! A tua defesa sobe +{valor} no próximo ataque. Ainda podes agir.',
     'pt-BR': 'Você levantou o escudo! Sua defesa sobe +{valor} no próximo ataque. Você ainda pode agir.',
   },
-  venceu: { 'pt-PT': 'Venceste a luta! 🎉', 'pt-BR': 'Você venceu a luta! 🎉' },
+  // botões de fim de luta: a frase e a ação num texto só, para o narrador ter um áudio da frase inteira
+  venceu: { 'pt-PT': 'Venceste a luta! 🎉 Continuar ➜', 'pt-BR': 'Você venceu a luta! 🎉 Continuar ➜' },
   perdeu: {
-    'pt-PT': 'Ficaste sem forças! Descansa um pouco e tenta outra vez.',
-    'pt-BR': 'Você ficou sem forças! Descanse um pouco e tente de novo.',
+    'pt-PT': 'Ficaste sem forças! Descansa um pouco e tenta outra vez. Tentar outra vez',
+    'pt-BR': 'Você ficou sem forças! Descanse um pouco e tente de novo. Tentar de novo',
   },
-  continuar: { 'pt-PT': 'Continuar ➜', 'pt-BR': 'Continuar ➜' },
-  tentarOutraVez: { 'pt-PT': 'Tentar outra vez', 'pt-BR': 'Tentar de novo' },
   ataque: { 'pt-PT': 'Ataque', 'pt-BR': 'Ataque' },
   dano: { 'pt-PT': 'Dano', 'pt-BR': 'Dano' },
 } satisfies Record<string, TextoPorIdioma>;
@@ -346,12 +345,12 @@ export function Luta({ idioma, ficha, inimigo, aoVencer }: Props) {
         )}
         {estado === 'vitoria' && (
           <button className="botao" onClick={() => aoVencer(vidaHeroi, pocoes)}>
-            {comIcones(t(TEXTOS.venceu, idioma))} {comIcones(t(TEXTOS.continuar, idioma))}
+            {comIcones(t(TEXTOS.venceu, idioma))}
           </button>
         )}
         {estado === 'derrota' && (
           <button className="botao" onClick={recomecar}>
-            {comIcones(t(TEXTOS.perdeu, idioma))} {t(TEXTOS.tentarOutraVez, idioma)}
+            {comIcones(t(TEXTOS.perdeu, idioma))}
           </button>
         )}
       </div>

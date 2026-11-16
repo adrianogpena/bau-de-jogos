@@ -58,4 +58,5 @@ Edite `src/compartilhado/vozes-narrador.json` (`id` é o nome da pasta do áudio
 ## Limites
 
 - Os áudios do app publicado não ficam guardados para uso offline; sem internet, a leitura usa a voz do aparelho.
-- O destaque da palavra lida acompanha o áudio por uma estimativa (proporcional ao tamanho das palavras), então pode adiantar ou atrasar um pouco.
+- O destaque da palavra lida acompanha o áudio por uma estimativa (proporcional ao tamanho das palavras, com um peso para a pausa depois de `. ! ? : ;` e da vírgula: `PESO_PAUSA_FRASE` e `PESO_PAUSA_VIRGULA` em `narradorAudio.ts`), então pode adiantar ou atrasar um pouco (cerca de 0,2 s).
+- Texto montado na tela com dois textos fixos no mesmo parágrafo ou botão (ex.: `{t(A)} {t(B)}`) não tem áudio: o narrador grava o parágrafo inteiro, não frase a frase. Junte os dois num par `'pt-PT'`/`'pt-BR'` só.

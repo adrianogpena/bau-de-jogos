@@ -122,6 +122,7 @@ async function nomesParaPreencher(servidor) {
   const itens = await servidor.ssrLoadModule('/src/jogos/rpg/itens.ts');
   const mago = await servidor.ssrLoadModule('/src/jogos/rpg/mago/feiticos.ts');
   const achar = await servidor.ssrLoadModule('/src/jogos/achar/cenas/index.ts');
+  const { PALAVRAS } = await servidor.ssrLoadModule('/src/compartilhado/palavras.ts');
   const resultado = {};
   for (const v of VARIANTES) {
     const unicos = (lista) => [...new Set(lista.map((x) => x[v]))];
@@ -133,6 +134,7 @@ async function nomesParaPreencher(servidor) {
       habilidade: unicos(mago.HABILIDADES.map((h) => h.nome)),
       atributo: unicos(rpg.ATRIBUTOS.map((a) => a.nome)),
       palavra: unicos(achar.CENAS.flatMap((c) => c.itens.map((i) => i.palavra))),
+      escrita: unicos(PALAVRAS.map((p) => p.palavra)),
     };
   }
   return resultado;
