@@ -171,7 +171,7 @@ export async function frasesDoSite() {
     const { valoresPersonagem, PERSONAGENS } = await servidor.ssrLoadModule('/src/jogos/rpg/personagem.ts');
     const { hashTexto } = await servidor.ssrLoadModule('/src/compartilhado/hashTexto.ts');
     const { pecasDaFala } = await servidor.ssrLoadModule('/src/compartilhado/pecasDaFala.ts');
-    const { numeroPorExtenso, NUMERO_MAXIMO_NARRADO } = await servidor.ssrLoadModule('/src/compartilhado/numeros.ts');
+    const { numeroPorExtenso, NUMERO_MAXIMO_NARRADO, NUMERO_MAXIMO_FRASE_INTEIRA } =await servidor.ssrLoadModule('/src/compartilhado/numeros.ts');
     const pastaHistorias = path.join(raiz, 'src', 'compartilhado', 'historias');
     const nomes = await nomesParaPreencher(servidor);
 
@@ -201,8 +201,18 @@ export async function frasesDoSite() {
             continue;
           }
           // números viram "0" (cada número tem o seu áudio); nomes (inimigo, feitiço...) são todos os valores possíveis
+          // com uma só chave numérica, os valores até NUMERO_MAXIMO_FRASE_INTEIRA geram a frase inteira (cada valor tem o seu
+          // áudio); um valor acima gera os pedaços (ver pecasDaFala.ts). Com mais chaves numéricas a frase é sempre em pedaços.
+          const unicaNumerica = chaves.filter((c) => NUMERICAS[c]).length === 1;
+          const valoresNumericos = (c) =>
+            unicaNumerica && NUMERICAS[c] === '0'
+              ? Array.from({ length: NUMERO_MAXIMO_FRASE_INTEIRA + 2 }, (_, n) => String(n))
+              : [NUMERICAS[c]];
           const combinacoes = chaves.reduce(
-            (acc, c) => acc.flatMap((valores) => (NUMERICAS[c] ? [{ ...valores, [c]: NUMERICAS[c] }] : nomes[variante][c].map((v) => ({ ...valores, [c]: v })))),
+            (acc, c) =>
+              acc.flatMap((valores) =>
+                (NUMERICAS[c] ? valoresNumericos(c) : nomes[variante][c]).map((v) => ({ ...valores, [c]: v })),
+              ),
             [{}],
           );
           for (const valores of combinacoes) {

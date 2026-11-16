@@ -3,6 +3,13 @@ import type { Idioma } from './idioma';
 /** Maior número que o narrador diz com áudio próprio (0 a 100). */
 export const NUMERO_MAXIMO_NARRADO = 100;
 
+/**
+ * Frase com um único número até este valor é gravada inteira, com o número por extenso dentro do texto (voz e
+ * entonação contínuas). Acima disso, ou com mais de um número, a frase é tocada em pedaços (pecasDaFala.ts), porque
+ * gravar todas as combinações não cabe no projeto.
+ */
+export const NUMERO_MAXIMO_FRASE_INTEIRA = 20;
+
 const UNIDADES: Record<Idioma, string[]> = {
   'pt-PT': [
     'zero', 'um', 'dois', 'três', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove', 'dez', 'onze', 'doze', 'treze',
