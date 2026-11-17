@@ -16,9 +16,9 @@ export const musicosDeBremen = fabula({
       'pt-BR': `Ele caminhou o dia todo debaixo do {1}, ensaiando a sua música pelo caminho. — I-ó! I-ó! — zurrava ele, muito animado.`,
     },
     {
-      palavras: [2517], // cão / cachorro
-      'pt-PT': `No caminho, encontrou um {1} deitado, muito cansado. — Já sou velho para caçar e o meu dono quer livrar-se de mim. — Anda comigo para Bremen! — disse o burro. — Tu podes tocar tambor!`,
-      'pt-BR': `No caminho, encontrou um {1} deitado, muito cansado. — Estou velho demais para caçar e meu dono quer se livrar de mim. — Venha comigo para Bremen! — disse o burro. — Você pode tocar tambor!`,
+      palavras: [2517, 2578], // cão / cachorro, tambor
+      'pt-PT': `No caminho, encontrou um {1} deitado, muito cansado. — Já sou velho para caçar e o meu dono quer livrar-se de mim. — Anda comigo para Bremen! — disse o burro. — Tu podes tocar {2}!`,
+      'pt-BR': `No caminho, encontrou um {1} deitado, muito cansado. — Estou velho demais para caçar e meu dono quer se livrar de mim. — Venha comigo para Bremen! — disse o burro. — Você pode tocar {2}!`,
     },
     {
       palavras: [2490], // pássaro

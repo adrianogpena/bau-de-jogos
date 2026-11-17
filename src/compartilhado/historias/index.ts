@@ -47,7 +47,7 @@ export const AVENTURAS: Fabula[] = [ilhaDoTesouro];
 export const COLECOES: Colecao[] = [
   {
     id: 'aventuras',
-    titulo: { 'pt-PT': '[[menu/categoria-mil-e-uma-noites]] Aventuras', 'pt-BR': '[[menu/categoria-mil-e-uma-noites]] Aventuras' },
+    titulo: { 'pt-PT': '[[menu/categoria-aventuras]] Aventuras', 'pt-BR': '[[menu/categoria-aventuras]] Aventuras' },
     historias: AVENTURAS,
   },
   { id: 'fabulas', titulo: { 'pt-PT': '[[menu/categoria-fabulas]] Fábulas', 'pt-BR': '[[menu/categoria-fabulas]] Fábulas' }, historias: FABULAS },

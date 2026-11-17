@@ -56,9 +56,9 @@ export const brancaDeNeve = fabula({
       'pt-BR': `Branca de Neve ficou morando com eles. Durante o dia, arrumava a casa e fazia uma {1} quentinha para o jantar. À noite, os anões contavam como tinha sido o trabalho.`,
     },
     {
-      palavras: [2611], // janela
-      'pt-PT': `Um dia, uma velhinha de cara enrugada parou junto à casa e gritou: — Fitas coloridas! Quem quer comprar? A Branca de Neve espreitou pela {1} e achou que a velhinha parecia simpática. Esqueceu o aviso, abriu a porta e comprou uma fita.`,
-      'pt-BR': `Um dia, uma velhinha de cara enrugada parou perto da casa e gritou: — Fitas coloridas! Quem quer comprar? Branca de Neve olhou pela {1} e achou que a velhinha parecia simpática. Ela esqueceu o aviso, abriu a porta e comprou uma fita.`,
+      palavras: [2611, 15357], // janela, fita
+      'pt-PT': `Um dia, uma velhinha de cara enrugada parou junto à casa e gritou: — Fitas coloridas! Quem quer comprar? A Branca de Neve espreitou pela {1} e achou que a velhinha parecia simpática. Esqueceu o aviso, abriu a porta e comprou uma {2}.`,
+      'pt-BR': `Um dia, uma velhinha de cara enrugada parou perto da casa e gritou: — Fitas coloridas! Quem quer comprar? Branca de Neve olhou pela {1} e achou que a velhinha parecia simpática. Ela esqueceu o aviso, abriu a porta e comprou uma {2}.`,
     },
     {
       palavras: [3012], // cesto

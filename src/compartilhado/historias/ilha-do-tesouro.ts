@@ -2,7 +2,7 @@ import { fabula } from './modelo';
 
 export const ilhaDoTesouro = fabula({
   id: 'ilha-do-tesouro',
-  emoji: '[[historias/simbad]]', // substituto: ver docs/PROMPTS-IMAGENS.md (icone-ilha-do-tesouro)
+  emoji: '[[historias/ilha-do-tesouro]]',
   titulo: { 'pt-PT': 'A Ilha do Tesouro Escondido', 'pt-BR': 'A Ilha do Tesouro Escondido' },
   paragrafos: [
     {

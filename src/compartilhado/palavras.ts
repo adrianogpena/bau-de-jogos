@@ -146,6 +146,15 @@ export const PALAVRAS: PalavraIlustrada[] = [
   { imagem: 9178, arquivo: 'lampada', palavra: { 'pt-PT': 'lâmpada', 'pt-BR': 'lâmpada' } },
   { imagem: 6210, arquivo: 'saco', palavra: { 'pt-PT': 'saco', 'pt-BR': 'saco' } },
   { imagem: 2333, arquivo: 'chamine', palavra: { 'pt-PT': 'chaminé', 'pt-BR': 'chaminé' } },
+  { imagem: 8063, arquivo: 'carruagem', palavra: { 'pt-PT': 'carruagem', 'pt-BR': 'carruagem' } },
+  { imagem: 2655, arquivo: 'balanca', palavra: { 'pt-PT': 'balança', 'pt-BR': 'balança' } },
+  { imagem: 16343, arquivo: 'giz', palavra: { 'pt-PT': 'giz', 'pt-BR': 'giz' } },
+  { imagem: 2393, arquivo: 'candeeiro-azeite', palavra: { 'pt-PT': 'candeeiro', 'pt-BR': 'lamparina' } },
+  { imagem: 6519, arquivo: 'machado', palavra: { 'pt-PT': 'machado', 'pt-BR': 'machado' } },
+  { imagem: 2578, arquivo: 'tambor-vermelho', palavra: { 'pt-PT': 'tambor', 'pt-BR': 'tambor' } },
+  { imagem: 15357, arquivo: 'fita', palavra: { 'pt-PT': 'fita', 'pt-BR': 'fita' } },
+  { imagem: 2715, arquivo: 'coracao', palavra: { 'pt-PT': 'coração', 'pt-BR': 'coração' } },
+  { imagem: 5060, arquivo: 'trinco', palavra: { 'pt-PT': 'trinco', 'pt-BR': 'tranca' } },
 ];
 
 /** Procura a palavra de um pictograma (falha cedo se faltar no dicionário). */

@@ -51,9 +51,9 @@ export const principeSapo = fabula({
       'pt-BR': `No dia seguinte, na hora do jantar, alguém bateu na {1} do palácio: toc, toc! Era o sapo. — Princesa, me deixe entrar! Lembre-se do que você prometeu!`,
     },
     {
-      palavras: [3129], // mesa
-      'pt-PT': `A princesa fechou a porta e voltou depressa para a {1}, com o coração aos pulos. O pai viu que ela estava branca de medo. — Quem era? Algum gigante? — Não, pai! É um sapo nojento! — E contou-lhe tudo.`,
-      'pt-BR': `A princesa fechou a porta e voltou depressa para a {1}, com o coração aos pulos. O pai viu que ela estava branca de medo. — Quem era? Algum gigante? — Não, papai! É um sapo nojento! — E contou tudo para ele.`,
+      palavras: [3129, 2715], // mesa, coração
+      'pt-PT': `A princesa fechou a porta e voltou depressa para a {1}, com o {2} aos pulos. O pai viu que ela estava branca de medo. — Quem era? Algum gigante? — Não, pai! É um sapo nojento! — E contou-lhe tudo.`,
+      'pt-BR': `A princesa fechou a porta e voltou depressa para a {1}, com o {2} aos pulos. O pai viu que ela estava branca de medo. — Quem era? Algum gigante? — Não, papai! É um sapo nojento! — E contou tudo para ele.`,
     },
     {
       palavras: [5563], // rei
@@ -76,9 +76,9 @@ export const principeSapo = fabula({
       'pt-BR': `Mas, ao bater na parede, o sapo se transformou num príncipe com uma {1} dourada! Uma bruxa o tinha enfeitiçado, e a princesa quebrou o feitiço. Eles ficaram amigos.`,
     },
     {
-      palavras: [2339], // carro
-      'pt-PT': `Na manhã seguinte, chegou ao palácio um {1} dourado, puxado por oito cavalos brancos. Nele vinha o Henrique, o fiel criado do príncipe, que de tristeza tinha posto três cintas de ferro à volta do coração. Quando o viu livre do feitiço, as cintas estalaram de alegria: crac, crac, crac! Anos mais tarde, o príncipe e a princesa casaram-se.`,
-      'pt-BR': `Na manhã seguinte, chegou ao palácio um {1} dourado, puxado por oito cavalos brancos. Nele vinha Henrique, o fiel criado do príncipe, que de tristeza tinha colocado três cintas de ferro em volta do coração. Quando o viu livre do feitiço, as cintas estouraram de alegria: crac, crac, crac! Anos depois, o príncipe e a princesa se casaram.`,
+      palavras: [8063], // carruagem
+      'pt-PT': `Na manhã seguinte, chegou ao palácio uma {1} dourada, puxada por oito cavalos brancos. Nela vinha o Henrique, o fiel criado do príncipe, que de tristeza tinha posto três cintas de ferro à volta do coração. Quando o viu livre do feitiço, as cintas estalaram de alegria: crac, crac, crac! Anos mais tarde, o príncipe e a princesa casaram-se.`,
+      'pt-BR': `Na manhã seguinte, chegou ao palácio uma {1} dourada, puxada por oito cavalos brancos. Nela vinha Henrique, o fiel criado do príncipe, que de tristeza tinha colocado três cintas de ferro em volta do coração. Quando o viu livre do feitiço, as cintas estouraram de alegria: crac, crac, crac! Anos depois, o príncipe e a princesa se casaram.`,
     },
   ],
 });

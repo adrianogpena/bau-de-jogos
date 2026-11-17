@@ -26,9 +26,9 @@ export const capuchinhoVermelho = fabula({
       'pt-BR': `No meio da floresta, apareceu um {1}. — Aonde você vai, menina? — Vou para a casa da minha avó, no fim do caminho! — respondeu ela, sem saber que ele era mau.`,
     },
     {
-      palavras: [2943], // lenhador
-      'pt-PT': `O lobo teve vontade de a comer logo, mas ouviu ao longe o machado de um {1} e achou melhor esperar. Preferiu fazer um plano.`,
-      'pt-BR': `O lobo teve vontade de comê-la logo, mas ouviu ao longe o machado de um {1} e achou melhor esperar. Preferiu fazer um plano.`,
+      palavras: [6519, 2943], // machado, lenhador
+      'pt-PT': `O lobo teve vontade de a comer logo, mas ouviu ao longe o {1} de um {2} e achou melhor esperar. Preferiu fazer um plano.`,
+      'pt-BR': `O lobo teve vontade de comê-la logo, mas ouviu ao longe o {1} de um {2} e achou melhor esperar. Preferiu fazer um plano.`,
     },
     {
       palavras: [3102], // flor
@@ -41,9 +41,9 @@ export const capuchinhoVermelho = fabula({
       'pt-BR': `Um {1} passou aos pulinhos e a menina correu atrás dele, rindo. Colheu mais e mais flores, e nem percebeu que o tempo passava.`,
     },
     {
-      palavras: [3244], // porta
-      'pt-PT': `O lobo chegou primeiro e bateu à {1} da casa da avó. — Quem é? — A tua neta, o Capuchinho Vermelho! — disse ele, com voz fininha. — Puxa o trinco e entra! — respondeu a avó, lá de dentro.`,
-      'pt-BR': `O lobo chegou primeiro e bateu na {1} da casa da vovó. — Quem é? — Sua neta, a Chapeuzinho Vermelho! — disse ele, com voz fininha. — Puxe a tranca e entre! — respondeu a vovó, lá de dentro.`,
+      palavras: [3244, 5060], // porta, trinco / tranca
+      'pt-PT': `O lobo chegou primeiro e bateu à {1} da casa da avó. — Quem é? — A tua neta, o Capuchinho Vermelho! — disse ele, com voz fininha. — Puxa o {2} e entra! — respondeu a avó, lá de dentro.`,
+      'pt-BR': `O lobo chegou primeiro e bateu na {1} da casa da vovó. — Quem é? — Sua neta, a Chapeuzinho Vermelho! — disse ele, com voz fininha. — Puxe a {2} e entre! — respondeu a vovó, lá de dentro.`,
     },
     {
       palavras: [23710], // avó

@@ -46,9 +46,9 @@ export const aliBaba = fabula({
       'pt-BR': `Ali Babá encheu um {1} de moedas, colocou em cima do burro e voltou para casa.`,
     },
     {
-      palavras: [3129], // mesa
-      'pt-PT': `Em cima da {1} da cozinha, a mulher de Ali Babá contou as moedas e pediu emprestada a balança à cunhada, para as pesar. A cunhada ficou desconfiada e contou tudo a Cassim.`,
-      'pt-BR': `Em cima da {1} da cozinha, a mulher de Ali Babá contou as moedas e pediu emprestada a balança à cunhada, para pesá-las. A cunhada ficou desconfiada e contou tudo a Cassim.`,
+      palavras: [3129, 2655], // mesa, balança
+      'pt-PT': `Em cima da {1} da cozinha, a mulher de Ali Babá contou as moedas e pediu emprestada a {2} à cunhada, para as pesar. A cunhada ficou desconfiada e contou tudo a Cassim.`,
+      'pt-BR': `Em cima da {1} da cozinha, a mulher de Ali Babá contou as moedas e pediu emprestada a {2} à cunhada, para pesá-las. A cunhada ficou desconfiada e contou tudo a Cassim.`,
     },
     {
       palavras: [2546], // rato
@@ -56,9 +56,9 @@ export const aliBaba = fabula({
       'pt-BR': `Cassim, ganancioso, correu até a caverna e entrou. Mas, de tanto encher sacos, esqueceu as palavras mágicas! Com o coração aos pulos como o de um {1} assustado, não conseguiu sair, e os ladrões o pegaram.`,
     },
     {
-      palavras: [2440], // lápis
-      'pt-PT': `Os ladrões descobriram onde Ali Babá morava e quiseram vingar-se. Marcaram-lhe a porta com giz, mas a esperta Morgiana, a criada, pegou num {1} e fez a mesma marca em todas as portas da rua. Os ladrões ficaram baralhados!`,
-      'pt-BR': `Os ladrões descobriram onde Ali Babá morava e quiseram se vingar. Marcaram a porta dele com giz, mas a esperta Morgiana, a criada, pegou um {1} e fez a mesma marca em todas as portas da rua. Os ladrões ficaram confusos!`,
+      palavras: [16343], // giz
+      'pt-PT': `Os ladrões descobriram onde Ali Babá morava e quiseram vingar-se. Marcaram-lhe a porta com {1}, mas a esperta Morgiana, a criada, pegou noutro pedaço e fez a mesma marca em todas as portas da rua. Os ladrões ficaram baralhados!`,
+      'pt-BR': `Os ladrões descobriram onde Ali Babá morava e quiseram se vingar. Marcaram a porta dele com {1}, mas a esperta Morgiana, a criada, pegou outro pedaço e fez a mesma marca em todas as portas da rua. Os ladrões ficaram confusos!`,
     },
     {
       palavras: [37689], // jarro
@@ -66,8 +66,8 @@ export const aliBaba = fabula({
       'pt-BR': `Então o chefe se disfarçou de vendedor de azeite e pediu para dormir na casa de Ali Babá. Trazia muitos animais carregados e, dentro de cada {1}, em vez de azeite, havia um ladrão escondido!`,
     },
     {
-      palavras: [9178], // lâmpada
-      'pt-PT': `À noite, a {1} de Morgiana ficou sem azeite. Quando ela foi buscar mais ao pátio, ouviu uma voz a sussurrar dentro de um dos jarros: — Já é a hora? E Morgiana descobriu o truque.`,
+      palavras: [2393], // candeeiro / lamparina
+      'pt-PT': `À noite, o {1} de Morgiana ficou sem azeite. Quando ela foi buscar mais ao pátio, ouviu uma voz a sussurrar dentro de um dos jarros: — Já é a hora? E Morgiana descobriu o truque.`,
       'pt-BR': `À noite, a {1} de Morgiana ficou sem azeite. Quando ela foi buscar mais no pátio, ouviu uma voz sussurrando dentro de um dos jarros: — Já é a hora? E Morgiana descobriu o truque.`,
     },
     {
