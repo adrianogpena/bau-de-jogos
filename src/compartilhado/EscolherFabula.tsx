@@ -37,7 +37,7 @@ export function EscolherFabula({
 
       {COLECOES.map((colecao) => (
         <section key={colecao.id} className="colecao-historias">
-          <h2>{t(colecao.titulo, idioma)}</h2>
+          <h2>{comIcones(t(colecao.titulo, idioma))}</h2>
           <div className="grade-jogos">
             {colecao.historias.map((fabula) => (
               <button key={fabula.id} className="cartao-jogo cartao-historia" onClick={() => aoEscolher(fabula)}>

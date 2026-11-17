@@ -7,6 +7,13 @@
  *
  * Precisa do Python com edge-tts e imageio-ffmpeg (docs/NARRACAO.md); NARRADOR_PYTHON aponta para ele.
  */
+import { spawn } from 'node:child_process';
+import { createReadStream, existsSync, statSync } from 'node:fs';
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import { pythonDoNarrador } from './python-narrador.mjs';
+
 const PADRAO = /\/audio\/(pt-PT|pt-BR)\/([a-z0-9-]+)\/t\/([0-9a-f]{14})\.mp3$/;
 const MAXIMO_CARACTERES = 1000;
 

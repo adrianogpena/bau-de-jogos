@@ -7,6 +7,7 @@ import { capuchinhoVermelho } from './capuchinho-vermelho';
 import { cigarraFormiga } from './cigarra-formiga';
 import { corvoRaposa } from './corvo-raposa';
 import { hanselGretel } from './hansel-gretel';
+import { ilhaDoTesouro } from './ilha-do-tesouro';
 import { leaoRato } from './leao-rato';
 import { lebreTartaruga } from './lebre-tartaruga';
 import { musicosDeBremen } from './musicos-de-bremen';
@@ -40,7 +41,15 @@ export const CONTOS_GRIMM: Fabula[] = [capuchinhoVermelho, hanselGretel, brancaD
 /** Contos das Mil e Uma Noites (versões para crianças). */
 export const CONTOS_MIL_E_UMA_NOITES: Fabula[] = [aliBaba, aladino, simbad];
 
+/** Aventuras originais, mais longas (para leitores de uns 8 anos). */
+export const AVENTURAS: Fabula[] = [ilhaDoTesouro];
+
 export const COLECOES: Colecao[] = [
+  {
+    id: 'aventuras',
+    titulo: { 'pt-PT': '[[menu/categoria-mil-e-uma-noites]] Aventuras', 'pt-BR': '[[menu/categoria-mil-e-uma-noites]] Aventuras' },
+    historias: AVENTURAS,
+  },
   { id: 'fabulas', titulo: { 'pt-PT': '[[menu/categoria-fabulas]] Fábulas', 'pt-BR': '[[menu/categoria-fabulas]] Fábulas' }, historias: FABULAS },
   { id: 'grimm', titulo: { 'pt-PT': '[[menu/categoria-grimm]] Irmãos Grimm', 'pt-BR': '[[menu/categoria-grimm]] Irmãos Grimm' }, historias: CONTOS_GRIMM },
   {

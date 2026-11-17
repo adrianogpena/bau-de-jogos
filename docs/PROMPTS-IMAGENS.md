@@ -34,4 +34,45 @@ O tamanho da imagem define quantas cabem num prompt. Mais objetos por imagem = m
 - Ao adicionar a imagem ao projeto: troque o substituto, rode `npm run typecheck`/`npm run build` se mudou código, e **apague a entrada** daqui.
 
 
-_Nenhuma imagem pendente._
+### icones-02-aventuras
+
+2 ícones: ilha-do-tesouro → icone-ilha-do-tesouro (história), categoria-aventuras (categoria)
+- **Formato:** 1:1, 2048×2048
+- **Substituto:** `historias/simbad.png` (história) e `menu/categoria-mil-e-uma-noites.png` (categoria)
+
+```
+Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers. A 4x4 icon sheet on pure white #FFFFFF, only 2 cells used (the other 14 stay empty), each icon alone in the center of its cell with a wide margin (at least 30%), thick outline, no grid lines, no labels. 1) A tiny green palm-tree island with a red X on the sand and a small pirate chest half buried. 2) An old rolled treasure map tied with a ribbon, with a small compass on top. 1:1 square.
+```
+
+### palavras-04
+
+5 objetos: carruagem → carruagem, balança → balanca, giz → giz, candeeiro de azeite → candeeiro, machado → machado
+- **Formato:** 4:3
+- **Substituto:** carruagem → `carro` (Príncipe Sapo); balança → `mesa`, giz → `lápis`, candeeiro → `lâmpada` (Ali Babá); machado → só no texto (Capuchinho Vermelho)
+
+```
+Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
+Five separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (three on top, two below):
+1. a fairy-tale horse-drawn carriage, golden and blue, with big wheels and a small door;
+2. an old two-pan balance scale made of brass, with a few gold coins on one pan;
+3. a stick of white chalk, slightly used, with a few chalk dust marks;
+4. a small old oil lamp made of clay with a flame, Arabian style;
+5. a woodcutter's axe with a wooden handle and a shiny steel blade.
+Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
+```
+
+### palavras-05
+
+4 objetos: tambor → tambor, fita → fita, coração → coracao, trinco/tranca → trinco
+- **Formato:** 4:3
+- **Substituto:** tambor → só no texto (Músicos de Bremen); fita → só no texto (Branca de Neve); coração → só no texto (Príncipe Sapo, Bremen); trinco → só no texto (Capuchinho Vermelho)
+
+```
+Children's picture book illustration, soft watercolor and colored pencil, clean rounded outlines, warm vivid colors, friendly cute look, no text, no letters, no numbers.
+Four separate objects on a pure white background (#FFFFFF), flat and uniform: no cream, beige or gray tint, no paper texture, no gradient, no vignette. Clearly spaced apart so none touch or overlap, each one whole and not cropped, arranged in two rows (two on top, two below):
+1. a round drum with red sides, rope lacing and two wooden drumsticks;
+2. a long colorful silk ribbon tied in a bow, red with golden edges;
+3. a plump red heart, simple and shiny;
+4. an old wooden door latch with an iron lever and a small wooden bar.
+Similar size for all objects, no shadows on the floor, no other objects. 4:3 landscape.
+```

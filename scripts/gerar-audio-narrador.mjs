@@ -27,17 +27,11 @@ import os from 'node:os';
 import path from 'node:path';
 import readline from 'node:readline';
 import { arquivoAudio, frasesDoSite, lerVozes, pastaAudio } from './frases-narradas.mjs';
+import { pythonDoNarrador } from './python-narrador.mjs';
 import { raiz } from './textos.mjs';
 
 const ARQUIVO_TRAVA = path.join(os.tmpdir(), 'bau-de-jogos-narrador.trava');
 const ARQUIVO_ANDAMENTO = path.join(os.tmpdir(), 'bau-de-jogos-narrador-andamento.json');
-
-export function pythonDoNarrador() {
-  if (process.env.NARRADOR_PYTHON) return process.env.NARRADOR_PYTHON;
-  const local = process.env.LOCALAPPDATA;
-  const venv = local && path.join(local, 'bau-edge-tts', 'Scripts', 'python.exe');
-  return venv && existsSync(venv) ? venv : 'python3';
-}
 
 // ---------- andamento ----------
 

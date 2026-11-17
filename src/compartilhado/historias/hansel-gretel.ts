@@ -7,13 +7,33 @@ export const hanselGretel = fabula({
   paragrafos: [
     {
       palavras: [2943], // lenhador
-      'pt-PT': `Hansel e Gretel eram irmãos. O pai era um {1} muito pobre, e a madrasta, que não gostava das crianças, convenceu-o a deixá-las sozinhas na floresta.`,
-      'pt-BR': `João e Maria eram irmãos. O pai era um {1} muito pobre, e a madrasta, que não gostava das crianças, o convenceu a deixá-los sozinhos na floresta.`,
+      'pt-PT': `Hansel e Gretel eram irmãos e viviam perto de uma grande floresta. O pai era um {1} muito pobre, e muitas vezes faltava comida em casa.`,
+      'pt-BR': `João e Maria eram irmãos e moravam perto de uma grande floresta. O pai era um {1} muito pobre, e muitas vezes faltava comida em casa.`,
+    },
+    {
+      palavras: [6594], // pedra
+      'pt-PT': `A madrasta, que não gostava das crianças, convenceu o pai a deixá-las sozinhas na floresta. O Hansel ouviu tudo e, sem fazer barulho, saiu de casa e encheu os bolsos de {1} brancas e brilhantes.`,
+      'pt-BR': `A madrasta, que não gostava das crianças, convenceu o pai a deixá-los sozinhos na floresta. João ouviu tudo e, sem fazer barulho, saiu de casa e encheu os bolsos de {1} brancas e brilhantes.`,
+    },
+    {
+      palavras: [6143], // madeira
+      'pt-PT': `De manhã, a madrasta levou as crianças para o fundo da floresta. Pelo caminho, o Hansel foi deixando cair as pedrinhas, uma a uma. O pai acendeu uma fogueira com {1} seca e disse: — Descansem aqui, que já voltamos. Mas nunca voltaram.`,
+      'pt-BR': `Pela manhã, a madrasta levou as crianças para o fundo da floresta. No caminho, João foi deixando cair as pedrinhas, uma a uma. O pai acendeu uma fogueira com {1} seca e disse: — Descansem aqui, que já voltamos. Mas eles nunca voltaram.`,
+    },
+    {
+      palavras: [2933], // lua
+      'pt-PT': `Os irmãos adormeceram ao calor do fogo e, quando acordaram, era noite escura. A Gretel começou a chorar. — Não chores — disse o Hansel. — Espera que a {1} nasça! As pedrinhas brilharam como moedas de prata, e eles seguiram-nas até casa.`,
+      'pt-BR': `Os irmãos adormeceram perto do fogo e, quando acordaram, era noite escura. Maria começou a chorar. — Não chore — disse João. — Espere a {1} subir! As pedrinhas brilharam como moedas de prata, e eles as seguiram até chegar em casa.`,
+    },
+    {
+      palavras: [3244], // porta
+      'pt-PT': `O pai ficou muito contente ao ver os filhos, mas a madrasta ficou furiosa. Poucos dias depois, voltou a convencê-lo a levá-los para a floresta. Desta vez, trancou a {1}, e o Hansel não conseguiu sair para apanhar pedrinhas.`,
+      'pt-BR': `O pai ficou muito feliz ao ver os filhos, mas a madrasta ficou furiosa. Poucos dias depois, ela o convenceu de novo a levá-los para a floresta. Dessa vez, trancou a {1}, e João não conseguiu sair para pegar pedrinhas.`,
     },
     {
       palavras: [2494], // pão
-      'pt-PT': `O Hansel ouviu tudo. Pelo caminho, foi deixando cair migalhas de {1} para conseguirem voltar para casa.`,
-      'pt-BR': `João ouviu tudo. Pelo caminho, foi deixando cair migalhas de {1} para conseguirem voltar para casa.`,
+      'pt-PT': `Na manhã seguinte, cada criança recebeu um pedacinho de {1}. Pelo caminho, o Hansel foi deixando cair migalhas, para conseguirem voltar para casa.`,
+      'pt-BR': `Na manhã seguinte, cada criança recebeu um pedacinho de {1}. No caminho, João foi deixando cair migalhas, para conseguirem voltar para casa.`,
     },
     {
       palavras: [2490], // pássaro
@@ -26,6 +46,11 @@ export const hanselGretel = fabula({
       'pt-BR': `Andaram três dias pela floresta até encontrarem uma casinha feita de bolo, com janelas de açúcar e telhado de {1}! Morrendo de fome, começaram a comer.`,
     },
     {
+      palavras: [2611], // janela
+      'pt-PT': `A Gretel, que adorava doces, partiu um bocadinho de uma {1} de açúcar. De dentro da casa ouviu-se uma voz: — Quem anda a comer a minha casinha? — É o vento, só o vento! — responderam as crianças, e continuaram a comer.`,
+      'pt-BR': `Maria, que adorava doces, quebrou um pedacinho de uma {1} de açúcar. Lá de dentro veio uma voz: — Quem está comendo a minha casinha? — É o vento, só o vento! — responderam as crianças, e continuaram comendo.`,
+    },
+    {
       palavras: [5404], // bruxa
       'pt-PT': `A porta abriu-se e saiu uma velhinha muito simpática, que os convidou a entrar. Mas era uma {1} má, que gostava de comer crianças!`,
       'pt-BR': `A porta se abriu e saiu uma velhinha muito simpática, que os convidou para entrar. Mas era uma {1} malvada, que gostava de comer crianças!`,
@@ -34,6 +59,11 @@ export const hanselGretel = fabula({
       palavras: [5494], // jaula
       'pt-PT': `No dia seguinte, a bruxa fechou o Hansel numa {1} e pôs a Gretel a cozinhar para ele. Queria engordá-lo para o comer.`,
       'pt-BR': `No dia seguinte, a bruxa trancou João numa {1} e colocou Maria para cozinhar para ele. Queria engordar o menino para comê-lo.`,
+    },
+    {
+      palavras: [9086], // panela
+      'pt-PT': `A pobre da Gretel trabalhava o dia inteiro. Esfregava a {1} grande, carregava água e só tinha cascas para comer, enquanto o irmão recebia a melhor comida. Chorava muitas vezes, mas não desistiu de o ajudar.`,
+      'pt-BR': `A pobre Maria trabalhava o dia inteiro. Esfregava a {1} grande, carregava água e só ganhava cascas para comer, enquanto o irmão recebia a melhor comida. Ela chorava muitas vezes, mas não desistiu de ajudar João.`,
     },
     {
       palavras: [2972], // osso

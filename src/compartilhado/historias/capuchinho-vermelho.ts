@@ -6,9 +6,19 @@ export const capuchinhoVermelho = fabula({
   titulo: { 'pt-PT': 'O Capuchinho Vermelho', 'pt-BR': 'Chapeuzinho Vermelho' },
   paragrafos: [
     {
+      palavras: [2317], // casa
+      'pt-PT': `Era uma vez uma menina que vivia numa {1} pequena, perto da floresta. Toda a gente gostava dela, sobretudo a avó, que lhe tinha feito um capuchinho vermelho. Como ela o usava todos os dias, chamavam-lhe Capuchinho Vermelho.`,
+      'pt-BR': `Era uma vez uma menina que morava em uma {1} pequena, perto da floresta. Todo mundo gostava dela, principalmente a vovó, que tinha feito para ela um chapeuzinho vermelho. Como a menina o usava todos os dias, a chamavam de Chapeuzinho Vermelho.`,
+    },
+    {
       palavras: [3012], // cesto / cesta
-      'pt-PT': `Era uma vez uma menina que usava sempre um capuchinho vermelho. Um dia, a mãe deu-lhe um {1} com bolo e sumo e disse: — Leva isto à avó, que está doente. E não saias do caminho!`,
-      'pt-BR': `Era uma vez uma menina que usava sempre um chapeuzinho vermelho. Um dia, a mãe lhe deu uma {1} com bolo e suco e disse: — Leve isto para a vovó, que está doente. E não saia do caminho!`,
+      'pt-PT': `Um dia, a mãe deu-lhe um {1} com bolo e sumo e disse: — Leva isto à avó, que está doente. E não saias do caminho! A menina prometeu e partiu.`,
+      'pt-BR': `Um dia, a mãe lhe deu uma {1} com bolo e suco e disse: — Leve isto para a vovó, que está doente. E não saia do caminho! A menina prometeu e partiu.`,
+    },
+    {
+      palavras: [2465], // borboleta
+      'pt-PT': `Pelo caminho, uma {1} amarela dançava à sua volta. A menina ria-se, cantava baixinho e seguia contente pela floresta.`,
+      'pt-BR': `Pelo caminho, uma {1} amarela dançava à sua volta. A menina ria, cantava baixinho e seguia contente pela floresta.`,
     },
     {
       palavras: [6140], // lobo
@@ -16,14 +26,34 @@ export const capuchinhoVermelho = fabula({
       'pt-BR': `No meio da floresta, apareceu um {1}. — Aonde você vai, menina? — Vou para a casa da minha avó, no fim do caminho! — respondeu ela, sem saber que ele era mau.`,
     },
     {
+      palavras: [2943], // lenhador
+      'pt-PT': `O lobo teve vontade de a comer logo, mas ouviu ao longe o machado de um {1} e achou melhor esperar. Preferiu fazer um plano.`,
+      'pt-BR': `O lobo teve vontade de comê-la logo, mas ouviu ao longe o machado de um {1} e achou melhor esperar. Preferiu fazer um plano.`,
+    },
+    {
       palavras: [3102], // flor
       'pt-PT': `— Olha que bonito está o campo! — disse o lobo. — Porque não levas uma {1} à tua avó? A menina saiu do caminho para fazer um ramo, e o lobo correu à frente.`,
       'pt-BR': `— Olhe que lindo está o campo! — disse o lobo. — Por que você não leva uma {1} para sua avó? A menina saiu do caminho para fazer um buquê, e o lobo correu na frente.`,
     },
     {
+      palavras: [2351], // coelho
+      'pt-PT': `Um {1} passou aos saltinhos e a menina correu atrás dele, a rir. Colheu mais e mais flores, e nem reparou que o tempo passava.`,
+      'pt-BR': `Um {1} passou aos pulinhos e a menina correu atrás dele, rindo. Colheu mais e mais flores, e nem percebeu que o tempo passava.`,
+    },
+    {
+      palavras: [3244], // porta
+      'pt-PT': `O lobo chegou primeiro e bateu à {1} da casa da avó. — Quem é? — A tua neta, o Capuchinho Vermelho! — disse ele, com voz fininha. — Puxa o trinco e entra! — respondeu a avó, lá de dentro.`,
+      'pt-BR': `O lobo chegou primeiro e bateu na {1} da casa da vovó. — Quem é? — Sua neta, a Chapeuzinho Vermelho! — disse ele, com voz fininha. — Puxe a tranca e entre! — respondeu a vovó, lá de dentro.`,
+    },
+    {
       palavras: [23710], // avó
-      'pt-PT': `O lobo chegou primeiro e bateu à porta. Entrou, engoliu a {1} de uma só vez, vestiu a camisa de dormir dela e deitou-se na cama.`,
-      'pt-BR': `O lobo chegou primeiro e bateu na porta. Entrou, engoliu a {1} de uma vez só, vestiu a camisola dela e se deitou na cama.`,
+      'pt-PT': `O lobo entrou e engoliu a {1} de uma só vez, sem lhe dar tempo sequer de gritar. Depois vestiu a camisa de dormir dela e pôs a touca.`,
+      'pt-BR': `O lobo entrou e engoliu a {1} de uma vez só, sem dar tempo nem de ela gritar. Depois vestiu a camisola dela e colocou a touca.`,
+    },
+    {
+      palavras: [2304], // cama
+      'pt-PT': `Fechou as cortinas, deitou-se na {1} e puxou o lençol até ao focinho. Ficou muito quieto, à espera da menina.`,
+      'pt-BR': `Fechou as cortinas, deitou na {1} e puxou o lençol até o focinho. Ficou bem quietinho, esperando a menina.`,
     },
     {
       palavras: [2871], // orelhas
