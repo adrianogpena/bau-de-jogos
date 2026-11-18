@@ -60,6 +60,31 @@ describe('áudio do narrador', () => {
     assert.deepEqual(vazios, [], 'áudios vazios ou corrompidos: apague-os e rode "npm run audio:narrador"');
   });
 
+  test('nenhum áudio é longo ou curto demais para o texto (fala repetida, cortada ou de outro texto)', () => {
+    // MP3 de 64 kbps constante: o tamanho dá a duração. Só textos de 40+ letras, onde a duração por letra é estável
+    // (nos áudios bons fica entre 0,69× e 1,54× a mediana da voz; uma fala repetida dá ~2×).
+    const problemas = [];
+    for (const voz of vozes) {
+      const medidas = [...frases[voz.variante]]
+        .filter(([hash, texto]) => texto.length >= 40 && existsSync(arquivoAudio(voz, hash)))
+        .map(([hash, texto]) => ({ texto, porLetra: (statSync(arquivoAudio(voz, hash)).size * 8) / 64000 / texto.length, hash }));
+      if (medidas.length < 20) continue;
+      const ordenadas = medidas.map((m) => m.porLetra).sort((a, b) => a - b);
+      const mediana = ordenadas[Math.floor(ordenadas.length / 2)];
+      for (const m of medidas) {
+        const razao = m.porLetra / mediana;
+        if (razao > 1.75 || razao < 0.5) {
+          problemas.push(`  ${voz.id}/t/${m.hash}.mp3 (${razao.toFixed(2)}×): "${m.texto.slice(0, 60)}"`);
+        }
+      }
+    }
+    assert.deepEqual(
+      problemas,
+      [],
+      `\nÁudios com duração fora do normal para o texto. Apague-os e rode "npm run audio:narrador":\n${problemas.join('\n')}\n`,
+    );
+  });
+
   test('textos com partes calculadas, sem áudio (aviso)', (t) => {
     if (dinamicos.length > 0) t.diagnostic(`${dinamicos.length} textos com partes calculadas não são conferidos (mensagens de luta, contas...)`);
   });

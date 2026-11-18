@@ -14,8 +14,10 @@
     "audio:narrador": "node scripts/gerar-audio-narrador.mjs",
     "audio:andamento": "node scripts/gerar-audio-narrador.mjs --andamento",
     "audio:acompanhar": "node scripts/gerar-audio-narrador.mjs --acompanhar",
-    "test": "node --test --test-reporter=spec scripts/audio.test.mjs scripts/genero.test.mjs scripts/rotulos.test.mjs",
+    "test": "node --test --test-reporter=spec scripts/audio.test.mjs scripts/genero.test.mjs scripts/rotulos.test.mjs scripts/imagens.test.mjs",
     "prepare": "git config core.hooksPath .githooks || true",
+    "imagens:folha": "node scripts/imagens.mjs folha",
+    "imagens:conferir": "node scripts/imagens.mjs conferir",
     "mapas:gerar": "node scripts/gerar-mapas.mjs"
   },
   "dependencies": {

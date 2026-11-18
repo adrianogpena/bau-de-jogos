@@ -44,6 +44,7 @@ FILTRO_SILENCIO = (
 FILTRO_RAMPAS = ",afade=t=in:d=0.015,areverse,afade=t=in:d=0.06,areverse"
 TICKS = 1e7  # o serviço mede o tempo em unidades de 100 ns
 MAX_CARACTERES_PEDIDO = 1200
+SILENCIO_MAXIMO = 20  # segundos sem nenhuma mensagem do serviço: o pedido é dado como perdido
 
 
 class FrasesNaoBatem(Exception):
@@ -98,8 +99,11 @@ class Conexao:
             await self._abrir()
         try:
             return await self._pedido(texto, voz, ritmo, tom)
-        except Exception:
-            await self.fechar()  # estado incerto: a próxima tentativa abre outra conexão
+        except BaseException:
+            # Estado incerto (inclusive o cancelamento do tempo limite, que não é Exception): a próxima tentativa abre
+            # outra conexão. Antes, depois de um tempo limite, a nova tentativa ia pela mesma conexão e o serviço mandava
+            # os dois pedidos intercalados: a fala saía repetida frase a frase e a sobra caía no pedido seguinte.
+            await self.fechar()
             raise
 
     async def _pedido(self, texto, voz, ritmo, tom):
@@ -110,12 +114,23 @@ class Conexao:
             f"<voice name='{voz}'><prosody pitch='{tom}' rate='{ritmo}' volume='+0%'>"
             f"{escape(_edge.remove_incompatible_characters(texto))}</prosody></voice></speak>"
         )
-        await self.ws.send_str(_edge.ssml_headers_plus_data(_edge.connect_id(), _edge.date_to_string(), ssml))
+        pedido = _edge.connect_id()
+        meu = f"X-RequestId:{pedido}".encode()
+        await self.ws.send_str(_edge.ssml_headers_plus_data(pedido, _edge.date_to_string(), ssml))
         pedacos, marcas = [], []
-        async for msg in self.ws:
+        while True:
+            # Desiste só se o serviço ficar SILENCIO_MAXIMO sem mandar nada: um lote grande com o serviço lento leva mais
+            # de um minuto, mas continua chegando (com um limite total, o lote estourava sempre e nunca terminava).
+            try:
+                msg = await asyncio.wait_for(self.ws.receive(), SILENCIO_MAXIMO)
+            except asyncio.TimeoutError:
+                raise RuntimeError(f"o serviço ficou {SILENCIO_MAXIMO} s sem responder") from None
             if msg.type == aiohttp.WSMsgType.TEXT:
                 bruto = msg.data.encode("utf-8")
-                cabecalho, dados = _edge.get_headers_and_data(bruto, bruto.find(b"\r\n\r\n"))
+                fim_cabecalho = bruto.find(b"\r\n\r\n")
+                if meu not in bruto[:fim_cabecalho]:
+                    continue  # resto de um pedido anterior nesta conexão
+                cabecalho, dados = _edge.get_headers_and_data(bruto, fim_cabecalho)
                 caminho = cabecalho.get(b"Path")
                 if caminho == b"audio.metadata":
                     for m in json.loads(dados)["Metadata"]:
@@ -126,13 +141,13 @@ class Conexao:
                     break
             elif msg.type == aiohttp.WSMsgType.BINARY:
                 tamanho = int.from_bytes(msg.data[:2], "big")
+                if meu not in msg.data[: tamanho + 2]:
+                    continue  # resto de um pedido anterior nesta conexão
                 cabecalho, dados = _edge.get_headers_and_data(msg.data, tamanho)
                 if cabecalho.get(b"Content-Type") == b"audio/mpeg" and dados:
                     pedacos.append(dados)
             else:
-                raise RuntimeError(f"conexão encerrada pelo serviço ({msg.type.name})")
-        else:
-            raise RuntimeError("conexão encerrada pelo serviço antes do fim do áudio")
+                raise RuntimeError(f"conexão encerrada pelo serviço antes do fim do áudio ({msg.type.name})")
         audio = b"".join(pedacos)
         if not audio:
             raise RuntimeError("serviço não devolveu áudio")
@@ -243,6 +258,13 @@ def recortes(falas, marcas, total_segundos):
     return resultado
 
 
+def conferir_frases(texto, marcas):
+    """O áudio de uma fala sozinha tem de trazer exatamente as frases do texto (nem repetidas, nem de outro pedido)."""
+    frases = [m for m in marcas if m["tipo"] == "SentenceBoundary"]
+    if frases and "".join(_limpa(f["texto"]) for f in frases) != _limpa(texto):
+        raise FrasesNaoBatem(f"{texto[:60]!r} saiu como {' | '.join(f['texto'] for f in frases)[:120]!r}")
+
+
 def evento(args, nome: str, voz: str = ""):
     """Com --eventos, avisa quem chamou ("@feita raquel"); gerar-audio-narrador.mjs desenha a barra com isso."""
     if args.eventos:
@@ -262,9 +284,10 @@ async def pedido_com_tentativas(conexao, falas, args, estado):
     for tentativa in range(1, args.tentativas + 1):
         try:
             audio, marcas = await asyncio.wait_for(
-                conexao.sintetizar(texto, falas[0].voz, falas[0].ritmo, falas[0].tom), timeout=30 + 6 * len(falas)
+                conexao.sintetizar(texto, falas[0].voz, falas[0].ritmo, falas[0].tom), timeout=120 + 0.3 * len(texto)  # rede de segurança: quem desiste antes é o SILENCIO_MAXIMO
             )
             if len(falas) == 1 and not falas[0].em_frase:
+                conferir_frases(falas[0].falado_sozinho, marcas)
                 trechos = [None]  # fala sozinha: o áudio inteiro
             else:
                 total = len(audio) * 8 / 48000  # MP3 de 48 kbps constante
