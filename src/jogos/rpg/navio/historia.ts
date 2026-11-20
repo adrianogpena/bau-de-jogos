@@ -76,7 +76,7 @@ export const INIMIGOS_NAVIO: Record<string, InimigoNavio> = {
   },
   gaivota: {
     id: 'gaivota',
-    emoji: '🐦',
+    emoji: '[[inimigos/gaivota-fantasma]]',
     nome: { 'pt-PT': 'A Gaivota Fantasma', 'pt-BR': 'A Gaivota Fantasma' },
     pontosDeVida: 6,
     defesa: 12,
@@ -95,7 +95,7 @@ export const INIMIGOS_NAVIO: Record<string, InimigoNavio> = {
   },
   polvo: {
     id: 'polvo',
-    emoji: '🐙',
+    emoji: '[[inimigos/polvo-gigante]]',
     nome: { 'pt-PT': 'O Polvo Gigante', 'pt-BR': 'O Polvo Gigante' },
     pontosDeVida: 18,
     defesa: 12,
@@ -104,7 +104,7 @@ export const INIMIGOS_NAVIO: Record<string, InimigoNavio> = {
   },
   polvo_ferido: {
     id: 'polvo_ferido',
-    emoji: '🐙',
+    emoji: '[[inimigos/polvo-ferido]]',
     nome: { 'pt-PT': 'O Polvo Ferido', 'pt-BR': 'O Polvo Ferido' },
     pontosDeVida: 12,
     defesa: 12,
@@ -117,8 +117,8 @@ const SEGUIR: TextoPorIdioma = { 'pt-PT': 'Seguir caminho ➜', 'pt-BR': 'Seguir
 
 /** Itens da mochila. As outras marcas (`furtivo`, `sabe-rota`, `amigo`, `vantagem`) são fatos escondidos. */
 const ITENS_HISTORIA: Record<string, ItemHistoria> = {
-  'flecha-fogo': { nome: { 'pt-PT': 'Flecha de fogo', 'pt-BR': 'Flecha de fogo' } },
-  sino: { nome: { 'pt-PT': 'Sino de prata', 'pt-BR': 'Sino de prata' } },
+  'flecha-fogo': { arquivo: 'flecha-fogo', nome: { 'pt-PT': 'Flecha de fogo', 'pt-BR': 'Flecha de fogo' } },
+  sino: { arquivo: 'sino', nome: { 'pt-PT': 'Sino de prata', 'pt-BR': 'Sino de prata' } },
   luz: { arquivo: 'lanterna', nome: { 'pt-PT': 'Lampiões acesos', 'pt-BR': 'Lampiões acesos' } },
   'mapa-nautico': { arquivo: 'mapa', nome: { 'pt-PT': 'Mapa náutico', 'pt-BR': 'Mapa náutico' } },
   perola: { arquivo: 'concha', nome: { 'pt-PT': 'Pérola brilhante', 'pt-BR': 'Pérola brilhante' } },
@@ -436,7 +436,7 @@ const PONTOS: Record<string, Ponto<NomeAtributoArqueiro>> = {
   },
   a09b: {
     id: 'a09b',
-    emoji: '🐦',
+    emoji: '[[inimigos/gaivota-fantasma]]',
     texto: {
       'pt-PT': 'As bandeiras caem e uma gaivota fantasma desce em voo rasante. Ela guarda o ninho!',
       'pt-BR': 'As bandeiras caem e uma gaivota fantasma desce em voo rasante. Ela guarda o ninho!',
@@ -570,7 +570,7 @@ const PONTOS: Record<string, Ponto<NomeAtributoArqueiro>> = {
   // ---------- antro do Polvo ----------
   a15: {
     id: 'a15',
-    emoji: '🐙',
+    emoji: '[[inimigos/polvo-gigante]]',
     texto: {
       'pt-PT': 'No fundo do navio, o Polvo Gigante guarda a Bússola de Ouro entre os tentáculos. Ela brilha como o sol.',
       'pt-BR': 'No fundo do navio, o Polvo Gigante guarda a Bússola de Ouro entre os tentáculos. Ela brilha como o sol.',

@@ -55,7 +55,7 @@ const HISTORIAS: Historia[] = [
   },
   {
     id: 'navio-fantasma',
-    emoji: '🚢',
+    emoji: '[[historias/rpg-navio-fantasma]]',
     titulo: { 'pt-PT': 'O Navio Fantasma', 'pt-BR': 'O Navio Fantasma' },
     descricao: {
       'pt-PT': 'Um navio fantasma levou as lembranças dos pescadores. Sobe a bordo e traz de volta a Bússola de Ouro!',
