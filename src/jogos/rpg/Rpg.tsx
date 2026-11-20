@@ -4,6 +4,7 @@ import type { PropsJogo } from '../tipos';
 import { type TextoPorIdioma, t } from '../../compartilhado/idioma';
 import { PedraDaLua } from './PedraDaLua';
 import { TorreEncantada } from './mago/AventuraMago';
+import { NavioFantasma } from './navio/NavioFantasma';
 import { Icone, comIcones } from '../../compartilhado/icones';
 import { NIVEIS, type Nivel, TEXTOS_NIVEL } from '../../compartilhado/niveis';
 
@@ -51,6 +52,20 @@ const HISTORIAS: Historia[] = [
       'pt-BR': '🧙 Escolha seu tipo de mago e use feitiços',
     },
     componente: TorreEncantada,
+  },
+  {
+    id: 'navio-fantasma',
+    emoji: '🚢',
+    titulo: { 'pt-PT': 'O Navio Fantasma', 'pt-BR': 'O Navio Fantasma' },
+    descricao: {
+      'pt-PT': 'Um navio fantasma levou as lembranças dos pescadores. Sobe a bordo e traz de volta a Bússola de Ouro!',
+      'pt-BR': 'Um navio fantasma levou as lembranças dos pescadores. Suba a bordo e traga de volta a Bússola de Ouro!',
+    },
+    destaque: {
+      'pt-PT': '🏹 Arqueiro com flechas, distância e muitos enigmas',
+      'pt-BR': '🏹 Arqueiro com flechas, distância e muitos enigmas',
+    },
+    componente: NavioFantasma,
   },
 ];
 

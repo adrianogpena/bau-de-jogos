@@ -5,6 +5,7 @@ import { PERSONAGENS, type TipoPersonagem } from './personagem';
 const TEXTOS = {
   heroi: { 'pt-PT': 'Escolhe o teu herói:', 'pt-BR': 'Escolha seu herói:' },
   mago: { 'pt-PT': 'Escolhe o teu mago:', 'pt-BR': 'Escolha seu mago:' },
+  arqueiro: { 'pt-PT': 'Escolhe o teu arqueiro:', 'pt-BR': 'Escolha seu arqueiro:' },
 } satisfies Record<TipoPersonagem, TextoPorIdioma>;
 
 /** Escolha entre os 4 personagens (2 masculinos e 2 femininos), cada um com o nome embaixo da imagem. */

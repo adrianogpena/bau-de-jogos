@@ -6,6 +6,7 @@ import { TextoNarrado } from '../../../compartilhado/TextoNarrado';
 import { somAcerto, somTentarDeNovo } from '../../../compartilhado/som';
 import { comIcones } from '../../../compartilhado/icones';
 import { type Rodada, novaRodada } from './desafios';
+import { PuzzleVisual } from './PuzzlesVisuais';
 import type { DesafioPonto } from './tipos';
 
 const TEXTOS = {
@@ -51,6 +52,32 @@ function TecladoNumerico({ idioma, digitos, mudar, confirmar }: { idioma: Idioma
   );
 }
 
+const PUZZLES_VISUAIS: Rodada['tipo'][] = ['ordem', 'codigo', 'pares', 'luzes', 'som', 'padrao', 'contar'];
+
+/** A resposta certa em texto (mostrada ao acabar as tentativas, para aprender). */
+function textoRespostaCerta(rodada: Rodada, idioma: Idioma): string {
+  switch (rodada.tipo) {
+    case 'escrever':
+      return rodada.certa;
+    case 'enigma':
+      return t(rodada.enigma.opcoes[rodada.enigma.certa], idioma);
+    case 'ordem':
+      return rodada.figuras.map((f) => f.emoji).join(' ');
+    case 'codigo':
+      return rodada.resposta;
+    case 'pares':
+      return rodada.a.map((f, i) => `${f.emoji} = ${rodada.b[i].emoji}`).join('   ');
+    case 'luzes':
+      return '';
+    case 'som':
+      return rodada.notas.map((n) => n + 1).join(' ');
+    case 'padrao':
+      return rodada.opcoes[rodada.certa].emoji;
+    default:
+      return String(rodada.resposta);
+  }
+}
+
 /**
  * Um puzzle da base (escrever, conta, sequência ou adivinha) com o tema da história.
  * Há poucas tentativas; quando acabam, a resposta certa aparece (para aprender) e a história segue por outro caminho.
@@ -87,17 +114,22 @@ export function Desafio({ idioma, nivel, desafio, tentativas, valoresTexto, aoCo
 
   const valores =
     rodada.tipo === 'conta' ? { ...valoresTexto, a: rodada.a, b: rodada.b } : valoresTexto;
-  const respostaCerta =
-    rodada.tipo === 'escrever'
-      ? rodada.certa
-      : rodada.tipo === 'enigma'
-        ? t(rodada.enigma.opcoes[rodada.enigma.certa], idioma)
-        : String(rodada.resposta);
+  const respostaCerta = textoRespostaCerta(rodada, idioma);
   const letras = rodada.tipo === 'escrever' ? [...rodada.certa] : [];
 
   return (
     <div className="desafio">
       <TextoNarrado className="texto-grande" idioma={idioma} texto={preencher(t(desafio.enunciado, idioma), valores)} />
+
+      {PUZZLES_VISUAIS.includes(rodada.tipo) && (
+        <PuzzleVisual
+          rodada={rodada as Parameters<typeof PuzzleVisual>[0]['rodada']}
+          idioma={idioma}
+          terminou={terminou}
+          tentativa={tentativas - restantes}
+          responder={responder}
+        />
+      )}
 
       {rodada.tipo === 'escrever' && (
         <>
@@ -221,13 +253,13 @@ export function Desafio({ idioma, nivel, desafio, tentativas, valoresTexto, aoCo
       {estado === 'certo' && (
         <>
           <TextoNarrado className="mensagem mensagem-acerto" idioma={idioma} texto={t(TEXTOS.acertou, idioma)} />
-          <p className="resposta-certa" lang={idioma}>{respostaCerta}</p>
+          {respostaCerta && <p className="resposta-certa" lang={idioma}>{comIcones(respostaCerta)}</p>}
         </>
       )}
       {estado === 'falhou' && (
         <>
           <TextoNarrado className="mensagem" idioma={idioma} texto={t(TEXTOS.falhou, idioma)} />
-          <p className="resposta-certa" lang={idioma}>{respostaCerta}</p>
+          {respostaCerta && <p className="resposta-certa" lang={idioma}>{comIcones(respostaCerta)}</p>}
         </>
       )}
 

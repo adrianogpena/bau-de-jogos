@@ -16,13 +16,13 @@ Todo o projeto é em **português**: textos da interface, histórias, nomes de v
 
 ### Personagem do RPG (nome e gênero)
 
-Cada história mostra **4 personagens** (2 masculinos e 2 femininos), cada um com **nome próprio** (`PERSONAGENS` em `src/jogos/rpg/personagem.ts`; imagens em `public/imagens/rpg/herois|magos/`). A criança escolhe um deles (nome embaixo da imagem), e o gênero vem do personagem. Os textos usam o nome e concordam com o gênero, por `preencher()` (`src/compartilhado/idioma.ts`) e `valoresPersonagem()`:
+Cada história mostra **4 personagens** (2 masculinos e 2 femininos), cada um com **nome próprio** (`PERSONAGENS` em `src/jogos/rpg/personagem.ts`; imagens em `public/imagens/rpg/herois|magos|arqueiros/`). A criança escolhe um deles (nome embaixo da imagem), e o gênero vem do personagem. Os textos usam o nome e concordam com o gênero, por `preencher()` (`src/compartilhado/idioma.ts`) e `valoresPersonagem()`:
 
 - `{nome}` → "Clara"; `{Nome}` (maiúscula) abre a frase; `{doNome}` → "de Clara"; `{aoNome}` → "a Clara".
 - `{masculino|feminino}` para artigos e adjetivos: `{pronto|pronta}`, `{o|a}`.
 - Não escreva "o herói" fixo num texto narrado ao personagem: use `{nome}`.
 - Personagem novo ou nome novo: acrescente em `PERSONAGENS` e rode `npm run audio:narrador` (o áudio é gerado com o nome de cada personagem).
-- `npm test` confere os 8 personagens e que nenhum texto do RPG sobra com chave solta nem fica no masculino para personagem feminino.
+- `npm test` confere os 12 personagens e que nenhum texto do RPG sobra com chave solta nem fica no masculino para personagem feminino.
 
 ### Diferenças comuns para vigiar
 
@@ -43,8 +43,9 @@ Sempre que o trabalho precisar de uma **imagem nova** (cenário, personagem, ite
 
 - **Medida temporária permitida:** até a imagem do prompt entrar no banco, pode-se usar no lugar uma imagem comum de baixa qualidade (a existente mais próxima, emoji ou forma simples). Nunca deixe o caminho apontando para um arquivo que não existe. Registre no prompt qual arquivo é o substituto, para trocar depois.
 - O prompt vai em `docs/PROMPTS-IMAGENS.md` (fila de imagens ainda não geradas). Depois que a imagem for adicionada ao projeto (e o substituto trocado), **apague o prompt** desse arquivo.
+- **Economize gerações:** junte imagens pequenas (até 16 por folha) e médias (até 5) em folhas cheias, mesmo de temas diferentes, completando folhas já na fila antes de criar outra (regra em `docs/PROMPTS-IMAGENS.md`).
 - Escreva o prompt **em inglês**, bem detalhado, encaixando no tema da história/app. Comece com o prompt de estilo único de `docs/GERAR-IMAGENS.md`.
-- Indique o **formato**: `1:1`, `9:16`, `3:4`, `4:3` ou `16:9`. Não indique onde salvar: isso fica a cargo de outra IA. Sugira o nome do arquivo igual ao nome do prompt.
+- Indique o **formato**: `1:1`, `9:16`, `3:4`, `4:3` ou `16:9`. Não indique onde salvar: isso fica a cargo de outra IA. **Todo prompt, mesmo de uma só imagem, traz a linha `- **Arquivo:**` com o nome exato do arquivo a gerar** (igual ao nome do prompt; formato completo em `docs/PROMPTS-IMAGENS.md`).
 - Personagens e itens soltos: fundo branco puro (#FFFFFF), para recorte.
 - **Imagem nova ou alterada em `public/imagens/itens/`** (palavras, Achar itens): rode `npm run imagens:folha`, olhe a folha e confira se cada imagem mostra a palavra indicada; só então `npm run imagens:conferir`. O `npm test` falha enquanto houver imagem não conferida (pega imagens trocadas, como já aconteceu com leão e morango).
 
@@ -76,6 +77,7 @@ src/
     rpg/                 RPG: escolha de história (Rpg.tsx), com ficha, loja e dados de luta
       PedraDaLua.tsx     história 1: guerreiro, loja, mapa com enigmas
       mago/              história 2 (A Torre Encantada): tipos de mago, feitiços e energia mágica
+      navio/             história 3 (O Navio Fantasma): arqueiro com flechas e distância; puzzles de toque em livro/PuzzlesVisuais.tsx
     escrita/             jogo 1: completar a fábula escrevendo a palavra da imagem
     leitura/             jogo 2: ler a fábula e escolher a imagem da palavra em destaque
     escape/              jogo 3: Saída Secreta (fuga, lógica). Motor reutilizável + salas (docs/SAIDA-SECRETA.md)

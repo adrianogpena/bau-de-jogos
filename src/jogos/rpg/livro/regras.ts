@@ -52,6 +52,11 @@ export function livro<Atributo extends string>(dados: Livro<Atributo>): Livro<At
     );
     if (!semCondicao && !complementares) throw erro(`"${chave}" pode ficar sem saída`);
     if (ponto.desafio?.tipo === 'escrever') ponto.desafio.palavras.forEach(palavraPorImagem);
+    const d = ponto.desafio;
+    if (d?.tipo === 'ordem' && d.figuras.length < 3) throw erro(`puzzle de ordem de "${chave}" precisa de 3 figuras`);
+    if (d?.tipo === 'codigo' && d.figuras.length < 2) throw erro(`código de "${chave}" precisa de 2 figuras`);
+    if (d?.tipo === 'pares' && (d.a.length < 3 || d.a.length !== d.b.length)) throw erro(`pares de "${chave}" precisam de 3 ou mais e do mesmo tamanho`);
+    if (d?.tipo === 'padrao' && d.pecas.length < 3) throw erro(`padrão de "${chave}" precisa de 3 peças`);
     if (ponto.desafio?.tipo === 'enigma') {
       for (const e of ponto.desafio.enigmas) if (!e.opcoes[e.certa]) throw erro(`adivinha de "${chave}" sem resposta certa`);
     }

@@ -1,8 +1,8 @@
 # RPG: histórias novas (lógica pronta para implementar)
 
-Projeto de 3 histórias novas para o RPG, no formato do livro-jogo que já existe (`src/jogos/rpg/livro/`). Aqui só há **lógica**: pontos, ações da criança, resultados possíveis, marcas e finais. Os textos narrados (por variante, com `{nome}`) e as imagens vêm depois, ponto a ponto.
+Projeto de 2 histórias novas para o RPG, no formato do livro-jogo que já existe (`src/jogos/rpg/livro/`). Aqui só há **lógica**: pontos, ações da criança, resultados possíveis, marcas e finais. Os textos narrados (por variante, com `{nome}`) e as imagens vêm depois, ponto a ponto.
 
-Estado: nada daqui está implementado. Os puzzles estão **todos juntos na Parte 3**; as histórias (Parte 2) só citam o código do puzzle (`PZ-xx`).
+Estado: as duas histórias daqui ainda não estão implementadas. A história do arqueiro (O Navio Fantasma) já foi feita (`src/jogos/rpg/navio/`) e saiu deste arquivo; os puzzles dela (PZ-01 a PZ-10) e os tipos novos que ela criou (ordem, código, pares, contar, padrão, luzes e melodia) ficaram no motor. Os puzzles estão **todos juntos na Parte 3**; as histórias (Parte 2) só citam o código do puzzle (`PZ-xx`).
 
 Ideias de origem (movidas de `docs/IDEIAS.md`) estão na Parte 4, com o que já existe no motor e o que falta.
 
@@ -21,107 +21,24 @@ Ideias de origem (movidas de `docs/IDEIAS.md`) estão na Parte 4, com o que já 
 
 ### Escalas (iguais às histórias atuais)
 
-- Atributos: 6 pontos para distribuir, mínimo 1, máximo 4 (herói e arqueiro); 5 pontos no mago/druida. Inteligência/Visão/Natureza ≥ 3 dá **1 tentativa a mais** nos puzzles.
+- Atributos: 6 pontos para distribuir, mínimo 1, máximo 4 (herói; o arqueiro, já feito, também); 5 pontos no mago/druida. Inteligência/Visão/Natureza ≥ 3 dá **1 tentativa a mais** nos puzzles.
 - Tentativas por puzzle: 3 (+1 do atributo). Dificuldade dos testes: CD 8 fácil, 10 médio, 12 difícil de passar.
 - Inimigos: vida 6 a 18, defesa 8 a 12, ataque +0 a +2, dano d4 ou d6. O nível do jogo ajusta (`AJUSTES_NIVEL`): vida do inimigo ×0,8 / ×0,85 / ×1; ataque −2 / −1 / 0.
 - Puzzles mudam de dificuldade pelo nível do jogo, não pela história (fácil, médio, difícil na Parte 3).
 - Cada história tem **3 ou 4 finais** e o diário guarda os já vistos (`finais.ts`).
 
-### Os três tipos de herói novos
+### Os dois tipos de herói que faltam
 
 | Classe | História | Atributos (6 pontos) | Recurso e regra própria |
 |---|---|---|---|
-| Arqueira / arqueiro | H1 Navio Fantasma | Pontaria, Agilidade, Visão, Coragem | **Flechas contadas** e **distância** (longe/perto) |
 | Druida | H2 Coração da Floresta | Instinto, Vigor, Natureza (5 pontos) | **Bicho companheiro** com habilidade de recarga; **sementes** |
 | Herói (clássico) | H3 Castelo do Dragão | Força, Agilidade, Inteligência, Coragem | A ficha de hoje; a história é de puzzles |
 
-Cada classe nova precisa de **4 personagens** (2 masculinos, 2 femininos, cada um com nome próprio) em `PERSONAGENS` (`src/jogos/rpg/personagem.ts`), imagens em `public/imagens/rpg/` e `npm run audio:narrador`. Nomes sugeridos (conferir se servem às duas variantes): arqueiros Rui, Kai, Lia, Mira; druidas Bento, Ravi, Alma, Sol. O H3 usa os 4 heróis atuais (Davi, Malik, Clara, Amara).
+Cada classe nova precisa de **4 personagens** (2 masculinos, 2 femininos, cada um com nome próprio) em `PERSONAGENS` (`src/jogos/rpg/personagem.ts`), imagens em `public/imagens/rpg/` e `npm run audio:narrador`. Nomes sugeridos (conferir se servem às duas variantes): druidas Bento, Ravi, Alma, Sol. Já existem os arqueiros Rui, Kai, Lia e Mira (com as imagens dos heróis como substitutas; veja `docs/PROMPTS-IMAGENS.md`). O H3 usa os 4 heróis atuais (Davi, Malik, Clara, Amara).
 
 ---
 
 ## Parte 2: as histórias
-
-### H1. O Navio Fantasma (arqueira / arqueiro)
-
-Um navio fantasma aparece na névoa do porto e leva as lembranças dos pescadores. A criança sobe a bordo para recuperar a Bússola de Ouro, que o Polvo Gigante guarda no porão da proa.
-
-**Regras próprias do arqueiro**
-- Atributos: **Pontaria** (acerto da flecha), **Agilidade**, **Visão** (enigmas, pistas), **Coragem** (vida = 10 + 2×Coragem).
-- **Aljava**: começa com 10 flechas (fácil 14, médio 12). Cada flecha atirada gasta 1. Depois de cada luta, recupera metade das gastas (arredondado para cima), até o máximo inicial. Sem flecha, usa a faca (dano d4, só de perto).
-- **Distância**: cada luta diz onde a luta começa (longe ou perto). Ação de turno:
-  - **Atirar** (1 flecha): d20 + Pontaria contra a defesa; **longe +2, perto −2**; dano d6.
-  - **Faca** (só perto): d20 + Agilidade; dano d4.
-  - **Recuar**: TESTE Agilidade CD 10; ✔ passa de perto para longe sem apanhar; ✘ o inimigo ataca e continua perto.
-- `flecha-fogo` (marca): uma flecha de dano d8, usada uma vez por luta (some ao usar).
-
-**Inimigos**: Caranguejo (vida 6, defesa 9, ataque +0, d4) · Bando de Ratos (7, 10, +1, d4) · Gaivota Fantasma (6, 12, +1, d4; voa: ao ficar perto, foge e volta a luta para longe) · Marinheiro Fantasma (9, 11, +1, d6) · Polvo Gigante (18, 12, +2, d6; `Polvo ferido` com vida 12).
-
-**Marcas** (itens da mochila marcados com 🎒): `flecha-fogo` 🎒, `sino` 🎒, `luz` 🎒 (lampiões acesos), `mapa-nautico` 🎒, `perola` 🎒; fatos escondidos: `furtivo`, `sabe-rota`, `amigo`, `vantagem`.
-
-**Finais**: `forca` (Polvo vencido de longe) · `esperteza` (devolve a pérola ao Polvo) · `amizade` (o capitão e a tripulação fantasma ajudam).
-
-**Pontos**
-
-- **A01 Porto na névoa.** O Chefe do porto pede ajuda; só dá tempo de uma coisa antes do bote.
-  - [1] Ir ao ferreiro → A02
-  - [2] Falar com a velha pescadora → A03
-  - [3] Embarcar já → A04
-- **A02 Ferreiro de flechas.** Quer trocar moedas por flechas.
-  - PZ-01 ✔ → A04, `+flecha-fogo`, +6 flechas · ✘ → A04, +2 flechas
-- **A03 Velha pescadora.** Sabe o que o fantasma teme.
-  - PZ-02 ✔ → A04, `+sino` · ✘ → A04 (só um aviso, sem sino)
-- **A04 Bote na névoa.** O navio aparece à frente.
-  - TESTE Agilidade CD 9 para subir pela corda: ✔ → A06, `+furtivo` · ✘ → A05
-- **A05 No casco.** Algo agarra o bote.
-  - LUTA Caranguejo (perto) → A06
-- **A06 Convés.** Três lugares e só tempo para um.
-  - [1] Descer ao porão → A07
-  - [2] Entrar na cabine do capitão → A08
-  - [3] Subir ao ninho do corvo → A09
-- **A07 Porão escuro.** Lampiões apagados.
-  - PZ-03 ✔ → A10, `+luz` · ✘ → A07b
-- **A07b Ratos no escuro.** Sem luz, a pontaria falha.
-  - LUTA Bando de Ratos (perto, com −2 no acerto) → A10
-- **A08 Cabine do capitão.** Porta trancada, diário aberto sobre a mesa.
-  - PZ-04 ✔ → A11, `+mapa-nautico` · ✘ → A08b
-- **A08b Alarme da porta.** Um marinheiro acorda.
-  - LUTA Marinheiro Fantasma (perto) → A11
-- **A09 Ninho do corvo.** De lá se vê a proa inteira.
-  - PZ-05 ✔ → A11, `+sabe-rota` · ✘ → A09b
-- **A09b Gaivota guardiã.**
-  - LUTA Gaivota Fantasma (longe) → A11
-- **A10 Baú do porão.** Cheio de coisas do mar.
-  - PZ-06 ✔ → A11, `+perola` · ✘ → A11 (a pérola rola para o escuro e se perde)
-- **A11 Salão dos fantasmas.** A tripulação dança sem som.
-  - [1] [se tem sino] Tocar o sino → A12
-  - [2] [se tem furtivo] Passar às escondidas → A14
-  - [3] Atravessar no meio da dança → A13
-- **A12 O sino.** Os fantasmas param; o capitão pede a melodia do navio.
-  - PZ-07 ✔ → A14, `+amigo` · ✘ → A14 (melodia desafinada, mas deixam passar)
-- **A13 No meio da dança.**
-  - TESTE Agilidade CD 10: ✔ → A14 · ✘ → A13b
-- **A13b Tropeço.**
-  - LUTA Marinheiro Fantasma (perto) → A14
-- **A14 Escada da proa.** Argolas e cabos mostram o rumo do antro.
-  - PZ-10 ✔ → A15, `+vantagem` · ✘ → A15
-- **A15 Antro do Polvo.** A Bússola brilha entre os tentáculos.
-  - [1] Atirar de longe → A16
-  - [2] [se tem vantagem] Mirar no ponto fraco → A16f
-  - [3] [se tem perola] Oferecer a pérola → A17
-  - [4] [se tem amigo] Chamar o capitão → A18
-- **A16 Duelo.**
-  - LUTA Polvo Gigante (longe) → A19
-- **A16f Ponto fraco.**
-  - LUTA Polvo ferido (longe, +1 no acerto se tem `flecha-fogo`) → A19
-- **A17 A pérola.** O Polvo quer a pérola, mas desconfia.
-  - PZ-09 ✔ → A20 · ✘ → A16
-- **A18 O capitão.** Os fantasmas lembram o que perderam.
-  - PZ-08 ✔ → A21 · ✘ → A16
-- **A19** FIM:forca. **A20** FIM:esperteza. **A21** FIM:amizade.
-
-**Caminhos que se cruzam**: A02 e A03 se completam (uma criança esperta pega o sino; uma forte, as flechas de fogo). A06 oferece 3 lugares que dão marcas diferentes: porão = `luz` + `perola`; cabine = `mapa-nautico`; ninho = `sabe-rota`. Só a pérola abre o final de esperteza; só o sino (+ melodia certa) abre o de amizade; sem nada disso, sobra o duelo (ainda possível).
-
----
 
 ### H2. O Coração da Floresta (druida e bicho companheiro)
 
@@ -274,13 +191,13 @@ Cada puzzle é um **caso fixo**: o motor sorteia os números, as palavras e a or
 | CONTA | ✅ `conta` | soma/subtração até 5 | até 20 | até 40, sem mostrar a conta |
 | SEQUENCIA | ✅ `sequencia` | de 1 em 1 | de 2, 5 ou 10 | passos 3 a 9, a subir ou descer |
 | ENIGMA | ✅ `enigma` | 2 opções | 3 opções | 4 opções |
-| ORDEM | novo (veja `Ordem.tsx` do escape) | 3 cartas | 4 cartas | 5 cartas |
-| CODIGO | novo (`Codigo.tsx`) | 2 dígitos, 1 pista | 3 dígitos | 4 dígitos |
-| PARES | novo (`Pares.tsx`) | 3 pares | 4 pares | 5 pares |
-| CONTAR | novo | até 5 itens | até 10 | até 15, itens parecidos |
-| PADRAO | novo | AB | AAB | ABC / crescente |
-| LUZES | novo | 3 lampiões | 5 | 6, vizinhos mudam |
-| SOM | novo (Web Audio) | 3 notas | 4 | 5 |
+| ORDEM | ✅ `ordem` | 3 cartas | 4 cartas | 5 cartas |
+| CODIGO | ✅ `codigo` | 2 dígitos, 1 pista | 3 dígitos | 4 dígitos |
+| PARES | ✅ `pares` | 3 pares | 4 pares | 5 pares |
+| CONTAR | ✅ `contar` | até 5 itens | até 10 | até 15, itens parecidos |
+| PADRAO | ✅ `padrao` | AB | AAB | ABC / crescente |
+| LUZES | ✅ `luzes` | 3 lampiões | 5 | 6, vizinhos mudam |
+| SOM | ✅ `som` | 3 notas | 4 | 5 |
 | SOMBRA | novo | 2 sombras | 3 | 4, parecidas |
 | BALANCA | novo | até 6 | até 12 | até 20 |
 | RELOGIO | novo | hora cheia | meia hora | quartos |
@@ -292,21 +209,6 @@ Cada puzzle é um **caso fixo**: o motor sorteia os números, as palavras e a or
 | ESPELHO | novo | grade 3×3 | 4×4 | 5×5 |
 
 Regras gerais: 3 tentativas (+1 de Inteligência/Visão/Natureza/Sabedoria); ao acabar, mostra-se a resposta certa. Os tipos novos reaproveitam `EnigmaView.tsx` e `Desafio.tsx`; veja a Parte 4.
-
-### 3.2 Puzzles da H1 (O Navio Fantasma)
-
-| Código | Tipo | O que a criança vê e faz | Resposta certa | Usado em |
-|---|---|---|---|---|
-| PZ-01 | CONTA (soma) | O ferreiro pergunta quantas flechas há em duas caixas ("{a} flechas e {b} flechas") | a + b | A02 |
-| PZ-02 | ENIGMA | A pescadora: "O que os fantasmas do mar mais temem?" (sino, luz, sal, vento) | o sino | A03 |
-| PZ-03 | LUZES | Acender os lampiões do porão; cada toque liga ou desliga o vizinho | todos acesos | A07 |
-| PZ-04 | CODIGO | Cadeado da cabine; o diário do capitão diz em que dias foram as tempestades (dígitos pelas figuras: sol, lua, onda) | o código do diário | A08 |
-| PZ-05 | ORDEM | No ninho do corvo, bandeiras de sinal: pôr na ordem em que o diário as usou (cores) | a ordem do diário | A09 |
-| PZ-06 | ESCREVER | O baú tem um âncora, uma corda, um barril, um sino, um peixe: escrever o nome do objeto que brilha (palavras de `PALAVRAS`) 🅥 | a palavra da imagem | A10 |
-| PZ-07 | SOM | Repetir a melodia do sino do navio (3 notas que o fantasma toca) | a melodia | A12 |
-| PZ-08 | PARES | Devolver a cada marinheiro fantasma a coisa que perdeu (bota, chapéu, canivete, lenço) | cada marinheiro com o seu objeto | A18 |
-| PZ-09 | PADRAO | A concha do Polvo abre com um padrão de cores das ondas | o próximo do padrão | A17 |
-| PZ-10 | CONTAR | Contar as argolas no cabo da escada: o número é o rumo certo | número de argolas | A14 |
 
 ### 3.3 Puzzles da H2 (O Coração da Floresta)
 
@@ -353,8 +255,8 @@ Puzzles prontos, sem uso nas três histórias. Servem de troca se algum não fun
 
 ### 3.6 Conferência (mantenha ao editar)
 
-- Todo `PZ-xx` citado numa história existe nas tabelas 3.2 a 3.4.
-- Todo puzzle das tabelas 3.2 a 3.4 aparece em algum ponto das histórias; só os da seção 3.5 (reservas) ficam sem uso.
+- Todo `PZ-xx` citado numa história existe nas tabelas 3.3 e 3.4.
+- Todo puzzle das tabelas 3.3 e 3.4 aparece em algum ponto das histórias; só os da seção 3.5 (reservas) ficam sem uso.
 - Os ids de pontos usados em destinos também devem existir (veja a Parte 5).
 
 ---
@@ -366,8 +268,8 @@ Ideias de origem (movidas de `docs/IDEIAS.md`): classe nova com flechas e distâ
 | Ideia | Estado | O que fazer |
 |---|---|---|
 | Histórias com escolhas (grafo de cenas) | ✅ feita (livro-jogo com `escolhas`, marcas e finais) | nada |
-| Enigmas no lugar de lutas | ✅ feita (`desafio` nos pontos, 4 tipos) | os 16 tipos novos da tabela 3.1 |
-| Classe nova, arqueira | 🔴 novo (H1) | ficha com Pontaria/Visão; flechas e distância em `Luta`; 4 personagens |
+| Enigmas no lugar de lutas | ✅ feita (`desafio` nos pontos, 4 tipos) | faltam 9 tipos da tabela 3.1: sombra, balança, relógio, letra que falta, sílabas, rima, memória, labirinto e espelho (os outros 7 já existem em `livro/PuzzlesVisuais.tsx`) |
+| Classe nova, arqueira | ✅ feita (O Navio Fantasma, `src/jogos/rpg/navio/`) | só faltam as imagens dos 4 arqueiros (hoje as dos heróis) |
 | Classe nova, druida com bicho | 🔴 novo (H2) | ficha; escolha do companheiro; habilidade com recarga; 4 personagens |
 | Companheiro de viagem (ideia 4) | 🟡 novo | a mesma mecânica do H2, que pode ir também para as histórias antigas |
 | Diário do herói | 🟢 | `finais.ts` já guarda finais; falta guardar monstros e itens |
@@ -375,11 +277,11 @@ Ideias de origem (movidas de `docs/IDEIAS.md`): classe nova com flechas e distâ
 | Arena de treino | 🟢 | fora do escopo |
 
 **Mudanças no motor** (em ordem de custo):
-1. `Ponto` ganha `desafio` com tipos novos (`ordem`, `codigo`, `pares`, `contar`, `padrao`, `luzes`, `som`, `sombra`, `balanca`, `relogio`, `letraFalta`, `silabas`, `rima`, `memoria`, `labirinto`, `espelho`); cada um com sua `RodadaX` em `desafios.ts` e sua tela em `Desafio.tsx`.
-2. `Luta` aceita `posicao: 'longe' | 'perto'` e `flechas` (H1), e `companheiro` (H2).
+1. `Ponto` ganha `desafio` com tipos novos (feitos: `ordem`, `codigo`, `pares`, `contar`, `padrao`, `luzes`, `som`; faltam `sombra`, `balanca`, `relogio`, `letraFalta`, `silabas`, `rima`, `memoria`, `labirinto`, `espelho`); cada um com sua `RodadaX` em `desafios.ts` e sua tela em `livro/PuzzlesVisuais.tsx`.
+2. ~~`Luta` com `posicao` e `flechas`~~ (feito: `navio/LutaArqueiro.tsx`); falta o `companheiro` (H2).
 3. `Condicao` fica como está (marcas); `flechas` e `companheiro` ficam no estado da aventura, não nas marcas.
 4. Inimigos novos em `INIMIGOS` (ou lista própria) com `emoji` em `public/imagens/inimigos/`.
-5. Nova escolha de personagem para arqueiro e druida (`EscolherPersonagem.tsx`).
+5. Nova escolha de personagem para o druida (`EscolherPersonagem.tsx`; o arqueiro já existe).
 6. Cada história registrada em `HISTORIAS` (`Rpg.tsx`).
 
 **Imagens**: capa de cada história, fundo de cada cena importante, cada inimigo e cada personagem. Prompts em `docs/PROMPTS-IMAGENS.md` quando chegar a hora (não aqui).
@@ -388,4 +290,4 @@ Ideias de origem (movidas de `docs/IDEIAS.md`): classe nova com flechas e distâ
 
 ## Parte 5: conferência dos ids
 
-Conferido na criação deste arquivo: todo destino (`→ X`) aponta para um ponto que existe, todo `PZ-xx` citado existe e usado em todas as tabelas, e nenhum puzzle das tabelas 3.2 a 3.4 ficou sem uso. Repita a checagem depois de qualquer edição grande; quando as histórias forem para o código, o `livro()` em `livro/regras.ts` faz essa conferência ao carregar.
+Conferido na criação deste arquivo: todo destino (`→ X`) aponta para um ponto que existe, todo `PZ-xx` citado existe e usado em todas as tabelas, e nenhum puzzle das tabelas 3.3 e 3.4 ficou sem uso. Repita a checagem depois de qualquer edição grande; quando as histórias forem para o código, o `livro()` em `livro/regras.ts` faz essa conferência ao carregar.

@@ -24,3 +24,6 @@ function tocar(notas: number[]): void {
 export const somAcerto = () => tocar([523, 659, 784]);
 /** Som suave e curto: sem punição dura. */
 export const somTentarDeNovo = () => tocar([392, 349]);
+
+/** Toca uma nota (frequência em Hz), para os puzzles de melodia. */
+export const tocarNota = (frequencia: number) => tocar([frequencia]);

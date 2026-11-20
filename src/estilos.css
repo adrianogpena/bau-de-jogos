@@ -2014,3 +2014,126 @@ p {
 .final-escondido {
   opacity: 0.6;
 }
+
+/* ---------- puzzles de toque do livro-jogo (ordem, código, pares, luzes, melodia, padrão, contar) ---------- */
+.cartas-puzzle-linha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.colunas-pares {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.carta-puzzle {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 84px;
+  min-height: 84px;
+  padding: 8px;
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--raio);
+  background: var(--painel-2);
+  color: inherit;
+  font-family: var(--fonte-titulo);
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.carta-puzzle:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+span.carta-puzzle {
+  cursor: default;
+}
+
+.carta-vaga {
+  border-style: dashed;
+}
+
+.carta-escolhida {
+  border-color: var(--destaque-claro);
+  box-shadow: 0 0 0 3px var(--destaque-claro);
+}
+
+.carta-ligada {
+  border-color: var(--ouro);
+}
+
+.figura-puzzle {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.figura-emoji {
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.figura-emoji .icone-texto {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.figura-puzzle small {
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.luz-puzzle {
+  filter: grayscale(1) brightness(0.6);
+}
+
+.luz-puzzle.luz-acesa {
+  filter: none;
+  border-color: var(--ouro);
+  box-shadow: 0 0 14px var(--ouro);
+}
+
+.botao-nota {
+  min-width: 84px;
+  color: #fff;
+  border-color: #fff8;
+}
+
+.campo-contar {
+  position: relative;
+  width: min(100%, 420px);
+  aspect-ratio: 3 / 2;
+  background: var(--painel-2);
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--raio);
+}
+
+.item-contar {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.item-contar .icone-texto {
+  width: 2rem;
+  height: 2rem;
+}
+
+.distancia {
+  margin: 0;
+  font-weight: 700;
+}
+
+.distancia-perto {
+  color: var(--ouro);
+}

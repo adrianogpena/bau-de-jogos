@@ -52,8 +52,11 @@ interface Props<Atributo extends string> {
   painel?: ReactNode;
   /** A história aplica na ficha o que o ponto dá (poções, descanso). Não é chamado no ponto inicial. */
   aoEntrar: (ponto: Ponto<Atributo>) => void;
-  /** A luta do ponto; a história atualiza a ficha e chama `vencer`. */
-  luta: (ponto: Ponto<Atributo>, vencer: () => void) => ReactNode;
+  /**
+   * A luta do ponto; a história atualiza a ficha e chama `vencer` (com as marcas gastas na luta, se houver).
+   * `marcas` são as que a criança tem agora.
+   */
+  luta: (ponto: Ponto<Atributo>, vencer: (gastas?: string[]) => void, marcas: readonly string[]) => ReactNode;
   /** Parte própria da história num ponto (ex.: aprender um feitiço), com `irPara` para seguir. */
   extra?: (ponto: Ponto<Atributo>, irPara: (id: string) => void) => ReactNode;
   aoVoltar: () => void;
@@ -106,9 +109,9 @@ export function AventuraLivro<Atributo extends string>({
     if (ponto.fim) setDescobertos(registrarFinal(livro.id, ponto.fim));
   }, [livro.id, ponto.fim]);
 
-  function irPara(id: string) {
+  function irPara(id: string, gastas: string[] = []) {
     const proximo = livro.pontos[id];
-    setMarcas((atuais) => aplicarMarcas(atuais, proximo));
+    setMarcas((atuais) => aplicarMarcas(atuais.filter((m) => !gastas.includes(m)), proximo));
     aoEntrar(proximo);
     setPontoId(id);
     setPasso((n) => n + 1);
@@ -162,7 +165,7 @@ export function AventuraLivro<Atributo extends string>({
       <TextoNarrado className="texto-historia" idioma={idioma} texto={preencher(t(ponto.texto, idioma), valoresTexto)} />
 
       {fase === 'luta' && ponto.luta ? (
-        luta(ponto, () => irPara(ponto.luta!.aoVencer))
+        luta(ponto, (gastas) => irPara(ponto.luta!.aoVencer, gastas), marcas)
       ) : (
         <>
           {dadosTeste && (

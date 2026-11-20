@@ -1,5 +1,5 @@
 /**
- * Confere os personagens do RPG (4 heróis e 4 magos, 2 masculinos e 2 femininos, cada um com nome)
+ * Confere os personagens do RPG (4 heróis, 4 magos e 4 arqueiros, 2 masculinos e 2 femininos, cada um com nome)
  * e a concordância dos textos da história com o nome e o gênero de cada um.
  *
  *   npm test
@@ -30,6 +30,7 @@ before(async () => {
   ({ valoresPersonagem, PERSONAGENS } = await servidor.ssrLoadModule('/src/jogos/rpg/personagem.ts'));
   const { LIVRO_PEDRA_DA_LUA } = await servidor.ssrLoadModule('/src/jogos/rpg/historia.ts');
   const { LIVRO_TORRE_ENCANTADA } = await servidor.ssrLoadModule('/src/jogos/rpg/mago/historia.ts');
+  const { LIVRO_NAVIO_FANTASMA } = await servidor.ssrLoadModule('/src/jogos/rpg/navio/historia.ts');
   const coletar = (tipo, cenas) => {
     for (const cena of Object.values(cenas)) {
       const enigmas = cena.desafio?.enigmas ?? [];
@@ -40,6 +41,7 @@ before(async () => {
   };
   coletar('heroi', LIVRO_PEDRA_DA_LUA.pontos);
   coletar('mago', LIVRO_TORRE_ENCANTADA.pontos);
+  coletar('arqueiro', LIVRO_NAVIO_FANTASMA.pontos);
 });
 
 after(() => servidor?.close());
@@ -47,13 +49,13 @@ after(() => servidor?.close());
 describe('personagens do herói e do mago', () => {
   test('cada história tem 4 personagens: 2 masculinos e 2 femininos, com nomes diferentes e imagem', () => {
     const todos = Object.values(PERSONAGENS).flat();
-    assert.equal(new Set(todos.map((p) => p.nome)).size, 8);
+    assert.equal(new Set(todos.map((p) => p.nome)).size, 12);
     for (const [tipo, lista] of Object.entries(PERSONAGENS)) {
       assert.equal(lista.length, 4);
       assert.equal(lista.filter((p) => p.genero === 'm').length, 2);
       assert.equal(lista.filter((p) => p.genero === 'f').length, 2);
       for (const p of lista) {
-        const pasta = tipo === 'heroi' ? 'herois' : 'magos';
+        const pasta = { heroi: 'herois', mago: 'magos', arqueiro: 'arqueiros' }[tipo];
         assert.ok(existsSync(path.join(raiz, 'public', 'imagens', 'rpg', pasta, `${p.id}.png`)), `falta a imagem de ${p.id}`);
       }
     }

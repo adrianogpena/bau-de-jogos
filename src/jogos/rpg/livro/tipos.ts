@@ -41,7 +41,33 @@ export type DefDesafio =
   | { tipo: 'escrever'; palavras: number[] }
   | { tipo: 'conta'; operacao: 'soma' | 'subtracao' }
   | { tipo: 'sequencia' }
-  | { tipo: 'enigma'; enigmas: Enigma[] };
+  | { tipo: 'enigma'; enigmas: Enigma[] }
+  | DefPuzzleVisual;
+
+/** Uma figura de puzzle: emoji (ou `[[pasta/nome]]`) e, quando precisa de leitura, o nome. */
+export interface Figura {
+  emoji: string;
+  nome?: TextoPorIdioma;
+}
+
+/**
+ * Puzzles de toque, sem texto a escrever (a história dá o tema; a base sorteia a rodada pelo nível):
+ * - ordem: pôr as figuras na ordem da lista (3, 4 ou 5 cartas conforme o nível)
+ * - codigo: o diário dá um número a cada figura; digitar os números na ordem das figuras do cadeado (2, 3 ou 4)
+ * - pares: ligar cada figura de `a` à de `b` que está na mesma posição (3, 4 ou 5 pares)
+ * - luzes: acender todas as luzes; cada toque liga ou desliga a luz e as vizinhas (3, 5 ou 6 luzes)
+ * - som: repetir a melodia que toca (3, 4 ou 5 notas)
+ * - padrao: descobrir a peça que continua o padrão (AB, AAB ou ABC); `pecas` tem pelo menos 3 figuras
+ * - contar: contar as figuras espalhadas (até 5, 10 ou 15)
+ */
+export type DefPuzzleVisual =
+  | { tipo: 'ordem'; figuras: Figura[] }
+  | { tipo: 'codigo'; figuras: Figura[] }
+  | { tipo: 'pares'; a: Figura[]; b: Figura[] }
+  | { tipo: 'luzes'; luz: string }
+  | { tipo: 'som' }
+  | { tipo: 'padrao'; pecas: Figura[] }
+  | { tipo: 'contar'; figura: Figura; parecida?: Figura };
 
 /** Puzzle de um ponto: acertar e falhar levam a pontos diferentes (nunca a um beco sem saída). */
 export type DesafioPonto = DefDesafio & {
@@ -59,16 +85,25 @@ export interface Ponto<Atributo extends string = string> {
   pergunta?: TextoPorIdioma;
   escolhas?: EscolhaLivro[];
   desafio?: DesafioPonto;
-  /** Luta neste ponto; depois de vencer, segue para `aoVencer`. */
-  luta?: { inimigo: string; aoVencer: string };
+  /**
+   * Luta neste ponto; depois de vencer, segue para `aoVencer`.
+   * `posicao` e os bônus são do arqueiro (distância da luta; bônus de acerto, fixo ou se tem uma marca).
+   */
+  luta?: {
+    inimigo: string;
+    aoVencer: string;
+    posicao?: 'longe' | 'perto';
+    bonusAcerto?: number;
+    bonusAcertoCom?: { marca: string; bonus: number };
+  };
   /** Teste com d20 + atributo. */
   teste?: { atributo: Atributo; dificuldade: number; sucesso: string; falha: string };
   /** Marcas ganhas ao chegar aqui. */
   ganha?: string[];
   /** Marcas perdidas ao chegar aqui (item gasto). */
   perde?: string[];
-  /** Vantagens ao chegar: poções (herói) e descanso (vida e, no mago, energia). */
-  recompensa?: { pocoes?: Record<string, number>; curar?: boolean };
+  /** Vantagens ao chegar: poções (herói), flechas (arqueiro) e descanso (vida e, no mago, energia). */
+  recompensa?: { pocoes?: Record<string, number>; curar?: boolean; flechas?: number };
   /** Mago: aprende um feitiço de outra escola; depois segue para `proxima`. */
   aprender?: { proxima: string };
   /** Último ponto: id do final (em `finais` da história). */

@@ -124,18 +124,19 @@ async function nomesParaPreencher(servidor) {
   const rpg = await servidor.ssrLoadModule('/src/jogos/rpg/historia.ts');
   const itens = await servidor.ssrLoadModule('/src/jogos/rpg/itens.ts');
   const mago = await servidor.ssrLoadModule('/src/jogos/rpg/mago/feiticos.ts');
+  const navio = await servidor.ssrLoadModule('/src/jogos/rpg/navio/historia.ts');
   const achar = await servidor.ssrLoadModule('/src/jogos/achar/cenas/index.ts');
   const { PALAVRAS } = await servidor.ssrLoadModule('/src/compartilhado/palavras.ts');
   const resultado = {};
   for (const v of VARIANTES) {
     const unicos = (lista) => [...new Set(lista.map((x) => x[v]))];
     resultado[v] = {
-      inimigo: unicos([...Object.values(rpg.INIMIGOS), ...Object.values(mago.INIMIGOS_MAGO)].map((i) => i.nome)),
+      inimigo: unicos([...Object.values(rpg.INIMIGOS), ...Object.values(mago.INIMIGOS_MAGO), ...Object.values(navio.INIMIGOS_NAVIO)].map((i) => i.nome)),
       item: unicos(Object.values(itens.ITENS).map((i) => i.nome)),
       feitico: unicos(Object.values(mago.FEITICOS).map((f) => f.nome)),
       escola: unicos(mago.ESCOLAS.map((e) => e.curto)),
       habilidade: unicos(mago.HABILIDADES.map((h) => h.nome)),
-      atributo: unicos(rpg.ATRIBUTOS.map((a) => a.nome)),
+      atributo: unicos([...rpg.ATRIBUTOS, ...navio.ATRIBUTOS_ARQUEIRO].map((a) => a.nome)),
       palavra: unicos(achar.CENAS.flatMap((c) => c.itens.map((i) => i.palavra))),
       escrita: unicos(PALAVRAS.map((p) => p.palavra)),
     };
@@ -195,7 +196,7 @@ export async function frasesDoSite() {
     for (const arquivo of await arquivosFonte(path.join(raiz, 'src'))) {
       if (arquivo.startsWith(pastaHistorias)) continue;
       const relativo = path.relative(raiz, arquivo).split(path.sep).join('/');
-      const tipo = relativo.includes('/rpg/mago/') ? 'mago' : 'heroi';
+      const tipo = relativo.includes('/rpg/mago/') ? 'mago' : relativo.includes('/rpg/navio/') ? 'arqueiro' : 'heroi';
       for (const { textos, linha } of paresDeTextos(arquivo, await readFile(arquivo, 'utf8'))) {
         for (const variante of VARIANTES) {
           const bruto = textos[variante];
